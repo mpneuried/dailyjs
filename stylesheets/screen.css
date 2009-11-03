@@ -5,21 +5,25 @@ html body a:hover { border-bottom: none; color: #ff9900; }
 a img { border: none; }
 
 p.clean { margin: 0; padding: 0 }
-#container { margin: 0 auto; width: 840px }
-#sidebar { width: 150px; float: right; margin: 1em 0 0 0 }
-#sidebar ul { list-style-type: none; margin: 0; padding: 0 }
-#sidebar li { padding: 0 0 0.5em 0 }
+#container { margin: 0 auto; width: 870px }
+#sidebar { color: #666 }
+#sidebar { width: 200px; float: right; margin: 1em 0 0 0 }
+#sidebar ul { list-style-type: none; margin: 0; padding: 0; }
+#sidebar li { padding: 0 0 1em 0 }
+#sidebar li p { margin: 0 0 1em 0; padding: 0 }
+#sidebar li.sponsor { font-size: 90%; margin-bottom: 1em }
+#sidebar li.sponsor p { margin: 0; padding: 0 }
 #sidebar h3 { margin: 0; padding: 0 }
-#content { width: 600px; float: left; clear: left; }
+#content { width: 550px; float: left; clear: left; }
 #content h2 { margin-top: 0.8em }
 
 #navigation { padding: 0; margin: 0; width: 100%; background-color: #DADFE7; float: left; clear: both; }
-#navigation ul { list-style-type: none; display: block; margin: 0 auto; padding: 0; width: 840px; }
-#navigation li { float: left; width: 5em; margin: 1em 2px 0 2px; text-align: center; background-color: #666 }
+#navigation ul { list-style-type: none; display: block; margin: 0 auto; padding: 0; width: 870px; }
+#navigation li { float: left; width: 5em; margin: 1em 2px 0 2px; text-align: center; background-color: #666; }
 #navigation li a { color: #eee; text-decoration: none; width: 100%; padding: 0.5em 0; display: block }
 #navigation li a:hover { background-color: #eee; color: #111 }
 #navigation li a.active { background-color: #fff; color: #111 }
-#navigation li.icon { background-color: transparent; height: 12px; margin: 26px 68px 0 0; padding: 0; float: right; }
+#navigation li.icon { background-color: transparent; height: 12px; margin: 26px 119px 0 0; padding: 0; float: right; }
 #navigation li.icon a { padding: 0; margin: 0; }
 #navigation li.icon a:hover { background-color: transparent; }
 
