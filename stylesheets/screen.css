@@ -54,5 +54,12 @@ ul.posts h2 a { text-decoration: none }
 span.tags { margin-left: 1em; font-size: 80% }
 span.tags a { text-decoration: none; background-color: #f8f8ff; color: #666 }
 
+#related h2 { margin-top: 2em }
+ul.related-posts { list-style-type: none; margin: 0 0 1em 0; padding: 0; width: 600px; float: left }
+ul.related-posts li { padding: 0.25em 0; clear: both; width: 100% }
+ul.related-posts div { color: #666; font-size: 80%; width: 8em; float: left; margin: 5px 0 0 0; padding: 0 } 
+ul.related-posts span.tags { margin-left: 1em; font-size: 80% }
+ul.related-posts span.tags a { text-decoration: none; background-color: #f8f8ff; color: #666 }
+
 #dsq-add-new-comment { font-size: 24px }
 #comments { margin-top: 1em; float: left; width: 100% }
