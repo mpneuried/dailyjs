@@ -1,0 +1,5 @@
+h3. Site Generation
+
+Run our own Jekyll script.  This adds an extension for deriving the author name from a git commit:
+
+<code>bin/jekyll</code>

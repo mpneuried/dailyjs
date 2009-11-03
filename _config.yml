@@ -2,3 +2,7 @@ permalink:   /:year/:month/:day/:title
 lsi:         false
 pygments:    true
 paginate:    20
+auto:        false
+exclude:
+  - bin
+  - README.textile
