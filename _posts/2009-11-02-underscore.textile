@@ -1,0 +1,27 @@
+---
+layout: post
+title: "Underscore: A Functional Library for JavaScript"
+categories: 
+- libraries
+- functional
+---
+
+"Underscore":http://documentcloud.github.com/underscore/ is a new library for functional programming in JavaScript.  Those of us who enjoy Enumerable in "Prototype":http://prototypejs.org/ will find it a welcome addition alongside other frameworks like "jQuery":http://jquery.com/.
+
+Here are a few basic examples of the API:
+
+{% highlight js %}
+_.each([1, 2, 3], function(num){ alert(num); });
+_.map([1, 2, 3], function(num){ return num * 3 });
+
+_.flatten([1, [2], [3, [[[4]]]]]);
+{% endhighlight %}
+
+There are also nifty functions for managing functions:
+
+{% highlight js %}
+var greet    = function(name){ return "hi: " + name; };
+var exclaim  = function(statement){ return statement + "!"; };
+var welcome = _.compose(greet, exclaim);
+welcome('moe');
+{% endhighlight %}

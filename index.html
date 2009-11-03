@@ -1,0 +1,50 @@
+---
+layout: default
+title: A JavaScript Blog 
+---
+
+<div>
+  <ul class="posts">
+    {% for post in paginator.posts %}
+      <li>
+        <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+        <div class="date">{{ post.date | date_to_string }}</div>
+        <span class="tags">
+          <img alt="Tags" class="icon" src="/images/tag.gif" />
+          {% for category in post.categories %}
+            <a href="/tags.html#{{ category }}">{{ category }}</a>
+          {% endfor %}
+        </span>
+        <div class="preview">
+          {{ post.content | truncate: 400 }}
+        </div>
+        <div>
+        <p><a href="{{ post.url }}">Read More</a></p>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% if paginator.previous_page %}
+  <div class="prev_next">
+    {% if paginator.previous_page == 1 %}
+      &larr; <a class="previous" href="/">previous</a>
+    {% else %}
+      &larr; <a class="previous" href="/page{{ paginator.previous_page}}">previous</a> 
+    {% endif %}
+  {% endif %}
+  {% if paginator.total_pages > 1 %}
+    {% for i in (1..paginator.total_pages) %}
+      {% if i == paginator.page %}
+        <strong>{{ i }}</strong>
+      {% elsif i != 1 %}
+        <a href="/page{{ i }}">{{ i }}</a>
+      {% else %}
+        <a href="/">1</a>
+      {% endif %}
+    {% endfor %}
+    {% if paginator.next_page %}
+      <a class="next" href="/page{{ paginator.next_page}}">next</a> &rarr;
+    {% endif %}
+  </div>
+{% endif %}

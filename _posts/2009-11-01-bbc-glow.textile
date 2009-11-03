@@ -1,0 +1,103 @@
+---
+layout: post
+title: "BBC Glow: Overview and Example"
+categories: 
+- bbc glow
+- tutorials
+---
+
+"Glow":http://www.bbc.co.uk/glow/ is the BBC's JavaScript framework.  Things to note:
+
+* The namespacing makes it play nice with other frameworks (and itself)
+* It's split into modules that are mostly self-contained (an exception will alert you to a missing dependency but this is rare)
+* Modules include: dom manipulation, language extensions, events, animations
+* Also features UI widgets with bundled images, HTML and CSS
+* The homepage works with the Konami code
+
+h3. Why does Glow exist?
+
+To read what the developers say, see "What is Glow?":http://www.bbc.co.uk/glow/docs/articles/what_is_glow.shtml
+
+To summarise, the BBC have strict browser support guidelines.  They also have disparate teams that can work on different parts of the same page.  Therefore:
+
+* Glow has impressive browser support: "support table":http://www.bbc.co.uk/guidelines/futuremedia/technical/browser_support.shtml#support_table
+* Glow can work alongside different versions of itself
+
+h3. DOM and selector support
+
+It's not as advanced as "Prototype":http://prototypejs.org/ or "Sizzle":http://sizzlejs.com/, but the selectors provide enough abstraction for most tasks (child and grouping are present but pseudo selectors aren't).  Access the DOM using <code>glow.dom.get("selector")</code>.  This will return a nodeList.
+
+<strong>When working with Glow it's best to think in terms of node lists</strong> (in a similar fashion to jQuery).  <code>NodeList</code> has a lot of convenience methods.  Adding a CSS class or iterating over lists of nodes is easy:
+
+{% highlight javascript %}
+glow.dom.get("img").filter(function (i) {
+  return this.width > 320;
+});
+
+glow.dom.get("#login a").addClass("highlight");
+{% endhighlight %}
+
+h3. Language and Data
+
+There are a few important methods in <code>glow.lang</code> to be aware of:
+
+* <code>extend</code> copies the prototype from one object to another
+* <code>interpolate</code> provides simple string templates
+* <code>map</code> is useful if you like iterators and expect them to work in IE
+
+Here's an interpolate example in which I add it to <code>String</code>'s prototype for convenience:
+
+{% highlight javascript %}
+String.prototype.interpolate = function() { return glow.lang.interpolate(this, arguments[0], arguments[1]); };
+
+var html = '<li><a href="http://twitter.com/{from_user}"><img width="48" height="48" src="{image}" />{from_user}</a> {text}<br clear="both" /></li>';
+return html.interpolate({ image: tweet['profile_image_url'], from_user: tweet['from_user'], text: tweet['text'] });
+{% endhighlight %}
+
+h3. Net (Ajax)
+
+The network (Ajax) API is clean and easy to use.  It's all in "glow.net":http://www.bbc.co.uk/glow/docs/1.7/api/glow.net.shtml, but there's not much to it: <code>glow.net.get</code> and <code>glow.net.post</code> work in a similar way to most libraries.
+
+Cross-domain requests are made possible with <code>glow.net.loadScript</code>.  This inserts <code>script</code> tags into the document -- this works especially well with JSON (pay attention to the use of <code>{callback}</code> in this example):
+
+{% highlight javascript %}
+TwitterSearch.getTrends = function(callback) {
+  var url = 'http://search.twitter.com/trends/current.json?callback={callback}';
+  glow.net.loadScript(url, {
+    onLoad: function(data) {
+      var trends = [];
+      for (i in data.trends) {
+        trends = data.trends[i];
+      }
+      callback(glow.lang.map(trends.slice(0, 3), function(trend) { return trend.name; }));
+    }
+  });
+}
+{% endhighlight %}
+
+h3. Animations
+
+The animation API is similar to scriptaculous: it provides a set of faders, sliders, highlight and CSS mutation.  These are known as "animation helpers":http://www.bbc.co.uk/glow/docs/1.7/api/glow.anim.shtml.
+
+{% highlight javascript %}
+glow.anim.fadeIn(tweet_html, 1);
+glow.anim.css(element, 0.5, { 'bottom': { to: 0 } }).start();
+{% endhighlight %}
+
+The other major parts of the animation API are <code>glow.anim.Animation</code>, <code>glow.tweens</code>, and <code>glow.anim.Timeline</code>.
+
+The <code>glow.anim.Animation</code> class can be used to build your own animation primitives.  Specify a duration and a tween, then add a listener for <code>frame</code> events on the animation object itself.
+
+Tweens are functions for modifying animations -- there is a comprehensive set in "glow.tweens":http://www.bbc.co.uk/glow/docs/1.7/api/glow.tweens.shtml.
+
+Sets of animations can be orchestrated using <code>glow.anim.Timeline</code> and an array of animations and delays (known as <code>channels</code>).  There's a good "Mexican wave example":http://www.bbc.co.uk/glow/docs/1.7/furtherinfo/animtimeline/ in the documentation.
+
+h3. My Glow example: Twitter search panels
+
+I built a real time, user-configurable, Twitter search app just using Glow:
+
+* "View it here":http://hub.tweetfu.com/
+* "GitHub code and downloads":http://github.com/alexyoung/gobbler-js
+
+This demonstrates glow.dom, glow.lang, glow.events, glow.net with cross-domain API calls, and glow.animations.
+

@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Emile: Animation Mini-Framework"
+categories: 
+- libraries
+- animation 
+---
+
+"Emile":http://github.com/madrobby/emile is an animation framework written by "Thomas Fuchs":http://mir.aculo.us/.  It's based around CSS animation, with an API that uses callbacks and tween (easing) functions.
+
+It's currently very small, but does what most people need from JavaScript animations.  It might be interesting to try pairing it up with "Sizzle":http://sizzlejs.com/ for projects that need a small footprint.

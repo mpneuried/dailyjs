@@ -1,0 +1,54 @@
+body { font-family: Helvetica, Arial, sans-serif; background: #fff; color: #111; margin: 0; padding: 0 }
+pre { margin: 0; padding: 0 }
+a:link, a:visited { color: #559; }
+html body a:hover { border-bottom: none; color: #ff9900; }
+a img { border: none; }
+
+p.clean { margin: 0; padding: 0 }
+#container { margin: 0 auto; width: 840px }
+#sidebar { width: 150px; float: right; margin: 1em 0 0 0 }
+#sidebar ul { list-style-type: none; margin: 0; padding: 0 }
+#sidebar li { padding: 0 0 0.5em 0 }
+#sidebar h3 { margin: 0; padding: 0 }
+#content { width: 600px; float: left; clear: left; }
+#content h2 { margin-top: 0.8em }
+
+#navigation { padding: 0; margin: 0; width: 100%; background-color: #DADFE7; float: left; clear: both; }
+#navigation ul { list-style-type: none; display: block; margin: 0 auto; padding: 0; width: 840px; }
+#navigation li { float: left; width: 5em; margin: 1em 2px 0 2px; text-align: center; background-color: #666 }
+#navigation li a { color: #eee; text-decoration: none; width: 100%; padding: 0.5em 0; display: block }
+#navigation li a:hover { background-color: #eee; color: #111 }
+#navigation li a.active { background-color: #fff; color: #111 }
+#navigation li.icon { background-color: transparent; height: 12px; margin: 26px 68px 0 0; padding: 0; float: right; }
+#navigation li.icon a { padding: 0; margin: 0; }
+#navigation li.icon a:hover { background-color: transparent; }
+
+ul.breadcrumb { margin: 1em 0 10px 0; padding: 0; color: #666; font-size: 90% }
+ul.breadcrumb li { display: inline; list-style: none }
+ul.breadcrumb li:before { content: "\0020 \0020 \0020 \00BB \0020"; color: #333; }
+ul.breadcrumb li.home:before { content: "" !important }
+
+#footer { width: 600px; clear: both; }
+#footer p { font-size: 90%; color: #666; padding-top: 1em }
+
+.highlight { background-color: #f8f8ff; border: 1px solid #ddd; padding: 2px 10px !important; overflow: auto }
+.lineno { color: #666 }
+
+h2.post { margin: 0.5em 0 0.25em 0; padding: 0 }
+#post p, #post li, ul.posts div.preview { line-height: 1.5em; }
+h2.post a { text-decoration: none }
+
+div.meta { color: #666; font-size: 90% }
+div.meta span.tags { margin-left: 0 }
+
+ul.posts { list-style-type: none; margin: 1em 0 1em 0; padding: 0; width: 600px; float: left }
+ul.posts li { padding: 0.25em 0; clear: both; width: 100% }
+ul.posts div.date { color: #666; font-size: 80%; width: 8em; float: left; margin: 5px 0 0 0; padding: 0 }
+ul.posts div.preview { width: 100%; clear: both }
+ul.posts h2 { font-size: 1.25em; margin: 0; padding: 0; }
+ul.posts h2 a { text-decoration: none }
+span.tags { margin-left: 1em; font-size: 80% }
+span.tags a { text-decoration: none; background-color: #f8f8ff; color: #666 }
+
+#dsq-add-new-comment { font-size: 24px }
+#comments { margin-top: 1em; float: left; width: 100% }

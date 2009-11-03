@@ -1,0 +1,4 @@
+permalink:   /:year/:month/:day/:title
+lsi:         false
+pygments:    true
+paginate:    20
