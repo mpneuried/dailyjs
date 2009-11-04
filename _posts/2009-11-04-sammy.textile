@@ -1,0 +1,35 @@
+---
+layout: post
+title: "Sammy: RESTful Evented Javascript"
+categories: 
+- libraries
+---
+
+"Sammy":http://code.quirkey.com/sammy/ is an jQuery-based javascript framework by "Aaron Quint":http://quirkey.com/ for building full-blown applications written purely in javascript.  Sammy owes a lot to "Sinatra":http://sinatrarb.com, a lightweight DSL for creating Ruby web applications, but it's more than just a straight javascript port: Sammy embraces javascript and jQuery conventions.  
+
+Much like Sinatra, Sammy revolves around the concept of "REST":http://en.wikipedia.org/wiki/Representational_State_Transfer routes. These consist of an http-style verb (i.e. get, post, put etc), a path and a some code to run (in the form of a callback function).
+
+{% highlight js %}
+var app = $.sammy(function() {
+  this.get('#/', function() {
+    $('#main').text('Kazam!');
+  });
+});
+{% endhighlight %}
+
+Running the really simple sammy app above, and navigating to #/ would invoke the function and put the text 'Kazam!' in the _main_ element of your page.
+
+This is just the tip of the iceberg though: Sammy supports templating (via a plugin), so you can render pre-defined HTML templates in your apps. If only databases had a public REST interfaces and understood JSON, you could actually do away with the traditional web stack, and just let Sammy talk directly to your database.  Hang on... CouchDB fits the bill!  Aaron takes this idea further in "this article on his blog":http://www.quirkey.com/blog/2009/09/15/sammy-js-couchdb-and-the-new-web-architecture/.
+
+Sammy is available on "Github":http://github.com/quirkey/sammy, and the repository includes some examples to get you started.  There's also some documentation "here":http://code.quirkey.com/sammy/docs/index.html.
+
+
+
+
+
+
+
+
+
+
+
