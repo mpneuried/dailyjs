@@ -3,6 +3,7 @@ layout: post
 title: "Sammy: RESTful Evented Javascript"
 categories: 
 - libraries
+- JSON
 ---
 
 "Sammy":http://code.quirkey.com/sammy/ is an jQuery-based javascript framework by "Aaron Quint":http://quirkey.com/ for building full-blown applications written purely in javascript.  Sammy owes a lot to "Sinatra":http://sinatrarb.com, a lightweight DSL for creating Ruby web applications, but it's more than just a straight javascript port: Sammy embraces javascript and jQuery conventions.  
