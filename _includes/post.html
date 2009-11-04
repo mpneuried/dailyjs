@@ -1,12 +1,12 @@
 <div class="meta">
   {{ page.date | date_to_string }} |
+  <span class="author">By {{ page.url | author }}</span> |
   <span class="tags">
     <img alt="Tags" class="icon" src="/images/tag.gif" />
     {% for category in page.categories %}
       <a href="/tags.html#{{ category }}">{{ category }}</a>
     {% endfor %}
   </span>
-  <span class="author">By {{ page.url | author }}</span>
 </div>
 
 <p class="reddit"><script type="text/javascript" src="http://www.reddit.com/button.js?t=1"></script></p>

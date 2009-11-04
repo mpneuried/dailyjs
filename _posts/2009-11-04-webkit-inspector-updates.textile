@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Webkit Inspector Updates"
+categories: 
+- webkit
+- inspector
+---
+
+The Inspector for "WebKit":http://webkit.org/ has recently been "updated":http://webkit.org/blog/829/web-inspector-updates/ and it looks like they're really committed to making it a useful tool for developers. They've even added their own "event listener":http://webkit.org/blog/829/web-inspector-updates/#event_listeners utility akin to that offered by "Eventbug":/2009/11/04/eventbug/.
+
+Of course, you'll have to install the latest "nightly build":http://nightly.webkit.org/ of WebKit if you want to play around with it today.
+
+!/images/posts/2009-11-04-webkit-event-listeners.png(Webkit event listeners)!

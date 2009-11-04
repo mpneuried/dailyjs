@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Eventbug"
+categories: 
+- firefox
+- firebug
+---
+
+"Eventbug":http://www.softwareishard.com/blog/firebug/eventbug-alpha-released/ is a Firebug extension for displaying events.  To try it out, you need Firefox 3.7 (currently alpha), Firebug and Eventbug:
+
+* "Firefox 3.7":http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-trunk/
+* "Firebug 1.5":http://getfirebug.com/releases/firebug/1.5X/
+* "Eventbug":http://getfirebug.com/releases/eventbug/1.5/
+
+It definitely feels like a useful addition to Firebug's tools, so it will be great if the required APIs are available in Firefox 3.6 so more people can use it sooner.
+
+Here's a video preview:
+
+<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/QfwTl3buy8U&hl=en&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/QfwTl3buy8U&hl=en&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
