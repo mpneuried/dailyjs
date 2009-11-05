@@ -17,7 +17,7 @@ p.clean { margin: 0; padding: 0 }
 #content { width: 550px; float: left; clear: left; }
 #content h2 { margin-top: 0.8em }
 
-#navigation { padding: 0; margin: 0; width: 100%; background-color: #DADFE7; float: left; clear: both; }
+#navigation { padding: 10px 0 0 0; margin: 0; width: 100%; background-color: #DADFE7; float: left; clear: both; }
 #navigation ul { list-style-type: none; display: block; margin: 0 auto; padding: 0; width: 870px; }
 #navigation li { float: left; width: 5em; margin: 1em 2px 0 2px; text-align: center; background-color: #666; }
 #navigation li a { color: #eee; text-decoration: none; width: 100%; padding: 0.5em 0; display: block }
@@ -35,12 +35,16 @@ ul.breadcrumb li.home:before { content: "" !important }
 #footer { width: 600px; clear: both; }
 #footer p { font-size: 90%; color: #666; padding-top: 1em }
 
+#logo { font-size: 150%; float: left }
+
 .highlight { background-color: #f8f8ff; border: 1px solid #ddd; padding: 2px 10px !important; overflow: auto }
 .lineno { color: #666 }
 
 h2.post { margin: 0.5em 0 0.25em 0; padding: 0 }
 #post p, #post li, ul.posts div.preview { line-height: 1.5em; }
 h2.post a { text-decoration: none }
+
+#post img, .preview img { border: 1px solid #ccc; background-color: #eaeddd; padding: 4px }
 
 div.meta { color: #666; font-size: 90% }
 div.meta span.tags { margin-left: 0 }
