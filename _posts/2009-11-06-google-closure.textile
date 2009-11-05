@@ -1,0 +1,17 @@
+---
+layout: post
+title: "Google Opens Closure"
+author: Justin Knowlden 
+categories: 
+- google
+- libraries
+- firebug
+---
+
+Today, Google introduced a suite of JavaScript tools they are calling "Closure":http://googlecode.blogspot.com/2009/11/introducing-closure-tools.html. As Google explains, Closure is derived from tools started as 20% projects and which have gone on to be used in many of their popular applications; Gmail, Google Docs, and Google Maps to name a few. Closure itself is currently composed of three main tools:
+
+* "Closure Compiler":http://code.google.com/closure/compiler/ - for compiling and optimizing your JavaScript
+* "Closure Library":http://code.google.com/closure/library/ - Google's library of UI widgets, controls, DOM manipulators, network communicators, and unit testing helpers
+* "Closure Templates":http://code.google.com/closure/templates/ - a client and server-side content templating system
+
+It's nice that they have decided to open these tools up. I like the idea of compiling my JavaScript into an even smaller deliverable for my users. I know it's not readable, but neither is minified JavaScript if you think about it and Google is providing a Firebug extension called "Inspector":http://code.google.com/closure/compiler/docs/inspector.html (inappropriately named) which will let me see code compiled with Closure. I think I can live with that. I do, however, think they've made a bad choice in terms of naming the tool - particularly because I thought this would be a tool for functional programming.
