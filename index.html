@@ -19,10 +19,8 @@ title: A JavaScript Blog
           </span>
         </div>
         <div class="preview">
-          {{ post.content | truncate: 400 }}
+          {{ post.content }}
         </div>
-        <div>
-        <p><a href="{{ post.url }}">Read More</a></p>
       </li>
     {% endfor %}
   </ul>
