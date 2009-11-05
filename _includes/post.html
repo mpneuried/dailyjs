@@ -1,6 +1,6 @@
 <div class="meta">
   {{ page.date | date_to_string }} |
-  <span class="author">By {{ page.url | author }}</span> |
+  <span class="author">By {{ page.author }}</span> |
   <span class="tags">
     <img alt="Tags" class="icon" src="/images/tag.gif" />
     {% for category in page.categories %}

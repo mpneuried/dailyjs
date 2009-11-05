@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Emile: Animation Mini-Framework"
+author: Alex Young
 categories: 
 - libraries
 - animation 

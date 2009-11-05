@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Webkit Inspector Updates"
+author: Justin Knowlden
 categories: 
 - webkit
 - inspector

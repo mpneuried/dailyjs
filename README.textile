@@ -1,5 +1,14 @@
+h3. Writing Style
+
+* Keep articles to 2-3 paragraphs unless you're writing a tutorial
+* You can use American or British English
+* Headings: do not capitalise short prepositions or conjunctions, unless they have more than four letters ("Then")
+* Sub-headings: title case, but feel free to use sentence case if it suits the content
+
+h3. Images
+
+* Remove shadows from Mac OS windows -- this will do it after killing SystemUIServer: <code>defaults write com.apple.screencapture disable-shadow -bool true</code>
+
 h3. Site Generation
 
-Run our own Jekyll script.  This adds an extension for deriving the author name from a git commit:
-
-<code>bin/jekyll</code>
+Just run jekyll.

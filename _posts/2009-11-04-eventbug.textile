@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Eventbug"
+author: Alex Young
 categories: 
 - firefox
 - firebug

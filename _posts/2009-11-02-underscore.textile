@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Underscore: A Functional Library for JavaScript"
+author: Alex Young
 categories: 
 - libraries
 - functional

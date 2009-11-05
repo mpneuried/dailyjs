@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "BBC Glow: Overview and Example"
+author: Alex Young
 categories: 
 - bbc glow
 - tutorials
