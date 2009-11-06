@@ -8,7 +8,9 @@ categories:
 - firebug
 ---
 
-Today, Google introduced a suite of JavaScript tools they are calling "Closure":http://googlecode.blogspot.com/2009/11/introducing-closure-tools.html. As Google explains, Closure is derived from tools started as 20% projects and which have gone on to be used in many of their popular applications; Gmail, Google Docs, and Google Maps to name a few. Closure itself is currently composed of three main tools:
+!/images/posts/closure.png!
+
+Today, Google introduced a suite of JavaScript tools they are calling "Closure":http://googlecode.blogspot.com/2009/11/introducing-closure-tools.html. As Google explains, Closure is derived from tools started as 20% projects and which have gone on to be used in many of their popular applications: Gmail, Google Docs, and Google Maps to name a few. Closure itself is currently composed of three main tools:
 
 * "Closure Compiler":http://code.google.com/closure/compiler/ - for compiling and optimizing your JavaScript
 * "Closure Library":http://code.google.com/closure/library/ - Google's library of UI widgets, controls, DOM manipulators, network communicators, and unit testing helpers
