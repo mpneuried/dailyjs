@@ -5,7 +5,6 @@ author: Ric Roberts
 categories: 
 - HTML
 - libraries
-- firebug
 ---
 
 "Ed Spencer's":http://edspencer.net/ "Jaml":http://github.com/edspencer/jaml is a new project, inspired by Ruby's "Haml":http://haml-lang.com/, for generating nicely formatted HTML in your JavaScript projects without resorting to messy string manipulation.
