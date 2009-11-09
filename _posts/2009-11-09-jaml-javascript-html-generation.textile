@@ -7,9 +7,7 @@ categories:
 - libraries
 ---
 
-"Ed Spencer's":http://edspencer.net/ "Jaml":http://github.com/edspencer/jaml is a new project, inspired by Ruby's "Haml":http://haml-lang.com/, for generating nicely formatted HTML in your JavaScript projects without resorting to messy string manipulation.
-
-In the simplest case, you just register a function, using a neat "DSL":http://en.wikipedia.org/wiki/Domain_Specific_Language to create your various HTML elements, and then ask Jaml to render it.
+"Ed Spencer's":http://edspencer.net/ "Jaml":http://github.com/edspencer/jaml is a new project inspired by Ruby's "Haml":http://haml-lang.com/ for generating nicely formatted HTML in JavaScript.  It uses a neat "DSL":http://en.wikipedia.org/wiki/Domain_Specific_Language to create HTML elements:
 
 {% highlight js %}
 Jaml.register('myList', function() {

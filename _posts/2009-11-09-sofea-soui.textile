@@ -2,6 +2,7 @@
 layout: post
 title: What happened to SOFEA/SOUI?
 author: Justin Knowlden
+published: false
 categories: 
 - methodologies
 - JSON
