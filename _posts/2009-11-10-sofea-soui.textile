@@ -26,5 +26,5 @@ SOFEA/SOUI gave a name to my "psychosis" and suggested an alternative approach:
 # Worry about how to present the information in the actual client itself;
 # _Talk_ to the application server by sending and receiving only the essential nuggets of information.
 
-JavaScript has a large part to play in realising applications built with this architecture. Frameworks like "Sammy":/2009/11/05/sammy/ and "Jaml":/2009/11/09/jaml-javascript-html-generation/ (for instance) are a step along this path. We owe it to ourselves to try and push this technology forward and to ease the burdens of our passions, allowing us more time to focus on the things that are more important; or at least those that are more interesting.
+JavaScript has a large part to play in realising applications built with this architecture. Frameworks like "Sammy":/2009/11/05/sammy/ and "Jaml":/2009/11/09/jaml-javascript-html-generation/ are a step along this path. We owe it to ourselves to try and push this technology forward and to ease the burdens of our passions, allowing us more time to focus on the things that are more important; or at least those that are more interesting.
 
