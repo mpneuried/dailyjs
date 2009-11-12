@@ -1,0 +1,48 @@
+---
+layout: post
+title: Mojo Templates
+author: Alex Young 
+categories: 
+- templates
+- view
+---
+
+"Mojo":http://github.com/visionmedia/mojo is an interesting project that brings "Mustache":http://github.com/defunkt/mustache templates to JavaScript.  Mojo provides a command line tool, <code>mojo</code> for building Mustache-based templates using JavaScript syntax and data structures.
+
+A template looks like this:
+
+{% highlight html %}
+<html>
+  <head>
+    <title>{ title }</title>
+  </head>
+  <body>
+    <h1>{ title }</h1>
+    {# articles }
+      <div class="article">
+        <h2>{ title }</h2>
+        <p>{ body }</p>
+        {# published }
+          <p>{ title } is published</p>
+        {/ published }
+      </div>
+    {/ articles }
+  </body>
+</html>
+{% endhighlight %}
+
+And a corresponding _template object_ would look like this:
+
+{% highlight javascript %}
+page = {
+    title: 'Articles',
+    articles: [
+      { title: 'One', body: 'some more one' },
+      { title: 'Two', body: 'some more two', published: true }
+    ]
+}
+{% endhighlight %}
+
+This could be used with a server-side JavaScript framework for a fast, reusable and native templating solution.
+
+The author uses the "JSpec":http://visionmedia.github.com/jspec/ testing framework for tests, which is also worth checking out if you haven't seen it.
