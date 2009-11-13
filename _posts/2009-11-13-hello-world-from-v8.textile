@@ -1,0 +1,59 @@
+---
+layout: post
+title: Hello World From V8 
+author: Alex Young 
+categories: 
+- v8
+- engines
+---
+
+Heard of V8 but haven't got a clue how to run it?  Here's a quick guide to get you started.  This guide is intended for Mac OS, but there are "detailed Windows instructions":http://code.google.com/p/v8/wiki/BuildingOnWindows.
+
+V8 is actually a C++ JavaScript engine, designed to be embedded in another program.  Fortunately Google provide a sample shell that can be built with the bundled build chain.
+
+h3. Step 1: Get Scons
+
+Assuming you've already got Xcode installed, get "Scons":http://www.scons.org/.  V8 uses this as its build tool.  It's easy to install from source, but you could also use MacPorts.  MacPorts will fetch a whole bunch of dependencies -- if you're on Leopard or Snow Leopard you should be OK to just build it yourself.
+
+I installed it like this:
+
+{% highlight sh %}
+sudo python setup.py install
+{% endhighlight %}
+
+h3. Step 2: Build V8
+
+Fetch V8 from the Google Code subversion repository:
+
+{% highlight sh %}
+svn checkout http://v8.googlecode.com/svn/trunk/ v8
+{% endhighlight %}
+
+Then build V8 and the sample shell:
+
+{% highlight sh %}
+scons
+# Wait for a bit...
+scons sample=shell
+{% endhighlight %}
+
+You will be able to run the interpreter with <code>./shell</code>.
+
+h3. Step 3: A Less Painful Interpreter
+
+To get command history and more, install <code>rlwrap</code>.  I actually did install this from ports.
+
+Then run: <code>rlwrap ./shell</code>.
+
+h3. Step 4: Hello World
+
+{% highlight js %}
+V8 version 1.3.18.6
+> print("hello world");
+hello world
+> 
+{% endhighlight %}
+
+I also tried a library I wrote, with insanely fast results:
+
+!/images/posts/v8_riot.png!
