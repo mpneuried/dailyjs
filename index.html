@@ -11,7 +11,7 @@ title: A JavaScript Blog
         <div class="meta">
           <span class="date">{{ post.date | date_to_string }}</span>
           | <span class="author">By {{ post.author }}</span>
-          | <span class="comments"><a href="{{ post.url }}#disqus_thread"></a></span>
+          | <span class="comments"><a href="{{ post.url }}/#disqus_thread">Comments</a></span>
           | <span class="tags">
             <img alt="Tags" class="icon" src="/images/tag.gif" />
             {% for category in post.categories %}
@@ -50,18 +50,3 @@ title: A JavaScript Blog
     {% endif %}
   </div>
 {% endif %}
-
-<script type="text/javascript">
-//<![CDATA[
-(function() {
-	var links = document.getElementsByTagName('a');
-	var query = '?';
-	for(var i = 0; i < links.length; i++) {
-	if(links[i].href.indexOf('#disqus_thread') >= 0) {
-		query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
-	}
-	}
-	document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/quiteuseful/get_num_replies.js' + query + '"></' + 'script>');
-})();
-//]]>
-</script>
