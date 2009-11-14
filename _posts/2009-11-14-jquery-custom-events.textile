@@ -8,7 +8,7 @@ categories:
 - tips
 ---
 
-jQuery makes it really simple to bind and trigger custom events.  Although it's not immediately apparent from "the documentation":http://docs.jquery.com/Events/bind, creating custom events is simple and very useful.
+jQuery makes it easy to bind and trigger custom events.  Although it's not immediately apparent from "the documentation":http://docs.jquery.com/Events/bind, creating custom events is simple and very useful.
 
 h3. Binding Custom Events
 
