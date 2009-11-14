@@ -8,7 +8,7 @@ categories:
 - tips
 ---
 
-I've recently started using jQuery a lot more, despite initially being more comfortable with "Prototype.js":http://prototypejs.org (due to my Rails background).  Most people know about events such as <code>click</code>, <code>mouseover</code> etc, but jQuery makes it really simple to fire and handle custom events too (although it's not immediately apparent from "the documentation":http://docs.jquery.com/Events/bind exactly how you'd go about this).
+I've recently started using "jQuery":http://jquery.com a lot more, despite initially being more comfortable with "Prototype.js":http://prototypejs.org (due to my Rails background).  Most people know about events such as <code>click</code>, <code>mouseover</code> etc, but jQuery makes it really simple to fire and handle custom events too (although it's not immediately apparent from "the documentation":http://docs.jquery.com/Events/bind exactly how you'd go about this).
 
 h3. Binding Custom Events
 
