@@ -1,0 +1,59 @@
+---
+layout: post
+title: jQuery Custom Events 
+author: Ric Roberts 
+categories: 
+- jquery
+- events
+- tips
+---
+
+I've recently started using jQuery a lot more, despite initially being more comfortable with "Prototype.js":http://prototypejs.org (due to my Rails background).  Most people know about events such as <code>click</code>, <code>mouseover</code> etc, but jQuery makes it really simple to fire and handle custom events too (although it's not immediately apparent from "the documentation":http://docs.jquery.com/Events/bind exactly how you'd go about this).
+
+h3. Binding Custom Events
+
+You can bind an event to an element (or even the whole document). For example:
+
+{% highlight javascript %}
+$("#myElementId").bind("myCustomEvent", function(event){
+  alert("myCustom event happened!");
+});
+{% endhighlight %}
+
+h3. Triggering Custom Events
+
+jQuery's "trigger":http://docs.jquery.com/Events/trigger function is used to instigate the event, passing the name of the event as a string like this:
+
+{% highlight javascript %}
+$("#myElementId").trigger("myCustomEvent");
+{% endhighlight %}
+
+If you want to pass data to the bound handler you can use an "event object":http://docs.jquery.com/Events/jQuery.Event:
+
+{% highlight javascript %}
+var myCustomEvent = jQuery.Event("myCustomEvent");
+myCustomEvent.usefulInformation = "some data";
+myCustomEvent.otherStuff = "some other data";
+$("#myElementId").trigger(event);
+{% endhighlight %}
+
+h3. Namespaces
+
+Another cool feature of jQuery events is "namespacing":http://docs.jquery.com/Namespaced_Events, which supports triggering or unbinding specific groups of handlers without having to reference them directly. 
+
+You can add a namespace when binding an event which can be referenced when you unbind or trigger it.  It's possible to use multiple namespaces at once.
+
+{% highlight javascript %}
+$('.myCSSClass').bind('myEvent.myNamespace.myOtherNamespace', function(){alert('namespaced event')}); 
+$('.myCSSClass').trigger('myEvent.myNamespace');
+$('.myCSSClass').unbind('myEvent.myOtherNamespace');
+{% endhighlight %}
+
+If you specify a namespace when unbinding or triggering events, you need to match one of the bound namespaces (or alternatively, if no namespace is specified it matches everything).
+
+{% highlight javascript %}
+$('.myCSSClass').bind('myEvent.myNamespace', function(){alert('namespaced event')}); 
+$('.myCSSClass').trigger('myEvent.myNamespace'); // mentioned explicitly: will trigger
+$('.myCSSClass').trigger('myEvent');  // not specified: will trigger 
+$('.myCSSClass').unbind('myEvent.differentNamespace'); // won't unbind
+{% endhighlight %}
