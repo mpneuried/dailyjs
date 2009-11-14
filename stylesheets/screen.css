@@ -48,6 +48,7 @@ h2.post a { text-decoration: none }
 
 div.meta { color: #666; font-size: 90% }
 div.meta span.tags { margin-left: 0 }
+div.meta span.comments a { text-decoration: none }
 
 ul.posts { list-style-type: none; margin: 0 0 1em 0; padding: 0; width: 600px; float: left }
 ul.posts li { padding: 0.25em 0; clear: both; width: 100% }
