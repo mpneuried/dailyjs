@@ -8,14 +8,14 @@ categories:
 - tips
 ---
 
-I've recently started using "jQuery":http://jquery.com a lot more, despite initially being more comfortable with "Prototype.js":http://prototypejs.org (due to my Rails background).  Most people know about events such as <code>click</code>, <code>mouseover</code> etc, but jQuery makes it really simple to fire and handle custom events too (although it's not immediately apparent from "the documentation":http://docs.jquery.com/Events/bind exactly how you'd go about this).
+jQuery makes it really simple to bind and trigger custom events.  Although it's not immediately apparent from "the documentation":http://docs.jquery.com/Events/bind, creating custom events is simple and very useful.
 
 h3. Binding Custom Events
 
-You can bind an event to an element (or even the whole document). For example:
+Events can be bound to DOM nodes like this:
 
 {% highlight javascript %}
-$("#myElementId").bind("myCustomEvent", function(event){
+$("#myElementId").bind("myCustomEvent", function(event) {
   alert("myCustom event happened!");
 });
 {% endhighlight %}
@@ -28,7 +28,7 @@ jQuery's "trigger":http://docs.jquery.com/Events/trigger function is used to ins
 $("#myElementId").trigger("myCustomEvent");
 {% endhighlight %}
 
-If you want to pass data to the bound handler you can use an "event object":http://docs.jquery.com/Events/jQuery.Event:
+If you want to pass data to the handler you can use an "event object":http://docs.jquery.com/Events/jQuery.Event:
 
 {% highlight javascript %}
 var myCustomEvent = jQuery.Event("myCustomEvent");
