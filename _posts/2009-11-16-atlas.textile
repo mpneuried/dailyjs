@@ -1,0 +1,93 @@
+---
+layout: post
+title: "Atlas: Your First Tutorial"
+author: Alex Young
+categories: 
+- cappuccino
+- ui
+---
+
+"Atlas":http://280atlas.com/ is a commercial tool built by "280North":http://280north.com/.  Atlas is designed to build interfaces for applications built with "Cappuccino":http://cappuccino.org/.  Cappuccino is a web framework based on Cocoa (and GNUstep) -- this makes it immediately familiar to iPhone and Mac developers.  It uses the Objective-J language, which is similar to Objective-C but built on top of JavaScript.
+
+The major draw of Atlas is it allows developers to build Desktop and browser-based applications.  Selecting "Native Desktop" from the build options results in an executable.  The interface isn't 100% native, but it has been designed by "Sofa":http://www.madebysofa.com/ who make great Mac software.
+
+Here's what the interface builder looks like:
+
+!/images/posts/atlas_cib.png!
+
+h3. Getting Atlas
+
+The Atlas beta programme costs $20.  It's currently Mac only, and joining the developer programme doesn't mean you get the full Atlas application when it's finished -- the $20 will be deducted from the final price.  So, if you'd like to follow along with this tutorial I invite you to take a leap of faith.
+
+# "Sign up here":https://atlas-beta.heroku.com/users/new
+# Pay
+# Download atlas from "the downloads page":https://atlas-beta.heroku.com/downloads
+
+If you're not comfortable with the terms of the beta programme, you can still learn "Cappuccino":http://cappuccino.org/.
+
+h3. Creating a Project
+
+This project is a quick demo of Atlas.  It's a web browser (that runs inside... a browser).  It serves to demonstrate the fundamental features of Atlas.
+
+Once you've downloaded and started up Atlas, click _New Project_ from the file menu and select _Document App_.
+
+!/images/posts/document_app.png!
+
+This will display a new project:
+
+!/images/posts/atlas.png!
+
+If you select _Build and Run_ you can see what a basic document-based app looks like.  Try switching between _Native Desktop_ and _Desktop Browser_.
+
+h3. Adding Interface Elements
+
+The browser app will have a URL field and browser body.  In Objective-J, these can be implemented with <code>CPTextField</code> and <code>CPWebView</code>.
+
+Open <code>Document.j</code> and add these two lines after <code>@implementation</code>:
+
+{% highlight objectivec %}
+@outlet CPWebView documentBody;
+@outlet CPTextField address;
+{% endhighlight %}
+
+Save the file.
+
+Next, open _Resources_ by clicking on the disclosure triangle in the file list.  Click <code>Document.cib</code>.  Atlas uses <code>cib</code> files to store interface definitions.
+
+Double click the _Window_ icon at the bottom of the window.  Click the text that reads _Document Contents_ and press backspace to delete it.
+
+Look at the list of GUI widgets on the right-hand-side of the screen.  Find _Web View_ -- it has a Safari-style icon, and drag it to the window.  If you resize it you'll see guidelines to help get it to the right size.  Next, drag in a _Text Field_, and a _Standard Button_.  You can double-click the button and change the text.
+
+h3. Interface Anchors and Resizing
+
+Click the _Test_ button and resize the window.  You'll notice that your carefully positioned GUI widgets don't resize correctly.  Click _Return to Editor_ to exit this mode.
+
+Click the _Text Field_ and select the _Size_ tab at the bottom-right of the screen.  Notice that there are controls for the layout.  Make it so all of the middle lines are red.  The Go button just needs the top and right outer markers selected.  The web view needs all of them.  Press
+
+h3. Connections
+
+Alt-click the _File's Owner_ icon at the bottom of the screen and drag to the web view, then select <code>documentBody</code>.  This effectively makes a connection between the GUI builder and your code.
+
+Do the same for the address bar.
+
+Now alt-click from the address bar to the web view and select <code>takeStringURLFrom:</code>.
+
+Finally, alt-click the go button, drag to the URL bar and select <code>performClick:</code>.
+
+Save the document and click _Build and Run_.
+
+h3. The Finished Result
+
+This is what the finished result looks like:
+
+!/images/posts/atlas_dailyjs.png!
+
+You can download my version here: "DemoBrowser.zip":/files/DemoBrowser.zip
+
+In this tutorial, you've seen how to:
+
+# Add GUI elements to a window
+# Handle resizing in an Atlas-based app
+# Make connections between code and the interface
+
+Cappuccino and Objective-J have many other great features found in Objective-C and Cocoa.  If you're comfortable with Objective-C's object model and concepts like delegates, you'll be able to build sophisticated apps.  There's also a network API so you can connect your applications to your existing web services. 
