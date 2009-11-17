@@ -1,0 +1,33 @@
+---
+layout: post
+title: "jQuery Event Recording and Growl"
+author: Alex Young
+categories: 
+- jquery
+- growl
+- mac
+---
+
+TJ from "Vision Media":http://vision-media.ca/ sent us these great libraries:
+
+* "jQuery Event Recording and Playback":http://github.com/visionmedia/jquery-event-playback
+* "js-growl":http://github.com/visionmedia/js-growl
+* "js-oo":http://github.com/visionmedia/js-oo
+
+There's a "demo":http://visionmedia.github.com/jquery-event-playback/ of EventPlayback.  The API is very simple:
+
+{% highlight javascript %}
+$.recordEvents({ duration: 5000 }, function() {
+  $.playbackEvents(this, { interval : 25 })
+})
+{% endhighlight %}
+
+It generates a fair amount of data, so be careful how you use it.
+
+The Growl library, "js-growl":http://github.com/visionmedia/js-growl works with Rhino and basically shells out to <code>growlnotify</code>.  The API is nicer than shelling out yourself:
+
+{% highlight javascript %}
+Growl.notify('5 new emails', { title: 'Email Client', image: 'Safari', sticky: true })
+{% endhighlight %}
+
+The same author has also written this minimal OO library: "js-oo":http://github.com/visionmedia/js-oo.  It's based on the classes in Prototype, so you get inheritance with the previous <code>init</code> method saved in <code>__super__</code>.
