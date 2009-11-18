@@ -1,0 +1,69 @@
+---
+layout: post
+title: "Hello World with Narwhal and Jack"
+author: Alex Young
+categories: 
+- server 
+- tutorials
+---
+
+Narwhal allows you to create local or server-side JavaScript applications.  It's made by "280north":http://280north.com who also developed "Atlas":http://dailyjs.com/2009/11/16/atlas.  Narwhal is a beast:
+
+* Narwhal itself is a platform that's designed to be multi-interpreter and cross-platform
+* Rhino has the most complete interpreter support
+* Narwhal has a standard library that conforms to the "CommonJS standard":http://wiki.commonjs.org/
+* A package manager is provided, called Tusk
+
+This tutorial is based on the hello-web example from the Narwhal documentation.  You'll build a tiny web app that can return text, all from JavaScript.
+
+h3. Installation
+
+Downloaded it from the "narwhal repository":http://github.com/tlrobinson/narwhal/.  There's a zip file, or just use git:
+
+{% highlight sh %}
+git clone git://github.com/tlrobinson/narwhal.git
+{% endhighlight %}
+
+h3. Environments
+
+Narwhal makes a JavaScript interpreter and several scripts (including <code>tusk</code>) available.  To get your shell into a suitable state, run <code>bin/sea</code> from the narwhal directory.  Confirm everything works by typing <code>narwhal</code>.
+
+h3. Tusk and Jack
+
+Tusk can install remote packages.  Try typing <code>tusk search json</code> to view some JSON-related packages.  Typing <code>tusk install package-name</code> will install a package.
+
+Let's use <code>tusk</code> to create our own app:
+
+{% highlight sh %}
+tusk init hello-web
+cd hello-web
+{% endhighlight %}
+
+Then install <code>jack</code>:
+
+{% highlight sh %}
+tusk install jack
+{% endhighlight %}
+
+This command added jack to your hello-web project.  Jack makes communicating with web servers easier -- it's based on highly successful projects from the Ruby and Python communities.
+
+h3. Hello, world
+
+Jack expects a file called <code>jackconfig.js</code>.  Create one that looks like this:
+
+{% highlight javascript %}
+exports.app = function(env) {
+  var text = "Hello, world!";
+  return {
+    status : 200,
+    headers : { "Content-Type" : "text/plain", "Content-Length" : String(text.length) },
+    body : [text]
+  };
+};
+{% endhighlight %}
+
+From the same directory run <code>jackup</code> and visit <code>http://127.0.0.1:8080/</code>.
+
+h3. Documentation
+
+Narwhal comes with documentation in the <code>docs/</code> folder.  There's enough in there about packaging, the standard library and narwhal's environment to keep you busy for a while.
