@@ -1,0 +1,29 @@
+---
+layout: post
+title: "Express"
+author: Alex Young
+categories: 
+- server
+- v8
+- nodejs
+---
+
+I thought this would be a good follow-on from yesterday's post about "Narwhal":http://dailyjs.com/2009/11/18/jack-and-narwhal/.  Whilst Narwhal aims to provide a complete solution for server-side JavaScript development, sometimes a simpler solution is required.
+
+"Express":http://github.com/visionmedia/express/ is a small library for building web apps with JavaScript, written with "node.js":http://github.com/ry/node and V8.  That means:
+
+* It's fast thanks to v8 and node.js
+* It has a terse syntax because it's based on "Sinatra":http://www.sinatrarb.com/
+* It's quick to learn
+
+This is what an Express app looks like:
+
+{% highlight javascript %}
+get('user/:name/:operation', function(){
+  param('operation') + 'ing ' + param('name')
+})
+{% endhighlight %}
+
+It looks like I might have stumbled onto Express before it's 100% ready for the public, but it's definitely worth checking out.  I'm having trouble running examples with the current version of node.js, so I've written to Express's author to ask for some help.  I'll post a tutorial if I get something going.
+
+Node.js is fundamentally a good fit for the Sinatra approach to simplified web apps, so I hope this project goes somewhere.
