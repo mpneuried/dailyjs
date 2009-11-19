@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Express"
+title: "Express: Super-Fast JavaScript Sinatra"
 author: Alex Young
 categories: 
 - server
