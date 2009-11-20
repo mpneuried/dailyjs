@@ -1,0 +1,21 @@
+---
+layout: post
+title: "JavaScript API Design and DSLs"
+author: Alex Young
+categories: 
+- eval
+- opinion
+- design
+---
+
+I've noticed that the JavaScript community has been moving towards more dynamic approaches to API design -- especially from authors with a Ruby or Lisp background.  While it's possible to create your own languages within JavaScript -- just look at what 280north has done with Objective-J -- this isn't always required.  It's tempting to make an API DSL-like, but are we better off using simpler, more established techniques?
+
+Yesterday I wrote about a Sinatra-like library for creating super-simple JavaScript web apps.  The API allows you to define routes that map between URLs and HTTP methods.  These definitions return a string.  In this case, the library implicitly returns -- you don't need to return from the functions themselves.  "Matt Brubeck":http://limpet.net/mbrubeck/ noticed this and commented on the article:
+
+bq. "It's clever how they're using "eval" on the function body to save you from typing "return", but is it really necessary?"
+
+I think this was a great point.  I try to err on the "Douglas Crockford":http://javascript.crockford.com/ school of JavaScript.  Over the years his work explored object oriented patterns in JavaScript, eventually leading him to conclude the following:
+
+bq. "I have been writing JavaScript for 8 years now, and I have never once found need to use an uber function. The super idea is fairly important in the classical pattern, but it appears to be unnecessary in the prototypal and functional patterns. I now see my early attempts to support the classical model in JavaScript as a mistake."
+
+As people experiment with novel uses of <code>eval</code>, <code>new Function</code> and <code>with</code> over the coming years, will we reach a similar conclusion?  Is it worth creating rich and innovative twists on what is possible or should we stick to straight-forward uses of the language?
