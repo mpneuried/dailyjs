@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www.dailyjs.com$ [NC]
+RewriteRule ^(.*)$ http://dailyjs.com/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.dailyjavascript.com$ [NC]
+RewriteRule ^(.*)$ http://dailyjs.com/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^dailyjavascript.com$ [NC]
+RewriteRule ^(.*)$ http://dailyjs.com/$1 [R=301,L]
