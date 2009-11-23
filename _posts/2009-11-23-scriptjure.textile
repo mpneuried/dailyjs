@@ -1,0 +1,32 @@
+
+---
+layout: post
+title: "Scriptjure and JavaScript/Scheme"
+author: Alex Young
+categories: 
+- lisp
+- javascript
+- clojure
+---
+
+"Scriptjure":http://github.com/arohner/scriptjure/ is an interesting project for those of you who like "Clojure":http://clojure.org/.  It generates JavaScript like this:
+
+{% highlight clojure %}
+(js (alert "hello world")) 
+=> "alert(\"hello world\")"
+
+(js (foo x y)) 
+=> "foo(x, y)"
+
+(js (if (== foo 3) (foo x) (bar y)))
+=> "if ( (foo == 3) ) {
+   foo(x);
+   }
+   else {
+   bar(y);
+   }"
+{% endhighlight %}
+
+Other related projects that are worth looking at are "Lisp in JavaScript":http://joeganley.com/code/jslisp.html and "Parenscript":http://common-lisp.net/project/parenscript/.
+
+This reminded me of "The Little JavaScripter":http://javascript.crockford.com/little.html which was an interesting essay by Douglas Crockford, based on The Little LISPer.  If you've heard people saying Scheme and JavaScript are related but aren't sure what this means, it's worth reading it.  Google Books has a viewable version of "The Littler Schemer":http://bit.ly/8HBV69 so you can follow along.
