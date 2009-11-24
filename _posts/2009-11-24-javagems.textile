@@ -1,0 +1,35 @@
+---
+layout: post
+title: "JavaGems"
+author: Alex Young
+categories: 
+- java
+- packaging
+---
+
+!/images/posts/javagems.png!
+
+"JavaGems":http://www.javagems.org/ is a JVM packaging system based on "Gemcutter":http://www.gemcutter.org/.  It's a user-friendly way of distributing and building Java libraries and binaries.  It uses "RubyGems":http://docs.rubygems.org/ and works the same way.
+
+One reason this is useful to JavaScript developers is because the JavaGems authors have added a Rhino package.  This was automatically imported from maven build scripts, which means it won't currently run just by typing <code>js</code>.
+
+However, if you'd like to try it anyway, follow these steps:
+
+# Update or install "RubyGems":http://rubyforge.org/frs/?group_id=126
+# To update RubyGems, type <code>gem update --system</code> 
+# Install JavaGems: <code>gem install javagems</code>
+# Install Rhino: <code>javagem install js</code>
+
+You can run Rhino with <code>jam</code>:
+
+{% highlight sh %}
+echo "gem 'js'" > Gemfile
+jam org.mozilla.javascript.tools.shell.Main
+{% endhighlight %}
+
+"One of the JavaGems authors":http://www.annealer.org said the package will be modified to run out of the box in the near future.
+
+The source for the "JavaGems gem":http://github.com/thumblemonks/javagems is on GitHub.  This includes the following tools:
+
+* <code>javagem</code> - install and manage gems
+* <code>jam/jamc</code> - unifies running Java executables
