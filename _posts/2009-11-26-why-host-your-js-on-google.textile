@@ -1,0 +1,36 @@
+---
+layout: post
+title: Why You Should Host Your JS on Google
+author: Ric Roberts
+categories: 
+- performance
+- google
+---
+
+
+!/images/posts/google_code_logo.png!
+
+If you're using popular javascript libraries such as "jQuery":http://jquery.com/, "Prototype":http://prototypejs.org/, "Scripty":http://script.aculo.us/, or "MooTools":http://mootools.net/, and you're not taking advantage of "Google's Ajax Libraries":http://code.google.com/apis/ajaxlibs/ content delivery service, then you might be missing a trick.
+
+By using Google's Ajax Libraries, you get the normal benefits of a CDN i.e. low latency no matter where your users are.  
+
+You also get better caching: it's probable your users will already have the javascript file in their browser cache from another site and so won't have to re-download it.
+
+You can load a library by using Google's AJAX loader, specifying a version number.  If you provide a partial version number, Google will dish up the latest version that matches the pattern.  The example below would load v1.3.2 if called today (but so would using "1.3"... useful if you're relying on features introduced since a certain version).  
+
+{% highlight html %}
+<script src="http://www.google.com/jsapi"></script>
+<script>
+  // Load jQuery
+  google.load("jquery", "1");
+</script>
+{% endhighlight %}
+
+Or, you can just reference a particular version's file directly (which will result in fewer requests).
+
+{% highlight html %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+{% endhighlight %}
+
+
+
