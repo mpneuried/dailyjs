@@ -1,0 +1,14 @@
+---
+layout: post
+title: JavaScript Developer Survey 
+author: Alex Young 
+categories: 
+- community
+- surveys
+---
+
+Please take part in our JavaScript Developer Survey.  The results will be shared with the community on DailyJS, and are also visible after submitting the survey.
+
+No personal details are collected in this survey.
+
+<iframe src="http://spreadsheets.google.com/embeddedform?key=tphx5wMyxSHNjsMOOP1hYFg" width="600" height="2366" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
