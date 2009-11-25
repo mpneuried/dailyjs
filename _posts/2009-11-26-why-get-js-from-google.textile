@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why You Should Host Your JS on Google
+title: Why You Should Get Your JS from Google
 author: Ric Roberts
 categories: 
 - performance
