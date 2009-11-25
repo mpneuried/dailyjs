@@ -11,4 +11,6 @@ Please take part in our JavaScript Developer Survey.  The results will be shared
 
 No personal details are collected in this survey.
 
+The survey will close on Wednesday 2nd December.
+
 <iframe src="http://spreadsheets.google.com/embeddedform?key=tphx5wMyxSHNjsMOOP1hYFg" width="600" height="2366" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
