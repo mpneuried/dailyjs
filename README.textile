@@ -9,6 +9,7 @@ h3. Writing Style
 h3. Images
 
 * Remove shadows from Mac OS windows -- this will do it after killing SystemUIServer: <code>defaults write com.apple.screencapture disable-shadow -bool true</code>
+* Larger images like screenshots that appear in the post body should be 500 pixels wide (for consistency)
 
 h3. Site Generation
 
