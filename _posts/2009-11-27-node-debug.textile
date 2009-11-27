@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Node Debug"
+author: Alex Young
+categories: 
+- nodejs
+---
+
+I like "Node":http://nodejs.org a lot, so I was looking around "Ryan Dahl's":http://github.com/ry repositories and noticed "node_debug":http://github.com/Connorhd/node_debug.  Node Debug is a browser-based console and object explorer that gives you a <abbr title="read-eval-print loop">REPL</abbr> for a node app.
+
+To use it, download the repository and add the following code to one of your projects:
+
+{% highlight javascript %}
+var debug = require("debug.js");
+debug.listen(8080);
+{% endhighlight %}
+
+Then run it with <code>node</code>.
+
+If you can't be bothered, it looks like this:
+
+"!/images/posts/node_debug_smaller.png!":/images/posts/node_debug.png
+
+Pretty useful!
+
+If you're working on any Node-based projects, let me know in the comments and I'll pick the ones I have time to review for an upcoming post.

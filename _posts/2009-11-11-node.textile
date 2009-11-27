@@ -6,6 +6,7 @@ categories:
 - concurrency
 - networking
 - server
+- nodejs
 ---
 
 "Node":http://nodejs.org/ is event-based IO for "V8 JavaScript":http://code.google.com/p/v8/.  It provides an alternative approach for building non-blocking scalable programs using a model inspired by "EventMachine":http://rubyeventmachine.com/ and "Twisted":http://twistedmatrix.com/trac/.
