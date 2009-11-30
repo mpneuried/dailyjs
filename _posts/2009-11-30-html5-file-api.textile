@@ -1,0 +1,22 @@
+---
+layout: post
+title: "HTML5 File API"
+author: Alex Young
+categories: 
+- html5
+- firefox
+---
+
+Firefox 3.6 has new features from HTML5's File API.  This makes it possible for JavaScript to read the contents of local files.  As an example, that means showing thumbnails prior to uploading files is now possible.
+
+According to the draft "HTML5 File API":http://dev.w3.org/2006/webapi/FileAPI/, browsers should provide the following:
+
+* A FileList sequence, which represents an array of individually selected files from the underlying system using <code><input type="file"></code>
+* A Blob interface, which represents raw binary data, and allows access to ranges of bytes
+* A File interface that includes details on file name, type and a URL
+* A FileReader interface, which provides methods to read a file
+* A FileError interface and a FileException exception
+
+There are API docs for "FileReader on Mozilla's developer site":https://developer.mozilla.org/en/Using_files_from_web_applications.  Mozilla also has a document called "Using files from web applications":https://developer.mozilla.org/en/Using_files_from_web_applications with example code for uploading files.  Although they mention generating thumbnails their example doesn't do any image processing -- it's expected that an implementor would use CSS to create thumbnails to display before and during the upload process.
+
+Since the File API is asynchronous, files could be loaded and processed in the background while the user does other things.  This could also be useful for creating web applications that work offline.
