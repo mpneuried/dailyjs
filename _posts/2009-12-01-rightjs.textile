@@ -1,0 +1,24 @@
+---
+layout: post
+title: "RightJS - A New Javascript Framework"
+author: Ric Roberts
+categories: 
+- libraries
+---
+
+!/images/posts/RightJS.png!
+
+"RightJS":http://rightjs.org/ is a new JavaScript framework, along similar lines to "JQuery":http://jquery.com/ or "Prototype":http://www.prototypejs.org/. "Nikolay V. Nemshilov first announced it":http://st-on-it.blogspot.com/2009/05/meet-rightjs.html back in May.
+
+With a core weighing in at about 35K, RightJS is fairly small (albeit compressed), but it still manages to pack in features such as native class extensions, advanced DOM manipulations, Ajax support and basic visual effects.
+
+Like Prototype and "Script.aculo.us":http://script.aculo.us/, it's intended to be friendly and familiar to developers of dynamic languages like Ruby; it includes some "OOP":http://en.wikipedia.org/wiki/Object-oriented_programming features whilst still attempting to remain true to its Javascript roots.  Unlike Prototype's all-or-nothing approach, RightJS provides a more jQuery-ish modular solution.  The officially supported modules are called "goods":http://rightjs.org/goods, and you can build them into a single file using the "Custom Builder":http://rightjs.org/builds (or just include as separate files).
+
+According to the author's own "benchmarks":http://rightjs.org/benchmarks, RightJS is faster than all the other major frameworks, and in some cases faster even than pure DOM manipulation.  Apparently the key to this performance is down to using native browser methods wherever possible.  
+
+For more details and docs, including "tutorials":http://rightjs.org/tutorials and an in-depth "comparison against other frameworks":http://rightjs.org/comparison (jQuery, Protoype/Script.aculo.us, MooTools, Dojo and YUI), check out the "RightJS website":http://rightjs.org. 
+
+
+
+
+  
