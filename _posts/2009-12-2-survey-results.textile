@@ -1,0 +1,29 @@
+---
+layout: post
+title: JavaScript Developer Survey Results 
+author: Alex Young 
+categories: 
+- community
+- surveys
+---
+
+Our JavaScript developer survey has now closed.  We had 151 responses in total from a broad range of developers.
+
+Downloads of the results are available here:
+
+* "Summary PDF":/files/DailyJS_Survey.pdf
+* "Data CSV":/files/DailyJS_Survey.csv
+
+h3. Results
+
+We found that 68% of respondents do not currently unit test their JavaScript.  We'll write a few tutorials on this subject soon in case people are finding it hard to get started with testing.
+
+Those that unit tested preferred newer frameworks like RSpec and Screw.Unit.  It's worth noting that these are projects that Ruby programmers will be familiar with, and 76% of respondents selected Ruby as a primary development language.
+
+Minifiers were also popular, with YUI Compressor scoring 67%.
+
+GitHub was cited as the primary choice for project discovery, beating even "reddit":http://www.reddit.com/ and "Hacker News":http://news.ycombinator.com/.  GitHub was also the most popular code hosting site.
+
+37% of respondents use Google for hosting libraries.  "Amazon CloudFront":http://aws.amazon.com/cloudfront/ and "Rackspace's Cloud Files":http://www.rackspacecloud.com/cloud_hosting_products/files were also mentioned.
+
+v8 won in the server-side/desktop scripting category.  I find this interesting because Rhino was "traditionally" the way people seemed to do this.  It could be just that our readers are awesomely up to date!
