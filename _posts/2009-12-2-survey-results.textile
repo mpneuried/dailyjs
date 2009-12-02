@@ -7,7 +7,7 @@ categories:
 - surveys
 ---
 
-Our JavaScript developer survey has now closed.  We had 151 responses in total from a broad range of developers.
+Our JavaScript developer survey has now closed.  We had 151 responses in total.
 
 Downloads of the results are available here:
 
