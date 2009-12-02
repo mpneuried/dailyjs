@@ -11,9 +11,8 @@ layout: default
 
 {% include post.html %}
 
-<div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/dailyjs/embed.js"></script><noscript><a href="http://disqus.com/forums/dailyjs/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-
 <script type="text/javascript">
+var disqus_url = "http://dailyjs.com{{ page.url }}";
 //<![CDATA[
 (function() {
 	var links = document.getElementsByTagName('a');
@@ -27,3 +26,6 @@ layout: default
 })();
 //]]>
 </script>
+
+<div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/dailyjs/embed.js"></script><noscript><a href="http://disqus.com/forums/dailyjs/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
