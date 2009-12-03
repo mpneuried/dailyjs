@@ -1,0 +1,55 @@
+---
+layout: post
+title: "3 Node Frameworks"
+author: Alex Young
+categories: 
+- nodejs
+- server
+---
+
+The floodgates have opened on "node.js":http://nodejs.org/ web app frameworks.  The best ones that I've found so far are micro-frameworks, using "Sinatra":http://www.sinatrarb.com/ inspired API designs.  Some are more ambitious.
+
+"Picard":http://github.com/dantebronto/picard uses "haml-js":http://github.com/creationix/haml-js and looks like this:
+
+{% highlight javascript %}
+require('./config/env')
+
+get('/', function(){
+  return { text: 'Hello Universe' }
+})
+{% endhighlight %}
+
+There's an interesting benchmark claim in the documentation:
+
+<blockquote>
+The included sinatra_app_for_benchmarks is a Ruby port of the Picard sample_app. According to these benchmarks, the Picard app on node.js runs about twice as fast as the Sinatra app on Thin and can handle around 12x as many requests per second (due to the asynchronous nature of node.js).
+</blockquote>
+
+The library comes with a sample app.
+
+"Bomber":http://bomber.obtdev.com/ is more similar to Rails or Django.  It currently has a router and views.  Router definitions look like this:
+
+{% highlight javascript %}
+var Router = require('bomber/lib/router').Router;
+var r = new Router();
+
+r.add('/:view/:action/:id');
+r.add('/:view/:action');
+
+exports.router = r;
+{% endhighlight %}
+
+And views look like this:
+
+{% highlight javascript %}
+exports.show = function(request, response) {
+  if( request.format == 'json' ) {
+    return {a: 1, b: 'two', c: { value: 'three'}};
+  }
+  else {
+    return "show action";
+  }
+};
+{% endhighlight %}
+
+Meanwhile, "Campy":http://github.com/Bluebie/Campy is a Camping-inspired framework.  Campy uses a modified version of "MooTools":http://mootools.net/.  The author is trying to take what Camping offered yet retain a JavaScriptic approach.
