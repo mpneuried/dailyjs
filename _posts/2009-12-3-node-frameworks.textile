@@ -54,4 +54,4 @@ exports.show = function(request, response) {
 
 Meanwhile, "Campy":http://github.com/Bluebie/Campy is a Camping-inspired framework.  Campy uses a modified version of "MooTools":http://mootools.net/.  The author is trying to take what Camping offered yet retain a JavaScriptic approach.
 
-We also recently featured "Express":http://dailyjs.com/2009/11/19/express/, which is super-simple and very clean.  It's Sinatra-inspired, and the author has lots of interesting JavaScript on GitHub projects so it's one to keep an eye on (and contribute to!)
+We also recently featured "Express":http://dailyjs.com/2009/11/19/express/, which is super-simple and very clean.  It's Sinatra-inspired, and the author has lots of interesting JavaScript projects on GitHub so it's one to keep an eye on (and contribute to!)
