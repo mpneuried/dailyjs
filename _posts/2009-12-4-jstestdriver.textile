@@ -1,0 +1,29 @@
+---
+layout: post
+title: "JsTestDriver"
+author: Alex Young
+categories: 
+- testing
+- java
+---
+
+"JsTestDriver":http://code.google.com/p/js-test-driver/ is a test runner that you can use to run tests against different browsers.  Browsers are treated like sandboxes, using a capturing API that allows tests to run against multiple browsers.  It works on the command line, so once a browser has been captured it can be minimized and forgotten about. 
+
+It can run tests in parallel as well, so running tests against many browsers on many platforms isn't any more time consuming than a single test run.  The production and test code is stored in each browser and reloads only when source files have changed, so this adds an additional speed boost.
+
+This video by the author explains the basics:
+
+<object width="384" height="313"><param name="movie" value="http://www.youtube.com/v/V4wYrR6t5gE&hl=en_US&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/V4wYrR6t5gE&hl=en_US&fs=1" type="application/x-shockwave-flash" width="384" height="313" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+
+Tests look like this:
+
+{% highlight javascript %}
+GreeterTest = TestCase("GreeterTest");
+
+GreeterTest.prototype.testGreet = function() {
+  var greeter = new myapp.Greeter();
+  assertEquals("Hello World!", greeter.greet("World"));
+};
+{% endhighlight %}
+
+If you'd like to try it out, the "introductory documentation":http://code.google.com/p/js-test-driver/wiki/GettingStarted should get you up and running pretty quickly.
