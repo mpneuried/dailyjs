@@ -1,0 +1,66 @@
+---
+layout: post
+title: "JsHamcrest"
+author: Alex Young
+categories: 
+- libraries
+---
+
+"JsHamcrest":http://github.com/danielfm/jshamcrest is a library for declaratively expressing matching rules based on matcher objects.  This could be used for testing frameworks, mocking libraries, UI validation rules and object querying.
+
+If you want to run the tests, you need to install "Fabric":http://code.fabfile.org/projects/fabric/files/ and minify the library:
+
+{% highlight bash %}
+git clone git://github.com/danielfm/jshamcrest.git
+fab build
+fab pack
+{% endhighlight %}
+
+Then open <code>test/testSuite.html</code> in your browser.  It's also worth building the documentation (get "Sphinx":http://pypi.python.org/pypi/Sphinx for this to work):
+
+{% highlight bash %}
+cd doc
+make html
+{% endhighlight %}
+
+Here are a few examples of the library in use (I tried these in Rhino):
+
+{% highlight javascript %}
+js> var odd = JsHamcrest.Matchers.odd()
+js> odd.matches(11)
+true
+js> odd.matches(10)
+false
+{% endhighlight %}
+
+You can also make the matchers globally accessible by copying it into the current object:
+
+{% highlight javascript %}
+JsHamcrest.Integration.copyMembers(this);
+{% endhighlight %}
+
+Multiple calls can be chained and then matched like this:
+
+{% highlight javascript %}
+js> JsHamcrest.Integration.copyMembers(this);
+js> between(5).and(10).matches(7);
+true
+js> filter([1, 2, 3, 4], greaterThan(2))
+3,4
+{% endhighlight %}
+
+The library comes with plenty of matchers and also allows you to define custom matchers.  Here is an example of a custom matcher from the documentation:
+
+{% highlight javascript %}
+var theAnswerToLifeTheUniverseAndEverything = function() {
+    return new JsHamcrest.SimpleMatcher({
+        matches: function(actual) {
+            return actual == 42;
+        },
+
+        describeTo: function(description) {
+            description.append('the answer to life, the universe, and everything');
+        }
+    });
+};
+{% endhighlight %}
