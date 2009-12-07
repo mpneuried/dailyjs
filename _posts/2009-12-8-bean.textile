@@ -1,1 +1,36 @@
-http://code.edspencer.net/Bean/index.html
+---
+layout: post
+title: "Mac OS Screensaver in JavaScript"
+author: Alex Young
+categories: 
+- animation
+- canvas
+---
+
+"Bean":http://github.com/edspencer/Bean by Ed Spencer is an animated slideshow that uses Canvas to display images in a similar way to a well-known Mac OS slideshow.  Here's a video example:
+
+<object width="400" height="225"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=8023175&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=8023175&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="225"></embed></object><p><a href="http://vimeo.com/8023175">Bean - OS X screensaver using JavaScript & Canvas</a> from <a href="http://vimeo.com/user1241243">Ed Spencer</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+
+You can download the code and add your own images.  The API looks like this:
+
+{% highlight javascript %}
+var bean = new Bean({
+  imageUrls: [
+    'images/DoubleCluster_cs_fleming.jpg',
+    'images/NGC660Hagar0_c900.jpg',
+    'images/filaments_iac.jpg',
+    'images/m78wide_tvdavis900.jpg',
+    'images/sunearthpanel_sts129.jpg',
+    'images/NGC253_SSRO_900.jpg',
+    'images/Ophcloud_spitzer_c800.jpg'
+  ],
+  canvasId : 'main',
+  fillBody : true
+});
+
+bean.onReady(function(bean) {
+  setTimeout(function() {bean.start();}, 2000);
+});
+{% endhighlight %}
+
+Read more in "Ed's blog post":http://edspencer.net/2009/12/osx-screensaver-emulation-with-canvas-thats-bean.html and "view Bean here":http://code.edspencer.net/Bean/index.html.
