@@ -1,0 +1,33 @@
+---
+layout: post
+title: "gRaphaël: A Javascript Charting Library"
+author: Ric Roberts
+categories: 
+- libraries
+- graphics
+---
+
+"Raphaël":http://raphaeljs.com/ is a great little JavaScript library that helps to simplify working with vector graphics on the web.  It uses "SVG":http://www.w3.org/Graphics/SVG/ where possible (or "VML":http://en.wikipedia.org/wiki/Vector_Markup_Language for IE6+).
+
+"gRaphaël":http://g.raphaeljs.com/ is a graphing library based on Raphaël, providing a way to draw pie, bar, line and dot charts, including support for interactive features such as dynamic labels and highlighting.
+
+!/images/posts/gRaphaelChart.png!
+
+To draw a chart with gRaphaël you need to include on your page raphael.js, g.raphael.js and the script for the particular chart(s) you need (e.g. g.pie.js).
+
+{% highlight html %}
+<script src="raphael.js" type="text/javascript"></script>
+<script src="g.raphael.js" type="text/javascript"></script>
+<script src="g.pie.js" type="text/javascript"></script>
+{% endhighlight %}
+
+Then you can just create a raphael canvas, and draw your chart on it.
+
+{% highlight javascript %}
+  var r = Raphael("holder");								                
+  r.g.piechart(320, 240, 150, [55, 20, 13, 32, 5, 1, 2, 10]);
+{% endhighlight %}
+
+
+The documentation is a bit thin on the ground at the moment, but Raphaël is quite nice to work with and there are a few examples on the "website":http://g.raphaeljs.com/ to get you started.
+ 
