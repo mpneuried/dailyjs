@@ -1,0 +1,25 @@
+---
+layout: post
+title: "JavaScript Template Library Benchmarks"
+author: Alex Young
+categories: 
+- benchmarks
+- templating
+---
+
+!/images/posts/template_benchmarks.png!
+
+Brian Landau sent us these "JavaScript template library benchmarks":http://www.viget.com/extend/benchmarking-javascript-templating-libraries/, which tests the following libraries:
+
+* jQuery Templates
+* mustache.js
+* underscore
+* jQuote
+* Srender
+* Tempest
+* nano
+* wayneeseguin’s jquery_templates
+
+The benchmarks are based on "PPK's benchmarking methodology":http://www.quirksmode.org/blog/archives/2009/08/when_to_read_ou.html.  The results suggest that the libraries all have similar performance characteristics.  Brian concludes that mustache.js is the best library if your templates contain heavy iteration over data, otherwise nano is a good choice.
+
+To download all of the libraries and tests in one convenient package, check out "brianjlandau/js-templates-benchmark":http://github.com/brianjlandau/js-templates-benchmark from GitHub.
