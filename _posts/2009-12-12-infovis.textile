@@ -1,0 +1,45 @@
+---
+layout: post
+title: "JavaScript InfoVis Toolkit"
+author: Alex Young
+categories: 
+- libraries
+- visualization
+- graphics
+---
+
+!/images/posts/thejit.png!
+
+"The JavaScript InfoVis Toolkit":http://thejit.org/ provides a rich set of tools for creating interactive browser-based visualisations.  The project's site includes API documentation and tutorials.
+
+The visualisations are based around a "cross-browser canvas widget":http://thejit.org/docs/files/Canvas-js.html.  Each canvas appears inside a block level element:
+
+{% highlight html %}
+<div id="infovis"></div>  
+{% endhighlight %}
+
+And is defined like this:
+
+{% highlight javascript %}
+var canvas = new Canvas('mycanvas', {  
+   'injectInto':'infovis',  
+    'width': 900,  
+    'height':500,  
+    'styles': {  
+    'fillStyle': '#ccddee',  
+    'strokeStyle': '#772277'  
+    }  
+});  
+{% endhighlight %}
+
+The visualisations are driven with a "JSON API":http://thejit.org/docs/files/Loader-js.html#Loader and use CSS for styling.  Check out the "RGraph tutorial":http://thejit.org/tutorials/rgraph/ to see how this comes together.
+
+Although the APIs are extensible an interesting set has been provided, so it's possible to create impressive results quickly.  Data representations include:
+
+* Treemaps
+* Radial layouts
+* HyperTrees
+* SpaceTrees
+* Charts, including pie and bar
+
+There are "demos":http://thejit.org/demos/ on the site complete with animations.
