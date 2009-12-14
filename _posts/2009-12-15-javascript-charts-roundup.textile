@@ -61,6 +61,6 @@ Please let us know of any omissions in the comments!
 
 h3. "Processing":http://processingjs.org/
 
-This is not just restricted to charts, and it doesn't support IE (yet), but I wanted it to include it anyway, as Processing is such as powerful tool (like Raphaël).
+This is not just restricted to charts, and it doesn't support IE (yet), but I wanted it to include it anyway as, like Raphaël, Processing is such a powerful tool.
 
 !/images/posts/charts/processing.png!
