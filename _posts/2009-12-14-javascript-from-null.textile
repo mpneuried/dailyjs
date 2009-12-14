@@ -1,0 +1,23 @@
+---
+layout: post
+title: "JavaScript from Null and Beans"
+author: Alex Young
+categories: 
+- tutorials
+- tools
+---
+
+"JavaScript from Null":http://net.tutsplus.com/tutorials/javascript-ajax/javascript-from-null-video-series/ is a tutorial screencast series created by Jeffrey Way.  Chapter 2 has just been published, which includes the following topics:
+
+* Difference between = and ===, and != and !==
+* How a string can have methods available to it, like toUpperCase() and length
+* JavaScript native functions: parseFloat, and encodeURIComponent
+* Basic Math operations
+
+It's basic stuff but will be useful for beginners and well presented.
+
+h3. Beans
+
+Jonah Fox sent us a link to this blog post about "Beans":http://blog.parkerfox.co.uk/2009/12/08/beans-rubygems-for-javascript/ -- a web app that can host and concatenate JavaScript libraries.  It's similar to "Sprockets":http://getsprockets.org/ but works as a service rather than scripted tool.  This might be more suitable to your organization or way of working.
+
+It's actually a Sinatra app, which means to install it you just need to check out the "beans GitHub repo":http://github.com/weepy/bean-server.
