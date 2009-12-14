@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Javascript Charts Roundup"
+author: Ric Roberts
+categories: 
+- libraries	
+- graphics
+---
+
+Following up from "last week's post about gRaphaël":http://dailyjs.com/2009/12/09/raphael-javascript-charts/, I thought I'd try to summarise some of the other charting options available to JavaScript developers.
+
+h3. "Flot":http://code.google.com/p/flot/
+
+Flot is a jQuery-based JavaScript plotting library, which focuses on simple usage. The results are fairly attractive, and has some interactive features, such as zooming.  It works with all modern browsers (including IE6+, where Google's "ExCanvas":http://excanvas.sourceforge.net/ is used). If you're into Prototype, check out "Flotr":http://solutoire.com/flotr/, a Prototype port.
+
+!/images/posts/charts/flot.png!
+
+h3. "jqPlot":http://www.jqplot.com/
+
+This is another jQuery plugin, and produces results not dissimilar to Flot.  It provides quite a wide range of graphing options.
+
+!/images/posts/charts/jqplot.png!
+
+h3. "dojo Charts":http://www.dojotoolkit.org/projects/dojox
+
+Dojo Charting, part of the "Dojo Toolkit":http://dojotoolkit.org/projects/dojox, provides many common chart types including line, bar, area and pie charts. 
+
+!/images/posts/charts/dojox-charts.jpg!
+
+h3. "Bluff":http://bluff.jcoglan.com/
+
+Bluff is a James Coglan's JavaScript port of Ruby's "Gruff":http://nubyonrails.com/pages/gruff graphing library.  It depends on James' "JS.Class":http://jsclass.jcoglan.com/ (and ExCanvas to support IE).
+
+!/images/posts/charts/bluff.png!
+
+h3. "PlotKit":http://www.liquidx.net/plotkit/
+
+PlotKit is based on "MochiKit":http://www.mochikit.com/, but unfortunately only supports IE6+ via Adobe's discontinued "SVG viewer":http://www.adobe.com/svg/viewer/install/mainframed.html.
+
+!/images/posts/charts/plotkit.png!
+
+h3. "Protochart":http://www.deensoft.com/lab/protochart/
+
+Inspired by Flot and PlotKit, Protochart build upon Prototype and ExCanvas, providing a good range of charting options.
+
+!/images/posts/charts/protochart.png!
+
+h3. "Google Visualisations":http://code.google.com/apis/visualization/
+
+Google Visualizations provide a variety of ways to represent your data, including charts from the "Google Chart API":http://code.google.com/apis/chart as well as pure client-side visualizations (some of which require Flash). 
+
+!/images/posts/charts/googlevis.png!
+
+h3. "Yahoo UI Charts":http://developer.yahoo.com/yui/charts/
+
+YUI charts let you visualize tabular data on a web page in a variety of different ways, but unfortunately the chart control depends on Flash 9.
+
+!/images/posts/charts/YUI.jpg!
+
+Please let us know of any omissions in the comments!
