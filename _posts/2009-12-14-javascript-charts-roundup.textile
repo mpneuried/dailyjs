@@ -11,7 +11,7 @@ Following up from "last week's post about gRaphaël":http://dailyjs.com/2009/12/
 
 h3. "Flot":http://code.google.com/p/flot/
 
-Flot is a jQuery-based JavaScript plotting library, which focuses on simple usage. The results are fairly attractive, and has some interactive features, such as zooming.  It works with all modern browsers (including IE6+, where Google's "ExCanvas":http://excanvas.sourceforge.net/ is used). If you're into Prototype, check out "Flotr":http://solutoire.com/flotr/, a Prototype port.
+Flot is a jQuery-based JavaScript plotting library, which focuses on simple usage. The results are fairly attractive, and has some interactive features, such as zooming.  It works with all modern browsers (including IE6+, where Google's "ExCanvas":http://code.google.com/p/explorercanvas/ is used). If you're into Prototype, check out "Flotr":http://solutoire.com/flotr/, a Prototype port.
 
 !/images/posts/charts/flot.png!
 
