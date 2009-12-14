@@ -7,7 +7,7 @@ categories:
 - graphics
 ---
 
-Following up from "last week's post about gRaphaël":http://dailyjs.com/2009/12/09/raphael-javascript-charts/, I thought I'd try to summarise some of the other charting options available to JavaScript developers.
+Following up from "last week's post about gRaphaël":http://dailyjs.com/2009/12/09/raphael-javascript-charts/, I thought I'd try to summarize some of the other charting options available to JavaScript developers.
 
 h3. "Flot":http://code.google.com/p/flot/
 
