@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Javascript Charts Roundup"
+title: "JavaScript Charts Roundup"
 author: Ric Roberts
 categories: 
 - libraries	
