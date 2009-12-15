@@ -57,10 +57,10 @@ YUI charts let you visualize tabular data on a web page in a variety of differen
 
 !/images/posts/charts/YUI.jpg!
 
-Please let us know of any omissions in the comments!
-
 h3. "Processing":http://processingjs.org/
 
 This is not just restricted to charts, and it doesn't support IE (yet), but I wanted it to include it anyway as, like Raphaël, Processing is such a powerful tool.
 
 !/images/posts/charts/processing.png!
+
+Please let us know of any omissions in the comments!
