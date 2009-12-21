@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Node.js on IRC"
+author: Alex Young
+categories: 
+- irc
+- node
+---
+
+"Node.js":http://nodejs.org/ makes writing IRC-related programs straightforward and super-efficient, thanks to its evented networking. Therefore it isn’t surprising that a lot of projects have appeared already.
+
+I’ve been looking around for reusable JavaScript IRC libraries, and discovered the following projects.
+
+h3. IRC Daemon Demo
+
+"This IRC daemon demo":https://gist.github.com/a3d0bbbff196af633995 presented at jsconf.eu/2009 demonstrates how to build a server. It has simple prototypal classes for channels and users, and parses IRC commands using a regex and a <code>switch</code>. It also uses node’s TCP library.
+
+h3. nodelog
+
+"nodelog":http://github.com/felixge/nodelog/ is an IRC logger. This would be a good place to start if you’d like to build a JavaScript IRC bot. The client code is clear and reusable. The <code>log.js</code> file demonstrates how to use the <code>irc.js</code> library.
+
+h3. irccat-nodejs
+
+"irccat-nodejs":http://github.com/atmos/irccat-nodejs/ is based on "irccat":http://github.com/webs/irccat which allows you to send messages to IRC using HTTP or a TCP socket. The client code is again fairly simple.
+
+h3. egret
+
+"egret":http://github.com/ionfish/egret/ is a command-line IRC client. The base code uses node’s TCP sockets and a hash to interpret IRC commands into English.
+
+h3. nodejs.irc
+
+"nodejs.irc":http://github.com/fwg/nodejs.irc/ is an IRC bot. It’s not finished yet, but the code is separated out and easy to follow.
+
+h3. aoibot
+
+"aoibot":http://github.com/sztanpet/aoibot/ is similar to nodejs.irc, but it looks like the finished product will be less generic. Again, it’s unfinished, so I expect the author still has a lot of ideas and work to do.
+
