@@ -1,0 +1,52 @@
+---
+layout: post
+title: "Processing.js"
+author: Alex Young
+categories:
+- animation
+- canvas
+- graphics
+---
+
+!>/images/posts/processing-logo.png!
+
+"Processing.js":http://processingjs.org/ is a JavaScript/HTML canvas port of "Processing":http://processing.org/.  Processing provides a toolkit for programming images, animation and even games.  It's hosted in Java and provides its own mini-IDE.  Processing.js can interpret Processing projects, but runs them in a browser that supports canvas.
+
+If you're familiar with Processing already you should be able to run some of your projects in Processing.js.  Just create a simple HTML page with a canvas and include <code>processing.js</code>.  The <code>examples/</code> folder in the source distribution demonstrates how to do this using a script called "init.js":http://github.com/jeresig/processing-js/blob/master/examples/init.js -- this finds the canvas on the page and instantiates a processing object:
+
+{% highlight javascript %}
+Processing(canvas, scripts[i].text);
+{% endhighlight %}
+
+Processing.js allows you to embed Processing scripts into HTML like this:
+
+{% highlight html %}
+<script type="application/processing">
+</script>
+{% endhighlight %}
+
+h3. Calling Processing from JavaScript
+
+!/images/posts/fire.png!
+
+If you're new to Processing but have a lot of JavaScript you want to reuse, you can safely call Processing from your JavaScript code.  I've prepared an example project, "fire.js":http://github.com/alexyoung/fire.js which demonstrates one way of mixing JavaScript and Processing.  You can pass the current Processing environment to a JavaScript class like this:
+
+{% highlight javascript %}
+void draw() {
+  fire.update(this);
+}
+{% endhighlight %}
+
+Keeping some level of separation between JavaScript code and "pure" Processing seems like a good way to avoid confusion if you ever port to another Processing platform.
+
+h3. Processing Basics
+
+Every Processing project has <code>setup()</code> and <code>draw()</code> functions.  In this case I've instantiated a Fire object and I'm passing <code>this</code> which is the current Processing object.  Then I can access Processing's functions from within my JavaScript class.
+
+The "Processing reference":http://processingjs.org/reference gives example code for all of the Processing functions.  There's a lot of drawing primitives like <code>rect()</code> and <code>ellipse()</code> -- playing around with these is a good way to learn Processing.
+
+h3. Related Projects
+
+"ruby-processing":http://wiki.github.com/jashkenas/ruby-processing is a Ruby port.  It differs to Processing.js because it provides a Ruby-style version of the Processing API.  Even CamelCase method names have been changed to underscores.
+
+Although Processing.js and Processing are awesome projects, if you just want to draw vector graphics you'd be better off with something like "Raphael":http://raphaeljs.com/.  Processing is more suited to animated visualisations or interactive projects.
