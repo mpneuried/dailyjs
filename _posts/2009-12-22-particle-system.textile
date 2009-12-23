@@ -1,0 +1,17 @@
+---
+layout: post
+title: "JavaScript Particle System"
+author: Alex Young
+categories: 
+- graphics
+- animation
+---
+
+After "yesterday's Processing.js article":http://dailyjs.com/2009/12/21/processingjs/ I discovered this post about creating a particle system with JavaScript and a canvas: "Parcycle: A Particle System with HTML5 canvas":http://www.mrspeaker.net/2009/12/03/particle-system-with-html5-canvas/.
+
+You can view the effect in action in this demo: "Parcycle":http://www.mrspeaker.net/dev/parcycle/
+
+!/images/posts/parcycle.png!
+
+I found the use of "globalCompositeOperation":https://developer.mozilla.org/samples/canvas-tutorial/6_1_canvas_composite.html very interesting in this code.  It allowed the author to make particles appear lighter when they overlap by using a drawing mode rather than detecting the colour on the canvas.
+

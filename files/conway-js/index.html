@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Conway's Game of Life</title>
+  <style>
+body { font-family: helvetica }
+  </style>
+  <script src="lib/processing.js"></script>
+  <script type="text/javascript">
+if ( window.addEventListener ) {
+	window.addEventListener("load", function() {
+		var scripts = document.getElementsByTagName("script");
+		
+		for ( var i = 0; i < scripts.length; i++ ) {
+			if ( scripts[i].type == "application/processing" ) {
+				var src = scripts[i].src, canvas = scripts[i].nextSibling;
+	
+				if ( src && src.indexOf("#") ) {
+					canvas = document.getElementById( src.substr( src.indexOf("#") + 1 ) );
+				} else {
+					while ( canvas && canvas.nodeName.toUpperCase() != "CANVAS" )
+						canvas = canvas.nextSibling;
+				}
+
+				if ( canvas ) {
+					Processing(canvas, scripts[i].text);
+				}
+			}
+		}
+	}, false);
+}
+  </script>
+<body>
+  <h1>Conway's Game of Life</h1>
+  <p>by <a href="http://dailyjs.com">Alex Young at DailyJS</a>.</p>
+  <p>Made with <a href="http://processingjs.org/">Processing.js</a></p>
+
+  <script type="application/processing">
+// Original game of life algorithm
+//
+// 1. Death: if the count is less than 2 or greater than 3, the current cell is switched off.
+// 2. Survival: if (a) the count is exactly 2, or (b) the count is exactly 3 and the current cell is on, the current cell is left unchanged.
+// 3. Birth: if the current cell is off and the count is exactly 3, the current cell is switched on.
+
+int width = 200, height = 200, cellSize = 8;
+
+int maxCells = (width * height) / cellSize;
+Cell[][] cells = new Cell[width / cellSize][height / cellSize];
+
+void setup() {
+  size(width, height);
+  maxCells = 0;
+
+  for (int y = 0; y < (height / cellSize); y++) {
+    for (int x = 0; x < (width / cellSize); x++, maxCells++) {
+      cells[y][x] = new Cell();
+      cells[y][x].set_x(x * cellSize);
+      cells[y][x].set_y(y * cellSize);
+      cells[y][x].set_size(cellSize);
+      if (random(1) > 0.92) {
+        cells[y][x].set_state_on();
+      } else {
+        cells[y][x].set_state_off();
+      }
+      cells[y][x].draw_cell();
+    }
+  }
+}
+
+void draw() {
+  if (mousePressed == true) {
+    setup();
+  }
+
+  for (int y = 0; y < (height / cellSize); y++) {
+    for (int x = 0; x < (width / cellSize); x++, maxCells++) {
+      int infected = 0;
+
+      cells[y][x] = cells[y][x];
+
+      if (x > 0 && x < (width / cellSize) - 1 && y > 0 && y < (height / cellSize) - 1) {
+        for (int sy = -1; sy <= 1; sy++) {
+          for (int sx = -1; sx <= 1; sx++) {
+            if (cells[y + sy][x + sx].get_state()) {
+              infected++;
+            }
+          }
+        }
+
+        if (infected < 2 || infected > 3) {
+          // Death
+          cells[y][x].set_state_off();
+        } else if (cells[y][x].get_state() == false && infected == 3) {
+          // Birth
+          cells[y][x].set_state_on();
+        }
+
+        cells[y][x].draw_cell();
+      }
+    }
+  }
+
+}
+
+class Cell {
+  int x, y, cellSize;
+  boolean state;
+
+  Cell() { }
+
+  void set_state_on() {
+    this.state = true;
+  }
+
+  void set_state_off() {
+    this.state = false;
+  }
+
+  void set_x(int x) {
+    this.x = x;
+  }
+
+  void set_y(int y) {
+    this.y = y;
+  }
+
+  void set_size(int cellSize) {
+    this.cellSize = cellSize;
+  }
+
+  boolean get_state() {
+    return this.state;
+  }
+
+  int get_x() {
+    return this.x;
+  }
+
+  int get_y() {
+    return this.y;
+  }
+
+  void draw_cell() {
+    if (this.get_state()) {
+      fill(175, 175, 202);
+    } else {
+      fill(102, 153, 102);
+    }
+
+    rect(this.x, this.y, this.cellSize, this.cellSize);
+  }
+}
+  </script>
+  <canvas width="640" height="480"></canvas>
+</body>
+</html>

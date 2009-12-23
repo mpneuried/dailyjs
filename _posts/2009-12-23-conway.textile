@@ -1,0 +1,28 @@
+---
+layout: post
+title: "Conway's Game of Life"
+author: Alex Young
+categories: 
+- compsci
+- fun
+---
+
+!/images/posts/conway.png!
+
+Our recent post about "Processing.js":http://processingjs.org/ made me think about "Conway's Game of Life":http://en.wikipedia.org/wiki/Conway%27s_game_of_life.  If you haven't come across it before, it's a simulation that works like this:
+
+bq.   1. Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
+   2. Any live cell with more than three live neighbours dies, as if by overcrowding.
+   3. Any live cell with two or three live neighbours lives on to the next generation.
+   4. Any dead cell with exactly three live neighbours becomes a live cell.
+
+I like to use this algorithm to experiment with new graphics libraries, so I had my own Processing version from back in 2005.  I've ported it to Processing.js here "conway-js":http://github.com/alexyoung/conway-js.
+
+I've also found lots of interesting pure JavaScript implementations.  "ConwayJS":http://github.com/joeyrobert/ConwayJS/ by Joseph Robert is my favourite.  It's pretty fast and allows you to draw cells with the mouse.
+
+Another interesting one is "game_of_life":http://github.com/sukhchander/game_of_life/ by "sukhchander":http://sukhchander.com/.
+
+I've uploaded my Processing.js examples to DailyJS so you can see them without checking out the git repositories:
+
+* "fire.js":/files/firejs/
+* "conway-js":/files/conway-js/

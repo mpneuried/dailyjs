@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fire</title>
+  <style>
+body { font-family: helvetica }
+  </style>  
+  <script src="lib/processing.js"></script>
+  <script type="text/javascript">
+/*
+ * This code searches for all the <script type="application/processing" target="canvasid">
+ * in your page and loads each script in the target canvas with the proper id.
+ * It is useful to smooth the process of adding Processing code in your page and starting
+ * the Processing.js engine.
+ */
+
+if ( window.addEventListener ) {
+	window.addEventListener("load", function() {
+		var scripts = document.getElementsByTagName("script");
+		
+		for ( var i = 0; i < scripts.length; i++ ) {
+			if ( scripts[i].type == "application/processing" ) {
+				var src = scripts[i].src, canvas = scripts[i].nextSibling;
+	
+				if ( src && src.indexOf("#") ) {
+					canvas = document.getElementById( src.substr( src.indexOf("#") + 1 ) );
+				} else {
+					while ( canvas && canvas.nodeName.toUpperCase() != "CANVAS" )
+						canvas = canvas.nextSibling;
+				}
+
+				if ( canvas ) {
+					Processing(canvas, scripts[i].text);
+				}
+			}
+		}
+	}, false);
+}
+  </script>
+<body>
+  <h1>Fire</h1>
+  <p>by <a href="http://dailyjs.com">Alex Young at DailyJS</a>.</p>
+  <p>Made with <a href="http://processingjs.org/">Processing.js</a></p>
+
+  <script type="text/javascript">
+function Fire(width, height) {
+  this.makePalette = function() {
+    // Create the bands of colour for the palette (256 is the maximum colour)
+    var palette    = [],
+        limit      = 64,
+        multiplier = 256 / limit;
+
+    for (var i = 0; i <= limit; i++) {
+      palette[i] = [i * multiplier, 0, 0];
+      palette[i + limit] = [255, i * multiplier, 0];
+      palette[i + limit * 2] = [255, 255, i * multiplier];
+      palette[i + limit * 3] = [180, 0, 0];
+    }
+
+    return palette;
+  }
+
+  this.palette = this.makePalette();
+  this.fire = [];
+  this.scale = 16;
+  this.width = width / this.scale;
+  this.height = height / this.scale;
+  this.intensity = 2;
+}
+
+Fire.prototype = {
+  offset: function(x, y) {
+    return (y * this.width) + x;
+  },
+
+  randomOffset: function() {
+    return Math.floor(Math.random() * this.palette.length);
+  },
+
+  randomLine: function(y) {
+    for (var x = 0; x < this.width - 1; x++) {
+      this.fire[this.offset(x, y)] = this.randomOffset();
+    }
+  },
+
+  fireData: function(x, y) {
+    return this.fire[this.offset(x, y)] || 0;
+  },
+
+  setFireData: function(x, y, value) {
+    this.fire[this.offset(x, y)] = value;
+  },
+
+  update: function(p) {
+    this.randomLine(this.height - 1);
+    for (var y = 0; y <= this.height - 2; y++) {
+      for (var x = 0; x <= this.width; x++) {
+        // Wrap
+        var left  = (x == 0) ? this.fireData(this.width - 1, y) : this.fireData(x - 1, y),
+            right = (x == this.width - 1) ? this.fireData(0, y) : this.fireData(x + 1, y),
+            below = this.fireData(x, y + 1),
+            flameColor = null;
+ 
+        // Get the average pixel value
+        average = parseInt((left + right + (below * 2)) / 4);
+
+        // Fade the flames
+        if (average > this.intensity) {
+          average -= this.intensity;
+        }
+
+        this.setFireData(x, y, average);
+
+        flameColor = this.palette[average] || [0, 0, 0];
+        p.fill(p.color(flameColor[0], flameColor[1], flameColor[2]));
+        p.rect(x * this.scale, (y + 1) * this.scale, this.scale, this.scale);
+      }
+    }
+  }
+};
+</script>
+<script type="application/processing">
+void setup() {
+  colorMode(RGB, 255);
+  background(0);
+  noStroke();
+}
+
+var fire = new Fire(width, height);
+
+void draw() {
+  fire.update(this);
+}
+  </script>
+  <canvas width="640" height="480"></canvas>
+</body>
+</html>
+
