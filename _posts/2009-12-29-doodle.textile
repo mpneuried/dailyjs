@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Doodle.js"
+author: Alex Young
+categories: 
+- graphics
+- animation
+- canvas
+---
+
+!/images/posts/heart01.jpg!
+
+I've written a few posts about canvas-based animation and graphics libraries lately.  Before moving on to another topic I thought I'd mention "Doodle.js":http://github.com/biilly/doodle.js, which is a sprite-based canvas library.  Doodle.js simplifies working with the canvas, and includes "excanvas":http://code.google.com/p/explorercanvas/ for IE support.
+
+Code using Doodle.js looks like this:
+
+{% highlight javascript %}
+(function(oo) {
+ oo.canvas('#my_canvas');
+ var box = oo.rect({x:25, y:25,
+                    width:50, height:50, fill:"#ff0000"});
+ box.draw(); //draw a red box with initial parameters
+ 
+ box.modify({fill:'rgb(0,255,0)'}).translate(50,0).draw();
+ box.modify({fill:'purple'}).rotate(-45).draw();
+ box.modify({fill:'yellow'}).translate(50,0).scale(1.5).draw();
+ box.modify({fill:'blue'}).transform(1.5,0,0,1.5,50,0).draw();
+ 
+})($doodle);
+{% endhighlight %}
+
+As you can see, the API is fairly clean.  There isn't currently much documentation, but the author has written a "length blog post":http://www.lamberta.org/blog/doodle/ with examples.
+
+While "Processing.js":http://processingjs.org/ is a full drawing and animation system, and "Raphael":http://raphaeljs.com/ is a vector graphics library, Doodle.js provides a simple way of working with sprites.
