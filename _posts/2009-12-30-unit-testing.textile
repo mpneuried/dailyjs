@@ -1,0 +1,137 @@
+---
+layout: post
+title: "JavaScript Unit Testing"
+author: Alex Young
+categories: 
+- libraries
+- testing
+---
+
+Our "JavaScript Developer Survey results":http://dailyjs.com/2009/12/02/survey-results/ showed that a large percentage of readers don't currently unit test their JavaScript.  I've been unit testing my own JavaScript projects for a few years, which resulted in the creation of "riotjs":http://gist.github.com/alexyoung/riotjs -- for more on riotjs see my blog post: "Riotjs: A JavaScript Unit Testing Framework":http://alexyoung.org/2009/11/04/riotjs/
+
+There are lots of JavaScript test frameworks.  I've presented a summary below -- there are both traditional unit testing libraries and behaviour-driven frameworks.
+
+h2. unittest.js
+
+"unittest.js":http://github.com/madrobby/scriptaculous/blob/master/src/unittest.js by Thomas Fuchs has been used by many JavaScript developers since "Scriptaculous":http://script.aculo.us/ became popular in 2006.  It provides a test framework that is recognisable to Ruby developers, and the relationship between Rails and Scriptaculous further increased adoption in this group.
+
+This library depends on "Prototype":http://prototypejs.org/ and is usually run inside HTML templates rather than a JavaScript interpreter.
+
+Tests look like this:
+
+{% highlight javascript %}
+  new Test.Unit.Runner({
+    testExample: function() { with(this) {
+      var exampleVar = '1234';
+      assertEqual('1234', exampleVar);
+      assert(true);
+    }}
+    
+  }, "testlog");
+{% endhighlight %}
+
+Fuchs uses <code>with(this)</code> to cut down unnecessary syntax -- you don't have to write tests this way though.
+
+Setup and teardown methods are supported.  Shoulda-style assertion names have also been added.  This adds methods to the prototypes for common JavaScript objects, so it's possible to write <code>'test'.shouldEqual('test')</code>.
+
+unittest.js also includes a handy <code>benchmark</code> method, and the following assertions:
+
+| <code>assertNotEqual(expected, actual)</code> | Inverse of <code>assertEqual</code> |
+| <code>assertNotVisible(element)</code> | Checks if an element has display: none |
+| <code>assertVisible(element)</code> | Inverse of above |
+| <code>assertInspect(expected, actual)</code> | Checks if <code>expected</code> is the same as <code>actual.inspect()</code> |
+| <code>assertEnumEqual(expected, actual)</code> | Ensured two enumerables are equal |
+| <code>assertIdentical(expected, actual)</code> | Comparison using <code>===</code> |
+| <code>assertNotIdentical(expected, actual)</code> | Inverse of above |
+| <code>assertNull(obj)</code> | Is <code>obj</code> null? |
+| <code>assertNotNull(obj)</code> | Inverse of above |
+| <code>assertMatch(expected, actual) | Performs a regex, where <code>expected</code> is the regex |
+| <code>assertType(expected, actual) | Checks if <code>actual.constructor == expected</code> |
+| <code>assertNotOfType(expected, actual)</code> | Inverse of above |
+| <code>assertInstanceOf(expected, actual)</code> | Checks if <code>actual</code> is <code>instanceof</code> <code>expected</code> |
+| <code>assertNotInstanceOf(expected, actual)</code> | Inverse of above |
+| <code>assertRespondsTo(method, obj)</code> | Checks if <code>obj</code> has a method named <code>method</code> |
+| <code>assertReturnsTrue(method, obj)</code> | Ensured that the method named <code>method</code> called on <code>obj</code> returns true |
+| <code>assertReturnsFalse</code> | Inverse of above |
+| <code>assertRaise(exceptionName, method)</code> | Ensures calling <code>method</code> raises an exception named <code>exceptionName</code> |
+| <code>assertElementsMatch([elements], expression1, expression2, ...) | Ensures the array of elements match the list of expressions |
+| <code>assertElementMatches(element, expression) | A helper for the above assertion when supplying a single element |
+
+h3. JsUnitTest
+
+"JsUnitTest":http://github.com/drnic/jsunittest/ is a port of unittest.js without the Prototype dependency.
+
+h3. JsUnit
+
+Development for "JsUnit":http://www.jsunit.net/  started in 2001, and is based on JUnit.  Like unittest.js, tests are designed to be run in a web browser.  By using the <code>build.xml</code> Ant file, tests can be run against multiple browsers on a local machine, or on multiple remote machines.
+
+JsUnit tests are grouped within a _Test Page_.  Test pages contain your tests.  If a Test Page has <code>setUp</code> or <code>tearDown</code> functions, they will be run before and after each test function.  A function called <code>setUpPage</code> will be run once per Test Page.
+
+Each test function is written prefixed with <code>test</code>:
+
+{% highlight javascript %}
+function testExample() {
+    assert(true);
+}
+{% endhighlight %}
+
+The following assertions are available:
+
+* <code>assert([comment], booleanValue)</code>
+* <code>assertTrue([comment], booleanValue)</code>
+* <code>assertFalse([comment], booleanValue)</code>
+* <code>assertEquals([comment], value1, value2)</code>
+* <code>assertNotEquals([comment], value1, value2)</code>
+* <code>assertNull([comment], value)</code>
+* <code>assertNotNull([comment], value)</code>
+* <code>assertUndefined([comment], value)</code>
+* <code>assertNotUndefined([comment], value)</code>
+* <code>assertNaN([comment], value)</code>
+* <code>assertNotNaN([comment], value)</code>
+* <code>fail(comment)</code>
+
+h3. QUnit
+
+"QUnit":http://github.com/jquery/qunit/ is used by jQuery for its unit tests.  To use QUnit, include qunit.js and qunit.css within a HTML file that can display the test results.
+
+Tests look like this:
+
+{% highlight javascript %}
+test("a basic test example", function() {
+  ok(true, "this test is fine");
+  var value = "hello";
+  equals("hello", value, "We expect value to be hello");
+});
+{% endhighlight %}
+
+The "jQuery QUnit":http://docs.jquery.com/QUnit documentation has full examples.
+
+h3. jspec
+
+"jspec":http://github.com/wycats/jspec/ (by Yehuda Katz) is an "RSpec":http://rspec.info/ inspired framework.  Rather than traditional unit tests, jspec attempts to provide a behaviour-driven development approach.
+
+This is best illustrated with an example:
+
+{% highlight javascript %}
+jspec.describe("The browser environment", function() {
+  it("should have Array.prototype.push", function() {
+    Array.prototype.push.should("exist");
+  });
+ 
+  it("should have Function.prototype.apply", function() {
+    Function.prototype.apply.should("exist");
+  });
+})
+{% endhighlight %}
+
+Tests are written with <code>it()</code> blocks and chained <code>should()</code> calls.
+
+The GitHub repository is currently pretty spartan, with no documentation or README, but jspec is a good port for those of you who are familiar with RSpec or want a change from JUnit-style libraries.
+
+h3. JSpec
+
+"JSpec":http://github.com/visionmedia/jspec by visionmedia (who have cropped up frequently on DailyJS) is a much more fleshed out BDD library.  The author has tried to keep it minimal, but it has a unique and friendly DSL.  It's possible to write "grammar-less" tests using plain JavaScript.
+
+h3. Jasmine
+
+"Jasmine":http://github.com/pivotal/jasmine/ builds on the ideas of the previous libraries to provide a BDD library that supports asynchronous tests -- Ajax-friendly testing.
