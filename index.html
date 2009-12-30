@@ -3,28 +3,26 @@ layout: default
 title: A JavaScript Blog 
 ---
 
-<div>
-  <ul class="posts">
-    {% for post in paginator.posts %}
-      <li>
-        <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-        <div class="meta">
-          <span class="date">{{ post.date | date_to_string }}</span>
-          | <span class="author">By {{ post.author }}</span>
-          | <span class="comments"><a href="{{ post.url }}/#disqus_thread">Comments</a></span>
-          | <span class="tags">
-            <img alt="Tags" class="icon" src="/images/tag.gif" />
-            {% for category in post.categories %}
-              <a href="/tags.html#{{ category }}">{{ category }}</a>
-            {% endfor %}
-          </span>
-        </div>
-        <div class="preview">
-          {{ post.content }}
-        </div>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="posts">
+  {% for post in paginator.posts %}
+    <div class="post-inner">
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <div class="meta">
+        <span class="date">{{ post.date | date_to_string }}</span>
+        | <span class="author">By {{ post.author }}</span>
+        | <span class="comments"><a href="{{ post.url }}/#disqus_thread">Comments</a></span>
+        | <span class="tags">
+          <img alt="Tags" class="icon" src="/images/tag.gif" />
+          {% for category in post.categories %}
+            <a href="/tags.html#{{ category }}">{{ category }}</a>
+          {% endfor %}
+        </span>
+      </div>
+      <div class="preview">
+        {{ post.content }}
+      </div>
+    </div>
+  {% endfor %}
 </div>
 
 {% if paginator.previous_page %}

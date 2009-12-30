@@ -41,8 +41,8 @@ ul.breadcrumb li.home:before { content: "" !important }
 .highlight { background-color: #f8f8ff; border: 1px solid #ddd; padding: 2px 10px !important; overflow: auto }
 .lineno { color: #666 }
 
-h2.post { margin: 0.5em 0 0.25em 0; padding: 0 }
-#post p, #post li, ul.posts div.preview { line-height: 1.5em; }
+h2.post { margin: 0.5em 0 0.25em 0; padding: 0; font-size: 1.75em }
+#post p, #post li, div.posts div.preview { line-height: 1.5em; }
 h2.post a { text-decoration: none }
 
 #post img, .preview img { border: 1px solid #ccc; background-color: #eaeddd; padding: 4px }
@@ -51,12 +51,12 @@ div.meta { color: #666; font-size: 90% }
 div.meta span.tags { margin-left: 0 }
 div.meta span.comments a { text-decoration: none }
 
-ul.posts { list-style-type: none; margin: 0 0 1em 0; padding: 0; width: 600px; float: left }
-ul.posts li { padding: 0.25em 0; clear: both; width: 100% }
-ul.posts .date { color: #666; }
-ul.posts div.preview { width: 100%; clear: both }
-ul.posts h2 { font-size: 1.25em; margin: 0; padding: 0; }
-ul.posts h2 a { text-decoration: none }
+div.posts { list-style-type: none; margin: 0 0 1em 0; padding: 0; width: 600px; float: left }
+div.posts div.post-inner { padding: 0.25em 0 2em 0; margin-bottom: 1em; clear: both; width: 100%; border-bottom: 1px solid #ddd }
+div.posts .date { color: #666; }
+div.posts div.preview { width: 100%; clear: both }
+div.posts h2 { font-size: 1.75em; margin: 0; padding: 0; }
+div.posts h2 a { text-decoration: none }
 span.tags a { text-decoration: none; background-color: #f8f8ff; color: #666 }
 
 #related h2 { margin-top: 2em }
