@@ -1,0 +1,71 @@
+---
+layout: post
+title: "Benchmarks in JavaScript"
+author: Alex Young
+categories: 
+- benchmarks
+- libraries
+- performance
+---
+
+Speeding up page load times is a good way to decrease bounce rates and increase customer satisfaction.  And if you're using JavaScript in your server-side architecture, speed will become increasingly important.  So you might be tempted to write your own benchmarking code when puzzling over a tricky performance issue.  Fortunately there are quite a few JavaScript benchmarking libraries out there.
+
+h3. Unit Tests
+
+If you're writing "unit tests":http://dailyjs.com/2009/12/30/unit-testing/ you should get some benchmark information.  Most libraries automatically benchmark tests -- "unittest.js":http://github.com/madrobby/scriptaculous/blob/master/src/unittest.js includes a benchmark method.  You could use this outside of tests for some foresnic analysis.
+
+h3. JavaScript Benchmark
+
+"JavaScript Benchmark":http://github.com/visionmedia/js-bm/ is a nice little library that features:
+
+* ASCII-friendly output that's great for server-side JavaScript
+* A simple API
+* Test suite support
+
+Each benchmark will be run once by default, or you can specify a value:
+
+{% highlight javascript %}
+suite('Iteration', 50000, function() {
+  array = [1,2,3,4,5,6,7,8,9];
+
+  benchmark('for', function() {
+    for (var i = 0; i < array.length; ++i);
+  });
+
+  benchmark('for cached', function() {
+    for (var i = 0, len = array.length; i < len; ++i);
+  });
+
+  benchmark('for in', function() {
+    for (var i in array);
+  });
+});
+{% endhighlight %}
+
+This library won't work in a browser due to the use of the <code>print()</code> function, but all you need to do is supply your own.  Something like this will do:
+
+{% highlight javascript %}
+function print(message) {
+  document.getElementById('log').innerHTML += message + "\n";
+}
+{% endhighlight %}
+
+I've put a full example up here: "benchmarks.html":/files/benchmarks.html
+
+h3. BenchmarkBuddy
+
+"BenchmarkBuddy":http://github.com/unwiredbrain/BenchmarkBuddy/ is inspired by the <code>RunSingleBenchmark</code> from the V8 source.  Here's one of the author's examples:
+
+{% highlight javascript %}
+alert(BenchmarkBuddy.run(Math.random));
+{% endhighlight %}
+
+h3. Benchmark.js
+
+"Benchmark.js":http://github.com/mnoble/Benchmark.js/ is based on Ruby's benchmark library.  It's still a work in progress and isn't currently console-friendly, but when it works it will look like this:
+
+{% highlight javascript %}
+Benchmark.benchmark(function() {
+  for (i = 0; i < 10000000; i++) { }
+});
+{% endhighlight %}
