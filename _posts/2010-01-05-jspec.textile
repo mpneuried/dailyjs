@@ -1,0 +1,95 @@
+---
+layout: post
+title: "JSpec"
+author: Alex Young
+categories: 
+- testing
+---
+
+We recently posted a "unit test roundup":http://dailyjs.com/2009/12/30/unit-testing/, so I noticed that "JSpec":http://github.com/visionmedia/jspec has been updated to version 3.  This version introduces several interesting updates (see the full "change list":http://github.com/visionmedia/jspec/blob/master/History.md):
+
+* Rhino's jar is included so console tests can work without installing extra stuff
+* Added a <code>jspec stats</code> command
+* Subcommand hooks -- checks for spec/commands/*_command.rb
+* Ruby server is now a Sinatra app
+
+JSpec is now version 3.0 and currently has over 200 followers on GitHub, so it's worth checking out.
+
+h3. Syntax Examples
+
+JSpec tests can be written using a custom DSL or a grammar-less JavaScript syntax.  When using the DSL in browser-based tests, be sure to <code>load()</code> tests rather than include the code in script tags.
+
+Tests written with the DSL look like this:
+
+{% highlight javascript %}
+describe 'ShoppingCart'
+  before_each
+    cart = new ShoppingCart
+  end
+
+  describe 'addProducts'
+    it 'should add several products'
+      cart.addProduct('cookie')
+      cart.addProduct('icecream')
+      cart.should.have 2, 'products'
+    end
+  end
+
+  describe 'checkout'
+    it 'should throw an error when checking out with no products'
+      -{ cart.clear().checkout() }.should.throw_error EmptyCart
+    end
+  end
+end
+{% endhighlight %}
+
+JavaScript equivalent:
+
+{% highlight javascript %}
+JSpec.describe('ShoppingCart', function(){
+  before_each(function{
+    cart = new ShoppingCart
+  })
+
+  describe('addProducts', function(){
+    it ('should add several products', function(){
+      cart.addProducts('cookie')
+      cart.addProducts('icecream')
+      expect(cart).to(have, 2, 'products')
+    })
+  })
+
+  describe('checkout', function(){
+    it ('should throw an error when checking out with no products', function(){
+      expect(function(){ cart.clear().checkout() }).to(throw_error, EmptyCart)
+    })
+  })
+})
+{% endhighlight %}
+
+h3. Custom Matchers
+
+Custom matchers can be defined using <code>JSpec.addMatchers</code>.  It's possible to control the error messages.  It's also possible to create sets of macros with similar names:
+
+{% highlight javascript %}
+JSpec.addMatchers({
+  'be disabled selected checked' : function(attr) {
+    return 'jQuery(actual).attr("' + attr + '")'
+  },
+
+  'have type id title alt href src sel rev name target' : function(attr) {
+    return function(actual, value) {
+      return value ? jQuery(actual).attr(attr) ## value:
+                     jQuery(actual).attr(attr)
+    }
+  }
+})
+{% endhighlight %}
+
+h3. Other Features
+
+JSpec includes a command-line tool that can initialise project templates, as well as auto-testing when files are changed.  It can also work with Growl in Mac OS X.  It includes lots of familiar matchers and works well in a browser and console.
+
+h3. Installation
+
+To try JSpec out, you can install it with "RubyGems":http://docs.rubygems.org/ -- <code>gem install jspec</code> and read the docs on "github.com/visionmedia/jspec":http://github.com/visionmedia/jspec.
