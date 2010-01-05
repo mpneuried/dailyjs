@@ -17,7 +17,7 @@ JSpec is now version 3.0 and currently has over 200 followers on GitHub, so it's
 
 h3. Syntax Examples
 
-JSpec tests can be written using a custom DSL or a grammar-less JavaScript syntax.  When using the DSL in browser-based tests, be sure to <code>load()</code> tests rather than include the code in script tags.
+JSpec tests can be written using a custom DSL or a grammar-less JavaScript syntax.  When using the DSL in browser-based tests, be sure to use <code>JSpec.exec()</code> to run tests rather than including the code in script tags (more details are in the README).
 
 Tests written with the DSL look like this:
 
