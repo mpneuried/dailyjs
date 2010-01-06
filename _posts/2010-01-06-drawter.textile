@@ -1,0 +1,18 @@
+
+---
+layout: post
+title: "Drawter"
+author: Alex Young
+categories: 
+- prototyping
+- GUI
+- graphics
+---
+
+!/images/posts/drawter.png!
+
+"Drawter":http://drawter.com/ by "Damian Wielgosik":http://ferrante.pl is a simple tool for drawing HTML interfaces and exporting the results.  It uses jQuery and Damian's own GUI code.
+
+You can draw HTML tags using The _Tagname to draw_ option and the mouse.  To switch between drawing and editing content and CSS, use the _Draw Mode_ and _Edit_ buttons.  There are also menu items at the top of the page -- click _Code_ then _Generate code_ to export your design.
+
+Drawter is a great example of what can be done with JavaScript, but it's also potentially a useful tool.  The author of "Konigi":http://konigi.com/notebook/drawter-drawable-markup-language was already blown away by it, and he's something of a web prototyping tool enthusiast.
