@@ -1,0 +1,39 @@
+---
+layout: post
+title: "ECMAScript 5's Date Extensions"
+author: Alex Young
+categories: 
+- ecmascript
+- date
+---
+
+One of the changes that ECMAScript 5 introduces is extensions to the <code>Date</code> class.  Some of these are very useful -- <code>Date.now</code> and <code>Date.UTC</code> as well as ISO-8601 format support.
+
+Michael J. Ryan has written support for these API changes in "DateExtensions.js":http://frugalcoder.us/post/2010/01/07/EcmaScript-5s-Date-Extensions.aspx so you can get started using them now.
+
+Usage looks like this:
+
+{% highlight javascript %}
+var epoch1 = new Date("1970-01-01T00:00:00.000Z");
+var epoch2 = new Date(0);
+
+if (epoch1.getTime() == epoch2.getTime())
+    alert("Epochs match!");
+    
+alert(epoch1.toString()); //localized date instance of the JS epoch
+alert(epoch2.toISOString()); // "1970-01-01T00:00:00.000Z"
+alert(epoch1 instanceof Date); // true
+alert(Date.UTC(1970,0,1,0,0,0,0)); // 0
+{% endhighlight %}
+
+h3. More on ECMAScript
+
+Other ECMAScript 5 extensions to the base library include:
+
+* <code>bind()</code> that works like "Prototype's bind":http://www.prototypejs.org/api/function/bind
+* A JSON object that supports parsing and generation
+* New object/property extensions: "ECMAScript 5 Objects and Properties":http://ejohn.org/blog/ecmascript-5-objects-and-properties/
+* String now has a <code>trim()</code> method
+* <code>Array</code> gets useful methods like <code>filter()</code> and <code>map()</code>
+
+You can read a PDF of the spec here: "ECMA-262.pdf":http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf
