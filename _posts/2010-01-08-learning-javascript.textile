@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Learning Advanced JavaScript"
+author: Alex Young
+categories:
+- tutorials
+- resources
+- books
+---
+
+Many readers have been asking me how to learn JavaScript beyond simple web interface hacking.  People are transitioning from those who consume JavaScript resources as a way to implement web design to full-blown JavaScript developers -- reaching out beyond jQuery and similar frameworks to discover graphical libraries and unit testing systems.
+
+Here are a few ideas and tips to learn advanced JavaScript.
+
+h3. Prototype
+
+Unlock the power of prototypal inheritance early on.  If you're using a library to write object-oriented JavaScript, try writing a project using only JavaScript's built-in prototypal inheritance.
+
+You'll learn a lot about JavaScript very quickly, and learn to use anonymous functions to elegantly plug the gaps in the language -- using functions as namespaces and other interesting tricks.
+
+You don't actually _need_ OO libraries in JavaScript once you master these techniques.
+
+h3. Mistaken Assumptions
+
+If you're already familiar with C, Java, Ruby, Python and so on you might have incorrect preconceptions about how JavaScript works.
+
+One fun little surprise is block scopes -- or the lack of them.  Blocks don't introduce scope, there's only function-level scope.  If you start a block with <code>for</code> or <code>if</code> and there are <code>var</code> delcarations inside it, those variables will be visible to the entire function.
+
+Another little surprise is the behaviour of the equality operator: <code>==</code> doesn't always behave as you'd expect:
+
+{% highlight javascript %}
+js> '' == '0'
+false
+js> 0 == ''
+true
+{% endhighlight %}
+
+If this has got you worried, I recommend:
+
+* Using "JSLint":http://www.jslint.com/ to check your code
+* Reading "JavaScript: The Good Parts":http://oreilly.com/catalog/9780596517748 by Douglas Crockford
+
+h3. Reading Code
+
+Another way to pick up more advanced JavaScript is to read what other people have written.  There are loads of great JavaScript authors writing open source code:
+
+* "John Resig":http://ejohn.org/ has a great blog and exciting projects like jQuery, Processing.js and Sizzle.js
+* "Sam Stephenson":http://github.com/sstephenson wrote Prototype and a bunch of other cool stuff like Sprockets
+* "Thomas Fuchs":http://github.com/madrobby is the author of scriptaculous -- his code is a good source to learn how animation in JavaScript/HTML works (try reading emile.js)
+* "Ryan Dahl":http://github.com/ry who wrote node.js has some interesting projects
+* "TJ Holowaychuk":http://github.com/visionmedia/ has written a tonne of interesting projects, like ext.js, express and jspec
+
+A good way to learn techniques this way is to look out for common patterns, then figure out how they work when you need them.  For example, if you like the way JSpec's API has its own DSL and you'd like to write a JavaScript DSL for a project, pick apart JSpec and see how it works.
+
+h3. Authors
+
+Through my own years of JavaScript hacking, I've always gone back to "Douglas Crockford's":http://javascript.crockford.com/ work.
+
+"David Flanagan":http://www.davidflanagan.com/, the author of "JavaScript: The Definitive Guide":http://oreilly.com/catalog/9780596000486 is another authority on the topic.  He blogs about JavaScript and has recently written about CommonJS.
+
