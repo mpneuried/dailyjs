@@ -68,3 +68,5 @@ ul.related-posts span.tags a { text-decoration: none; background-color: #f8f8ff;
 
 #dsq-add-new-comment { font-size: 24px }
 #comments { margin-top: 1em; float: left; width: 100% }
+
+table.list td { border: 1px solid #666; padding: 5px }

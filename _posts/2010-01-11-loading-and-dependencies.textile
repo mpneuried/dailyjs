@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Script Loading and Dependencies"
+author: Alex Young
+categories: 
+- dependencies
+- loading
+---
+
+I've created a few projects that are self-contained HTML/JavaScript files -- small utilities that are easy to share or stash on a USB stick.  When writing this type of project I like to use a script loader like "Google's AJAX Libraries":http://code.google.com/apis/ajaxlibs/ so I don't need to bundle separate files.  Another use case is for very complex projects: Google's API allows you to easily switch between different library versions which is great for testing against a new version of a big library like jQuery.
+
+h3. Dominoes
+
+If you have a place to host code you might still want to use a script loader.  I've recently been looking at "javascript-dominoes":http://code.google.com/p/javascript-dominoes/ which includes script loading, aliasing and dependencies.  The dependency engine in particular allows you to express rules that permit scripts to be loaded concurrently, which could improve the load times of your pages.
+
+The following examples are from the "hands on":http://code.google.com/p/javascript-dominoes/wiki/HandsOn documentation on the javascript-dominoes site.
+
+h3. Script Loading
+
+Basic usage is like this:
+
+{% highlight javascript %}
+dominoes("http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" , function() {
+    // jQuery dependant code goes here
+} );
+{% endhighlight %}
+
+If this is called twice dominoes will automatically detect that the script has already been loaded.
+
+h3. Substitution 
+
+Properties can be defined to shorten configuration:
+
+{% highlight javascript %}
+dominoes.property("mySiteJSPath" , "http://mySite.org/u/kio/67/long/is/long/js");
+dominoes("${mySiteJSPath}/script1.js" , function1);
+{% endhighlight %}
+
+h3. Dependencies
+
+If you have a script that does not depend on jQuery, you can tell dominoes to concurrently load the scripts:
+
+{% highlight javascript %}
+dominoes("${jQueryURL} ./js/myScript/js" , myFunction);
+{% endhighlight %}
+
+Dependencies can be expressed using operators:
+
+<table class="list"><tr><td> action1 action2 </td><td> action1 &amp; action2 are independant </td></tr> <tr><td> action1 <strong>&gt;</strong> action2 </td><td> action2 depends on the completion of action1 </td></tr> <tr><td> action1 <strong>&gt;|</strong> action2 </td><td> action2 depends on the completion of action1 and on the DOM being ready for manipulation </td></tr> <tr><td> <strong>{</strong> sub-rule <strong>}</strong> </td><td> sub-rule (the completion of this action is determined by the completion of the whole sub-rule) </td></tr> <tr><td> <code>{{ "{{" }}</code> optional-sub-rule <code>}}</code> </td><td> optional sub-rule (same as a normal sub-rule <strong>but</strong> the completion of this action is not needed down the line, i.e. fire &amp; forget) </td></tr> </table>
+
