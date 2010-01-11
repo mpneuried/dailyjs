@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "CoffeeScript - A fun little language"
+title: "CoffeeScript - A Fun Little Language"
 author: Ric Roberts
 categories:
 - libraries
