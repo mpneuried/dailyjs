@@ -6,9 +6,9 @@ categories:
 - libraries
 ---
 
-Jeremy Ashkenas has just released version 0.2.3 of his experimental "CoffeeScript":http://jashkenas.github.com/coffee-script/ language.  Jeremy describes it as "JavaScript's less ostentatious kid brother — the same genes, roughly the same height, but a different sense of style".  
+"Jeremy Ashkenas":http://github.com/jashkenas/ has just released version 0.2.3 of his experimental "CoffeeScript":http://jashkenas.github.com/coffee-script/ language.  Jeremy describes it as "JavaScript's less ostentatious kid brother — the same genes, roughly the same height, but a different sense of style".  
 
-Most statements in CoffeeScript have their analogues in Javascript: CoffeeScript just provides an alternative way to express them.
+Most statements in CoffeeScript have their analogues in Javascript: CoffeeScript just provides an alternative way to express them.  For me, CoffeeScript brings to mind certain aspects of JSON, Ruby, and maybe Python too.
 
 CoffeeScript is actually a Ruby Library (available as a "gem":http://gemcutter.org/gems/coffee-script) that provides a <code>coffee</code> command that can compile _.coffee_ files into Javascript.
 
