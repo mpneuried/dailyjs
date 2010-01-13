@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Gordon: A Flash JavaScript Runtime"
+author: Alex Young
+categories: 
+- bbc glow
+- tutorials
+---
+
+"Gordon":http://github.com/tobeytailor/gordon is a Flash JavaScript runtime written by Tobey Tailor.  It currently supports the SWF 3 action model, which means it doesn't yet support ActionScript Virtual Machine 2 (introduced by Flash 9).  Tobey said a future version of Gordon will have ActionScript Virtual Machine 2 support (read more on Twitter: "@tobeytailor":http://twitter.com/tobeytailor).
+
+Gordon parses the SWF file and then draws using SVG and JavaScript.  It works well in Firefox and Safari, which also means it works on the "iPhone":http://twitpic.com/xxmi2.
+
+There are some demos on "paulirish.com/work/gordon/demos":http://paulirish.com/work/gordon/demos/ that illustrate SVG support and animation.
+
+Usage looks like this:
+
+{% highlight javascript %}
+new Gordon.Movie('trip.swf', {id: 'stage', width: 500, height: 400})
+{% endhighlight %}
+
+One thing I found interesting about Gordon is how it handles SWF file decoding.  Tobey uses a zip library in "inflate.js":http://github.com/tobeytailor/gordon/blob/master/src/inflate.js (written by Masanao Izumo) to decompress the file from a URL, then parse it.
