@@ -1,0 +1,28 @@
+---
+layout: post
+title: "JavaScript 3D: Pre3D"
+author: Alex Young
+categories: 
+- javascript
+- graphics
+---
+
+!/images/posts/lorenz.png!
+
+WebGL is coming, and is in fact already present in developer preview builds of Firefox, WebKit nightly and Chrome.  Technically it's possible to draw 3D graphics without WebGL.  The "Pre3d":http://github.com/deanm/pre3d/ library by "Dean McNamee":http://github.com/deanm/ does this, citing "Kragen's torus":http://www.canonical.org/~kragen/sw/torus.html as inspiration.
+
+It has a simple API, with syntax like this:
+
+{% highlight javascript %}
+var path = new Pre3d.Path();
+path.points = new Array(size);
+path.curves = new Array(size);
+{% endhighlight %}
+
+Dean has some interesting comments in the source for "pre3d.js":http://github.com/deanm/pre3d/blob/master/pre3d.js with details on his design philosophy:
+
+bq. Because Arrays always go through the key lookup path, and there is no way to do a named lookup, it is faster to use objects than arrays for fixed size storage. You can think of this like the difference between a List and Tuple in languages like python
+
+h3. What about WebGL?
+
+If you're dying to start using WebGL now, I found an excellent blog called "Learning WebGL":http://learningwebgl.com/.  It has thorough lessons and a "wiki":http://learningwebgl.com/cookbook/index.php/Main_Page.
