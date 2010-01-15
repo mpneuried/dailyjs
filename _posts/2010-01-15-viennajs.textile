@@ -1,0 +1,17 @@
+---
+layout: post
+title: Vienna.js 
+author: Alex Young 
+categories: 
+- usergroups
+- meetups
+---
+
+Thomas Fuchs has announced the first "Vienna.js":http://mir.aculo.us/2010/01/15/vienna-js-vienna-javascript-user-group/ -- a JavaScript meet up in Vienna, Austria on "February 10, 2010, at Metalab":http://anyvite.com/9hyg7n9elw.
+
+They've got an official site at "viennajs.org":http://viennajs.org/ that features a fancy interactive JavaScript animation.  They haven't yet announced any talks but I'm sure they'll attract some interesting folks.
+
+Meanwhile there's also a "London JavaScript group on Meetup":http://javascript.meetup.com/3/, with a meeting planned for January 21st.  The group currently has 208 members so they may be able to pull something decent together.
+
+Do you have a local JavaScript meet up?  Are you planning any?  Let me know in the comments!
+
