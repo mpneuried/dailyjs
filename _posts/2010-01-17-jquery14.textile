@@ -7,7 +7,7 @@ categories:
 - news
 ---
 
-Last week, version 1.4 of the popular "jQuery":http://jquery.com/ library was released.  The new release includes some big performance gains, alongside other cool stuff like:
+Last week, version 1.4 of the popular "jQuery":http://jquery.com/ library was released.  The new version includes some big performance gains, alongside other cool stuff like:
 
 * The ability to use ".attr":http://api.jquery.com/attr -style setter functions for all setters.
 * Rails-style "nested-parameter serialization":http://api.jquery.com/jQuery.param/ for Ajax calls.
