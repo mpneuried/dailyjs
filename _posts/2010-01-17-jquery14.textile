@@ -1,0 +1,50 @@
+---
+layout: post
+title: jQuery 1.4 Released 
+author: Ric Roberts
+categories: 
+- libraries
+- news
+---
+
+Last week, version 1.4 of the popular "jQuery":http://jquery.com/ library was released.  The new release includes some big performance gains, alongside other cool stuff like:
+
+* The ability to use ".attr":http://api.jquery.com/attr -style setter functions for all setters.
+* Rails-style "nested-parameter serialization":http://api.jquery.com/jQuery.param/ for Ajax calls.
+* Quick Element Construction: You can now pass in an object to add attributes and events at element-creation time:
+{% highlight js %}
+jQuery("<div/>", {
+    id: "foo",
+    css: {
+        height: "50px",
+        width: "50px",
+        color: "blue",
+        backgroundColor: "#ccc"
+    },
+    click: function() {
+       $(this).css("backgroundColor", "red"); 
+    }
+}).appendTo("body");
+{% endhighlight %}
+
+* Per-property Easing: You can now "specify easing for individual properties":http://api.jquery.com/animate/#per-property-easing of an effect.
+* The new "jQuery.proxy()":http://api.jquery.com/jQuery.proxy/ method allows you to bind <code>this</code> inside an event-handler to a specific object.
+* You can now "bind":http://api.jquery.com/bind many events to an element by passing an object containing those events:
+{% highlight js %}
+$("div.test").bind({
+  click: function(){
+    $(this).addClass("active");
+  },
+  mouseenter: function(){
+    $(this).addClass("inside");
+  },
+  mouseleave: function(){
+    $(this).removeClass("inside");
+  }
+});
+{% endhighlight %}
+
+* All events can now be ".live":http://api.jquery.com/live/ events.
+* Some new DOM-traversal, manipulation and utility functions have been introduced.
+
+The "14 Days of jQuery":http://jquery14.com/ website, created to celebrate the new release, covers "what's new":http://jquery14.com/day-01/jquery-14 in more detail.
