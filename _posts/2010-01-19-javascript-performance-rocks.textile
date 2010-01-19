@@ -53,7 +53,7 @@ The chapter on inlining is interesting.  It explains when it's safe to inline fo
 
 h3. Runtime
 
-This part covers the really juicy stuff -- the part that many of the readers of this blog would think of first when looking at a book about JavaScript performance.  It covers everything from the use of operators and expression tuning, to run away timers and the advantages of JSON over XML.
+This part covers the really juicy stuff -- the part that many of the readers of this blog would think of first when looking for a book about JavaScript performance.  It covers everything from the use of operators and expression tuning, to run away timers and the advantages of JSON over XML.
 
 This chapter includes many benchmarks and examples.  Even basic statements are compared, like <code>if</code> vs. <code>switch</code>.  Use of <code>(function (){ })();</code> is explored, with performance and style notes.  Even loop unrolling is covered, which is fairly low-level in terms of performance tuning but still useful.
 
