@@ -67,7 +67,7 @@ h3. Conclusion
 
 <img src="/images/posts/dom-monster.png" style="background: transparent; border: none; float: right" alt="" />
 
-This book is a treasure trove for web app developers.  It covers the whole life-cycle: UI design, JavaScript performance, server-side and infrastructure issues.  It's written in a casual tone, it makes deeply technical aspects of JavaScript performance easy to understand.
+This book is a treasure trove for web app developers.  It covers the whole life-cycle: UI design, JavaScript performance, server-side and infrastructure issues.  It's written in a casual tone, and the authors make deeply technical aspects of JavaScript performance easy to understand.
 
 If your web app is slow you're going to love it -- if you're a hardcore JavaScript hacker exploring "node.js":http://nodejs.org/ and beyond it might not appeal as much (depending on the day job).
 
