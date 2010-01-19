@@ -1,0 +1,72 @@
+---
+layout: post
+title: "JavaScript Performance Rocks: Review"
+author: Alex Young
+categories: 
+- books
+- performance
+- benchmarks
+---
+
+"JavaScript Performance Rocks!":https://www.e-junkie.com/ecom/gb.php?cl=30217&c=ib&aff=101839 is written by Amy Hoy &amp; Thomas Fuchs (of "Script.aculo.us":http://script.aculo.us/ fame).  Since Jeff Bezos cited the link between page load times and Amazon's sales performance, it seems like everyone wants to make faster pages.  This book is a set of PDFs and bundled tools, benchmarks and demos to help you write faster JavaScript.
+
+!/images/posts/jsperf.png!
+
+A copy of the book will set you back $29, and your company can buy a site license for 100 individuals for $249.  Your $29 gets you:
+
+* 4 PDFs, with diagrams and screenshots
+* Benchmarks, exploring the performance of different language-oriented features and demonstrating how to compare algorithms
+* Demos relating to the text
+* The DOM Monster bookmarklet that helps analyse the DOM and other features of the page you're on
+* An example of how to use console.log
+
+h3. Book Structure
+
+The book is split into 4 parts:
+
+# Understanding and Measuring Performance (71 pages)
+# Loadtime (74 pages)
+# Runtime (110 pages)
+# Interface Coping Strategies (27 pages)
+
+Each of these parts is split into chapters.  Chapters are usually bite-sized essays -- 2-3 pages in size.  Each part is 30-100 pages.
+
+h3. Understanding and Measuring Performance
+
+This part introduces performance in the context of web apps.  It helps you decide on how to strike the balance between things you can control, those you can't, those that the business requires and those that your customers require.  Here's a choice quote:
+
+bq. Here you must rely on the inexact science of knowing how much crap people will take before they leave.
+
+This sums up the tone of the book -- it's casual but without being inaccurate or annoying.  The authors go on to explain the differences between the major versions of JavaScript, engines, and even includes benchmarks for major browsers, iPhone, Android and Palm Pre.  This is where you can go to get a graph to explain to your boss or client why IE is such a problem!
+
+The next chapter, _Is Your App Behaving Badly?_ helps you determine if your app has performance issues.  There's _Toolbox_ chapter exploring tools like Firebug and YSlow, and even some help for IE.  The next chapter explains how to use the DOM Monster, combining this with other tools to get into the heart of the causes of performance issues.
+
+There are also chapters on inspectors and how to use them for profiling.  Safari's Web Inspector and Firebug are used for detailed profiling examples.
+
+The final chapters explain how to write your own benchmarking code, with common pitfalls and example code.
+
+h3. Loadtime
+
+This part explains load order, caching and concatenation.  Sprockets is used as an example of a tool that does concatenation.  There is also some detailed coverage on how to set up Apache to cache properly, with solutions for gotchas like JSON and generated JavaScript.
+
+The chapter on inlining is interesting.  It explains when it's safe to inline for performance reasons, and shows how to do it whilst retaining some level of sanity.  It also talks about pre-caching -- loading JavaScript and other resources while your user is doing a slow action.  Similarly, _Chapter 9: Reduce Complexity_ gives strategies for reducing the overheads introduced by DOM elements and browser-based solutions.
+
+h3. Runtime
+
+This part covers the really juicy stuff -- the part that many of the readers of this blog would think of first when looking at a book about JavaScript performance.  It covers everything from the use of operators and expression tuning, to run away timers and the advantages of JSON over XML.
+
+This chapter includes many benchmarks and examples.  Even basic statements are compared, like <code>if</code> vs. <code>switch</code>.  Use of <code>(function (){ })();</code> is explored, with performance and style notes.  Even loop unrolling is covered, which is fairly low-level in terms of performance tuning but still useful.
+
+There's also a chapter on iPhone tips and tricks.  If you're a Cocoa iPhone developer and you use WebKit to wrap content or functionality, or if you're a web developer targetting the iPhone browser, there are some interesting tips in here.
+
+h3. UI Coping
+
+This part gives advice on how to structure your app to perform well, even when technical fixes might not be possible.  It gives overall architectural advice, and design techniques like progress bars and loading screens.  This part is lighter on technical examples but has useful tips for getting JavaScript developers and designers to create somethng customers will enjoy to use.
+
+h3. Conclusion
+
+This book is a treasure trove for web app developers.  It covers the whole life-cycle: UI design, JavaScript performance, server-side and infrastructure issues.  It's written in a casual tone, it makes deeply technical aspects of JavaScript performance easy to understand.
+
+If your web app is slow you're going to love it -- if you're a hardcore JavaScript hacker exploring "node.js":http://nodejs.org/ and beyond it might not appeal as much (depending on the day job).
+
+*Disclaimer*: We've got affiliate links for JavaScript Performance Rocks --  although I bought my own copy with my hard-earned cash and I wouldn't post a review of something that wasn't worth buying!  Buying a copy through the affiliant link will also help support DailyJS, which currently makes use negative dollars.
