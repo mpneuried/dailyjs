@@ -39,7 +39,7 @@ bq. Here you must rely on the inexact science of knowing how much crap people wi
 
 This sums up the tone of the book -- it's casual but without being inaccurate or annoying.  The authors go on to explain the differences between the major versions of JavaScript, engines, and even includes benchmarks for major browsers, iPhone, Android and Palm Pre.  This is where you can go to get a graph to explain to your boss or client why IE is such a problem!
 
-The next chapter, _Is Your App Behaving Badly?_ helps you determine if your app has performance issues.  There's _Toolbox_ chapter exploring tools like Firebug and YSlow, and even some help for IE.  The next chapter explains how to use the DOM Monster, combining this with other tools to get into the heart of the causes of performance issues.
+The next chapter, _Is Your App Behaving Badly?_ helps you determine if your app has performance issues.  The _Toolbox_ chapter explores tools like Firebug and YSlow, and even has some help for IE.  The next chapter explains how to use the DOM Monster, and how to combine it with other tools.  This chapter really helps to get to the heart of a lot of DOM-based performance issues -- or at least understand why they're happening.
 
 There are also chapters on inspectors and how to use them for profiling.  Safari's Web Inspector and Firebug are used for detailed profiling examples.
 
@@ -47,9 +47,9 @@ The final chapters explain how to write your own benchmarking code, with common 
 
 h3. Loadtime
 
-This part explains load order, caching and concatenation.  Sprockets is used as an example of a tool that does concatenation.  There is also some detailed coverage on how to set up Apache to cache properly, with solutions for gotchas like JSON and generated JavaScript.
+This part explains load order, caching and concatenation.  Sprockets is used as an example of a tool that does concatenation.  There's also detailed coverage on how to set up Apache to cache properly, with solutions for gotchas like JSON and generated JavaScript.
 
-The chapter on inlining is interesting.  It explains when it's safe to inline for performance reasons, and shows how to do it whilst retaining some level of sanity.  It also talks about pre-caching -- loading JavaScript and other resources while your user is doing a slow action.  Similarly, _Chapter 9: Reduce Complexity_ gives strategies for reducing the overheads introduced by DOM elements and browser-based solutions.
+The chapter on inlining is interesting.  It explains when it's safe to inline for performance reasons, and shows how to do it whilst retaining some level of sanity.  It also talks about pre-caching -- loading JavaScript and other resources while the user is doing something relatively slow (like filling out a form).  Similarly, _Chapter 9: Reduce Complexity_ gives strategies for reducing the overheads introduced by DOM elements and browser-based solutions.
 
 h3. Runtime
 
