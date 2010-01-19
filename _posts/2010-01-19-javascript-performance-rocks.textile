@@ -57,11 +57,11 @@ This part covers the really juicy stuff -- the part that many of the readers of 
 
 This chapter includes many benchmarks and examples.  Even basic statements are compared, like <code>if</code> vs. <code>switch</code>.  Use of <code>(function (){ })();</code> is explored, with performance and style notes.  Even loop unrolling is covered, which is fairly low-level in terms of performance tuning but still useful.
 
-There's also a chapter on iPhone tips and tricks.  This is useful if you're a Cocoa iPhone developer and you use WebKit to wrap content or functionality, or if you're a web developer targetting the iPhone browser.
+There's also a chapter on iPhone tips and tricks.  This is useful if you're a Cocoa iPhone developer and you use WebKit to wrap content or functionality, or if you're a web developer targeting the iPhone browser.
 
 h3. UI Coping
 
-This part gives advice on how to structure your app to perform well, even when technical fixes might not be possible.  It gives overall architectural advice, and design techniques like progress bars and loading screens.  This part is lighter on technical examples but has useful tips for getting JavaScript developers and designers to create somethng customers will enjoy to use.
+This part gives advice on how to structure your app to perform well, even when technical fixes might not be possible.  It gives overall architectural advice, and design techniques like progress bars and loading screens.  This part is lighter on technical examples but has useful tips for getting JavaScript developers and designers to create something customers will enjoy to use.
 
 h3. Conclusion
 
@@ -71,4 +71,4 @@ This book is a treasure trove for web app developers.  It covers the whole life-
 
 If your web app is slow you're going to love it -- if you're a hardcore JavaScript hacker exploring "node.js":http://nodejs.org/ and beyond it might not appeal as much (depending on the day job).
 
-*Disclaimer*: We've got affiliate links for JavaScript Performance Rocks --  although I bought my own copy with my hard-earned cash and I wouldn't post a review of something that wasn't worth buying!  Buying a copy through the affiliant link will also help support DailyJS, which currently makes use negative dollars.
+*Disclaimer*: We've got affiliate links for JavaScript Performance Rocks --  although I bought my own copy with my hard-earned cash and I wouldn't post a review of something that wasn't worth buying!  Buying a copy through the affiliate link will also help support DailyJS, which currently makes use negative dollars.
