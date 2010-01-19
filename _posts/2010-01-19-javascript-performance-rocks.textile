@@ -57,7 +57,7 @@ This part covers the really juicy stuff -- the part that many of the readers of 
 
 This chapter includes many benchmarks and examples.  Even basic statements are compared, like <code>if</code> vs. <code>switch</code>.  Use of <code>(function (){ })();</code> is explored, with performance and style notes.  Even loop unrolling is covered, which is fairly low-level in terms of performance tuning but still useful.
 
-There's also a chapter on iPhone tips and tricks.  If you're a Cocoa iPhone developer and you use WebKit to wrap content or functionality, or if you're a web developer targetting the iPhone browser, there are some interesting tips in here.
+There's also a chapter on iPhone tips and tricks.  This is useful if you're a Cocoa iPhone developer and you use WebKit to wrap content or functionality, or if you're a web developer targetting the iPhone browser.
 
 h3. UI Coping
 
