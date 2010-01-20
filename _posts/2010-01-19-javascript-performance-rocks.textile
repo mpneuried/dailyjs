@@ -12,7 +12,7 @@ categories:
 
 !/images/posts/jsperf.png!
 
-A copy of the book will set you back $29, and your company can buy a site license for 100 individuals for $249.  Your $29 gets you:
+A copy of the book will set you back $39, and your company can buy a site license for 100 individuals for $249.  Your $39 gets you:
 
 * 4 PDFs, with diagrams and screenshots
 * Benchmarks, exploring the performance of different language-oriented features and demonstrating how to compare algorithms
