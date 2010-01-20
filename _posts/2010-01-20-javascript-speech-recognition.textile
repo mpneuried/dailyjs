@@ -1,0 +1,36 @@
+---
+layout: post
+title: "JavaScript Speech Recognition"
+author: Alex Young
+categories: 
+- speech
+- APIs
+---
+
+Elias sent us a link to his JavaScript speech recognition API at "speechapi.com":http://www.speechapi.com/.  It uses Flash to record audio and sends it to a server, then the server returns suggestions to a callback.  You have to register to use the API.  Using the API looks like this:
+
+{% highlight javascript %}
+<script type="text/javascript" src="http://www.speechapi.com/speechle.js"></script>
+<script language="JavaScript" type="text/javascript">
+var speechle;
+
+function TheSettings() {
+  var info = {'Userid':'eli', 'Logging':'true'};
+  var eventCallbacks={'OnResult':'result', 'OnLogging':'logging', 'OnFinishTTS':'finishTTS'};
+  var grammar={'Text':'one,two', 'Type':'simple'};
+  speechle = new SPEECHLE(info,eventCallbacks,grammar);
+}
+{% endhighlight %}
+
+The site has a few demos.  One which worked pretty reliably for me was the "random quiz":http://www.speechle.com/random.
+
+A similar technology is "WAMI":http://wami.csail.mit.edu/ which uses Java instead.  You can try a demo in the "WAMI sandbox":http://wami.csail.mit.edu/sandbox.php.
+
+h3. Standards
+
+There are W3C standards relating to speech recognition:
+
+* "Speech Recognition Grammar Specification":http://www.w3.org/TR/speech-grammar/
+* "Voice Extensible Markup Language":http://www.w3.org/TR/voicexml30/ -- a modular XML language for creating interactive media dialogs that feature synthesized speech, recognition of spoken and DTMF key input
+
+See the "Voice Browser Activity":http://www.w3.org/Voice/ for a centralised pool of related W3C resources. 
