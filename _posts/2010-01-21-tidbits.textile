@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "DailyJS: Tips and Links"
+title: "Tips and Links"
 author: Alex Young
 categories: 
 - feedback
