@@ -1,0 +1,43 @@
+---
+layout: post
+title: "DailyJS: Tips and Links"
+author: Alex Young
+categories: 
+- feedback
+- tips
+---
+
+I've got a bunch of JavaScript-related bookmarks to share.  Things that don't belong in a post by themselves, collected from reader comments and Twitter.
+
+h3. Unit Testing
+
+Jakub Suder wrote a "detailed article on JavaScript unit testing":http://psionides.jogger.pl/2009/05/10/javascript-unit-testing/.  This was found in a comment on my "JavaScript Unit Testing":http://dailyjs.com/2009/12/30/unit-testing/ article.
+
+h3. Learning Advanced JavaScript
+
+The consensus seemed to be that "David Flanagan's Definitive Guide":http://www.davidflanagan.com/javascript5/ is one of the best books for studying JavaScript, according to comments on "Learning Advanced JavaScript":http://dailyjs.com/2010/01/08/learning-javascript/.
+
+h3. Firefox 3.6
+
+"Firefox 3.6 is out today":http://www.mozilla.com/en-US/firefox/personal.html.  There's a video overview here: "What's New in Firefox 3.6":http://www.youtube.com/watch?v=04Q9tuSaCYA, and "full release notes":http://www.mozilla.com/en-US/firefox/3.6/releasenotes/:
+
+* Support for new DOM and HTML5 specifications including the Drag & Drop API and the File API
+* Support for new CSS attributes such as gradients, background sizing, and pointer events
+* Continued support for downloadable web fonts using the new WOFF font format
+* The ability for web developers to indicate that scripts should run "asynchronously":https://bugzilla.mozilla.org/show_bug.cgi?id=503481 to speed up page load times
+
+h3. Gordon
+
+Everyone still seems fascinated with the JavaScript Flash renderer, "Gordon":http://github.com/tobeytailor/gordon/.  The GitHub repo now has over 1000 followers -- it's one of the most popular JavaScript projects on GitHub.
+
+h3. Atlas and Cappuccino
+
+I wrote about "Atlas":http://280atlas.com/ in "Atlas: Your First Tutorial":http://dailyjs.com/2009/11/16/atlas/.  The beta programme is still rolling on, and it looks like "Cappuccino":http://cappuccino.org/ is getting closer to version 0.8.
+
+h3. PostageApp
+
+"PostageApp":http://postageapp.com/ is a bulk email service that targets web developers, and has a JSON-based API so it should be easy for JavaScript developers to use.  I saw this in a "tweet from dhh":http://twitter.com/dhh/status/8039864419.
+
+h3. Thanks
+
+We got some positive feedback on our "JavaScript Performance Rocks!":http://dailyjs.com/2010/01/19/javascript-performance-rocks/ review.  Thanks for the referrals, you'll be handsomely rewarded with more articles!
