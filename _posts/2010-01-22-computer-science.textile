@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Computer Science in JavaScript"
+author: Alex Young
+categories: 
+- algorithms
+- programming
+---
+
+"Computer Science in JavaScript":http://github.com/nzakas/computer-science-in-javascript/ is a set of classic computer science algorithms implemented in JavaScript.  To download, use git:
+
+{% highlight sh %}
+git clone git://github.com/nzakas/computer-science-in-javascript.git
+{% endhighlight %}
+
+This will download a set of scripts that implement base64, linked lists, binary tree search, sorting, searching and checksums.  These actually cover the first year of the computing degree that I studied -- the basics of data structures, algorithms and encoding.
+
+Of particular interest to coming of age JavaScript hackers will be the linked list implementations.  The developer, "Nicholas C. Zakas":http://www.nczonline.net/ has even included unit tests (Written with YUI).  The scripts include comments with explanations of the methods used, so it's best to check out the code and read it if you want to explore this collection.
