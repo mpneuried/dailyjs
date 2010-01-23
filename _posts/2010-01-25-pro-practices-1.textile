@@ -1,0 +1,129 @@
+---
+layout: post
+title: "Park your Horse, Code Cowboy: Professional JavaScript Workflows, Part 1"
+author: Amy Hoy
+categories: 
+- programming
+- tools
+- deployment
+- workflow
+- practices
+---
+
+When it comes to professional practices, is your JavaScript always stuck with the short end of the stick?
+
+Take this simple quiz to find out. Do you...
+
+* Break up and organize your code into small, easily digestible files?
+* Keep only one canonical copy of third-party libraries?
+* Use a deployment workflow, to concatenate and minify automatically?
+* Automatically generate documentation?
+* Unit test your business logic?
+
+Lemme guess—_sometimes_, _no_, _not really_, _no_, and _only when something breaks_.
+
+Even the most nitpicky developers tend to treat JavaScript like a red-headed step language. JavaScript is indeed a language that rose from the ashes of heinous hackery. But this is 2010; JavaScript is all grown up now. 
+
+There's never been a better time to learn to treat it that way.
+
+h3. Welcome to the Pro Workflows Series, part 1
+In this series, we'll talk about tools & techniques you can use to cover those No's, and cut a lot of strife & embarrassment from your JavaScript experience.
+
+h1. Part 1: Break up & organize your code
+Spaghetti, with meatballs: Great on your plate, not in your code. Structure is every programmer's best friend—and that applies to JavaScript, too. 
+
+If your project's got more than about 100 lines of JavaScript, you should consider breaking it up. Group your code into files by "topic," function, or objects (e.g. accounts, DOM, CreditCard, etc.). If you've got lots of those, further structure them in suitable directories.
+
+Here's an example from my app, Freckle (before and after):
+
+###
+
+A place for everything, and everything in its place. It'll be easy to find the code you need. 
+
+|_. Pros |_. Cons |
+| Easy to find code | A bazillion script tags |
+| Easy to skim      | Annoying to distribute |
+| Easy to jump around your codebase |  |
+| Easier to grow |  |
+
+As you can see, the benefits are many... and the downsides have to do only with the fact that, well, now you have a bunch of small files. It's not fun maintaining a bevvy of script tags in your project. 
+
+The good news: This is a problem we can fix directly.
+
+h2. Breaking Up Ain't Hard to Do: Tools
+There are two approaches for solving the "too many script tags" problem:
+
+# Client-side loading tools
+# Server-side concatenation tools
+
+Read on for the skinny on each approach, the best tools to use, indicators and counter-indicators.
+
+h3. Client-side loading tools
+*The approach:* Use a library to load your JavaScript files for you. Declare which source files will be loaded, and in which order, using a nice JavaScript-based syntax (rather than copying & pasting script tags over and over). 
+
+*The best tool:* "LAB.js":http://labjs.com/. It loads your script files in parallel (while honoring dependencies), so it should offer improved performance over what its author calls "script tag soup." And did I mention it's prettier than script tag soup, too? And by far easier to maintain. (See that code sample below!)
+
+*When to use:* If you absolutely can't use a server-side tool, then you should use "LAB.js":http://labjs.com/. Or, if you're deploying an app to an environment where speed is truly not an issue (e.g. an internal or local application, where everyone has super-high bandwidth and/or a short hop to the server). 
+
+*Counter-indications:* If your code uses @document.write()@ or you use a framework with "unsafe DOM-ready detection." Or if load-time performance is very important.
+
+*Sample code:*
+
+{% highlight %}
+
+<script>
+   $LAB
+   .script("framework.js").wait()
+   .script("plugin.framework.js")
+   .script("myplugin.framework.js").wait()
+   .script("init.js");
+</script>
+
+{% endhighlight %}
+
+h3. Server-side concatenation tools
+*The approach:* Create @require()@-type behavior in JavaScript. Have one master file that strings together (@require()@s) all the others, in order. Or even include snippets in the middle of other code, like inside objects. Use this to serve JavaScript as a single file (either on deploy, or by page request, with caching). 
+
+*The best tool:* "Sprockets":http://getsprockets.com/. "Sprockets":http://getsprockets.com/ is a Ruby-based pre-processor that your deployment workflow will love. No deployment workflow? Sprockets also comes in other flavors: a "Ruby on Rails plugin":http://github.com/sstephenson/sprockets-rails (official), and a "couple PHP ports":http://cakealot.com/2009/05/check-ma-sprockets/ (unofficial), for concatenating on page request. 
+
+*Bonus:* use Sprockets to store just one copy of third-party code (like your fave library) on your computer, and reuse it in all your projects by "remote" inclusion. Finally, "Sprockets":http://getsprockets.com/ can automatically minify and gzip your code after it does its concatenation thing.
+
+*When to use:* You've got command-line fu, and especially if you already do have a deployment workflow (or deploy rarely). If you can use the Rails or PHP plugin for your dev time, or if you feel like porting its (simple, clear) functionality to your own language of choice. You need the absolute best loadtime performance.
+
+*Counter-indications:* You don't care about download performance, or it's simply too aggravating to add "Sprockets":http://getsprockets.com/ to your workflow for whatever reason. If you are allergic to Ruby (and PHP).
+
+*Sample code:*
+
+In your JavaScript:
+
+{% highlight %}
+
+// require 'myOtherJavaScript'
+// require <prototype> 
+
+{% endhighlight %}
+
+On the command-line:
+
+{% highlight %}
+
+$ sprocketize -I vendor/sprockets/prototype/src \
+              --asset-root=public \
+              app/javascripts/*.js > public/sprockets.js
+
+{% endhighlight %}
+
+This sample shows off the "reuse" of a single Prototype.js library, to boot.
+
+h2. Load or Concatenate: Which one's for you?
+Now you've got the run-down on both approaches, are you still unsure which is the right choice for you? Maybe this will help:
+
+"LAB.js":http://labjs.com/ is a serious effort and a very well-made tool, written by Kyle Simpson and Steve Souders. It offers performance improvement over multiple script tags, by loading JavaScript essentially "in the background" while the rest of the page continues to load. It's great at what it does.
+
+But no client-side loader can offer as much of a performance improvement as a server-side tool. No amount of parallelization can perform better than crushing all your JavaScript into a single file. (Especially once you minify it.) Sprockets has the advantage of having nothing else to maintain, to use its @require()@ functionality. You can just slot in those @require()@ statements where you need 'em.
+
+Either way, however, the pay-off for a clean, compartmentalized code base is worth it... pardner.
+
+_Next week:  How to use "Sprockets":http://getsprockets.com/. Subscribe so you don't miss a thing!_
+
+bq. *"Amy Hoy":http://slash7.com* is the co-author of "JavaScript Performance Rocks!":http://jsrocks.com/ (read "the DailyJS review":http://dailyjs.com/2010/01/19/javascript-performance-rocks/ )—which has a lot more about Sprockets, and other speed-related topics—and a lover of all things JavaScript, as well as cowboy jokes.
