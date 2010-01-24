@@ -6,7 +6,7 @@ title: A JavaScript Blog
 <div class="posts">
   {% for post in paginator.posts %}
     <div class="post-inner">
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      <h2><a href="{{ post.url }}">{% if post.display-title %}{{ post.display-title }} {% else %}{{ post.title }}{% endif %}</a></h2>
       <div class="meta">
         <span class="date">{{ post.date | date_to_string }}</span>
         | <span class="author">By {{ post.author }}</span>

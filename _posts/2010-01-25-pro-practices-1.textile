@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Park your Horse, Code Cowboy: Professional JavaScript Workflows, Part 1"
+display-title: "Park your Horse, Code Cowboy: Professional JavaScript Workflows, Part&nbsp;1"
 author: Amy Hoy
 categories: 
 - programming
@@ -20,16 +21,18 @@ Take this simple quiz to find out. Do you...
 * Automatically generate documentation?
 * Unit test your business logic?
 
-Lemme guess—_sometimes_, _no_, _not really_, _no_, and _only when something breaks_.
+Lemme guess&mdash;_sometimes_, _no_, _not really_, _no_, and _only when something breaks_.
 
 Even the most nitpicky developers tend to treat JavaScript like a red-headed step language. JavaScript is indeed a language that rose from the ashes of heinous hackery. But this is 2010; JavaScript is all grown up now. 
 
 There's never been a better time to learn to treat it that way.
 
 h3. Welcome to the Pro Workflows Series, part 1
+
 In this series, we'll talk about tools & techniques you can use to cover those No's, and cut a lot of strife & embarrassment from your JavaScript experience.
 
 h1. Part 1: Break up & organize your code
+
 Spaghetti, with meatballs: Great on your plate, not in your code. Structure is every programmer's best friend—and that applies to JavaScript, too. 
 
 If your project's got more than about 100 lines of JavaScript, you should consider breaking it up. Group your code into files by "topic," function, or objects (e.g. accounts, DOM, CreditCard, etc.). If you've got lots of those, further structure them in suitable directories.
@@ -40,6 +43,7 @@ Here's an example from my app, Freckle (before and after):
 
 A place for everything, and everything in its place. It'll be easy to find the code you need. 
 
+table(amy).
 |_. Pros |_. Cons |
 | Easy to find code | A bazillion script tags |
 | Easy to skim      | Annoying to distribute |
@@ -51,6 +55,7 @@ As you can see, the benefits are many... and the downsides have to do only with 
 The good news: This is a problem we can fix directly.
 
 h2. Breaking Up Ain't Hard to Do: Tools
+
 There are two approaches for solving the "too many script tags" problem:
 
 # Client-side loading tools
@@ -59,6 +64,7 @@ There are two approaches for solving the "too many script tags" problem:
 Read on for the skinny on each approach, the best tools to use, indicators and counter-indicators.
 
 h3. Client-side loading tools
+
 *The approach:* Use a library to load your JavaScript files for you. Declare which source files will be loaded, and in which order, using a nice JavaScript-based syntax (rather than copying & pasting script tags over and over). 
 
 *The best tool:* "LAB.js":http://labjs.com/. It loads your script files in parallel (while honoring dependencies), so it should offer improved performance over what its author calls "script tag soup." And did I mention it's prettier than script tag soup, too? And by far easier to maintain. (See that code sample below!)
@@ -69,7 +75,7 @@ h3. Client-side loading tools
 
 *Sample code:*
 
-{% highlight %}
+{% highlight javascript %}
 
 <script>
    $LAB
@@ -82,6 +88,7 @@ h3. Client-side loading tools
 {% endhighlight %}
 
 h3. Server-side concatenation tools
+
 *The approach:* Create @require()@-type behavior in JavaScript. Have one master file that strings together (@require()@s) all the others, in order. Or even include snippets in the middle of other code, like inside objects. Use this to serve JavaScript as a single file (either on deploy, or by page request, with caching). 
 
 *The best tool:* "Sprockets":http://getsprockets.com/. "Sprockets":http://getsprockets.com/ is a Ruby-based pre-processor that your deployment workflow will love. No deployment workflow? Sprockets also comes in other flavors: a "Ruby on Rails plugin":http://github.com/sstephenson/sprockets-rails (official), and a "couple PHP ports":http://cakealot.com/2009/05/check-ma-sprockets/ (unofficial), for concatenating on page request. 
@@ -96,7 +103,7 @@ h3. Server-side concatenation tools
 
 In your JavaScript:
 
-{% highlight %}
+{% highlight javascript %}
 
 // require 'myOtherJavaScript'
 // require <prototype> 
@@ -105,7 +112,7 @@ In your JavaScript:
 
 On the command-line:
 
-{% highlight %}
+{% highlight javascript %}
 
 $ sprocketize -I vendor/sprockets/prototype/src \
               --asset-root=public \
@@ -116,6 +123,7 @@ $ sprocketize -I vendor/sprockets/prototype/src \
 This sample shows off the "reuse" of a single Prototype.js library, to boot.
 
 h2. Load or Concatenate: Which one's for you?
+
 Now you've got the run-down on both approaches, are you still unsure which is the right choice for you? Maybe this will help:
 
 "LAB.js":http://labjs.com/ is a serious effort and a very well-made tool, written by Kyle Simpson and Steve Souders. It offers performance improvement over multiple script tags, by loading JavaScript essentially "in the background" while the rest of the page continues to load. It's great at what it does.
