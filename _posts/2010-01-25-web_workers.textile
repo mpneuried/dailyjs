@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Web Workers"
+author: Alex Young
+categories:
+- tutorials
+- concurrency
+---
+
+When you're writing JavaScript you typically think in single-threaded and event-based terms.  This is fine for most tasks, and event-based programming is a great paradigm for classes of problems we face when writing JavaScript.  However, not all problems are best modeled this way so sometimes we need threads.
+
+"The Web Workers Specification":http://www.whatwg.org/specs/web-workers/current-work/ describes an API for running background scripts.  Web Workers introduces the <code>Worker</code> constructor, and it looks like this:
+
+{% highlight javascript %}
+var worker = new Worker('worker.js');
+
+worker.onmessage = function(event) {
+  document.getElementById('result').textContent = event.data;
+};
+{% endhighlight %}
+
+The <code>onmessage</code> handler allows your main script to receive messages from the worker.  The worker is a separate script.  This code will work in Firefox 3.5, Safari, and you can even emulate it using "fakeworker.js":http://code.google.com/p/fakeworker-js/.
+
+h3. Why?
+
+Experienced JavaScript developers are so used to working without threads that they might question their validity.  Well, traditional JavaScript is not parallel.  Things that appear parallel are actually single-threaded, sharing execution with timers.  This is a problem for long-running tasks: anything that will block on IO or intensive computation is a potential target for concurrency.
+
+The necessity for threads will become more apparent as people write more sophisticated GUIs and games that use multimedia, especially if media needs to be decoded.
+
+h3. Runtime Implementation
+
+How this is implemented by the runtime is completely dependent on the browser.  The spec says:
+
+bq. Create a completely separate and parallel execution environment (i.e. a separate thread or process or equivalent construct), and run the rest of these steps asynchronously in that context.
+
+And Mozilla's implementation is encouraging:
+
+bq. The Worker interface spawns real OS-level threads... "Read more in Using web workers":https://developer.mozilla.org/En/Using_web_workers
+
+Each worker is run according to the "run a worker":http://www.whatwg.org/specs/web-workers/current-work/#run-a-worker algorithm.
+
+h3. Termination
+
+Workers can be sent a terminate message to kill them using <code>worker.terminate()</code>.  Workers will also be killed when browser windows are closed.
+
+h3. Shared Workers
+
+Shared workers can be created using the <code>SharedWorker</code> constructor.  Message ports are used to communicate with workers.  The idea is that multiple pages can access the same worker pool.
+
+h3. A Fancy Example
+
+I recently found this fancy "Procedural Content Generator":http://radnan.public.iastate.edu/procedural/ which is implemented using <code>Worker()</code>.  It renders incredibly quickly in Safari.
+
+h3. Other Resources
+
+John Resig has a post on Web Workers called "Computing with JavaScript Web Workers":http://ejohn.org/blog/web-workers/  which compares a benchmark against browsers before they had Web Worker.
+
+"CommonJS/JSGI: The Emerging JavaScript Application Server Platform":http://www.sitepen.com/blog/2010/01/19/commonjsjsgi-the-emerging-javascript-application-server-platform/ covers how server-side JavaScript might adapt Web Workers, based on comments from the CommonJS wiki.
+
+
