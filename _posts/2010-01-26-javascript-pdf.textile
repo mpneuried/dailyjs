@@ -1,0 +1,29 @@
+---
+layout: post
+title: "JavaScript PDF Generation"
+author: Alex Young
+categories: 
+- pdf
+- datauri
+---
+
+I searched for JavaScript PDF generation just to see what server-side technologies are available.  I found "jsPDF":http://code.google.com/p/jspdf/, which works both server-side and in browser.  It currently works best in Safari, Firefox 3+ and Opera.
+
+It uses the "data URI scheme":http://en.wikipedia.org/wiki/Data_URI_scheme to send the data to the browser, which is a problem for IE.
+
+The code is easy to follow -- if you want to learn about PDF generation it's interesting to read through.  There's a "demo page":http://jspdf.googlecode.com/svn/trunk/examples/basic.htm with usage examples and the resulting PDFs.
+
+Usage looks like this:
+
+{% highlight javascript %}
+var doc = new jsPDF();
+doc.text(20, 20, 'Hello world!');
+doc.text(20, 30, 'This is client-side Javascript, pumping out a PDF.');
+doc.addPage();
+doc.text(20, 20, 'Do you like that?');
+
+// Output as Data URI
+doc.output('datauri');
+{% endhighlight %}
+
+jsPDF doesn't have many options yet -- fonts are hardcoded for example (to helvetica).  It's an interesting demonstration of the power of client-side programming though.
