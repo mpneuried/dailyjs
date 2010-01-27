@@ -39,7 +39,7 @@ If your project's got more than about 100 lines of JavaScript, you should consid
 
 Here's an example from my app, Freckle (before and after):
 
-###
+!/images/posts/before_after_freckle.png!
 
 A place for everything, and everything in its place. It'll be easy to find the code you need. 
 
