@@ -11,6 +11,8 @@ categories:
 - practices
 ---
 
+<div class="meta">This is the first in a series of "guest posts":http://dailyjs.local/guest_posts.html on professional Javascript techniques, by "Amy Hoy":http://slash7.com/.</div>
+
 When it comes to professional practices, is your JavaScript always stuck with the short end of the stick?
 
 Take this simple quiz to find out. Do you...
