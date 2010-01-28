@@ -1,0 +1,31 @@
+---
+layout: post
+title: "XUI"
+author: Alex Young
+categories: 
+- frameworks
+- mobile
+---
+
+I was recently reviewing mobile web JavaScript frameworks when I came across "XUI":http://xuijs.com/, by "Brian LeRoux":http://brianleroux.github.com/ and the other "PhoneGap":http://phonegap.com/ authors.  XUI is a micro-framework -- it's designed to be small, portable and concise.
+
+XUI provides the following features:
+
+* Element lookup through selectors
+* Events, with support for touch screens
+* DOM manipulation
+* Animation through tweening
+* XmlHttpRequest
+
+The API is available through the global <code>x$</code>.  Usage looks like this:
+
+{% highlight javascript %}
+x$('li','.selected', '#some_id'); // Returns elements for a selector or list, similar to $ in jQuery and $$ in Prototype
+x$('#video').html('inner', '<strong>Rick Roll</strong>'); // Modifies the HTML of an element
+x$('a.save').on('click', function(e) { alert('Saving...') }); // Events
+x$('#box').tween([{ left:100px, backgroundColor:'green', duration:.2 }, { right:100px }]); // Tweening
+{% endhighlight %}
+
+You might be wondering why XUI is smaller and faster than frameworks like jQuery.  Ultimately it's because they've cut the cross-browser chaff that we need for cross-browser development.  They've also tightly focused on mobile web development.
+
+It's smart of the PhoneGap developers to extract this framework, much like "Sizzle":http://sizzlejs.com/ was a good idea.  In fact, there are enough useful features in it to do a lot without even using the rest of PhoneGap!

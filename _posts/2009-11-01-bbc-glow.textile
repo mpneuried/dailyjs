@@ -5,6 +5,7 @@ author: Alex Young
 categories: 
 - bbc glow
 - tutorials
+- frameworks
 ---
 
 "Glow":http://www.bbc.co.uk/glow/ is the BBC's JavaScript framework.  Things to note:
