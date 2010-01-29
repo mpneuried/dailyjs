@@ -1,0 +1,18 @@
+---
+layout: post
+title: "JSNES and Emulation"
+author: Alex Young
+categories: 
+- emulators
+- games
+---
+
+!/images/posts/jsnes.png!
+
+If you haven't seen "JSNES":http://benfirshman.com/projects/jsnes/ or "JSSpeccy":http://matt.west.co.tt/spectrum/jsspeccy/ they're worth trying out, if only as a way of proving what JavaScript and canvas can do.  The most interesting thing about these emulators, though is the source.  "JSNES is on GitHub":http://github.com/bfirsh/jsnes/ so you can casually browse files like "cpu.js":http://github.com/bfirsh/jsnes/blob/master/js/cpu.js to see how the emulator works.
+
+In fact, if you've never written an emulator but wondered how they work, JSNES is worth checking out.  Emulators aren't really as scary as they sound: they're essentially decoders that can understand code for particular hardware and run it in a different environment.  They're giant case statements and simple algorithms.
+
+In JSNES, you can see how the CPU registers and interrupts are handled.  Since the original hardware has been reverse engineered there's nothing fundamentally complicated or difficult to understand, there's just a sizable amount of code.
+
+Now all we need to do is find the source for an x86 emulator to create a "JavaScript PC emulator":http://twitter.com/thomasfuchs/status/8377425026.  Browser VMware could be the most computationally extravagant use of JavaScript yet.
