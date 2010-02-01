@@ -1,0 +1,33 @@
+---
+layout: post
+title: "qmock"
+author: Alex Young
+categories: 
+- testing
+- libraries
+---
+
+"qmock":http://code.google.com/p/qmock/ is an _expect-run-verify_ JavaScript mocking library.  You can use it to mock objects alongside another testing library.
+
+People generally mock IO-bound services, like network or disk access.  The authors suggest that you could use qmock to mock Ajax calls.  There's a note about this in the "API documentation":http://code.google.com/p/qmock/wiki/API_Documentation:
+
+{% highlight javascript %}
+mock$ = new Mock();
+
+mock$
+        .expects(1)
+                .method('get')
+        .withArguments('some/url', Function)
+        .callFunctionWith('data response');
+
+// Exercise
+var called = false;    
+mock$.get('some/url', function (data) { called = true });
+{% endhighlight %}
+
+As this example illustrates, qmock has an API that relies on cascading invocations.  This helps the API appear expressive.
+
+There's some interesting history behind qmock:
+
+bq. qMock was written during our (Mark Meyer // Andy Beeching) tenure at Channel 4 Television, in response for the project requirement of automated testing of all JavaScript code on the site (using QUnit as our test harness). We are grateful to them for allowing us to open-source the project. 
+
