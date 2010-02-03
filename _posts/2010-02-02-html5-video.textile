@@ -1,0 +1,16 @@
+---
+layout: post
+title: "HTML5 Video"
+author: Alex Young
+categories: 
+- html5
+- video
+---
+
+!/images/posts/html5video.png!
+
+You've probably seen a lot of hype around HTML5 video recently.  I've been researching open source libraries to see what's currently available. However, today I found "SublimeVideo":http://jilion.com/sublime/video which is a player that supports seeking, full-window view, draggable controls and keyboard shortcuts.
+
+This really works best in WebKit nightlies.  The main reason for this is the fullscreen support and the speed of the effects.
+
+The associated JavaScript is currently copyrighted with a disclaimer that says it can't be used beyond the demo.  The demo is worth checking out though, if only as an example of a strong lightweight JavaScript and HTML-based video player.
