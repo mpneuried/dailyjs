@@ -1,0 +1,81 @@
+---
+layout: post
+title: "The Four Cs of JavaScript"
+author: Alex Young
+categories: 
+- theory
+- tutorials
+---
+
+This article is a short trip around some of JavaScript's more useful features and patterns.  Or just my favourite ones that begin with C.
+
+h3. Closure
+
+Closures are your primary tool for controlling, abusing and exploiting scope in JavaScript.  In JavaScript, inner functions get access to variables in the functions that contain them.
+
+{% highlight javascript %}
+function say_hello() {
+  var name = 'Alex';
+
+  function say_hello() {
+    return 'Hello ' + name;
+  }
+
+  return say_hello();
+}
+{% endhighlight %}
+
+In the previous example, <code>name</code> is visible in the function <code>say_hello</code>.
+
+You can use closures to hide variables as well:
+
+{% highlight javascript %}
+person = function() {
+  var name = 'Alex';
+
+  return { say_hello: function() { return 'Hello ' + name; } };
+}();
+
+person.say_hello(); # "Hello Alex"
+person.name;        # undefined
+{% endhighlight %}
+
+Because closures allow you to capture context, they can provide clever ways of delaying execution whilst retaining the context in which they were defined -- callbacks are a common example.
+
+h3. Callbacks
+
+JavaScript's functions are objects.  You can safely pass them around in variables.  Libraries like jQuery and Prototype rely on this for event handling and Ajax requests.  You can't make a network request and block until it has completed because this will lock up the UI, so instead you set up an Ajax request with a list of callback functions to be executed later.
+
+The way callbacks and closures work in JavaScript is so simple a lot of developers use them all the time without even realising.
+
+h3. Cascade
+
+Cascading method calls look like this:
+
+{% highlight javascript %}
+new Turtle('Player 1').
+  move(x, y).
+  stroke('#ff0000').
+  fill('#0000ff').
+  draw();
+{% endhighlight %}
+
+This is possible because each function returns <code>this</code>, allowing several operations to be performed on the fictional <code>Turtle</code>.
+
+Many libraries use this approach to make manipulating objects more succinct.
+
+h3. Curry
+
+Curry is what I should be eating instead of writing this article.  It's also a slightly trickier devil than the other Cs, but it's interesting and builds on them.
+
+Currying means changing a function that takes multiple arguments so it can be called as a chain of functions with single arguments.  This can be achieved in JavaScript by using a closure.
+
+The "Prototype framework has curry":http://www.prototypejs.org/api/function/curry and it looks like this:
+
+{% highlight javascript %}
+String.prototype.splitOnSpaces = String.prototype.split.curry(" ");
+"foo bar baz thud".splitOnSpaces(); // ["foo", "bar", "baz", "thud"]
+{% endhighlight %}
+
+Don't worry if currying seems slightly abstract -- come back to the previous example the next time you think you might be able to use it.
+
