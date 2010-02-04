@@ -1,0 +1,14 @@
+---
+layout: post
+title: "JSConf.US"
+author: Alex Young
+categories: 
+- conferences
+- events
+---
+
+It looks like we're slow to report on "JSConf.US":http://jsconf.us/ but there are still tickets left according to the "registration form":http://jsconf.us/2010/register.html.  Early bird tickets are $500, and the conference is on April 17th and 18th in Arlington, VA.
+
+Speakers haven't been announced yet, but they have "videos":http://jsconf.us/2010/videos.html up from other conferences.  There are also positive comments from CommonJS's Kevin Dangoor in "CommonJS: the First Year":http://jsconf.posterous.com/jsconf.
+
+If you're running a JavaScript-related conference "let us know":/contact.html and we'll feature it.
