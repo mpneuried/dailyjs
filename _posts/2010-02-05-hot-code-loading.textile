@@ -1,0 +1,32 @@
+
+---
+layout: post
+title: "Hot Code Loading in Node.js"
+author: Alex Young
+categories: 
+- nodejs
+- server
+---
+
+In "Hot Code Loading in Node.js":http://romeda.org/blog/2010/01/hot-code-loading-in-nodejs.html Blaine Cook describes how to dynamically reload code in node.js projects.  He's created a branch of node.js called "hotload":http://github.com/blaine/node/tree/hotload that provides the feature.
+
+Hot code loading uses sandboxes and caching to reload code when it changes.  If you had a web app and updated some files, it would automatically reload the code for new requests.
+
+His example looks like this:
+
+{% highlight javascript %}
+var requestHandler = require('./myRequestHandler');
+
+process.watchFile('./myRequestHandler', function () {
+  module.unCacheModule('./myRequestHandler');
+  requestHandler = require('./myRequestHandler');
+}
+
+var reqHandlerClosure = function (req, res) {
+  requestHandler.handle(req, res);
+}
+
+http.createServer(reqHandlerClosure).listen(8000);
+{% endhighlight %}
+
+Strictly speaking it's not as advanced as the way "Erlang behaves":http://en.wikipedia.org/wiki/Erlang_%28programming_language%29#Hot_code_loading_and_modules, but it could ease deployment and avoid abrupt process reloading.
