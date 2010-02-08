@@ -26,4 +26,4 @@ So drawing a line graph is easy:
 var linegraph = new Grafico.LineGraph($('linegraph'), { workload: [8, 10, 6, 12, 7, 6, 9] });
 {% endhighlight %}
 
-Grafico is actually based on a library called Ico that I made.  Ico has some history behind it: I attempted to replicate the advice in "Stephen Few's books":http://www.amazon.com/Show-Me-Numbers-Designing-Enlighten/dp/0970601999 to create a library that intuitively produces usable and clean graphs.  I'm actually still working on Ico -- I've been benchmarking it to improve speed and remove the Prototype dependency. 
+Grafico is actually based on a library called Ico that I made.  Ico has some history behind it: I attempted to replicate the advice in "Stephen Few's books":http://www.amazon.com/Show-Me-Numbers-Designing-Enlighten/dp/0970601999 to create a library that intuitively produces usable and clean graphs.  I'm still working on Ico -- I've been benchmarking it to improve speed and remove the Prototype dependency. 
