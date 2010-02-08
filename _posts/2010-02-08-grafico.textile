@@ -1,0 +1,28 @@
+---
+layout: post
+title: "Grafico Charts"
+author: Alex Young
+categories: 
+- libraries
+- graphics
+- charts
+---
+
+"Grafico":http://kilianvalkhof.com/2010/design/grafico-javascript-charting-library/ is a charting library that provides line, area, stacked and bar graphs, as well as various types of sparklines.
+
+Grafico also includes features like pop-up hovers.  All of the features are covered in the "documentation":http://grafico.kilianvalkhof.com/documentation/index.html.
+
+The API looks like this:
+
+{% highlight javascript %}
+var graph = new Grafico.GraphType($(element), data, options);
+{% endhighlight %}
+
+So drawing a line graph is easy:
+
+!/images/posts/linegraph.png!
+
+{% highlight javascript %}
+var linegraph = new Grafico.LineGraph($('linegraph'), { workload: [8, 10, 6, 12, 7, 6, 9] });
+{% endhighlight %}
+
