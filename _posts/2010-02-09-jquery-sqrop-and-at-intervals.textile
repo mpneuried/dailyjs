@@ -1,0 +1,39 @@
+---
+layout: post
+title: "jQuery Plugin Roundup: sqrop, At Intervals"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+I want to start doing a semi-regular jQuery plugin roundup, seeing as readers often send us in their work.  It's like show and tell for grown ups!  "Contact us":/contact if you want your plugins featured.
+
+h3. jquery.sqrop
+
+"jquery.sqrop":http://github.com/ncr/jquery.sqrop is written by Jacek Becela and uses CSS to make neat image thumbnails.  This uses the "CSS clip property":http://www.seifi.org/css/creating-thumbnails-using-the-css-clip-property.html which is useful because you can cut down unwieldy user-submitted images.
+
+Usage looks like this:
+
+{% highlight javascript %}
+$(document).ready(function () {
+  $("img").load(function () { $(this).sqrop(123) })
+})
+{% endhighlight %}
+
+h3. At Intervals
+
+I noticed Jacek has also written "At Intervals":http://github.com/ncr/at_intervals which provides a nicer API for <code>window.setInterval</code>:
+
+{% highlight javascript %}
+$("#widget").at_intervals(fn, { delay: 3000, name: "poll_messages") // calls fn(), then 3s delay, then fn() again, etc..
+{% endhighlight %}
+
+It's a simple plugin, but provides useful features like being able to pause execution:
+
+{% highlight javascript %}
+$("#widget").data("poll_messages").should_pause = true  // pauses execution
+$("#widget").data("poll_messages").should_pause = false // resumes execution  
+$("#widget").data("poll_messages").should_stop  = true  // stops execution (calls clearInterval() internally)
+{% endhighlight %}
+
