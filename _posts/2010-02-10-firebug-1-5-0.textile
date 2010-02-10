@@ -11,7 +11,7 @@ I'm a bit slow of the mark with this one (this post has been sitting in draft fo
 
 If you don't already use Firebug (or similar tools such as Webkit Inspector) for debugging your JavaScript, I strongly suggest adding them to your armory.  I'm not sure I could survive without breakpoints, step-through debugging, an interactive console, and the ability to inspect and manipulate the DOM. :)
    
-!images/posts/firebug-large.png!
+!/images/posts/firebug-large.png!
 
 The full release notes for Firebug 1.5.0 are on the "Firebug wiki":http://getfirebug.com/wiki/index.php/Firebug_Release_Notes#Firebug_1.5, but highlights include:  
 
