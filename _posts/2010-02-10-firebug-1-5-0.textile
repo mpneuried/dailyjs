@@ -1,0 +1,29 @@
+---
+layout: post
+title: "Firebug 1.5.0"
+author: Ric Roberts 
+categories: 
+- tools
+- testing
+---
+
+I'm a bit slow of the mark with this one (this post has been sitting in draft for a while), but I just wanted to draw attention to the "release of Firebug 1.5.0":http://blog.getfirebug.com/2010/01/15/firebug-1-5-0/ last month. 
+
+If you don't already use Firebug (or similar tools such as Webkit Inspector or Chromebug) for debugging your JavaScript, I strongly suggest adding them to your armory.  I'm not sure I could survive without breakpoints, step-through debugging, an interactive console, and the ability to inspect and manipulate the DOM. :)
+   
+!images/posts/firebug-large.png!
+
+The full release notes for Firebug 1.5.0 are on the "Firebug wiki":http://getfirebug.com/wiki/index.php/Firebug_Release_Notes#Firebug_1.5, but highlights include:  
+
+* Mike Radcliffe’s Inspector. A key feature, now solid as a rock,
+* Jan ‘Honza’ Odvarko’s expanded and refined Net panel, with accurate timings,
+* Steve Roussey’s reworking of HTML editing and entity support,
+* Kevin Decker’s CSS and Style side panel improvements,
+* Support for dynamic, graphical breakpoints through out Firebug.
+* Tested support for the soon-to-be-released Firefox 3.6
+
+
+                     
+
+
+
