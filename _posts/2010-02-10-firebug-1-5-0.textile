@@ -9,7 +9,7 @@ categories:
 
 I'm a bit slow of the mark with this one (this post has been sitting in draft for a while), but I just wanted to draw attention to the "release of Firebug 1.5.0":http://blog.getfirebug.com/2010/01/15/firebug-1-5-0/ last month. 
 
-If you don't already use Firebug (or similar tools such as Webkit Inspector or Chromebug) for debugging your JavaScript, I strongly suggest adding them to your armory.  I'm not sure I could survive without breakpoints, step-through debugging, an interactive console, and the ability to inspect and manipulate the DOM. :)
+If you don't already use Firebug (or similar tools such as Webkit Inspector) for debugging your JavaScript, I strongly suggest adding them to your armory.  I'm not sure I could survive without breakpoints, step-through debugging, an interactive console, and the ability to inspect and manipulate the DOM. :)
    
 !images/posts/firebug-large.png!
 
