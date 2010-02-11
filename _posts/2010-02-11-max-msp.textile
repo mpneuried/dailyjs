@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Max/MSP and JavaScript"
+author: Alex Young 
+categories: 
+- music
+- graphics
+---
+
+In a previous life I was heavily into digital music production.  One popular tool in that area is Max/MSP -- a visual programming language for music and graphics.  It's not just used by hackers, many musicians and artists also use it.  In some ways it's more accessible than "Processing":http://processingjs.org/, and is more adept at audio.
+
+!/images/posts/autechre.jpg!
+
+Max/MSP allows you to draw networks of audio processing units and manipulate them in real time.  You can interact with MIDI hardware as well.
+
+What's interesting about Max/MSP is in recent years they've added a JavaScript API.  The API uses globally available functions and objects, so the API feels a bit like Processing.  The company that makes Max/MSP, Cycling74, has a set of tutorials up called "JavaScript in Max":http://cycling74.com/docs/max5/vignettes/js/javascriptinmax.html.
+
+You can use JavaScript to create UIs with OpenGL, so you could create interesting animations as well as scripted audio processing.
+
+If you'd like to see some example patches, try searching for JavaScript in the "Max Objects Database":http://www.maxobjects.com.  Max is actually commercial software (it starts at $250), but there's a 30 day demo if you're interested in experimenting.  If you've got a Mac you can load Quartz Composer to see a similar type of tool which is focused on video.
+
+
