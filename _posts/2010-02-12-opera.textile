@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Opera JavaScript Performance in 10.5"
+author: Alex Young
+categories: 
+- opera
+- performance
+---
+
+The pre-release of Opera has a new JavaScript engine called Carakan ("read more in Jens Lindström's post":http://my.opera.com/core/blog/2009/02/04/carakan).  This changes Opera's approach slightly, because previous versions attempted to minimise memory usage, whereas Carakan aims to focus on execution speed.  According to SunSpider, Carakan is about 2.5 times faster than their previous engine.
+
+One of the main reasons for the new engine's performance improvements is native code generation.  This is indicative of Opera's new approach in general -- they've been attempting to Cocoaify their Mac version for example.  
+
+Other major changes in Carakan are register-based bytecode generation and automatic object classification.  According to Jens:
+
+bq. In the new engine, each object is assigned a class that collects various information about the object, such as its prototype and the order and names of some or all of its properties. Class assignment is naturally very dynamic, since ECMAScript is a very dynamic language, ...
+
+bq. ... We use this to cache the result of individual property lookups in ECMAScript programs, which greatly speeds up code that contains many property reads or writes.
+
+Carakan is bringing some radical changes to Opera's engine.  It's possible that the native code approach was also partly inspired by V8's approach, and Jens doesn't mention any deeper changes to areas like garbage collection or threading.
+
+
