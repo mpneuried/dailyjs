@@ -1,0 +1,26 @@
+---
+layout: post
+title: "wtfjs"
+author: Alex Young
+categories: 
+- javascript
+- humour
+---
+
+"wtfjs":http://wtfjs.com/ is a blog of JavaScript's irregularities, inconstancies and unintuitive aspects.  The author posts humorous code snippets which are similar to the bad parts from Crockford's "JavaScript: The Good Parts":http://oreilly.com/catalog/9780596517748.
+
+Other than the obvious examples based around the confusing nature of _falsy_ and NaN, there are some interesting examples that might test your knowledge of JavaScript:
+
+{% highlight javascript %}
+("foo" + + "bar") === "fooNaN"
+(x=[].reverse)() === window // true
+{% endhighlight %}
+
+Am I suffering from a kind of blindness due to writing JavaScript for too long, or does the following make sense?
+
+{% highlight javascript %}
+"string" instanceof String; // false
+(new String("string")) instanceof String; // true
+{% endhighlight %}
+
+Of course it's false, it's a string literal rather than an instance of String!  Is it useful to distinguish between string literals and instances of String?
