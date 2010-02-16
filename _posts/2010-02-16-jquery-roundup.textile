@@ -1,0 +1,52 @@
+---
+layout: post
+title: "jQuery Plugin Roundup: Ketchup, Quicksand, Fitted"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 2.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Ketchup - Simple Form Validation
+
+"Ketchup":http://demos.usejquery.com/ketchup-plugin/ provides lots of useful form validations using the <code>class</code> attribute on <code>input</code> elements.  For example:
+
+{% highlight html %}
+<div>
+  <label for="ex1_username">Username</label>
+  <input type="text" id="ex1_username" class="validate(required, username)" />
+</div>
+{% endhighlight %}
+
+Validations can be combined like this:
+
+{% highlight html %}
+<input type="text" class="validate(required, username, rangelength(3,20))" />
+{% endhighlight %}
+
+Visit "ketchup-plugin on GitHub":http://github.com/mustardamus/ketchup-plugin to download.
+
+h3. Quicksand - Reordering and Filtering
+
+"Quicksand":http://razorjack.net/quicksand/ lets you reorder and shuffle items with a cool animated effect.  I have a feeling this will work particularly well for mobile webkit web apps.
+
+Usage looks like this:
+
+{% highlight javascript %}
+$("#content").quicksand($("#data > li"), {
+		duration: 1000,
+		easing: "easeInOutQuad",
+		attribute: "data-id",
+	}
+);
+{% endhighlight %}
+
+Visit "quicksand on GitHub":http://github.com/razorjack/quicksand/ to download.
+
+h3. Fitted - Clickable Content Blocks
+
+"Fitted":http://www.trovster.com/lab/plugins/fitted/ is a simple plugin for making a container clickable.  This is useful when you've got quote or abstract that links to full content.
+
+Usage is simple: <code>$('.clickable_class').fitted();</code>
