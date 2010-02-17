@@ -1,0 +1,128 @@
+---
+layout: post
+title: "Getting Started With Emile"
+author: Alex Young
+categories: 
+- animation
+- css
+---
+
+Confused about how to use "Emile":http://github.com/madrobby/emile, the mini-framework for CSS-based JavaScript animation?  Well you're in luck, because I've spent a good few days experimenting with it.
+
+Emile allows you to animate CSS properties, transitioning between them.  You can animate more than one at a time, and stack them using callbacks.  You can also use your own easing functions.  That's almost all you need to know!
+
+h3. Basic Usage
+
+Usage looks like this:
+
+{% highlight javascript %}
+emile(element, CSS properties, { options });
+{% endhighlight %}
+
+The currently available options, in order of how much you'll need to use them, are:
+
+* <code>duration</code>: The length of the animation in milliseconds
+* <code>after</code>: Code to run after the animation has finished
+* <code>easing</code>: An easing function to control timing that takes a number and is expected to return one
+
+<script type="text/javascript">
+(function(f,a){var h=document.createElement("div"),g=("backgroundColor borderBottomColor borderBottomWidth borderLeftColor borderLeftWidth borderRightColor borderRightWidth borderSpacing borderTopColor borderTopWidth bottom color fontSize fontWeight height left letterSpacing lineHeight marginBottom marginLeft marginRight marginTop maxHeight maxWidth minHeight minWidth opacity outlineColor outlineOffset outlineWidth paddingBottom paddingLeft paddingRight paddingTop right textIndent top width wordSpacing zIndex").split(" ");function e(j,k,l){return(j+(k-j)*l).toFixed(3)}function i(k,j,l){return k.substr(j,l||1)}function c(l,p,s){var n=2,m,q,o,t=[],k=[];while(m=3,q=arguments[n-1],n--){if(i(q,0)=="r"){q=q.match(/\d+/g);while(m--){t.push(~~q[m])}}else{if(q.length==4){q="#"+i(q,1)+i(q,1)+i(q,2)+i(q,2)+i(q,3)+i(q,3)}while(m--){t.push(parseInt(i(q,1+m*2,2),16))}}}while(m--){o=~~(t[m+3]+(t[m]-t[m+3])*s);k.push(o<0?0:o>255?255:o)}return"rgb("+k.join(",")+")"}function b(l){var k=parseFloat(l),j=l.replace(/^[\-\d\.]+/,"");return isNaN(k)?{v:j,f:c,u:""}:{v:k,f:e,u:j}}function d(m){var l,n={},k=g.length,j;h.innerHTML='<div style="'+m+'"></div>';l=h.childNodes[0].style;while(k--){if(j=l[g[k]]){n[g[k]]=b(j)}}return n}a[f]=function(p,m,j){p=typeof p=="string"?document.getElementById(p):p;j=j||{};var r=d(m),q=p.currentStyle?p.currentStyle:getComputedStyle(p,null),l,s={},n=+new Date,k=j.duration||200,u=n+k,o,t=j.easing||function(v){return(-Math.cos(v*Math.PI)/2)+0.5};for(l in r){s[l]=b(q[l])}o=setInterval(function(){var v=+new Date,w=v>u?1:(v-n)/k;for(l in r){p.style[l]=r[l].f(s[l].v,r[l].v,t(w))+r[l].u}if(v>u){clearInterval(o);j.after&&j.after()}},10)}})("emile",this);
+
+function bounce(pos) {
+  if (pos < (1 / 2.75)) {
+    return (7.5625 * pos * pos);
+  } else if (pos < (2 / 2.75)) {
+    return (7.5625 * (pos -= (1.5 / 2.75)) * pos + .75);
+  } else if (pos < (2.5 / 2.75)) {
+    return (7.5625 * (pos -= (2.25 / 2.75)) * pos + .9375);
+  } else {
+    return (7.5625 * (pos -= (2.625 / 2.75)) * pos + .984375);
+  }
+}
+</script>
+
+<style type="text/css">.animate { background-color: #ff4444; width: 100px; height: 100px; margin: 10px 0 }</style>
+
+h3. Animating a Property
+
+This will fade out the background colour of an element:
+
+{% highlight javascript %}
+emile($('example_1'), 'background-color: rgb(0, 0, 0)', {duration: 500});
+{% endhighlight %}
+
+<div id="example_1" class="animate"></div>
+
+<a href="#" onclick="emile($('example_1'), 'background-color: rgb(0, 0, 0)', {duration: 500}); return false;">Run</a> | <a href="#" onclick="$('example_1').style.backgroundColor = '#ff4444'; return false;">Reset</a>
+
+h3. Moving Something
+
+This will move an element that sits within flow (rather than <code>position: absolute</code>):
+
+{% highlight javascript %}
+emile($('example_2'), 'margin-left: 200px', {duration: 500});
+{% endhighlight %}
+
+<div id="example_2" class="animate"></div>
+
+<a href="#" onclick="emile($('example_2'), 'margin-left: 200px', {duration: 500}); return false;">Run</a> | <a href="#" onclick="$('example_2').style.marginLeft = '0'; return false;">Reset</a>
+
+h3. Move with Custom Easing
+
+You can provide an easing function.  This allows you to control timing.  This example is based on "Thomas Fuchs' presentation at Fronteers 2009":http://fronteers.nl/congres/2009/sessions/roll-your-own-effects-framework.
+
+{% highlight javascript %}
+function bounce(pos) {
+  if (pos &lt; (1 / 2.75)) {
+  return (7.5625 * pos * pos);
+  } else if (pos &lt; (2 / 2.75)) {
+  return (7.5625 * (pos -= (1.5 / 2.75)) * pos + .75);
+  } else if (pos &lt; (2.5 / 2.75)) {
+  return (7.5625 * (pos -= (2.25 / 2.75)) * pos + .9375);
+  } else {
+  return (7.5625 * (pos -= (2.625 / 2.75)) * pos + .984375);
+  }
+}
+emile($('example_3'), 'margin-left: 200px', {duration: 1500, easing: bounce});
+{% endhighlight %}
+
+<div id="example_3" class="animate"></div>
+
+<a href="#" onclick="emile($('example_3'), 'margin-left: 200px', {duration: 1500, easing: bounce}); return false;">Run</a> | <a href="#" onclick="$('example_3').style.marginLeft = '0'; return false;">Reset</a>
+
+h3. Combination
+
+Animating more than one property is easy:
+
+{% highlight javascript %}
+emile($('example_4'), 'margin-left: 200px; background-color: #000', {duration: 1500, easing: bounce});
+{% endhighlight %}
+
+<div id="example_4" class="animate"></div>
+
+<a href="#" onclick="emile($('example_4'), 'margin-left: 200px; background-color: #000', {duration: 1500, easing: bounce}); return false;">Run</a> | <a href="#" onclick="$('example_4').style.marginLeft = '0'; $('example_4').style.backgroundColor = '#ff4444'; return false;">Reset</a>
+
+h3. After Callback
+
+Using the after option lets you queue an unlimited number of animations:
+
+{% highlight javascript %}
+emile($('example_5'), 'margin-left: 200px; background-color: #000', {
+duration: 1500,
+easing: bounce,
+after: function() { emile($('example_5'), 'margin-left: 0; opacity: 0.0', {duration: 1500}); }});
+{% endhighlight %}
+
+<div id="example_5" class="animate"></div>
+
+<a href="#" onclick="emile($('example_5'), 'margin-left: 200px; background-color: #000', {duration: 1500, easing: bounce, after: function() { emile($('example_5'), 'margin-left: 0; opacity: 0.0', {duration: 1500}); }}); return false;">Run</a> | <a href="#" onclick="$('example_5').style.marginLeft = '0'; $('example_5').style.opacity = 1.0; return false;">Reset</a>
+
+h3. Gotchas
+
+Did you notice the combination demo discolours the rectangle as it bounces back?  The easing function changes the colour as well as position, which isn't necessarily what you might expect.  Keep this in mind when animating properties with easing functions.
+
+h3. Why Emile?
+
+Emile seems so simple we barely need a library, right?  Well... animating CSS properties isn't that simple.  Colours and numbers need to be normalised, CSS properties need to be converted to the internal names used by the DOM.  What Fuchs provides with Emile is actually a very shrewd observation of the bare minimum needed to create a workable animation framework.
+
+"emile_demo.html":/files/emile_demo.html
