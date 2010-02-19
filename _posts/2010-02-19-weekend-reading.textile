@@ -1,0 +1,37 @@
+---
+layout: post
+title: Weekend Reading 
+author: Alex Young 
+categories: 
+- weekend
+- fun
+- games
+---
+
+Assuming you're not going to be hungover or... working all weekend, here are some tasty links from my DailyJS link folder.
+
+h3. I Can't Believe It's Thomas Fuchs Again!
+
+"I Can't Believe It's Not Flash":http://www.slideshare.net/madrobby/i-cant-believe-its-not-flash will strike a chord with many people.  It's a presentation by Thomas Fuchs about exciting things like WebGL.  He mentions "SceneJS":http://scenejs.org/ which looks ridiculously fun.
+
+h3. 11 Tips for Creating Great MooTools Plugins
+
+"11 Tips for Creating Great MooTools Plugins":http://ryanflorence.com/11-tips-for-creating-great-mootools-plugins/ by prolific JavaScript blogger Ryan Florence is about writing better MooTools plugins.  He also has some good advice about writing JavaScript in general:
+
+bq. Write methods to do one thing only
+
+bq. Create options for things that the class doesn’t need
+
+bq. Return this with most methods
+
+Never mind about the plugins, I agree!
+
+h3. Balldroppings
+
+!/images/posts/balls.png!
+
+Load up "balldroppings":http://balldroppings.com/js/ then keep increasing the _ball drop rate_ until your browser explodes.
+
+h3. Pong
+
+"Browser Pong":http://stewdio.org/pong/.  Have you ever see this version of Pong?  It's hilarious.
