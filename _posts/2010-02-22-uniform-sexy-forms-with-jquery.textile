@@ -12,7 +12,7 @@ categories:
 
 !/images/posts/uniform.png!
 
-To use it, just link to the uniform javascript and css files from your html page, and then call the uniform function against the form element(s), passing in any parameters.  Full details of the parameters are available on the "Uniform site":http://pixelmatrixdesign.com/uniform/.
+To use it, just link to the uniform JavaScript and css files from your html page, and then call the uniform function against the form element(s), passing in any parameters.  Full details of the parameters are available on the "Uniform site":http://pixelmatrixdesign.com/uniform/.
 
 {% highlight javascript %}
 $(function(){ $("select").uniform(); });
