@@ -1,0 +1,22 @@
+---
+layout: post
+title: Uniform - Sexy Forms With jQuery
+author: Ric Roberts 
+categories: 
+- jQuery
+- libraries
+- css
+---
+
+"Uniform":http://pixelmatrixdesign.com/uniform/ is a jQuery plugin from "Pixelmatrix design":http://pixelmatrixdesign.com/ which lets you style form elements such as checkboxes, drop down menus, radio buttons, and file upload inputs in a consistent and accessible way across different browsers (unfortunately, this doesn't include IE6 at the moment).
+
+!/images/posts/uniform.png!
+
+To use it, just link to the uniform javascript and css files from your html page, and then call the uniform function against the form element(s), passing in any parameters.  Full details of the parameters are available on the "Uniform site":http://pixelmatrixdesign.com/uniform/.
+
+{% highlight javascript %}
+$(function(){ $("select").uniform(); });
+{% endhighlight %}
+
+You don't need to just stick with the default style: you can "design your own":http://pixelmatrixdesign.com/uniform/themer.html or download others from the Internet. 
+
