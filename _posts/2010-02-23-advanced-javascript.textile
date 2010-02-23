@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Book Review: Advanced JavaScript"
+author: Alex Young
+categories: 
+- books
+- reviews
+---
+
+"Advanced JavaScript":http://www.dev-mag.com/2010/02/18/advanced-javascript/ is an eBook by "TJ Holowaychuk":http://github.com/visionmedia/.  It includes a PDF and sample source code, and costs $4.  The book covers concepts like closures and scoping, prototypal inheritance, metaprogramming, testing with JSpec, and creating a jQuery clone.
+
+_Advanced JavaScript_ starts without much fanfare -- there's no preamble or introduction -- it explains scope and <code>var</code> before you've even had a chance to start your coffee.  The style is pragmatic and straightforward.  Simple code examples frequently highlight ideas, and other programming languages are mentioned to give a sense of familiarity.  Chapter 2, which covers prototypal inheritance, is particularly useful for those of you who aren't full time JavaScript developers, because it draws sensible parallels with traditional OO classes.  Holowaychuk also presents a simple <code>Class</code> implementation that features inheritance and the ability to append methods.
+
+The metaprogramming chapter deals with an example based on "Sinatra":http://www.sinatrarb.com/.  This is based directly on Holowaychuk's "Express":http://dailyjs.com/2009/11/19/express/ project, which is a JavaScript Sinatra clone.  The example is based around being able to define methods for each HTTP expression using metaprogramming:
+
+bq. Although we could simply copy and paste the get() function above to start cre- ating our del(), put() and post() functions, we will take a meta-programming approach to solve the problem.
+
+The next chapter deals with testing, using Holowaychuk's other project, "JSpec":http://visionmedia.github.com/jspec/.  This is a Behavior Driven Development (BDD) style of testing.  This leads nicely into _Chapter 5. Creating a jQuery Clone_, which explains how to create a jQuery clone using BDD.  This should appeal to those of you who find it difficult to visualise how test-first development might be used for JavaScript projects.  It's also a good example because most of us use jQuery without really understanding how it works.
+
+The final chapter, _Tools Of The Trade_, covers popular libraries and frameworks.
+
+"Advanced JavaScript":http://www.dev-mag.com/2010/02/18/advanced-javascript neatly links together TJ Holowaychuk's work to produce a coherent guide to writing modern JavaScript.  He references Ruby few times throughout the book, which will appeal to those of you who are full-time Rubyists but still trying to understand the deeper aspects of JavaScript.  Given that it's only $4 it's a great deal too -- highly recommended.
+
+h3. eReaders
+
+I used Calibre to copy the PDF to my Kindle, and the formatting wasn't great.  The header and footers and table of contents need to be removed.
