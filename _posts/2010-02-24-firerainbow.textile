@@ -1,0 +1,17 @@
+---
+layout: post
+title: "FireRainbow"
+author: Alex Young
+categories: 
+- firefox
+- firebug
+- addons
+---
+
+!/images/posts/firerainbow.png!
+
+"FireRainbow":http://firerainbow.binaryage.com/ is an add-on for Firefox and Firebug that adds themable syntax highlighting.  It uses the JavaScript library "CodeMirror":http://marijn.haverbeke.nl/codemirror/ to perform the highlighting, and has CSS themes.  You can get the themes off "firerainbow/themes":http://github.com/darwin/firerainbow/tree/master/themes on GitHub and paste them into the _Colors_ tab within Firebug.
+
+The performance is good, and it makes Firebug that little bit more usable and customised.
+
+Another useful Firebug plugin is "Eventbug":http://getfirebug.com/releases/eventbug/1.5/
