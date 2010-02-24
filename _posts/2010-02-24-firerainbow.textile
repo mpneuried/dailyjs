@@ -14,4 +14,4 @@ categories:
 
 The performance is good, and it makes Firebug that little bit more usable and customised.
 
-Another useful Firebug plugin is "Eventbug":http://getfirebug.com/releases/eventbug/1.5/
+Another useful Firebug plugin is "Eventbug":http://getfirebug.com/releases/eventbug/1.5/.  I also wrote a "post about Eventbug":/2009/11/04/eventbug/.
