@@ -23,7 +23,7 @@ I'll refer to these frameworks in this part:
 
 h3. Style
 
-It's important to consider the style and practices used to develop a project like this.  If you decided to embark on a similar project, you're likely to work with other people, so be upfront about coding style and the goals of the project.
+If you decided to embark on an involved open source or private project, you're likely to work with other people.  It's important to be upfront about the goals of the project and the style of development.
 
 These are the practices I will use to develop this framework:
 
@@ -32,7 +32,7 @@ These are the practices I will use to develop this framework:
 * *Explicit*: Code should be quick to understand
 * *Comments*: Let's keep comment noise down.  Comments should be succinct.  TODO and FIXME are acceptable.
 * *Simple*: Keep code simple.  Let's not bore readers!
-* *Indentation*: should use two spaces
+* *Indentation*: Two spaces
 * *Semicolons*: People might want to minify this library -- let's keep simicolons!
 * *Quality*: JsLint and reader comments!
 * *Testing*: Test first development for both browsers and console
