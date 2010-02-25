@@ -1,0 +1,182 @@
+---
+layout: post
+title: "Let's Make a Framework: Library Architecture"
+author: Alex Young
+categories: 
+- web
+- frameworks
+- lmaf
+---
+
+Welcome to part 1 of *Let's Make a Framework*, a series of posts about building a JavaScript framework.  In this part I'm going to discuss library architectures, and lay down the design for our framework.
+
+This series is designed to be educational, rather than create the next big thing in JavaScript.  To keep the spirit educational, I've decided to name the framework *turing.js*.  Why?  Well, if you don't know much about "Alan Turing":http://en.wikipedia.org/wiki/Alan_Turing then you might like to learn a bit about him.  See?  The framework is already helping teach computer science history!
+
+h3. Required Reading
+
+I'll refer to these frameworks in this part:
+
+* "jQuery":http://jquery.com/
+* "Prototype":http://prototypejs.org/
+* "MooTools":http://mootools.net/
+* "BBC Glow":http://www.bbc.co.uk/glow/
+
+h3. Style
+
+It's important to consider the style and practices used to develop a project like this.  If you decided to embark on a similar project, you're likely to work with other people, so be upfront about coding style and the goals of the project.
+
+These are the practices I will use to develop this framework:
+
+* *Verbose*: Variable and method names should be verbose so things are easy to find and understand
+* *Portable*: Browsers and console should be catered for
+* *Explicit*: Code should be quick to understand
+* *Comments*: Let's keep comment noise down.  Comments should be succinct.  TODO and FIXME are acceptable.
+* *Simple*: Keep code simple.  Let's not bore readers!
+* *Indentation*: should use two spaces
+* *Semicolons*: People might want to minify this library -- let's keep simicolons!
+* *Quality*: JsLint and reader comments!
+* *Testing*: Test first development for both browsers and console
+* *Versioning*: GitHub to the rescue
+
+h3. High Level Framework Structure
+
+The first question to ask about a JavaScript framework's structure is: how self-contained is it?  In 2005 we were blown away by Ajax and the yellow fade technique, so people flocked to libraries that made those techniques easy.  Now in 2010 we're writing server-side JavaScript and creating sophisticated front-end behaviour.  We can no-longer afford to use frameworks that aren't careful about their namespacing.
+
+Take a look at the "current stable prototype.js":http://prototypejs.org/assets/2009/8/31/prototype.js.  It modifies the prototypes of a lot of native objects.  It also provides a lot of top-level objects.  The BBC specifically designed Glow to avoid this, and literally everything is namespaced.  This feels strange if you're used to Prototype, because Prototype attempts to simplify browser-based JavaScript.  Prototype makes complex Array manipulation much easier cross-browser, but with Glow you need to remember to use <code>glow.lang.toArray</code> and other utility methods.
+
+The lesson here is that you trade off usability to play nice with other frameworks.  Due to the way JavaScript works though, it's possible to use both approaches -- our library could have configuration options to extend native objects.
+
+This framework will be more like Glow -- this will remove a lot of hidden magic when using it.  People using it to learn JavaScript should be able to see the difference between what browsers and CommonJS provide.
+
+Another interesting point about Prototype is it quickly defines high-level structural code which it reuses internally.  It defines <code>Object.extend</code> and <code>Class</code>, then reuses these to build fundamental features:
+
+{% highlight javascript %}
+var Hash = Class.create(Enumerable, (function() {
+  function initialize(object) {
+    this._object = Object.isHash(object) ? object.toObject() : Object.clone(object);
+  }
+{% endhighlight %}
+
+h3. Helper Methods
+
+MooTools, jQuery and Prototype all define helpers to reduce the effort required to call commonly used functions:
+
+{% highlight javascript %}
+// Prototype
+function $H(object) {
+  return new Hash(object);
+};
+
+// MooTools
+function $H(object){
+  return new Hash(object);
+};
+{% endhighlight %}
+
+It would be nice to include quick access to helper methods, but as I said previously where <code>turing.js</code> begins and ends needs to be clear to the newcomer.  Therefore, if these are to be used they should be succinct but clear.
+
+If you taught someone JavaScript with jQuery, would they even realise browsers don't have <code>$()</code>?
+
+h3. Initialisation
+
+Most frameworks have wrappers for initialisation and metadata about the library.  MooTools and Prototype use one broadly similar approach, then jQuery and Glow use another.
+
+{% highlight javascript %}
+var MooTools = {
+  'version': '1.2.5dev',
+  'build': '%build%'
+};
+
+var Prototype = {
+  Version: '<%= PROTOTYPE_VERSION %>',
+  ...
+}
+
+(function( window, undefined ) {
+  var jQuery = function( selector, context ) {
+      // The jQuery object is actually just the init constructor 'enhanced'
+      return new jQuery.fn.init( selector, context );
+    },
+    ...
+    jquery: "@VERSION",
+    ...
+  }
+
+  // Expose jQuery to the global object
+  window.jQuery = window.$ = jQuery;
+})(window);
+{% endhighlight %}
+
+Glow and jQuery both use an anonymous function, then expose themselves by writing an attribute to <code>window</code>.  This is the approach I'll use for turing.js.
+
+h3. Modules and Plugins
+
+jQuery, MooTools and Glow have tried hard to be modular.  Let's use a similar approach, with a file naming scheme like this:
+
+* turing.core.js
+* turing.functional.js
+
+After creating a <code>turing</code> variable that will be exposed to the global scope, we can define our modules on it as functions or objects.
+
+h3. Let's Get Coding
+
+I'm going to use my "riot.js":http://github.com/alexyoung/riotjs library to write unit tests, because it's a simple unit testing library that is pure JavaScript.
+
+You might think that testing a library framework stub is pointless, but we still need to make sure it sets things up properly in browsers and in the console.  I'm going to run my tests in "Rhino":http://www.mozilla.org/rhino/ and Firefox.
+
+The core test should check the following:
+
+* <code>turing</code> is instantiated
+* <code>turing</code> has properties we can read -- let's set a version number
+
+The test code looks like this:
+
+{% highlight javascript %}
+Riot.context('turing.core.js', function() {
+  given('the turing object', function() {
+    should('be global and accessible', turing).isNotNull();
+    should('return a VERSION', turing.VERSION).isNotNull();
+    should('be turing complete', true).isTrue();
+  });
+});
+{% endhighlight %}
+
+Putting this together, we get:
+
+{% highlight javascript %}
+(function(global) {
+  var turing = {
+    VERSION: '0.0.1',
+    lesson: 'Part 1: Library Architecture'
+  };
+
+  if (global.turing) {
+    throw new Error('turing has already been defined');
+  } else {
+    global.turing = turing;
+  }
+})(typeof window === 'undefined' ? this : window);
+{% endhighlight %}
+
+Here's how it looks in Rhino:
+
+{% highlight javascript %}
+js> load('turing.core.js');
+js> print(turing.VERSION);
+0.0.1
+js> print(turing.lesson);
+Part 1: Library Architecture
+{% endhighlight %}
+
+And in a browser:
+
+{% highlight javascript %}
+>>> turing
+Object { VERSION="0.0.1", more...}
+{% endhighlight %}
+
+h3. Until Next Week...
+
+I'll continue this series next Thursday.  It took me three hours to research and write this article, so I think I'm due a few beers now.
+
+The code is on GitHub: "alexyoung/turing.js":http://github.com/alexyoung/turing.js
