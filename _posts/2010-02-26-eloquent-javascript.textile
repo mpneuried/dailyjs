@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Eloquent JavaScript"
+author: Alex Young
+categories: 
+- books
+---
+
+"Eloquent JavaScript":http://eloquentjavascript.net/ is an "opinionated guide to programming" written by "Marijn Haverbeke":http://marijn.haverbeke.nl/.  It's been around for a few years now, but if you haven't seen it before it's definitely worth a look.  It has 14 chapters with two appendices, and is available for free!
+
+It covers important topics like functional programming, modularity, events, and some interesting "obscure control structures":http://eloquentjavascript.net/appendix1.html.  The text includes verbose examples complete with syntax highlighting.  Haverbeke even references libraries like jQuery and Prototype.
