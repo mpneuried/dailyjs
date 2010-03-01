@@ -1,0 +1,16 @@
+---
+layout: post
+title: "Ruby vs. JavaScript Metaprogramming"
+author: Alex Young
+categories: 
+- ruby
+- metaprogramming
+---
+
+Ric sent me "Metaprogramming: Ruby vs. JavaScript":http://fingernailsinoatmeal.com/post/292301859/metaprogramming-ruby-vs-javascript, and at first I thought it looked pretty basic.  However, I've noticed a lot of DailyJS readers are experienced ruby developers, and there are some good pointers in this article for rubyists.
+
+For example, if you're used to the metaclass in ruby, you might over-think metaprogramming in JavaScript:
+
+bq. To be honest, there’s not much to say about the JavaScript example because it is so simple. We avoid the whole metaclass business because JavaScript uses prototypal inheritance. This means that Javascript does not distinguish between classes/prototypes and instances and, therefore, we can add our desired behavior directly to the instance.
+
+On a related note, I've previously done a lot of JavaScript DSL experimentation and stretched the limits of stylistically acceptable JavaScript.  In "Fear and Loathing in JavaScript DSLs":http://alexyoung.org/2009/10/22/javascript-dsl/ I explain various techniques for giving the illusion of a friendly DSL.  However, the best JavaScript libraries all seem to avoid this and make their interfaces more explicit, so I've never felt 100% comfortable with the approaches in that article.
