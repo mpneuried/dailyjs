@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "jQTouch: Create iPhone applications using just HTML, CSS and JavaScript"
+title: "jQTouch: Build iPhone Apps With JavaScript"
 author: Ric Roberts
 categories: 
 - iPhone
 - jQuery
 - libraries
+- tutorials
 ---
 
 "jQTouch":http://www.jqtouch.com is a jQuery plugin for mobile web development. It lets you create native-feeling iPhone applications using just HTML, CSS and JavaScript by taking advantage of native webkit "animations":http://code.google.com/p/jqtouch/wiki/Animations and by capturing "events":http://code.google.com/p/jqtouch/wiki/CallbackEvents such as swipes and orientation changes.  
