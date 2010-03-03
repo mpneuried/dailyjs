@@ -1,0 +1,20 @@
+---
+layout: post
+title: "Notes on Teaching JavaScript"
+author: Alex Young
+categories: 
+- learning
+- tutorials
+---
+
+"Notes on Teaching JavaScript":http://concisionandconcinnity.blogspot.com/2010/03/notes-on-teaching-javascript.html by Ian McCracken is a thoughtful post about the author's experiences teaching JavaScript to a web designer.  It made me realise how useful our "Let's Make a Framework":/tags.html#lmaf series of posts could be.
+
+McCracken says:
+
+bq. Nothing, however, teaches you JavaScript quite so well as rolling your own cross-browser Ajax utilities, and so I studied the source code of Prototype and script.aculo.us and MochiKit, and now I'm a far better programmer than someone starting out today might be forced to become.
+
+I've found the same thing in the past.  If you've ever worked on a project where you can't use a popular framework, you suddenly have to learn a lot very quickly.  Browser differences are a headache, which is why I'm glad these frameworks exist.  What really shapes these libraries is JavaScript itself.
+
+bq. Creating a simple library turned out to be a fantastic learning exercise: it requires investigation of namespaces, presents plenty of scoping problems to overcome, and requires attention to consistency, organization and sane API design.
+
+Have you ever written a guide to basic or fundamental JavaScript techniques?
