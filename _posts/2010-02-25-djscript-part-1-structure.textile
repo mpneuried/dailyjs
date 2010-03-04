@@ -5,6 +5,7 @@ author: Alex Young
 categories: 
 - web
 - frameworks
+- tutorials
 - lmaf
 ---
 
