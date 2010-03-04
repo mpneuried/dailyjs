@@ -65,7 +65,7 @@ It's even possible to make your jQTouch sites "run offline":http://code.google.c
 
 A great way to get started with jQTouch is by exploring the demos that David has provided in the "download":http://code.google.com/p/jqtouch/downloads/. These cover all of the features I've mentioned here, plus lots more besides: I've only scraped the surface.
 
-If you want to dig deeper, there's a "screencast on PeepCode":https://peepcode.com/products/jqtouch, and an "online"::http://building-iphone-apps.labs.oreilly.com/index.html Creative Commons O'Reilly book too.
+If you want to dig deeper, there's a "screencast on PeepCode":https://peepcode.com/products/jqtouch, and online in a Creative Commons O'Reilly book called "Building iPhone Apps with HTML, CSS, and JavaScript":http://building-iphone-apps.labs.oreilly.com/index.html.
 
 
 
