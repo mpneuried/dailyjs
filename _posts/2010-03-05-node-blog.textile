@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Node Blog and How To Node"
+author: Alex Young
+categories: 
+- nodejs
+- software
+- blgos
+---
+
+"Node Blog":http://github.com/creationix/node-blog is a static site generator which you can use to create a blog.  It currently uses haml and markdown for templates and content.
+
+Node Blog powers "How To Node":http://howtonode.org/, which features some interesting articles about using node by "Tim Caswell":http://howtonode.org/tim_caswell (creationix).  You can get the source for How To Node in "github.com/creationix/howtonode.org":http://github.com/creationix/howtonode.org.
+
+I've been slowly reading through all the How To Node articles, and I really enjoyed "Node + Redis = Fun":http://howtonode.org/node-redis-fun.  It brings together some interesting libraries, like "Nerve":http://github.com/gjritter/nerve/ (a node microframework).
