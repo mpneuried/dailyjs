@@ -106,7 +106,7 @@ Vector = Class.create({
 });
 
 Point = Class.create(Vector, {
-  initialize: function(x, y, colour) {
+  initialize: function($super, x, y, colour) {
     $super(x, y);
     this.colour = colour;
   }
