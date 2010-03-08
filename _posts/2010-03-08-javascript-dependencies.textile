@@ -8,7 +8,7 @@ categories:
 - narwhal
 ---
 
-Lately I've been thinking about strategies for hosting JavaScript apps.  Dependency management is useful for making deployment as smooth as possible, but what library dependency management options are there right now?  I decided to look at options for "node.js":http://nodejs.org/ and "narwhal":http://narwhaljs.org/.
+I've been thinking about strategies for hosting JavaScript apps.  One core part of this is dependency management -- it makes deployment as smooth as possible, and takes away a lot of maintenance pain.  But what library dependency management options are there right now?
 
 h3. Require and Packages
 
