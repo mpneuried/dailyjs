@@ -1,0 +1,87 @@
+---
+layout: post
+title: "JavaScript Library Dependencies"
+author: Alex Young
+categories: 
+- server
+- nodejs
+- narwhal
+---
+
+Lately I've been thinking about strategies for hosting JavaScript apps.  Dependency management is useful for making deployment as smooth as possible, but what library dependency management options are there right now?  I decided to look at options for "node.js":http://nodejs.org/ and "narwhal":http://narwhaljs.org/.
+
+h3. Require and Packages
+
+The building block of dependency management is <code>require</code>.  This is specified in "CommonJS modules":http://wiki.commonjs.org/wiki/Modules/1.1, and they have unit tests for implementors to use.
+
+That's not enough though.  Production server-side applications need to be specific about library versions to ensure that what's deployed is tested and safe.  Yet nobody wants to waste time downloading specific versions of scripts.  This is where a package manager comes in handy.
+
+Much like there are multiple implementations of JavaScript there can be many package managers.  Some programming languages opt to bundle one as standard, and others allow the community to provide and support them.
+
+h3. Narwhal
+
+"Narwhal":http://narwhaljs.org/ has <code>tusk</code>, which manages _virtual environments_ and is also a package manager.  Packages use a json file to express metadata like dependencies, and can include jars, executables, C and Java source, and "engines":http://narwhaljs.org/engines.html.
+
+The package.json files look like this:
+
+{% highlight javascript %}
+{
+    "author": "Author Name",
+    "contributors": [
+        "Contributor Name"
+    ],
+    "dependencies": [
+        "narwhal"
+    ],
+    "jars": [
+        "jars/simple-4.1.10.jar"
+    ],
+    "version": "0.2.2"
+}
+{% endhighlight %}
+
+Tusk usage looks like this:
+
+{% highlight sh %}
+alex@mog ~/narwhal[git:master]$ tusk install jack
+Updating catalog.
+Downloading http://github.com/280north/narwhal/raw/master/catalog-2.json
+# ... etc
+{% endhighlight %}
+
+Tusk installs into your own path, rather than system-wide.  You could use it to manage your own apps to ease deployment to production servers.
+
+h3. Kiwi
+
+"Kiwi":http://github.com/visionmedia/kiwi is a package manager for node.js.  You can install it like this:
+
+{% highlight sh %}
+git clone git://github.com/visionmedia/kiwi.git
+cd kiwi
+# sudo if required or available
+sudo make install
+# This installs into ~/.kiwi
+kiwi -v install oo
+{% endhighlight %}
+
+A node app that uses kiwi looks like this:
+
+{% highlight javascript %}
+var kiwi = require('kiwi'),
+    sys = require('sys')
+
+sys.p(kiwi.require('oo'))
+{% endhighlight %}
+
+Kiwi uses YAML _seed_ files:
+
+{% highlight yaml %}
+---
+  name: OO
+  description: Object-Oriented Class support
+  version: 1.2.0
+{% endhighlight %}
+
+Kiwi has an interactive shell where you can search and install packages.  Packages are fetched from a remote server, where users can register and publish their own packages.  It seems like it's still early days for Kiwi, but it's a promising start.
+
+I tested wiki with the current version of node from GitHub (3947270). 
