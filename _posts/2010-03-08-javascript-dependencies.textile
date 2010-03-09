@@ -84,4 +84,4 @@ Kiwi uses YAML _seed_ files:
 
 Kiwi has an interactive shell where you can search and install packages.  Packages are fetched from a remote server, where users can register and publish their own packages.  It seems like it's still early days for Kiwi, but it's a promising start.
 
-I tested wiki with the current version of node from GitHub (3947270). 
+I tested kiwi with the current version of node from GitHub (3947270). 
