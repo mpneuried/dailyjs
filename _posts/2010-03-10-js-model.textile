@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Models with js-model"
+author: Alex Young
+categories: 
+- libraries
+- functional
+---
+
+"js-model":http://github.com/benpickles/js-model by "Ben Pickles":http://www.benpickles.com/ is a client-side library for working with the model layer.  It's not simply a REST proxy, it supports features like data caching, validation, and models can be hooked up to the UI using events.
+
+Validations look like this:
+
+{% highlight javascript %}
+var Post = Model('post', {
+  validate: function() {
+    if (this.attr("title") != "Bar") {
+      this.errors.add("title", "should be Bar")
+    }
+  }
+})
+
+var post = new Post()
+post.attr("title", "Foo")
+
+post.valid()                // => false
+post.errors.size()          // => 1
+post.errors.on("title")     // => ["should be Bar"]
+post.errors.all()           // => { title: ["should be Bar"] }
+
+post.attr("title", "Bar")
+
+post.valid()                // => true
+{% endhighlight %}
+
+REST can be used to persist data, but you could technically add your own persistence layer:
+
+{% highlight javascript %}
+var Project = Model("project", {
+  persistence: Model.RestPersistence("/projects")
+})
+{% endhighlight %}
+
+This project requires "jQuery":http://jquery.com/ and "Underscore":http://documentcloud.github.com/underscore/.
