@@ -88,10 +88,6 @@ var User = turing.Class({
     this.age  = age;
   },
 
-  display: function() {
-    return this.name + ': ' + this.age;
-  },
-
   login: function() {
     return true;
   },
