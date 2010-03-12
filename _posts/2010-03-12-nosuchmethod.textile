@@ -1,0 +1,43 @@
+---
+layout: post
+title: "__noSuchMethod__ and v8"
+author: Alex Young
+categories: 
+- language
+- metaprogramming 
+---
+
+I saw this today on "Thomas Fuchs' twitter":http://twitter.com/thomasfuchs: "Allow __noSuchMethod__ implementations":http://code.google.com/p/v8/issues/detail?id=264.  It's an issue raised for v8, asking for <code>__noSuchMethod__</code> support.  The issue references a "Bugzilla SpiderMonkey bug":https://bugzilla.mozilla.org/show_bug.cgi?id=196097 that successfully raised the issue and got it implemented, despite it not being in the ECMAScript standards.
+
+If you haven't seen such a method before, it's quite simple: a "catchall" method is run whenever a method can't be found within a given context.  This is a major technique for meta-programming in ruby, and is used in other languages as well.  This will execute in Rhino: 
+
+{% highlight javascript %}
+function ExampleClass() {
+}
+
+ExampleClass.prototype.print = function(message) {
+  print("ExampleClass.prototype.print: " + message)
+}
+
+ExampleClass.prototype.__noSuchMethod__ = function() {
+  this.print("No such method, maybe you should try reading the docs?");
+}
+
+example = new ExampleClass();
+example.eatPizza();
+{% endhighlight %}
+
+There are some encouraging comments in the thread:
+
+bq. I would say that both the C-based Spidermonkey JS engine and the Java-based Rhino engine have implemented __noSuchMethod__ and, for us ex-Smalltalkers, having a 'doesNotUnderstand'-like functionality is very empowering :-).
+
+bq. +1 for this feature. As dachev pointed out above, this will be huge for server-side JS at least for the moment. May be big for the client as well in some time. (FF already does this, AFAIK).
+
+However, the v8 team try to keep compatibility with Safari which doesn't current support such a method.  Given the growing popularity of projects like node.js, I think it's likely that Safari and v8 will get support.
+
+Further reading:
+
+* "noSuchMethod on developer.mozilla.org":https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Object/noSuchMethod
+* "method_missing in JavaScript?":http://yehudakatz.com/2008/08/18/method_missing-in-javascript/, by Yehuda Katz
+* "doesNotUnderstand in Smalltalk":http://c2.com/cgi/wiki?DoesNotUnderstand
+* "Discussions on comp.lang.javascript.nodejs":http://comments.gmane.org/gmane.comp.lang.javascript.nodejs/3404
