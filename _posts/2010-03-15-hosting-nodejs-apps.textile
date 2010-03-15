@@ -14,7 +14,7 @@ h3. Step 1: Get a Server or VM
 
 I'm using a VMware virtual machine.  This is a good way of trying things out before spending money on Amazon or a web host.  You could also work locally on a Mac.  You can skip ahead if you don't want to go the VMware route.
 
-Let's get started quickly by downloading a Debian net installer ISO.  The "debian-testing-i386-netinst.iso":http://cdimage.debian.org/cdimage/daily-builds/daily/arch-latest/i386/iso-cd/ is only 162M.  Follow the VMware instructions for setting up a Linux VM, select the ISO, then use Debian's defaults.
+Let's get started quickly by downloading a Debian net installer ISO.  The "debian-testing-i386-netinst.iso":http://cdimage.debian.org/cdimage/daily-builds/daily/arch-latest/i386/iso-cd/ is only 162M.  Follow the VMware instructions for setting up a Linux VM, select the ISO, then use Debian's defaults when it boots.
 
 The standard install options I checked were:
 
