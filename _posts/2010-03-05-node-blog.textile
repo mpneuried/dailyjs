@@ -5,7 +5,7 @@ author: Alex Young
 categories: 
 - nodejs
 - software
-- blgos
+- blogs
 ---
 
 "Node Blog":http://github.com/creationix/node-blog is a static site generator which you can use to create a blog.  It currently uses haml and markdown for templates and content.

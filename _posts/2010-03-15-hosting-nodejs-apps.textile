@@ -1,0 +1,149 @@
+---
+layout: post
+title: "Hosting Node Apps"
+author: Alex Young
+categories: 
+- nodejs
+- tutorials
+- server
+---
+
+This tutorial walks you through setting up a server that can host "node.js":http://nodejs.org/ apps for server-side JavaScript applications.  Right now, the node.js hosting options boil down to running node daemon processes that talk to a web server.  Most web servers can proxy connections to a different port, so you'll be able to use Apache or nginx to do this.
+
+h3. Step 1: Get a Server or VM
+
+I'm using a VMware virtual machine.  This is a good way of trying things out before spending money on Amazon or a web host.  You could also work locally on a Mac.  You can skip ahead if you don't want to go the VMware route.
+
+Let's get started quickly by downloading a Debian net installer ISO.  The "debian-testing-i386-netinst.iso":http://cdimage.debian.org/cdimage/daily-builds/daily/arch-latest/i386/iso-cd/ is only 162M.  Follow the VMware instructions for setting up a Linux VM, select the ISO, then use Debian's defaults.
+
+The standard install options I checked were:
+
+* DNS server
+* Email server
+* SSH server
+* Standard utilities
+* File sharing (for getting files in/out easily, not needed in production)
+
+h3. Step 2: Packages
+
+I installed the following packages:
+
+{% highlight sh %}
+apt-get install sudo vim-nox nginx unzip g++ screen git-core monit
+{% endhighlight %}
+
+h3. Step 3: Node
+
+You can download Node's source wherever you want:
+
+{% highlight sh %}
+git clone git://github.com/ry/node.git
+{% endhighlight %}
+
+Then build it:
+
+{% highlight sh %}
+./configure
+make
+make install
+{% endhighlight %}
+
+h3. Step 4: Configure the Web Server
+
+Create a host that you will be able to reference from your desktop machine.  If required, add the name of the host to <code>/etc/hosts</code> on your local machine so you can resolve it.  I'm using <code>nodetest.local</code> in these examples.
+
+Edit the nginx configuration for this host in <code>/etc/nginx/sites-available/nodetest.local</code>:
+
+{% highlight sh %}
+upstream app_cluster_1 {
+        server 127.0.0.1:8000;
+}
+
+
+server {
+        listen 0.0.0.0:80;
+        server_name nodetest.local nodetest;
+        access_log /var/log/nginx/nodetest.log;
+
+        location / {
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Host $http_host;
+          proxy_set_header X-NginX-Proxy true;
+
+          proxy_pass http://app_cluster_1/;
+          proxy_redirect off;
+        }
+}
+{% endhighlight %}
+
+As you can see, this is where the proxying comes in.  This clustering could be used to load balance multiple web servers.
+
+Create a symbolic link so this host can be used:
+
+{% highlight sh %}
+cd /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/nodetest.local nodetest.local
+{% endhighlight %}
+
+Next run <code>/etc/init.d/nginx reload</code>.
+
+h3. Step 5: Create an App
+
+Edit <code>/var/www/apps/hello_world/example.js</code> and paste in this _Hello Word_ example:
+
+{% highlight javascript %}
+var sys = require("sys"),
+   http = require("http");
+http.createServer(function (request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.write("Hello World\n");
+  response.close();
+}).listen(8000);
+sys.puts("Server running at http://127.0.0.1:8000/");
+{% endhighlight %}
+
+Notice it runs on the port defined in the nginx config.
+
+h3. Step 6: Set Up Monit
+
+Monit will automatically restart the node process if it crashes.  Paste this into <code>/etc/monit/services/hello_world</code>:
+
+{% highlight sh %}
+check host hello_world with address 127.0.0.1
+    start program = "/usr/local/bin/node /var/www/apps/hello_world/example.js"
+    stop program  = "/usr/bin/pkill -f 'node /var/www/apps/hello_world/example.js'"
+    if failed port 8000 protocol HTTP
+        request /
+        with timeout 10 seconds
+        then restart
+{% endhighlight %}
+
+This is pretty basic, but it will work.  If you want to make it nicer you can use upstart, as explained in "Deploying Node.js With Upstart and Monit":http://howtonode.org/deploying-node-upstart-monit.
+
+Next edit <code>/etc/monit/monitrc</code> so monit will actually do something:
+
+{% highlight sh %}
+set daemon 30
+include /etc/monit/services/*
+
+check system jsx.local
+set httpd port 2812 and
+  allow admin:hello
+{% endhighlight %}
+
+It's probably best if you change the password from _hello_.
+
+h3. Step 7: Restart Monit!
+
+Run <code>/etc/init.d/monit restart</code>.  It will report any mistakes.  Check there's a node process running -- if there isn't <code>monit start hello_world</code> should bring one up.
+
+Visiting "http://nodetest.local/":http://nodetest.local/ should display "Hello World".
+
+h3. Conclusions and Further Reading
+
+I hope you've gone from 0 to node hosting without any major hassle.  It's still a slightly awkward process, and I haven't said anything about running multiple node instances and load balancing them.  It might feel a little bit hackish to use a proxy and monit, but all my production servers end up running monit anyway, so not having a one-click <code>mod_nodejs</code> style solution isn't a great barrier to deployment.
+
+* "Deploying Node.js With Upstart and Monit":http://howtonode.org/deploying-node-upstart-monit
+* "Run Node.js as a Service on Ubuntu Karmic":http://kevin.vanzonneveld.net/techblog/article/run_nodejs_as_a_service_on_ubuntu_karmic/
+* "nginx proxy loadbalacing":http://linuxsysadminblog.com/2009/01/nginx-proxy-loadbalacing/
