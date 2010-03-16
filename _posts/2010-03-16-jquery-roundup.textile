@@ -1,0 +1,37 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 4: Spritely, Entropy"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup, episode 4.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Spritely
+
+"jQuery.spritely":http://www.spritely.net/ can be used to create character and background animation using HTML and JavaScript.  Even though it's fairly lightweight, it can help build animations that look convincing.
+
+The "documentation":http://www.spritely.net/documentation/ has some good examples, where an image like this is animated:
+
+!/images/posts/spritely.png!
+
+{% highlight javascript %}
+$('#bird').sprite({fps: 12, no_of_frames: 3});
+{% endhighlight %}
+
+h3. jQuery Entropy
+
+"Entropy":http://jqentropy.com/ is a widget library that builds on concepts from "Entwine":http://github.com/hafriedlander/jquery.entwine:
+
+bq. Under Entropy, widgets are merely logical groupings of DOM elements that respond to the events fired by the containing element and all child elements. Each Widget maintains its own subsystem of message passing (in the vein of a Observer/PubSub pattern) and responds accordingly to contained (and external) events.
+
+By using message passing, live bindings and simple object structure, you could create reusable interface elements with sophisticated behaviour.  There isn't any documentation yet, but experimenting with the demos and Entwine will get you going.
+
+You can view a simple example in "First Demo – A Simple Window Widget":http://jqentropy.com/2010/03/first-demo-a-simple-window-widget/.  Press the play button and click _Add to DOM_ to see the code in action.  Adding more than one window to the page is possible, and despite the short code features like window ordering works:
+
+!/images/posts/entropy.png!
+
+
