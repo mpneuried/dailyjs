@@ -1,0 +1,20 @@
+---
+layout: post
+title: "TXJS"
+author: Alex Young
+categories:
+- conferences
+- events
+---
+
+"TXJS":http://txjs.eventbrite.com/ is a one day JavaScript conference in Austin, TX, on June 5th.
+
+Guests include:
+
+* "Brandon Aaron":http://brandonaaron.net/
+* "Tim Caswell":http://howtonode.org/tim_caswell
+* "Andrew Dupont":http://andrewdupont.net/
+* "Peter Higgins":http://higginsforpresident.net/
+* And a lot more
+
+They've still got early-bird tickets for $49!
