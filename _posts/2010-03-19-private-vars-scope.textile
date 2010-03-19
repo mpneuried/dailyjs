@@ -7,7 +7,7 @@ categories:
 - techniques
 ---
 
-When I was researching the "framework":/2010/03/18/framework-part-4-functional/ article I came across a simple technique for namespace shortcuts in TJ Holowaychuk's "jspec":http://github.com/visionmedia/jspec/.  I haven't noticed it used very often, so I thought DailyJS hackers may find it interesting.
+When I was researching the last "turing.js framework":/2010/03/18/framework-part-4-functional/ article I came across a simple technique for namespace shortcuts in TJ Holowaychuk's "jspec":http://github.com/visionmedia/jspec/.  I haven't noticed it used very often, so I thought DailyJS hackers may find it interesting.
 
 {% highlight javascript %}
 ;(function() {
