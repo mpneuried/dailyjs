@@ -1,0 +1,53 @@
+---
+layout: post
+title: "Using Vars to Shortcut Namespaces"
+author: Alex Young
+categories: 
+- codereview
+- techniques
+---
+
+When I was researching the "framework":/2010/03/18/framework-part-4-functional/ article I came across a simple technique for namespace shortcuts in TJ Holowaychuk's "jspec":http://github.com/visionmedia/jspec/.  I haven't noticed it used very often, so I thought DailyJS hackers may find it interesting.
+
+{% highlight javascript %}
+;(function() {
+  MyClass = {
+    map: function(object, callback) {
+      var items = [];
+      each(object, function(i) { items.push(callback.apply(this, arguments)); });
+      return items;
+    },
+
+    each: function(object, callback) {
+      for (var i = 0; i < object.length; i++) {
+        callback(i);
+      }
+    }
+  }
+
+  var methods = 'each map'.split(/ /);
+  while (methods.length) { eval('var ' + methods[0] + ' = MyClass.' + methods.shift()); }
+})();
+
+// Map can refer to each without dereferencing
+result = MyClass.map([1, 2, 3], function(i) {
+  return i + 1;
+});
+
+print(result);
+// 1,2,3
+{% endhighlight %}
+
+Ignore the implementations of <code>each</code> and <code>map</code> and look at the loop after <code>MyClass</code>.
+
+What happens here is a list of methods are mapped to vars so they can be referenced without their containing object name.
+
+# MyClass is declared globally
+# Methods within the containing anonymous function can refer to hand-picked "utility" methods without referring to MyClass
+# These methods are declared as local variables using <code>eval</code>
+# The <code>while</code> loop iterates over each method name
+
+Notice that the loop refers to each method using <code>methods[0]</code>, then <code>methods.shift()</code> when it's no longer needed, which keeps the loop control simple.
+
+This is useful if you want to cut down code inside a library.  It's safe because the shortcuts are bound to the anonymous function, but novices may find navigating the code difficult.  Tracking down where <code>each</code> comes from in a big project might be difficult, so avoid this technique if you're working on a large project with colleagues with mixed skills.
+
