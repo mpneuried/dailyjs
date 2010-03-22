@@ -51,3 +51,8 @@ Notice that the loop refers to each method using <code>methods[0]</code>, then <
 
 This is useful if you want to cut down code inside a library.  It's safe because the shortcuts are bound to the anonymous function, but novices may find navigating the code difficult.  Tracking down where <code>each</code> comes from in a big project might be difficult, so avoid this technique if you're working on a large project with colleagues with mixed skills.
 
+This is flexible way of achieving similar results to <code>with</code>:
+
+* "with on MDC":https://developer.mozilla.org/En/Core_JavaScript_1.5_Reference/Statements/With
+* "with Statement Considered Harmful":http://www.yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/
+* "Are there legitimate uses of the with statement?":http://stackoverflow.com/questions/61552/are-there-legitimate-uses-for-javascripts-with-statement
