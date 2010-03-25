@@ -135,11 +135,11 @@ This isn't perfect though.  Most languages make their <code>super</code> impleme
 {% highlight javascript %}
 var SuperUser = turing.Class(User, {
   initialize: function() {
-    this.super('initialize', arguments);
+    this.$super('initialize', arguments);
   },
 
   toString: function() {
-    return "SuperUser: " + this.super('toString');
+    return "SuperUser: " + this.$super('toString');
   }
 });
 {% endhighlight %}
