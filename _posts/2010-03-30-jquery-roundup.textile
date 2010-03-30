@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "jQuery Plugin Roundup 5: pluginquery"
+title: "jQuery Plugin Roundup 5"
 author: Alex Young
 categories: 
 - jquery
