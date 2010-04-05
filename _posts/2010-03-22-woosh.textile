@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Woosh"
+author: Alex Young
+categories: 
+- performance
+- testing
+- libraries
+- glow
+---
+
+!/images/posts/woosh.png!
+
+I was looking through "glow2's":http://github.com/glow/glow2 commits, and I noticed references to "Woosh":http://github.com/jakearchibald/Woosh/, a JavaScript speed testing framework written by "Jake Archibald":http://jakearchibald.co.uk/.  It's being used in a similar way to "slickspeed":http://mootools.net/slickspeed/ to test glow2's performance.
+
+Tests look like this:
+
+{% highlight javascript %}
+woosh.addTests('testSomething',
+  'Test 1': new woosh.Test(timesToRun, function() {
+    return testFunction();
+  })
+});
+{% endhighlight %}
+
+"Frances Berriman":http://fberriman.com/ (one of the glow authors) wrote a very detailed Woosh tutorial: "JavaScript speed testing tutorial with Woosh":http://fberriman.com/2010/01/12/javascript-speed-testing-with-woosh/.

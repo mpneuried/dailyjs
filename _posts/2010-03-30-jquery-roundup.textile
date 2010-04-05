@@ -1,0 +1,79 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 5"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 5.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. pluginquery - jQuery Plugin Search
+
+"pluginquery":http://www.pluginquery.com/ is a search engine that indexes jQuery plugins.  It's simple, fast, and clean.  "Try it out!":http://www.pluginquery.com/?q=ajax
+
+h3. Codename Rainbows
+
+!/images/posts/rainbows.png!
+
+"Codename Rainbows":http://labs.dragoninteractive.com/ is a plugin for generating gradients on blocks of text.  It can apply highlights and shadows as well -- these require CSS styles to get them just right.
+
+The API looks like this:
+
+{% highlight javascript %}
+rainbows.init({
+  selector: '.selector',
+  highlight: true,
+  shadow: true,
+  from: '#555555',
+  to: '#000000'
+});
+{% endhighlight %}
+
+Make sure the hex codes are the full six characters because it won't convert abbreviations.
+
+There's an article about the "design and goals of the library":http://labs.dragoninteractive.com/rainbows_article.php, as well as a "demo":http://labs.dragoninteractive.com/rainbows_demo.php.
+
+h3. jsPlumb
+
+!/images/posts/jsplumb.png!
+
+"jsPlumb":http://code.google.com/p/jsplumb/ can visually connect elements together with curved (or straight) lines.  The "demo":http://morrisonpitt.com/jsPlumb/html/demo.html has examples of Bezier curves and straight lines.
+
+The API is easy to use:
+
+{% highlight javascript %}
+$("#window1").plumb({
+	target: 'window2', 
+	paintStyle: {lineWidth: 15, strokeStyle: 'rgb(243, 230, 18)'}, 
+	endpointStyle: {fillStyle: 'rgb(243, 229, 0)'}
+});
+{% endhighlight %}
+
+The browser support is very impressive -- the author even lists IE6.
+
+h3. Nivo Slider
+
+!/images/posts/nivo.png!
+
+"Nivo Slider":http://nivo.dev7studios.com/ is a library for image transitions.  It has lots of different transitions, and you can apply them programatically:
+
+{% highlight javascript %}
+$(window).load(function() {
+	$('#slider').nivoSlider({
+		effect: 'random',
+		slices: 15,
+		animSpeed: 500,
+		pauseTime: 3000,
+		directionNav: true, //Next & Prev
+		directionNavHide: true, //Only show on hover
+		controlNav: true, //1, 2, 3...
+		pauseOnHover: true, //Stop animation while hovering
+		beforeChange: function(){},
+		afterChange: function(){}
+	});
+});
+{% endhighlight %}
+
+Nivo can be found on GitHub: "Nivo-Slider":http://github.com/gilbitron/Nivo-Slider.

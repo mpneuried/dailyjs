@@ -1,0 +1,18 @@
+---
+layout: post
+title: "MooTouch"
+author: Alex Young
+categories: 
+- mobile
+- interface
+- mootools
+- iphone
+---
+
+!/images/posts/mootools.png!
+
+MooTouch is a framework for iPhone web app development that uses "MooTools":http://mootools.net/, made by Jacky Nguyen.  The code hasn't actually been released yet, but the author promises that it will be released under the MIT license.  You can see the framework in this video: "Native-like iPhone Web Application - Powered by MooTouch":http://vimeo.com/10326422 and on this site: "ExpatLiving":http://m.expatliving.sg/.
+
+MooTouch allows you to build pages that load using Ajax with location hashes.  It uses Safari's native CSS3 features so transitions feel snappy.  The source code has some Android webkit support as well.  There are also interesting references like orientation change support.  The source doesn't appear to have specific multitouch support in the API.
+
+Someone has kindly posted the source, processed through a beautifier, to "GitHub":http://gist.github.com/341230.  You can see how the library is used in "ExpatLiving.js":http://gist.github.com/341230#file_expat_living.js, and the source itself in "mootouch.js":http://gist.github.com/341230#file_mootouch.js.

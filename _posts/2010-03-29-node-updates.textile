@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Node Updates"
+author: Alex Young
+categories:
+- nodejs
+---
+
+Much like the regular jQuery Roundup, I thought a semi-regular "node.js":http://nodejs.org/ news update would be useful.  The "changelog":http://nodejs.org/changelog.html and "nodejs google group":http://groups.google.com/group/nodejs/ are good places to keep up to date.
+
+h3. Kiwi
+
+TJ has updated "kiwi":http://github.com/visionmedia/kiwi to version 0.2.2.  Kiwi is a package manager that's much like "RubyGems":http://rubygems.org/.  A lot of kiwi's functionality is in a "shell script":http://github.com/visionmedia/kiwi/blob/master/bin/kiwi, so you can do this without already having node:
+
+{% highlight javascript %}
+kiwi install node
+{% endhighlight %}
+
+This is possible because the dependencies are minimal:
+
+* sed
+* awk
+* tar
+* egrep
+
+h3. Express
+
+By the same author, "Express":http://expressjs.com/ is a web framework inspired by Sinatra.  We've featured it before on DailyJS, but recently it's had a lot of work to update it to work with the more recent node API changes.
+
+As well as a "tonne of bug fixes":http://github.com/visionmedia/express/issues/closed, Express now has over 500 watchers on GitHub and four contributors.
+
+h3. Do
+
+"Do":http://github.com/creationix/do is a library for managing asynchronous non-blocking operations in node.  Usage is a bit like promises, but it doesn't require an external library.
+
+Do can convert an external library to make it use Do-style continuables:
+
+{% highlight javascript %}
+var fs = Do.convert(require('fs'), ['readFile', 'writeFile']);
+// Returns a copy of fs that has readFile and writeFile converted to Do-style continuables
+{% endhighlight %}
+
+h3. node-microseconds
+
+If you're interested in super-accurate benchmarks, Elijah Insua has written a node library for getting microseconds out of the unix <code>gettimeofday</code> system call:
+
+{% highlight javascript %}
+var microseconds = require('../lib/node-microseconds').microseconds;
+require('sys').puts(microseconds());
+{% endhighlight %}

@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Significant Whitespace"
+author: Alex Young
+categories: 
+- programming
+- style
+---
+
+In his "homoiconic":http://github.com/raganwald/homoiconic blog, "Reg Braithwaite":http://weblog.raganwald.com/ recently discussed jQuery because he heard that it "changes the way you think about programming".  In "Significant Whitespace":http://github.com/raganwald/homoiconic/blob/master/2010/03/significant_whitespace.md, Reg discusses how jQuery embraces the use of chained calls on separate lines to increase readability:
+
+{% highlight javascript %}
+instance
+  .call1(text)
+  .call2({...})
+  .lastcall('open');
+{% endhighlight %}
+
+He makes an interesting stylistic point:
+
+bq. To keep the logic clear I've been using the following style guideline: When I'm returning the receiver, I do not indent.
+
+So when he returns something else from a chained call, he indents:
+
+{% highlight javascript %}
+$(event.target)
+  .parents('body > *')
+    .find('.wants_close')
+      .trigger(event);
+{% endhighlight %}
+
+He likens more complex chained and indented calls to "haml":http://haml-lang.com/ and "sass":http://sass-lang.com/.  JavaScript isn't aware of the level of indentation, but he suggests that this could be useful, and relates this to jQuery's <code>end()</code> method.
+
+His last point is what really made me understand his arguments: 
+
+bq. I have some other reasons for wanting this in the language that have to do with destructuring assignment, pattern matching, and other uses for code that looks like the data it manipulates.
+
+Even though his hypothetical language would be interesting, understanding <code>end()</code> can trip up jQuery beginners working on other people's code.  I've had to untangle deeply nested ends before and it's one of those things that encourages me to finish work early and hit the beer.  If you're feeling a little bit lost, the "end() documentation":http://api.jquery.com/end/ makes it all clear once you work through the examples.

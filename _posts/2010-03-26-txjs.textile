@@ -1,0 +1,19 @@
+---
+layout: post
+title: "TXJS"
+author: Alex Young
+categories:
+- conferences
+- events
+---
+
+!/images/posts/txjs.png!
+
+"Rebecca Murphey":http://www.rebeccamurphey.com/ contacted us with more info on "TXJS":http://texasjavascript.com/.  Rebecca is the organizer of the event, and it's hosted by the "yayQuery podcast":http://yayquery.com team.
+
+bq. The goal is to provide a low-cost, high-value opportunity for JavaScript developers of all stripes to meet and interact with some of the best minds in the field -- with that in mind, tickets are just $69, which is about as close to free as we can make them.
+
+The event now has an official site at "texasjavascript.com":http://texasjavascript.com/.  As I mentioned previously, they've announced high profile speakers like "Douglas Crockford":http://www.crockford.com/ and "John Resig":http://ejohn.org/.  Most popular JavaScript libraries and server-side frameworks have core members attending or speaking (the full list is on the site).  Over 150 attendees are expected, and speakers and attendees will gather in downtown Austin for a hack night and party sponsored by Google.
+
+I'd love to attend but I live in the UK... If you're interested in writing an article about the event, get in touch!  There will be monetary rewards.
+

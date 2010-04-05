@@ -1,0 +1,49 @@
+---
+layout: post
+title: "Jsawk and JSONLint"
+author: Alex Young
+categories: 
+- json
+- validation
+- cli
+---
+
+"Jsawk":http://github.com/micha/jsawk is like <code>awk</code> for JSON.  It can be used to filter JSON, or modify it.  Each record can be processed using JavaScript expressions.
+
+Given this JSON:
+
+{% highlight javascript %}
+[
+  {
+    "id": "1",
+    "name": "alex",
+    "roles"  : ["author", "editor"]
+  },
+  {
+    "id": "2",
+    "name": "simon",
+    "roles"  : ["author", "editor"]
+  },
+  {
+    "id": "3",
+    "name": "bill",
+    "roles"  : ["author"]
+  }
+]
+{% endhighlight %}
+
+An email field could be added like this:
+
+{% highlight sh %}
+cat example.json | ./jsawk 'this.email = this.name + "@dailyjs.com"'
+{% endhighlight %}
+
+This filters out all people who aren't an editor: 
+
+{% highlight javascript %}
+cat example.json | ./jsawk 'if (this.roles.indexOf("editor") == -1) return null'
+{% endhighlight %}
+
+h3. JSONLint
+
+"JSONLint":http://jsonlint.com/ is a web-based tool for validating JSON.  Paste in some JSON and it'll give you syntax errors.  It's simple but may be convenient if you're stuck on a JSON problem and don't have a quick way to validate it. 
