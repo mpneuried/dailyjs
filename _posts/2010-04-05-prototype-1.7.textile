@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Prototype 1.7"
+author: Alex Young
+categories: 
+- prototype
+- frameworks
+---
+
+"Prototype 1.7 RC1":http://prototypejs.org/2010/4/5/prototype-1-7-rc1-sizzle-layout-dimensions-api-event-delegation-and-more has been released, which introduces "Sizzle":http://sizzlejs.com/ for the selector engine, <code>Element#on</code>, <code>Element.Layout</code>, and bug fixes.
+
+h3. Sizzle
+
+Sizzle has been on the cards for a long time, but it's actually becoming a reality.  Building Prototype with different selector engines is possible, including the original, by using Rake:
+
+{% highlight javascript %}
+rake dist SELECTOR_ENGINE=legacy_selector
+{% endhighlight %}
+
+h3. Element#on
+
+This is a shortcut for binding events:
+
+{% highlight javascript %}
+$("messages").on('click', 'a.class_name', function(event, element) {
+  // Your event code here
+});
+{% endhighlight %}
+
+This removes a line of code from Prototype 1.6 style code where elements are extracted from the event.
+
+h3. Element.Layout
+
+Prototype now has a consolidated measurement API:
+
+{% highlight javascript %}
+$('elementID').measure('width'); // Integer
+$('elementID').measure('border-top');
+{% endhighlight %}
+
+h3. Fixes
+
+ES5 compliance forms a big part of the bug fixes.  There are also performance optimisations.  The release is tagged as 1.7rc1 on GitHub, with a summary of all the changes in the "CHANGELOG":http://github.com/sstephenson/prototype/blob/1.7_rc1/CHANGELOG.
+
+h3. My Take
+
+These changes are positive -- <code>Element#on</code> makes Prototype code more concise, and measuring elements has always been slightly clumsy so the new layout API might have positive repercussions, particularly for animation and graphics libraries.  Thomas Fuchs uses Prototype for scriptaculous, so this might be a good thing for "scripty2 which uses Prototype":http://github.com/madrobby/scripty2/tree/master/lib/.
+
+Finally switching to Sizzle is interesting because it's a widely adopted and very focused library.  There are enough selector engines out there, so the open source community won't suffer by Prototype's engine becoming legacy.
+
+Remember that this means XPath selectors won't work.  Prototype supported XPath in browsers with <code>document.evaluate</code>, but Sizzle will raise <code>Syntax error, unrecognized expression: //xpath/goes/here</code>.
