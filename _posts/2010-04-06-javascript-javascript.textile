@@ -1,0 +1,35 @@
+---
+layout: post
+title: "JavaScript, JavaScript"
+author: Alex Young
+categories: 
+- javascript
+- blogs
+---
+
+"JavaScript, JavaScript":http://javascriptweblog.wordpress.com/ is a blog by Angus Croll in which he discusses high-level JavaScript concepts and techniques.  Recent articles include tutorials on "closures":http://javascriptweblog.wordpress.com/2010/03/29/getting-closure/, "throw":http://javascriptweblog.wordpress.com/2010/03/17/meet-your-new-best-friend-throw/, and "curry":http://javascriptweblog.wordpress.com/2010/04/05/curry-cooking-up-tastier-functions/.
+
+It's a blog that's worth following if you're interested in improving your JavaScript fundamentals.
+
+h3. var undefined = true
+
+This post on reddit is amusing: "var undefined = true; /* the best way to screw up whole javascript apps */":http://www.reddit.com/r/javascript/comments/bia1m/var_undefined_true_the_best_way_to_screw_up_whole/.
+
+It's not really as bad as it sounds because most of us do this:
+
+{% highlight javascript %}
+if (typeof made_up_variable === 'undefined') { alert("it's cool, I'm cool.") }
+{% endhighlight %}
+
+The other way would be to write the following:
+
+{% highlight javascript %}
+var magic_var;
+if (magic_var == undefined) { alert('undefined!'); }
+
+undefined = true;
+magic_var = true;
+if (magic_var == undefined) { alert('undefined!'); }
+{% endhighlight %}
+
+This has the worrying outcome of displaying undefined for both cases.
