@@ -5,6 +5,7 @@ author: Alex Young
 categories: 
 - services
 - webapps
+- reviews
 ---
 
 "ExceptionHub":http://www.exceptionhub.com/ by Agile Productions is a new web service that tracks JavaScript exceptions.  It uses a small (8.6 KB) JavaScript include that catches uncaught exceptions on your page and then transparently sends them to the service.  It can alert you by email, or you can view the web interface.  Each project also has an RSS feed.
