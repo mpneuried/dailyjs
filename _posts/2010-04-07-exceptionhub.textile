@@ -1,0 +1,38 @@
+---
+layout: post
+title: "ExceptionHub"
+author: Alex Young
+categories: 
+- services
+- webapps
+---
+
+"ExceptionHub":http://www.exceptionhub.com/ by Agile Productions is a new web service that tracks JavaScript exceptions.  It uses a small (8.6 KB) JavaScript include that catches uncaught exceptions on your page and then transparently sends them to the service.  It can alert you by email, or you can view the web interface.  Each project also has an RSS feed.
+
+You can view a summary of each error or a stack trace.  ExceptionHub groups similar exceptions like this:
+
+!/images/posts/exceptionhub_similar.png!
+
+h3. Pricing
+
+ExceptionHub is a commercial service, but there is a free trial.  Plans start at $5.00 a month for 3 projects, and all plans have unlimited exceptions.
+
+h3. Supported Browsers
+
+From what I can gather, Safari, Chrome, Firefox and IE are supported.  Opera is not.  Firefox and IE support is through an <code>onerror</code> handler.  Chrome and Safari use a custom solution where all events are wrapped in a closure.
+
+Ryan Stout explains how it works in "Improving JavaScript debugging":http://excepthub.wordpress.com/2010/04/02/improving-javascript-debugging/.
+
+h3. Impressions
+
+Exception reporting systems can be useful for production environments.  I have a homegrown solution for my commercial web apps, but I can understand why people use services like "Hoptoad":http://hoptoadapp.com/.  ExceptionHub is a little bit more niche because it targets JavaScript.
+
+The usefulness of this is debatable.  There are cases when duplicating JavaScript bugs is difficult -- a customer reports a bug and you can't quite reproduce it.  ExceptionHub would at least alert you with the best stack trace it can generate.
+
+I've had good support from Agile Productions while testing the service, and they've actually fixed a few minor niggles that I ran into.  It's a young service so I expect the user interface will evolve somewhat -- it's not bad by any means but it has that _new Rails app_ feel.
+
+h3. Conclusion
+
+If your site depends heavily on JavaScript, ExceptionHub could be incredibly useful.  Many sites fundamentally depend on complex client-side logic, so Agile Productions could be onto a winning product if they keep developing the concept.
+
+I encourage you to check out the free trial and see what you think.
