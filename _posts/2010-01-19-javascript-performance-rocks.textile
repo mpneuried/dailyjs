@@ -6,6 +6,7 @@ categories:
 - books
 - performance
 - benchmarks
+- reviews
 ---
 
 "JavaScript Performance Rocks!":https://www.e-junkie.com/ecom/gb.php?cl=30217&c=ib&aff=101839 is written by Amy Hoy &amp; Thomas Fuchs (of "Script.aculo.us":http://script.aculo.us/ fame).  Since Jeff Bezos cited the link between page load times and Amazon's sales performance, it seems like everyone wants to make faster pages.  This book is a set of PDFs and bundled tools, benchmarks and demos to help you write faster JavaScript.
