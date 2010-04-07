@@ -25,7 +25,7 @@ Ryan Stout explains how it works in "Improving JavaScript debugging":http://exce
 
 h3. Impressions
 
-Exception reporting systems can be useful for production environments.  I have a homegrown solution for my commercial web apps, but I can understand why people use services like "Hoptoad":http://hoptoadapp.com/.  ExceptionHub is a little bit more niche because it targets JavaScript.
+Exception reporting systems can be useful for monitoring production environments.  I have a homegrown solution for my commercial web apps, but I can understand why people use services like "Hoptoad":http://hoptoadapp.com/.  ExceptionHub is a little bit more niche because it targets JavaScript.
 
 The usefulness of this is debatable.  There are cases when duplicating JavaScript bugs is difficult -- a customer reports a bug and you can't quite reproduce it.  ExceptionHub would at least alert you with the best stack trace it can generate.
 
