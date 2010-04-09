@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Cappuccino 0.8: Fully JavaScript"
+author: Alex Young
+categories:
+- frameworks
+- cappuccino
+---
+
+"Cappuccino":http://cappuccino.org has been updated to 0.8.  This version includes a table view implementation (which iPhone and Cocoa developers will be all too familiar with), and other bug fixes and minor updates.
+
+The most exciting thing about this release is that the entire stack is now JavaScript.  That means the Cappuccino code has no external dependencies -- it no-longer requires tools like Rake, opting instead for JavaScript and Objective-J.
+
+The Cappuccino blog has more details: "Cappuccino 0.8":http://cappuccino.org/discuss/2010/04/07/cappuccino-0-8/
