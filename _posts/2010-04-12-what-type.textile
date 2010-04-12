@@ -1,0 +1,91 @@
+---
+layout: post
+title: "What Type?"
+author: Alex Young
+categories:
+- javascript
+- tutorials
+---
+
+Whilst reading "Object-to-Primitive Conversions in JavaScript":http://www.adequatelygood.com/2010/3/Object-to-Primitive-Conversions-in-JavaScript, I wondered: what's a good way of checking types in JavaScript?  A lot of my work reflects on properties to detect capabilities, so I thought it was an interesting question.
+
+Given that Objects have a <code>constructor</code> property, I dimly remembered that I'd seen this used somewhere to detect types.  In fact, it's pretty obvious that this is a good way to check for type programatically:
+
+{% highlight javascript %}
+[1, 2, 3].constructor === Array
+// true
+[1, 2, 3].constructor === Number
+// false
+{% endhighlight %}
+
+Certain types aren't objects though, because JavaScript does have built-in types that behave differently.  Section 8 of "ECMA-262":http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf lists each of the types:
+
+# Undefined
+# Null
+# Boolean
+# String
+# Number
+# Object
+
+As we've previously seen on DailyJS, using <code>typeof</code> on these types can yield unintuitive results.  A type checking algorithm should be aware of this to filter out special cases for <code>undefined</code> and <code>null</code>.
+
+After half-an-hour of experimenting I wrote this:
+
+{% highlight javascript %}
+(function() {
+  function isNull(obj, type) {
+    return obj === null && type === null;
+  }
+
+  function isUndefined(obj, type) {
+    return typeof obj === 'undefined' && obj === type;
+  }
+
+  function matchesConstructor(obj, type) {
+    return obj.constructor === type;
+  }
+
+  isType = function(obj, type) {
+    if (isUndefined(obj, type)) {
+      return true;
+    } else if (isNull(obj, type)) {
+      return true;
+    } else if (matchesConstructor(obj, type)) {
+      return true;
+    }
+    return false;
+  }
+})();
+{% endhighlight %}
+
+I wrote some tests as I was developing it and it seems to hold up fairly well.  Check out the code and tests on GitHub: "istype.js":http://github.com/alexyoung/istype.js.  The code is intentionally explicit to make it easy for beginners to follow.
+
+h3. Equality
+
+I had a related problem when writing a unit testing library -- what's the best way of checking equality?  Although this sounds simple, the solution is quite deep.  It requires a solid understanding of the underlying types, objects and their behaviour.  The best code I found was in another testing library, "jspec":http://github.com/visionmedia/jspec/blob/master/lib/jspec.js:
+
+{% highlight javascript %}
+ equal: function(a, b) {
+   if (typeof a != typeof b) return
+   if (a === b) return true
+   if (a instanceof RegExp)
+     return a.toString() === b.toString()
+   if (a instanceof Date)
+     return Number(a) === Number(b)
+   if (typeof a != 'object') return
+   if (a.length !== undefined)
+     if (a.length !== b.length) return
+     else
+       for (var i = 0, len = a.length; i < len; ++i)
+         if (!equal(a[i], b[i]))
+           return
+   for (var key in a)
+     if (!equal(a[key], b[key]))
+       return
+   return true
+ }
+{% endhighlight %}
+
+What I liked about this approach was a lot of cases will shortcut early.
+
+Even though these examples might seem mundane, it's worth remembering that although JavaScript is generally a simple and clean language, seemingly easy problems can require some attention to detail.
