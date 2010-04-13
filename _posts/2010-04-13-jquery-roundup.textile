@@ -1,0 +1,77 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 6: jPlayer, calendarPicker, FrameDialog"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- audio
+---
+
+Welcome to the jQuery Plugin Roundup, episode 6.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jPlayer
+
+!/images/posts/jplayer.png!
+
+Destined to be typed incorrectly by millions of British iPlayer users, "jPlayer":http://www.happyworm.com/jquery/jplayer/ is an excellent jQuery audio player.  It requires HTML5 because it uses the audio tag instead of a plugin like Flash.
+
+The API is pleasant, and only really requires your server to correctly identify the MIME types of audio files:
+
+{% highlight javascript %}
+$(document).ready(function() {
+  $("#jpId").jPlayer( {
+    ready: function () {
+      this.element.jPlayer("setFile", "../mp3/depressing_doom_metal.mp3");
+    }
+  });
+});
+{% endhighlight %}
+
+The "demos":http://www.happyworm.com/jquery/jplayer/latest/demos.htm show how to make playlists and progress bars.
+
+h3. jQuery.calendarPicker
+
+"jQuery.calendarPicker":http://bugsvoice.com/applications/bugsVoice/site/test/calendarPickerDemo.jsp is a calendar plugin that's designed to be lightweight.  Once you've applied the relevant styles, it can be invoked with one line:
+
+{% highlight javascript %}
+ $("#calendarFilterBox").calendarPicker();
+{% endhighlight %}
+
+What I like about this plugin is the simple-but-deep customisation options:
+
+{% highlight javascript %}
+$(function(){
+  dateSelector=$("#calendarFilterBox").calendarPicker({
+    monthNames:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    useWheel:true,
+    callbackDelay:500,
+    years:1,
+    months:3,
+    days:4,
+    showDayArrows:false,
+    callback:function(cal){
+       $("#mydate").html(cal.currentDate+"");
+  }});
+});
+{% endhighlight %}
+
+h3. jQuery.FrameDialog
+
+"jquery-framedialog":http://plugins.jquery.com/project/jquery-framedialog enhances jQueryUI's Dialog.  The API lets you configure dialogs using chained calls like this:
+
+{% highlight javascript %}
+jQuery.FrameDialog
+    // create will make an iframe based on the URL
+    .create({
+        url: baseURL + '/modal.html',
+        title: 'test title'
+    })
+    // create returns a jQuery object for the dialog
+    .bind('dialogclose', function(event, ui) {
+        alert("result:" + event.result);
+    });
+{% endhighlight %}
+
+The only limitation is that the modal page has to be on the same host as the parent page.
