@@ -1,0 +1,24 @@
+---
+layout: post
+title: "Every Time Zone"
+author: Alex Young
+categories: 
+- interface
+- design
+- html5
+- safari
+---
+
+!/images/posts/everytimezone.png!
+
+"Every Time Zone":http://everytimezone.com/ by "Amy Hoy":http://slash7.com/company/ is a guide to time zones that uses innovative HTML5 features.  It looks best in Safari, but it still just about works in Firefox.
+
+It's an interesting piece of work from visualization perspective, but it also has concise JavaScript without any dependencies.  This includes browser feature detection:
+
+{% highlight javascript %}
+(function(){
+  var supportsTouch = ('createTouch' in document),
+    scale = 72, now = new Date, current = now, day = current.getDate(), 
+{% endhighlight %}
+
+I know how difficult working with time zones can be, so I'll probably actually have to use this in the near future.  It's also interesting to see such a simple tool that specifically targets modern browser features without compromising its quality by supporting legacy browsers.
