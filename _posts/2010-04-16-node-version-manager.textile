@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Node Version Manager"
+author: Alex Young
+categories:
+- nodejs
+---
+
+"Node Version Manager":http://github.com/visionmedia/nvm/ is a tool for switching between releases of "node":http://nodejs.org/.  This is useful for testing your code before deployment, or testing your open source code against different versions of node.  There have been API changes lately so it's worth having a sanity check against major releases. 
+
+Installing a specific version works like this:
+
+{% highlight sh %}
+nvm install v0.1.91
+{% endhighlight %}
+
+nvm is actually a bash script, much like "kiwi":http://github.com/visionmedia/kiwi (by the same author).  That means it should work on unix-like systems without too much trouble.
+
+"TJ Holowaychuk":http://tjholowaychuk.com/ wrote a blog post with more details on nvm: "Node Version Manager Preview":http://tjholowaychuk.com/post/524593054/node-version-manager-preview.
