@@ -1,0 +1,69 @@
+---
+layout: post
+title: "Seed"
+author: Alex Young
+categories:
+- nodejs
+- server
+---
+
+!/images/posts/seedjs.png!
+
+"Seed":http://seedjs.org is a commonJS package manager created by Charles Jolley, and is intended to be used as part of a new set of build tools for SproutCore.
+
+Seed requires "Node":http://nodejs.org/ to work and is installed from git like this:
+
+{% highlight sh %}
+git clone git://github.com/seedjs/seed
+cd seed
+git submodule update --init 
+./scripts/install.js
+export PATH=~/.seeds/bin:$PATH
+{% endhighlight %}
+
+This provides the <code>seed</code> command which works a lot like RubyGems:
+
+{% highlight sh %}
+seed list --remote
+seed install underscore
+{% endhighlight %}
+
+I've tested it with the current Node in GitHub (6e715b8) and it appears to work pretty well.
+
+h3. Usage in Scripts
+
+To use Seed, scripts must load <code>seed</code> instead of <code>node</code>:
+
+{% highlight javascript %}
+#!/usr/bin/env seed
+
+require('module')
+{% endhighlight %}
+
+The script that replaces <code>node</code> sets up an environment that transparently loads modules using <code>require()</code>.
+
+h3. Package Hosting
+
+Seed supports pushing packages.  You need to create an account first:
+
+{% highlight sh %}
+seed remote signup
+seed remote login
+seed push ./my-package
+{% endhighlight %}
+
+"Seed's documentation":http://seedjs.org/documentation/ has more information on how to create and manage packages.
+
+h3. Comparison with Kiwi
+
+"Kiwi":http://github.com/visionmedia/kiwi is similar to Seed, but works without a "stub" script:
+
+{% highlight javascript %}
+#!/usr/bin/env node
+var kiwi = require('kiwi'),
+    sys = require('sys')
+
+kiwi.require('module installed with kiwi')
+{% endhighlight %}
+
+Another interesting difference is <code>kiwi</code> is built with simple shell scripts, whereas seed.js is a Node-based project (with a minor C-extension).  That means <code>kiwi install node</code> is possible without first installing anything else.  Seed is much more like a traditional package manager.
