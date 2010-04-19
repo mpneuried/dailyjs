@@ -66,4 +66,4 @@ var kiwi = require('kiwi'),
 kiwi.require('module installed with kiwi')
 {% endhighlight %}
 
-Another interesting difference is <code>kiwi</code> is built with simple shell scripts, whereas seed.js is a Node-based project (with a minor C-extension).  That means <code>kiwi install node</code> is possible without first installing anything else.  Seed is much more like a traditional package manager.
+Another interesting difference is <code>kiwi</code> is built with simple shell scripts, whereas seed.js is a Node-based project (with a minor C-extension).  That means <code>kiwi install node</code> is possible without first installing anything else.  Seed is much more like a traditional package manager, although both ultimately do the same things.
