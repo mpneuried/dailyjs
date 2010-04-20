@@ -1,0 +1,45 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 7: truncate, Text-to-Speech"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- audio
+---
+
+Welcome to the jQuery Plugin Roundup, episode 7.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jquery-text-truncate
+
+"jquery-text-truncate":http://code.google.com/p/jquery-text-truncate/ truncates text based on the rendered width rather than character count.  Usage looks like this:
+
+{% highlight javascript %}
+$("#element").textTruncate();
+{% endhighlight %}
+
+The element's parent block is used as the source for the maximum width.  This can be changed by passing a <code>width</code> option.
+
+h3. jQuery Text-to-Speech
+
+"jQuery Text-to-Speech":http://code.google.com/p/jqtts/ by Kevin Hoang Le is a new plugin that converts text to speech using Google Translate's audio rendering API, and a bundled Flash file to play the audio.
+
+It's easy to use:
+
+{% highlight javascript %}
+var jtts = $('#jtts');
+jtts.jtts({
+    elem: '#embedPlayer',
+    jPlayer: {           
+        customCssIds: true,
+        swfPath: '/media/swf/'
+    }
+});
+ 
+jtts.play(['Welcome to DailyJS']).bind('onComplete', function() {
+  // Called after the audio has been played
+});
+{% endhighlight %}
+
+For a live demo, the author has created "Voice-enabled Weather and Traffic Report":http://weather-and-traffic-report.appspot.com/talk.  His "blog post":http://pragmaticlogiclabs.blogspot.com/2010/04/how-to-build-voice-enabled-web.html has more details.
+
