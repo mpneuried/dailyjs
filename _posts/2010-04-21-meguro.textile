@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Meguro: A Map/Reduce Framework"
+author: Alex Young 
+categories: 
+- frameworks
+- server
+- tracemonkey
+---
+
+Do you love server-side JavaScript?  Do you need map/reduce?  Do you use "Tokyo Cabinet":http://1978th.net/tokyocabinet/?  If you answered "Yes" to any of these questions then "Meguro":http://www.sevenforge.com/meguro/ might be exactly what you're looking for!
+
+The JavaScript part of Meguro is inspired by "CouchDB":http://couchdb.apache.org/, which is a very easy API to work with -- two functions, zero hassle.  Tokyo Cabinet is an interesting choice for storage because it suits certain classes of problems very well.  I've used Tokyo Cabinet for a project that accesses millions of small records (like logs), and I was very pleased with its efficiency in terms of storage space and speed.
+
+The author, Curtis Spencer, notes that Meguro is good for projects where you need performance but perhaps not the empire-building scalability of "Hadoop":http://hadoop.apache.org.
+
+Both the map and reduce functions take a key and value, and API methods are called to emit or save values:
+
+{% highlight javascript %}
+function map(key, value) {
+  if (a condition is met) {
+    Meguro.emit('some important value', '1');
+  }
+}
+
+function reduce(key, values) {
+  Meguro.save(key, values.length);
+}
+{% endhighlight %}
+
+If you're new to map/reduce but think it might be useful for a project, Meguro might be a good start because it's easy to set up, and code could be carried over to other platforms like CouchDB with only minor changes.
+
+Meguro is also on GitHub: "jubos/meguro":http://github.com/jubos/meguro.
+
