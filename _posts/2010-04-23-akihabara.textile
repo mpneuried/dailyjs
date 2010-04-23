@@ -1,0 +1,23 @@
+---
+layout: post
+title: "Akihabara"
+author: Alex Young
+categories: 
+- games
+- html5
+---
+
+!/images/posts/akihabara.png!
+
+"Akihabara":http://www.kesiev.com/akihabara/ ("source":http://github.com/kesiev/akihabara) is a framework for creating retro games in JavaScript and HTML5.  The heavy lifting is done with the canvas tag, and the author provides several libraries for dealing with common game-related tasks:
+
+* *Gamebox* helps move objects and handle collisions, renders monospaced fonts, and stores data
+* *Gamecycle* handles menus and gameover
+* *Toys* provides lots of common routines like graphical effects, bullets, bonus screens
+* *Help* has JavaScript enhancements and helpers
+* *Tool* includes developer tools
+* *Trigo* has maths functions
+* *Iphopad* helpers support touch-based helpers
+
+If you're not convinced, try playing one of the games.  "Solitude":http://www.kesiev.com/akihabara/demo/game-solitude.html is pretty good!  Make sure you get the keyboard controls right: Z key is the A button.
+
