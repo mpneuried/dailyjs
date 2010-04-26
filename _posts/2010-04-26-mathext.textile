@@ -1,0 +1,32 @@
+---
+layout: post
+title: "MathExt"
+author: Alex Young
+categories: 
+- mathematics
+- libraries
+---
+
+!/images/posts/mathext.png!
+
+"MathExt":http://sourceforge.net/projects/mathext/ is a JavaScript library for parsing mathematical formulas by Lars Knickrehm.  It has a very advanced and flexible API, allowing configuration over accuracy, separators, and the radix character.  It supports things like hyperbolic functions, trigonometric functions, and has translations for English and German.
+
+Loading the required files and performing a calculation looks like this:
+
+{% highlight html %}
+<script src="MathExt.Actions.min.js"  type="text/javascript"></script>
+<script src="MathExt.Class.min.js" type="text/javascript"></script>
+<script src="MathExt.Load.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var oMathExt = MathExt.Load();
+    oMathExt.Calculate('cos(8) * π');
+</script>
+{% endhighlight %}
+
+It's clever enough to get the precedence correct:
+
+{% highlight javascript %}
+oMathExt.Calculate('cos 8 * π');
+{% endhighlight %}
+
+The scientific-calculator interface shown above can be found in the project's documentation.  It uses "explorercanvas":http://code.google.com/p/explorercanvas/, which means it works in IE too.
