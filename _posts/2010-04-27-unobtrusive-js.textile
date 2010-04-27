@@ -60,7 +60,7 @@ People resist writing JavaScript this way is because their mental model of a HTM
 
 When I start work on a new project or feature, I think in terms of these objects and how they're related.  I try to group like items and behaviours -- just as styles can be efficiently shared, _events_ can also.
 
-h3. Strategies
+h3. Strategies and Patterns
 
 h4. DOM Ready
 
