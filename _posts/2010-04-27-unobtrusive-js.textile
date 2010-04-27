@@ -13,7 +13,7 @@ The techniques presented here should enable you to think differently about clien
 
 h3. Background
 
-It's important to realise that unobtrusive JavaScript is an evolving concept, perhaps even a movement.  The broad goal is to separate JavaScript into a _behaviour_ layer, but related goals include: enhancing browser behaviour, capability detection, and transparently support modern platforms like touchscreen phones.
+It's important to realise that unobtrusive JavaScript is an evolving concept, perhaps even a movement.  The broad goal is to separate JavaScript into a _behaviour_ layer, but related goals include: enhancing browser behaviour, capability detection, and transparently supporting modern platforms like touchscreen phones.
 
 This article was inspired by my surprise at the following tweets:
 
