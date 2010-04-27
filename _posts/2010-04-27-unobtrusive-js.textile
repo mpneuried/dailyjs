@@ -56,7 +56,7 @@ Or is it?
 
 h3. Mental Models
 
-People get uncomfortable with writing JavaScript this way is because their mental model of a HTML document is based on HTML templates.  A more useful mental model is one which encapsulates the true nature of the DOM -- a document is a collection of interrelated objects, affected by scripts, stylesheets and their very structure.
+People resist writing JavaScript this way is because their mental model of a HTML document is based on HTML templates.  A more useful mental model is one which encapsulates the true nature of the DOM -- a document is a collection of interrelated objects, affected by scripts, stylesheets and their very structure.
 
 When I start work on a new project or feature, I think in terms of these objects and how they're related.  I try to group like items and behaviours -- just as styles can be efficiently shared, _events_ can also.
 
