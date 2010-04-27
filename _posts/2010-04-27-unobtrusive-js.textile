@@ -1,0 +1,178 @@
+---
+layout: post
+title: "Unobtrusive JavaScript vs. Kool-Aid"
+author: Alex Young
+categories: 
+- ujs
+- tutorials
+---
+
+This article is a guide to writing _unobtrusive JavaScript_.  It's not always easy for people to transition to writing JavaScript this way, so I've tried to address common concerns.
+
+The techniques presented here should enable you to think differently about client-side code and work more productively.
+
+h3. Background
+
+It's important to realise that unobtrusive JavaScript is an evolving concept, perhaps even a movement.  The broad goal is to separate JavaScript into a _behaviour_ layer, but related goals include: enhancing browser behaviour, capability detection, and transparently support modern platforms like touchscreen phones.
+
+This article was inspired by my surprise at the following tweets:
+
+bq. almost two months later, I'm still have trouble swallowing the UJS kool-aid. "@jamis":http://twitter.com/jamis/status/12901143048
+
+bq. Funny how the JS people get all shocked and dismayed when jamis complains about UJS. Evidence of kool-aid. "@rjs":http://twitter.com/rjs/status/12903026393
+
+*Unobtrusive JavaScript isn't a fad, it's how you should write JavaScript*.  If you read this blog, you're probably doing it already.  If you have server-side developer friends who don't write much client-side code, please send them this article!
+
+I don't advocate blindly applying the techniques championed by the proponents of unobtrusive JavaScript.  However, I have learned lessons from several hard-won battles which have enabled me to write JavaScript more productively -- my own practices have evolved _towards_ unobtrusive JavaScript over the last 4-5 years.
+
+h3. Inline JavaScript
+
+Where does inline JavaScript come from?  One common place is server-side frameworks.  It's easier for frameworks to inject JavaScript through helpers -- popular frameworks like "Rails":http://rubyonrails.org/ do this.  This is because the HTML and JavaScript these frameworks generate is naturally tightly coupled.  It's also because the framework builders often try to appeal to the host language rather than seasoned JavaScript developers.
+
+Inline JavaScript crops up in several places:
+
+* Events like <code>onclick</code> are added to page elements through attributes
+* Inline <code>script</code> tags
+* Conditionally generated combinations of the above
+* Custom solutions like Rails' RJS templates (often used to communicate between the server and client)
+
+These techniques work well for frameworks and make life easy for the host language developer.  In fact, Rails is one of the projects that helped JavaScript frameworks bring Ajax to the world, and also the now ubiquitous use of visual effects through projects like "Scriptaculous":http://script.aculo.us/.
+
+h3. The Alternative
+
+The alternative isn't just about moving your JavaScript into its own files.  It's to change the way you think about JavaScript, the DOM, and HTML templates.
+
+If you've worked with CSS, you'll be familiar with the separation of style from structure through the use of stylesheets.  The popular argument for writing unobtrusive JavaScript is that scripts define a _behaviour_ layer, and therefore should be separated, just like stylesheets.
+
+This is true up to a point, but it takes a leap of faith to get there.  The key is to stop thinking about templates like static blocks of HTML, and see documents for what they are: living, breathing tree structures of DOM objects, events, and styles.
+
+h3. Concerns
+
+The main concern of those uncomfortable with writing unobtrusive JavaScript is maintainability.  This is deeper than just finding code, or the link between a template and a script -- it also affects project management.
+
+When planning new features, it can be difficult to determine what page elements will be affected by a change if all of the JavaScript is outside the templates.
+
+Or is it?
+
+h3. Mental Models
+
+People get uncomfortable with writing JavaScript this way is because their mental model of a HTML document is based on HTML templates.  A more useful mental model is one which encapsulates the true nature of the DOM -- a document is a collection of interrelated objects, affected by scripts, stylesheets and their very structure.
+
+When I start work on a new project or feature, I think in terms of these objects and how they're related.  I try to group like items and behaviours -- just as styles can be efficiently shared, _events_ can also.
+
+h3. Strategies
+
+h4. DOM Ready
+
+This is what makes healthy client-side code possible.  DOM ready lets you run a function when the document is in a usable state.  This allows you to safely bind event handlers.  In jQuery it looks like this:
+
+{% highlight javascript %}
+$(document).ready(function() {
+  // Your code here
+});
+{% endhighlight %}
+
+Prototype:
+
+{% highlight javascript %}
+document.observe("dom:loaded", function() {
+  // Your code here
+});
+{% endhighlight %}
+
+This isn't actually an easy thing to write from scratch -- let the framework do the work.  I've written my own DOM ready handler before and it wasn't much fun (mainly due to IE).
+
+h4. Event Delegation: DRY
+
+If you've come to JavaScript through jQuery, you might be wondering what I've been talking about.  People raised on jQuery think in terms of event delegation, and this is one of the key strategies to writing unobtrusive JavaScript.
+
+Event delegation is where an event is bound to a containing element, then conditionally executed based on the event's element.
+
+Imagine if you wanted to open popup windows when the user clicks a link.  You could attach an <code>onclick</code> attribute and set up a window.  Every link would then have to repeat this code.
+
+An alternative approach is to use event delegation to bind an event to a high level element, the use a class to trigger a special popup event handler:
+
+{% highlight javascript %}
+$(document).click(function(event) {
+  if ($(event.target).is('.popup') {
+    // Open a new window with specified parameters
+  }
+  event.preventDefault();
+});
+{% endhighlight %}
+
+The benefit is similar to the benefits brought in by stylesheets -- you can now change the behaviour of all popup windows across your entire project.  You could even have multiple class names for different window properties -- sizes, toolbar hiding, whatever!  It also makes the page size smaller, all for the price of one event handler with an <code>if</code> statement.
+
+h4. Internal Relationships
+
+On larger projects I use a technique that maps _controllers_ to JavaScript objects.  I do this by using <code>body</code> ID tags and classes.  A function runs when the DOM is ready and calls the appropriate object.
+
+For example, let's say you're making a blog application in Rails (or similar) and you have an <code>ArticlesController</code>.  I'd use a helper in my Rails layout to create an appropriate body tag:
+
+{% highlight erb %}
+<%= body :id => controller.name %>
+{% endhighlight %}
+
+Which is defined like this:
+
+{% highlight ruby %}
+def body(options = {})
+  tag 'body', options, true
+end
+{% endhighlight %}
+
+Then my JavaScript delegation function would look at the body tag and call a method on an associated object:
+
+{% highlight javascript %}
+ArticlesController = {
+  run: function() {
+    // Do stuff that the articles templates need
+  }
+};
+
+$(document).ready(function() {
+  var controllerName = '';
+  if ($('body').id) {
+    controllerName = $('body').id + 'Controller';
+    if (typeof controllerName !== 'undefined') {
+      controllerName['run']();
+    }
+  }
+});
+{% endhighlight %}
+
+This body ID delegation pattern has allowed me to build very large Rails projects without feeling lost when moving between JavaScript and Rails templates.  I also use body class names for shared functionality.  The JavaScript "controllers" are generally stubs that invoke other objects.
+
+Any framework could use this technique -- it's really just an agreement between your server-side code and JavaScript.
+
+h3. Test First
+
+When I start writing JavaScript for a project, I try to think in terms of the core functionality, independent of the browser.  I'll write console-based code and run unit tests in the console.  Once I'm happy with my "models" I'll start to hook up event handlers.
+
+Get used to thinking about events through CSS classes -- try to group like events and rely on high-level delegated event handlers.  Not only does this result in fast UI code, it also makes testing easier.
+
+h3. Light Event Handlers
+
+Good code us usually easy to test.  I've found that writing light event handlers then calling higher-level objects helps keep testing simple and increases reusability.
+
+h3. Basics
+
+It's useful to be fully-versed in JavaScript's object model and prototypal inheritance.  Even though you can use certain libraries to ape classical OO, good code comes from a deep understanding of the tools at hand.
+
+Maintainable and clear code comes from knowing when to exploit JavaScript's flexible object system, rather than trying to write in a style that doesn't suit it.
+
+h3. Byte-sized Takeaway
+
+Keeping JavaScript out of templates can help:
+
+* Reduce page size
+* Improve performance
+* Allow broad brush-stroke changes across a site
+
+To ensure projects are maintainable:
+
+* Create a clear link between templates and the location of associated scripts
+* Use the body ID/class technique
+* Think in terms of DOM objects -- the DOM is a living, breathing system, not just a static page
+* Exploit JavaScript's inherent advantages rather than trying to force it to be something it isn't
+
