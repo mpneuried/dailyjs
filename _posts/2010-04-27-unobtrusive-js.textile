@@ -48,7 +48,7 @@ This is true up to a point, but it takes a leap of faith to get there.  The key 
 
 h3. Concerns
 
-The main concern of those uncomfortable with writing unobtrusive JavaScript is maintainability.  This is deeper than just finding code, or the link between a template and a script -- it also affects project management.
+The main concern of those who are uncomfortable with writing unobtrusive JavaScript is maintainability.  This is deeper than just finding code, or the link between a template and a script -- it also affects project management.
 
 When planning new features, it can be difficult to determine what page elements will be affected by a change if all of the JavaScript is outside the templates.
 
