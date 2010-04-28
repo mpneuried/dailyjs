@@ -1,0 +1,28 @@
+---
+layout: post
+title: "Jake"
+author: Alex Young
+categories: 
+- tools
+- console
+- server
+---
+
+The creators of "Cappuccino":http://cappuccino.org recently announced that it has gone 100% JavaScript.  The motivation for this was that the build chain contained dependencies on Ruby, which worked well but was problematic for contributors who aren't familiar with the language.
+
+"Jake":http://github.com/280north/jake is what made this possible.  Based on "Rake":http://rake.rubyforge.org/, Jake is a build tool.  If you're not familiar with Rake or <code>make</code>, they're used to invoke scripts that piece together large software projects.
+
+Rake is so flexible that people often use it for tasks that would be traditionally performed with a shell script -- the benefit is code reuse from other parts of the project.  I use Rake for running tests, scripting deployment, getting stats from servers, and all kinds of housekeeping routines.
+
+Now you can do all of this from JavaScript.
+
+Jake uses task functions that look like Rake tasks:
+
+{% highlight javascript %}
+var task = require('jake').task
+task('hello', function() {
+  print('Hello World')
+})
+{% endhighlight %}
+
+"Introducing Jake: A Build Tool for JavaScript":http://cappuccino.org/discuss/2010/04/28/introducing-jake-a-build-tool-for-javascript/ contains more information to get you started.
