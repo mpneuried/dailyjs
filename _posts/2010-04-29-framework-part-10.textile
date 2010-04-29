@@ -116,7 +116,7 @@ I got this idea from "jQuery's source":http://github.com/jquery/jquery/blob/mast
 
 h3. API Design
 
-At the moment the Turing API reflects the W3C's approach:
+At the moment the Turing API reflects W3C's events:
 
 * Add an event: <code>turing.events.add(element, type, callback)</code>
 * Remove an event: <code>turing.events.remove(element, type, callback)</code>
