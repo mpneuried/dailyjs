@@ -114,6 +114,15 @@ function isValidElement(element) {
 
 I got this idea from "jQuery's source":http://github.com/jquery/jquery/blob/master/src/event.js.
 
+h3. API Design
+
+At the moment the Turing API reflects the W3C's approach:
+
+* Add an event: <code>turing.events.add(element, type, callback)</code>
+* Remove an event: <code>turing.events.remove(element, type, callback)</code>
+* Fire: <code>turing.events.fire(element, type)</code>
+* An <code>event</code> object is passed to your callback with the <code>target</code> property fixed
+
 h3. Tests
 
 Like previous parts of this project, I started out with tests.  I'm still not quite happy with the tests though, but they run in IE6, 7, 8, Chrome, Firefox and Safari.
@@ -142,7 +151,7 @@ The code is in the "GitHub repo":http://github.com/alexyoung/turing.js for you t
 
 Although there's still more to do, the W3C/Microsoft approach works well.  I actually experimented with implementations that manage lists of traditional event handlers rather than using the more modern API, and I spent several hours looking at Prototype and jQuery's APIs before arriving at this point.
 
-You'll notice production frameworks contain a lot more code than turing -- jQuery actually implements its own bubbling system, and both frameworks have to deal with inconsistencies for certain types of events.  I've left those browser behaviour patches out for now in the interest of brevity.
+You'll notice production frameworks contain a lot more code than Turing -- jQuery actually implements its own bubbling system, and both frameworks have to deal with inconsistencies for certain types of events.  I've left those browser behaviour patches out for now in the interest of brevity.
 
 If you'd like to expand your JavaScript knowledge on this subject, here are the references I used:
 
