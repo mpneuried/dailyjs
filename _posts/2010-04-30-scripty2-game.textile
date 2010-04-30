@@ -1,0 +1,31 @@
+---
+layout: post
+title: "Build a Game with Scripty2, Heroku on Node"
+author: Alex Young
+categories: 
+- scriptaculous
+- scripty2
+- frameworks
+- tutorials
+- games
+- nodejs
+---
+
+!/images/posts/scripty2_game.png!
+
+"Thomas Fuchs":http://mir.aculo.us has written up a tutorial on "building a simple game with Scripty2":http://mir.aculo.us/2010/04/30/build-a-flash-like-game-with-scripty2/.  The tutorial covers a lot, including how to structure a game in JavaScript, and how easings work.
+
+It's a very simple game, but if you've ever wondered how to start building games in JavaScript then you should get something out of it.
+
+For other game-related resources, see our posts on:
+
+* "Processing.js":/2009/12/21/processingjs
+* "Getting Started With Emile":/2010/02/17/getting-started-with-emile
+* "Akihabara":/2010/04/23/akihabara
+* "HTML5 Games":/2010/04/02/html5-games
+
+h3. Heroku on Node
+
+"Heroku announced experimental Node support":http://blog.heroku.com/archives/2010/4/28/node_js_support_experimental/.  I've applied to test it, but I haven't heard anything back yet.  Once I can get access I'll post a review and tutorials.
+
+If you're eager to host Node apps, check out "Hosting Node Apps":/2010/03/15/hosting-nodejs-apps 
