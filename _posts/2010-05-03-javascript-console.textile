@@ -1,0 +1,13 @@
+---
+layout: post
+title: "JS Console"
+author: Alex Young
+categories: 
+- tools
+---
+
+!/images/posts/jsconsole.png!
+
+"JS Console":http://jsconsole.com/ by "Remy Sharp":http://remysharp.com/ ("code":http://github.com/remy/console) is a browser-based one-line JavaScript console.  It features completion, syntax highlighting and history.  There's also an iPhone stylesheet.
+
+The author has designed it to be used in presentations and workshops, or simply to experiment with browser JavaScript.  The interface is bold and clear so it should work well with a projector.
