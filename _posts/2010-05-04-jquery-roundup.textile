@@ -1,0 +1,62 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 8: Cloud Carousel, Popeye, OSM"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup, episode 8.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Cloud Carousel
+
+!/images/posts/cloudcar.png!
+
+"Cloud Carousel":http://www.professorcloud.com/mainsite/carousel.htm uses 3D perspective, reflections and animation to create a carousel.  It's a 5 Kb plugin, and works with most browsers (including IE6+).
+
+Usage looks like this:
+
+{% highlight javascript %}
+$("#da-vinci-carousel").CloudCarousel( { 
+    reflHeight: 56,
+    reflGap:2,
+    titleBox: $('#da-vinci-title'),
+    altBox: $('#da-vinci-alt'),
+    buttonLeft: $('#but1'),
+    buttonRight: $('#but2'),
+    yRadius:40,
+    xPos: 285,
+    yPos: 120,
+    speed:0.15
+})
+{% endhighlight %}
+
+The associated HTML is very simple -- it's basically just a bunch of links and images.  This example was taken off the site.
+
+If you want to download the project, look for the download link on the site.
+
+h3. jQuery.popeye
+
+!/images/posts/popeye.gif!
+
+"jQuery.popeye":http://dev.herr-schuessler.de/jquery/popeye/ is a lightbox alternative.  Rather than simply showing larger images inline, this project shows a box around images with pagination and an icon that expands the image.
+
+The "popeye demo page":http://dev.herr-schuessler.de/jquery/popeye/demo.html shows examples of the main features.
+
+Usage is very simple:
+
+{% highlight javascript %}
+$(YOUR_ELEMENT_SELECTOR).popeye();
+{% endhighlight %}
+
+h3. Open Standard Media (OSM) Player
+
+!/images/posts/mediafront.gif!
+
+The "Open Standard Media (OSM) Player":http://www.mediafront.org/project/osmplayer is a web-based media player built with jQuery.  The project is on GitHub as well: "mediafront/osmplayer":http://github.com/mediafront/osmplayer.
+
+It supports HTML5 and can also wrap services like YouTube and Vimeo.  The authors have provided tools to make it work with content management systems like Drupal:
+
+bq. The mediafront module is a front end media solution for Drupal. It employs an innovative and intuitive administration interface that allows the website administrator to completely customize the front end media experience for their users without writing any code.
