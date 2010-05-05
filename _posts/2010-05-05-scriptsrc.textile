@@ -1,0 +1,21 @@
+---
+layout: post
+title: "Scriptsrc.net"
+author: Alex Young
+categories: 
+- cdn
+- hosting
+- google
+- yahoo
+---
+
+!/images/posts/scriptsrc.png!
+
+If, like me, you find memorising Google's JavaScript library URLs difficult, then you may want to bookmark "scriptsrc.net":http://scriptsrc.net/.  It has a user-friendly list of all the major libraries for googleapis.com.
+
+A related project that I've had in my DailyJS bookmark folder for a few months is "CDN Catalog":http://www.cdncatalog.com/.  This lists JavaScript and CSS libraries.
+
+These projects are great if you're working on a static page that uses lots of JavaScript.  I've used googleapis.com for examples to share on blogs, widgets, and as a way of keeping my traffic down.
+
+One additional bonus of using JavaScript served this way is ISPs will already have the files cached.
+
