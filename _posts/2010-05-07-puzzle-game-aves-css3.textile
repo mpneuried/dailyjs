@@ -1,0 +1,48 @@
+---
+layout: post
+title: "CSS3 Transitions, jStorage, Aves, Simple Puzzle Game"
+author: Alex Young
+categories: 
+- tutorials
+- games
+- html5
+---
+
+It's Friday again, and you know what that means!  Slacking off all afternoon to build JavaScript games!  Right?
+
+h3. CSS3 Transitions in Firefox 3.7
+
+"CSS3 Transitions in Firefox 3.7":http://blog.grenlibre.fr/2010/05/css3-transition-available-on-firefox-3-7 demonstrates some new CSS3 effects available in Firefox 3.7, complete with an "elaborate demo":http://grenlibre.fr/demo/css3/transition/slider/.  The effects should work in recent WebKit browsers as well.
+
+These effects could be used inside JavaScript game logic to simplify animation code.
+
+h3. jStorage
+
+"jStorage":http://www.jstorage.info/ is a wrapper for major frameworks that makes accessing modern local storage mechanisms easier:
+
+bq. jStorage was first developed under the name of DOMCached but since a lot of features were dropped to make it simpler (like the support for namespaces and such) it was renamed. DOMCached had separate files for working with Prototype and jQuery but jStorage can handle both in one go.
+
+Usage looks like this:
+
+{% highlight javascript %}
+var value = $.jStorage.get('key');
+if (!value) {
+	// if not - load the data from the server
+ 	value = load_data_from_server()
+ 	// and save it
+	$.jStorage.set('key', value);
+}
+{% endhighlight %}
+
+
+h3. Aves
+
+"Aves":http://www.dextrose.com/en/projects/aves-engine, a new JavaScript game engine complete with a server-side component, is under development.  The authors are targeting multiplayer games.  The YouTube video demonstrates the power of the engine.  The video mentions many concepts JavaScript developers should be familiar with, in particular how player actions are tied to events.
+
+<object width="640" height="385"><param name="movie" value="http://www.youtube.com/v/Ol3qQ4CEUTo&color1=0xb1b1b1&color2=0xd0d0d0&hl=de_DE&feature=player_embedded&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowScriptAccess" value="always"></param><embed src="http://www.youtube.com/v/Ol3qQ4CEUTo&color1=0xb1b1b1&color2=0xd0d0d0&hl=de_DE&feature=player_embedded&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="640" height="385"></embed></object>
+
+h3. Simple Puzzle Game
+
+"Simple puzzle game":http://michalbe.blogspot.com/2010/05/another-simple-puzzle-game.html ("demo":http://vdev.x25.pl/modzajto_nfb/) is an attempt at making a simple puzzle game with JavaScript and jQuery.  The author constructs a mouse-based game in "mojito-jq2.js":http://vdev.x25.pl/modzajto_nfb/mojito-jq2.js, with a scrolling background and a typical game life cycle.
+
+
