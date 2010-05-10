@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Express Function"
+author: Alex Young
+categories:
+- programming
+- tricks
+---
+
+In "express yourself: rapid function definition":http://javascriptweblog.wordpress.com/2010/05/10/express-yourself-rapid-function%C2%A0definition/, Angus Croll discusses a function that uses <code>apply</code> and <code>eval</code> to generate functions from concise string definitions:
+
+{% highlight javascript %}
+Function.prototype.express = function(expr) {
+    var __method = this;
+    return function() {
+        var r = __method.apply(this, arguments);
+        return eval(expr);
+    }
+}
+
+String.prototype.indexAfter = String.prototype.indexOf.express('r + 1');
+{% endhighlight %}
+
+It's a little bit like the string lambda functions in the "functional-javascript":http://github.com/osteele/functional-javascript library.
+
+Tricks like this demonstrate JavaScript's functional legacy.  And, if the <code>eval</code> seems a bit cheap to you, try combining the technique with the author's previous article, "Compose: functions as building blocks":http://javascriptweblog.wordpress.com/2010/04/14/compose-functions-as-building-blocks/.
+
+If you've been following our framework series, you've probably noticed that jQuery, Prototype, Underscore and other libraries all define simple functional methods early in the framework for internal use.  JavaScript 1.8 makes even more techniques possible, like simplified array comprehensions:
+
+{% highlight javascript %}
+Number.prototype.__iterator__ = function(){ for (let i = 0; i < this; i++) yield i }
+var s = [2 * i for (i in 100) if (i * i > 3)]
+{% endhighlight %}
+
+And expression closures:
+
+{% highlight javascript %}
+// JavaScript 1.7
+function(x) { return x * x; }
+
+// JavaScript 1.8
+function(x) x * x
+{% endhighlight %}
+
