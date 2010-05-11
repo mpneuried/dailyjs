@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 9: jQueryRotate, TagCanvas, Labelizer"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup, episode 9.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+I've started including a note of each plugin's license in these posts so you can avoid using ones with crazy neckbeard licenses.
+
+h3. jQueryRotate
+
+"jQueryRotate":http://wilq32.adobeair.pl/jQueryRotate/Wilq32.jQueryRotate.html (MIT License) is a plugin created by "Paweł Witkowski":http://wilq32.blogspot.com/.  It rotates images using JavaScript and the HTML5 canvas (or VML in IE).
+
+It can rotate images statically, or with an animation:
+
+{% highlight javascript %}
+$('#image').rotate(45)
+$('#image').rotateAnimation(90)
+{% endhighlight %}
+
+The author has released several iterations of the plugin, fixing bugs and improving IE support.
+
+h3. TagCanvas
+
+!/images/posts/tagcanvas.png!
+
+"TagCanvas":http://www.goat1000.com/tagcanvas.php (LGPL v3) displays a 3D rotating tag cloud.  It's not amazingly useful, but does demonstrate how easy it is to do 3D effects with <code>canvas</code>
+
+h3. Labelizer
+
+You've probably written various versions of this yourself -- "Labelizer":http://seenchris.com/portfolio/?project=5 (GPL 3.0, "demo":http://seenchris.com/projects/labelizer/demo.html) displays a prompt inside an <code>input</code> until it is clicked.  It's easy to use:
+
+{% highlight javascript %}
+$('input#test-input').labelize('Stuff text in me.');
+{% endhighlight %}
+
+
