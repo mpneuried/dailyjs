@@ -1,0 +1,41 @@
+---
+layout: post
+title: "Language Detection"
+author: Alex Young
+categories:
+- programming
+- tricks
+- localization
+---
+
+My company's blog gets translated into Japanese, and when we launched the blog I put a link to it in the site's navigation.  A few weeks later I noticed a lot of Windows computers displayed the navigation text as a bunch of squares, which was annoying to say the least.  I suppose it's only natural that not all computers will have all languages and fonts, but I preferred using text to an image.
+
+h3. JavaScript Solution
+
+I reasoned that most people interested in reading Japanese would have the capability to do so, which meant I needed to conditionally display English or Japanese based on the browser's capabilities.  But how do you detect whether or not the fonts display properly?
+
+After researching the problem I found it's possible to detect font sizes using half and full width katakana.  When typing Japanese you can usually select half or full width katakana: ｱ vs. ア.  If a browser can't display these properly, they'll be the same invalid character and therefore the same size.
+
+I wrote a function like this:
+
+{% highlight javascript %}
+function japaneseFontsAvailable() {
+  var halfWidth = document.createElement('span');
+  var fullWidth = document.createElement('span');
+
+  halfWidth.appendChild(document.createTextNode('\uFF71'));
+  fullWidth.appendChild(document.createTextNode('\u30A2'));
+  document.body.insertBefore(halfWidth, document.body.firstChild);
+  document.body.insertBefore(fullWidth, document.body.firstChild);
+  var havejapanesefont = halfWidth.offsetWidth != fullWidth.offsetWidth;
+
+  document.body.removeChild(halfWidth);
+  document.body.removeChild(fullWidth);
+ 
+  return havejapanesefont;
+}
+{% endhighlight %}
+
+I can't remember where I originally discovered this concept, but there's a stackoverflow thread on the subject: "Is it possible to detect East Asian language support?":http://stackoverflow.com/questions/604993/is-it-possible-to-detect-east-asian-language-support.
+
+Have you written any similar localization hacks?
