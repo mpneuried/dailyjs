@@ -10,7 +10,7 @@ categories:
 - lmaf
 ---
 
-Welcome to part 10 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.  This part continues looking at events.
+Welcome to part 11 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.  This part continues looking at events.
 
 If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called Turing and is available on GitHub: "turing.js":http://github.com/alexyoung/turing.js/.
 
