@@ -1,0 +1,21 @@
+---
+layout: post
+title: "GitHub Issues in Cappuccino"
+author: Alex Young
+categories: 
+- github
+- cappuccino
+- frameworks
+---
+
+!/images/posts/github_cappuccino.png!
+
+"GitHub Issues built with Cappuccino":http://githubissues.heroku.com/#defunkt/resque/ looks incredible.  Not only that, it feels usable too -- details like inline windows that can be moved around and keyboard shortcuts all work as you'd expect.
+
+What's amazing about this is it not only pushes client-side JavaScript but it also uses Heroku's Node beta!  The blog post on "Cappuccino.org":http://cappuccino.org has more details: "GitHub Issues Cappuccino App":http://cappuccino.org/discuss/2010/05/13/github-issues-cappuccino-app-desktop-and-web/.
+
+"280 North":http://280north.com continue to embrace JavaScript for every aspect of their development cycle, yet there aren't that many apps out there based on Cappuccino.  I've never understood why it hasn't caught on more, but I suspect Objective-J puts people off.
+
+I make a large portion of my income from iPhone development, and I'm a big believer of Objective-C, which means I'm comfortable with both JavaScript and Objective-J.  I think it's likely that once Mac and iPhone developers are sold on Cappuccino and "Atlas":http://280atlas.com/ we'll see lots of Cappuccino web apps cropping up.
+
+If you've made any Cappuccino apps, open source or commercial, please let me know in the comments and I'll write up a feature about them in the future.
