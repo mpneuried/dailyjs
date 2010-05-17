@@ -9,7 +9,7 @@ categories:
 
 I've been using "Node":http://nodejs.org/ on "Heroku":http://heroku.com/ to test the basics.  Here's what you need to know:
 
-* The workflow is exactly the same as Ruby apps
+* The workflow is exactly the same as with Ruby apps
 * There's no package management support -- libraries must be stored inside your Git repository
 * There's a 30 second connection timeout.  There's some concern that this might impact apps that rely on WebSockets
 
