@@ -4,7 +4,7 @@ title: "Node.js on IRC"
 author: Alex Young
 categories: 
 - irc
-- node
+- nodejs
 ---
 
 "Node.js":http://nodejs.org/ makes writing IRC-related programs straightforward and super-efficient, thanks to its evented networking. Therefore it isn’t surprising that a lot of projects have appeared already.

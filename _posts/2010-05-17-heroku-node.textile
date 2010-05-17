@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Heroku Node Update"
+author: Alex Young
+categories: 
+- heroku
+- nodejs
+---
+
+I've been using "Node":http://nodejs.org/ on "Heroku":http://heroku.com/ to test the basics.  Here's what you need to know:
+
+* The workflow is exactly the same as Ruby apps
+* There's no package management support -- libraries must be stored inside your Git repository
+* There's a 30 second connection timeout.  There's some concern that this might impact apps that rely on WebSockets
+
+The Heroku team have been proactive at answering questions and guiding people through the process of installing and managing Node apps -- if enough people want the 30 second limit dropped it sounds like Heroku might simply adapt their architecture to suit our requirements (given time).
+
+h3. Apps
+
+The beta is currently closed, but there are apps out there that demonstrate what real Heroku Node apps look like:
+
+* "heroku-express":http://github.com/atmos/heroku-express/blob/master/server.js is an example app that uses a Rake task to manage importing Express into your repository
+* "SousaBall":http://github.com/creationix/sousaball uses postgres
+
+h3. About Heroku
+
+If you haven't used Heroku before, it's a hosting service based around Git.  That means they host a Git repository that automatically deploys when you <code>git push</code> to it.  A typical session looks like this:
+
+{% highlight sh %}
+$ git commit -m 'Bug fixes to close #31, #29'
+$ git push heroku master
+
+Counting objects: 267, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (176/176), done.
+Writing objects: 100% (262/262), 122.67 KiB, done.
+Total 262 (delta 11), reused 0 (delta 0)
+
+-----> Heroku receiving push
+-----> Node app detected
+{% endhighlight %}
+
+Developers like Heroku because it makes sysadmin tasks much simpler.  It can also scale as your requirements change.  It could be a big thing for server-side JavaScript adoption because apps can be run for free, which is more attractive for newcomers than setting up a server that can run Node. 
+
