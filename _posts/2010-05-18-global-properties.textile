@@ -1,0 +1,40 @@
+---
+layout: post
+title: "Global Properties"
+author: Alex Young
+categories: 
+- language
+---
+
+In "When is a global variable not a variable?":http://andrew.hedges.name/blog/2010/04/07/when-is-a-global-variable-not-a-variable, Andrew Hedges discusses the difference between variables and global properties.
+
+Try running this example:
+
+{% highlight javascript %}
+try {
+   // The alert will display undefined
+   alert(a);
+}
+catch (e) {
+   // Not executed
+   alert(e);
+}
+
+var a = 10;
+
+try {
+   alert(b);
+}
+catch (e) {
+    // The alert will display a reference error
+   alert(e);
+}
+
+b = 10;
+{% endhighlight %}
+
+Removing <code>var</code> actually creates a global property.  The distinction is slight, but worth being aware of:
+
+bq. The biggest difference between the two is that variables can't be deleted using the delete statement. Properties can.
+
+Most people can work safely without ever being aware of this underlying behaviour, but it's an interesting point.
