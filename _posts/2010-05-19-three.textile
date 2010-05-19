@@ -1,0 +1,55 @@
+---
+layout: post
+title: "three.js: a JavaScript 3D Engine"
+author: Alex Young
+categories: 
+- 3d
+- graphics
+- canvas
+---
+
+!/images/posts/threejs.png!
+
+"three.js":http://github.com/mrdoob/three.js is a 3D JavaScript engine written by "mrdoob":http://mrdoob.com/ that uses canvas and svg.  3D scenes can be built using a camera, lines, mesh, and particles.  The author has written some excellent demos:
+
+* "Cube":http://mrdoob.com/lab/javascript/three/geometry/cube.html
+* "Random Particles":http://mrdoob.com/lab/javascript/three/particles/random.html
+* "Partial Waves":http://mrdoob.com/lab/javascript/three/particles/waves.html
+
+Code looks like this:
+
+{% highlight javascript %}
+var camera, scene, renderer;
+
+init();
+setInterval(loop, 1000 / 60);
+
+function init() {
+  camera = new THREE.Camera(0, 0, 1000);
+  scene = new THREE.Scene();
+  renderer = new THREE.CanvasRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  for (var i = 0; i < 1000; i++) {
+    var particle = new THREE.Particle(new THREE.ColorFillMaterial(Math.random() * 0x808008 + 0x808080, 1));
+    particle.size = Math.random() * 10 + 5;
+    particle.position.x = Math.random() * 2000 - 1000;
+    particle.position.y = Math.random() * 2000 - 1000;
+    particle.position.z = Math.random() * 2000 - 1000;
+    particle.updateMatrix();
+    scene.add(particle);
+  }
+
+  document.body.appendChild(renderer.domElement);
+}
+
+function loop() {
+  renderer.render(scene, camera);
+}
+{% endhighlight %}
+
+Notice the use of the render loop, set to approximately 60fps.
+
+This is a very tightly focused library, which means it's a good alternative to using something larger like "Processing.js":http://processingjs.org/ if you just want to create 3D graphics.  The author notes that performance on devices like the iPhone isn't great, but you could still have some fun with it.
+
+I also noticed that the same author has an interesting JavaScript performance monitor called "stats.js":http://github.com/mrdoob/stats.js.  It displays a graph showing frames per second for your scripts.
