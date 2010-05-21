@@ -1,0 +1,35 @@
+---
+layout: post
+title: "JsMario, imageData, 3D Games"
+author: Alex Young
+categories: 
+- games
+- graphics
+---
+
+It's Friday again, which means you're probably not working and preparing for a weekend of drinking and debauchery.  In the spirit of Friday afternoon slacking, here are my latest JavaScript game and graphics bookmarks.
+
+h3. JsMario
+
+!/images/posts/jsmario.png!
+
+"JsMario":http://jsmario.com.ar/ actually plays really nicely.  The code contains useful examples of map management and scrolling code, which could be used for lots of other types of 2D games.
+
+h3. Close with Canvas
+
+!/images/posts/closewithcanvas.png!
+
+"Close with Canvas":http://desandro.com/articles/close-with-canvas/ by David Desandro is an interesting example of generating canvas art using existing images and "imageData":https://developer.mozilla.org/En/HTML/Canvas/Pixel_manipulation_with_canvas to get pixel values.
+
+h3. Creating 3D Games with HTML 5
+
+!/images/posts/wolf3d.png!
+
+A friend of mine shared this tutorial series with me:
+
+* "Creating pseudo 3D games with HTML 5 canvas and raycasting":http://dev.opera.com/articles/view/creating-pseudo-3d-games-with-html-5-can-1/
+* "Creating pseudo 3D games with HTML 5 canvas and raycasting: Part 2":http://dev.opera.com/articles/view/3d-games-with-canvas-and-raycasting-part/
+
+It's over a year old, but it's still interesting because it doesn't use a canvas for 3D -- it uses a raycasting implementation that draws using vertical strips.  It's nothing more than a lot of DOM and CSS manipulation, which is amazing.
+
+These tutorials are by "Jacob Seidelin":http://blog.nihilogic.dk/ who writes a lot about JavaScript and WebGL.
