@@ -18,8 +18,8 @@ Today Google replaced their logo with a playable JavaScript Pac-Man game (with F
 
 I saved the JavaScript and sprites file for you to inspect:
 
-* "JavaScript":files/google_pac-man/pacman10-hp.2.js
-* "Sprites":files/google_pac-man/pacman10-hp-sprite.png
+* "JavaScript":/files/google_pac-man/pacman10-hp.2.js
+* "Sprites":/files/google_pac-man/pacman10-hp-sprite.png
 
 h3. JsMario
 
