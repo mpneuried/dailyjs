@@ -5,9 +5,21 @@ author: Alex Young
 categories: 
 - games
 - graphics
+- google
 ---
 
 It's Friday again, which means you're probably not working and preparing for a weekend of drinking and debauchery.  In the spirit of Friday afternoon slacking, here are my latest JavaScript game and graphics bookmarks.
+
+h3. Pac-Man Google Logo
+
+!/images/posts/google_pacman.png!
+
+Today Google replaced their logo with a playable JavaScript Pac-Man game (with Flash for sound).
+
+I saved the JavaScript and sprites file for you to inspect:
+
+* "JavaScript":files/google_pac-man/pacman10-hp.2.js
+* "Sprites":files/google_pac-man/pacman10-hp-sprite.png
 
 h3. JsMario
 
