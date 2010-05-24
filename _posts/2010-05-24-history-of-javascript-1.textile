@@ -28,7 +28,7 @@ JavaScript 1.1 was already available in Netscape 3.0 (as of August 1996), then 1
 
 h3. Microsoft
 
-Meanwhile Microsoft were building up Internet Explorer to compete with Netscape.  JScript was released with Internet Explorer 3.0 in August 1996 and was based on Netscape's JavaScript.  Microsoft named it JScript to avoid patent disputes.
+Meanwhile Microsoft were building up Internet Explorer to compete with Netscape.  JScript was released with Internet Explorer 3.0 in August 1996 and was based on Netscape's JavaScript.  Microsoft named it JScript to avoid trademark disputes.
 
 h3. JavaScript Implementations
 
