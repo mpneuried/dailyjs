@@ -1,0 +1,45 @@
+---
+layout: post
+title: "History of JavaScript: Part 1"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+---
+
+_History of JavaScript_ is a new article series starting today and continuing every Monday on DailyJS.  I'll be discussing the history of JavaScript, from the early days in the 90s, through to the development and abandonment of JavaScript 2, up until the present.  Each article will contain references at the bottom so you can get more details on the major events and concepts.
+
+h3. Brendan Eich
+
+JavaScript was born out of a need to make web pages dynamic.  The name gives us a clue to its origins -- _Java_ obviously plays some part in its history.  JavaScript is actually a trademark of Sun Microsystems -- Netscape used the name under license.  However, Sun didn't create JavaScript.
+
+Brendan Eich developed JavaScript for Netscape in the 90s, and it was included with an early version of Netscape 2 in 1995.  Brendan Eich started his career at Silicon Graphics, working on operating systems and networking code.  Eventually he ended up at Netscape.
+
+During development JavaScript was called _Mocha_ and then _LiveScript_.  Although people like to point out it wasn't developed by Sun and isn't exactly like Java, Brendan was keen to push it as Java's little brother:
+
+bq. And we were pushing it as a little brother to Java, as a complementary language like Visual Basic was to C++ in Microsoft’s language families at the time.
+
+h3. Ecma International
+
+Work on the specification for ECMA-262 began in November 1996, after Netscape submitted JavaScript to Ecma International.  The first edition of the standard was adopted by Ecma in June 1997.
+
+JavaScript 1.1 was already available in Netscape 3.0 (as of August 1996), then 1.2 was released with Netscape 4.0 in June 1997.
+
+h3. Microsoft
+
+Meanwhile Microsoft were building up Internet Explorer to compete with Netscape.  JScript was released with Internet Explorer 3.0 in August 1996 and was based on Netscape's JavaScript.  Microsoft named it JScript to avoid patent disputes.
+
+h3. JavaScript Implementations
+
+JScript is a dialect of JavaScript.  What Mozilla calls JavaScript is still considered by some as the de-facto standard for JavaScript, with the Ecma standards merely defining what a JavaScript implementation should do.  The reason for this is Brendan Eich is the CTO of Mozilla Corporation.  And in fact, politics are more central to JavaScript than you might have otherwise expected, despite it having an internationally recognised standard.
+
+h3. Part 2
+
+In part 2 I'll discuss the browser wars and development of JavaScript's features and the DOM.
+
+h3. References
+
+* "JavaScript creator ponders past, future":http://www.infoworld.com/d/developer-world/javascript-creator-ponders-past-future-704 -- great interview
+* "JScript on Wikipedia":http://en.wikipedia.org/wiki/JScript
+* "JavaScript on Wikipedia":http://en.wikipedia.org/wiki/JavaScript
