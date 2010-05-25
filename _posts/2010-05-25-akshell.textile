@@ -1,0 +1,91 @@
+---
+layout: post
+title: "Akshell"
+author: Alex Young
+categories: 
+- reviews
+- services
+- server
+---
+
+!/images/posts/akshell_logo.png!
+
+"Akshell":http://www.akshell.com is a web application hosting service that uses an MVC framework built on V8 JavaScript, PostgreSQL, and Python.  It can be used to build JavaScript applications completely inside a browser.  There's also a "command-line tool":http://www.akshell.com/docs/0.2/guide/using/#tool that can ease Akshell into a traditional local development workflow.
+
+Akshell is attempting to create an ecosystem of apps that can be used to build larger apps.  It's a bit like the unix way of thinking -- creating simple, almost atomic tools that can be networked together.  Despite the obvious Google App Engine and Heroku comparisons, the consistent push of this philosophy makes Akshell slightly different.
+
+h3. Collaboration
+
+Akshell uses simple permissions and _Spots_ to facilitate collaboration.  Developers can work on non-release "spots", then the administrator can deploy.  Spots are like branches.
+
+h3. Building Apps
+
+To try Akshell, "sign up on the site":http://www.akshell.com/signup/ then create an application by filling out the fields:
+
+!/images/posts/akshell_admin.png!
+
+Next, navigate to _Code_ then select _main.js_ in the file editor.  Paste in this code:
+
+{% highlight javascript %}
+require('ak', '0.2').setup();
+
+function fibonacci(n) {
+  if (n == 0) return 0;
+  if (n == 1) return 1;
+  
+  var n1 = 0,
+      n2 = 1,
+      result = 0,
+      i;
+
+  for (i = 2; i <= n; ++i) {
+    result = n1 + n2;
+    n1 = n2;
+    n2 = result;
+  }
+
+  return result;
+}
+
+var IndexHandler = Handler.subclass({
+    get: function (request) {
+      var n = request.get.n || 10;
+      return render(
+        'index.html', {
+          header: 'The Fibonacci Sequence',
+          count: n,
+          result: fibonacci(n)
+        });
+    }
+});
+
+exports.root = new URLMap(
+  IndexHandler, 'index'
+);
+{% endhighlight %}
+
+!/images/posts/akshell_code.png!
+
+This generates Fibonacci numbers.  If a get parameter is present, _n_, the app will use it to generate numbers from the Fibonacci sequence.
+
+Make sure to save <code>main.js</code>.  Navigate to _templates_ then _index.html_ and paste this into the existing block:
+
+{% highlight html %}
+  <h1>{{ "{{ header " }}}}</h1>
+  <p>Fibonacci up to: {{ "{{ count " }}}}</p>
+  <p>Result: {{ "{{ result " }}}}</p>
+{% endhighlight %}
+
+Save, then click the arrow that appears when mousing over the _debug_ spot and select _Release_ from the menu.  The _Release_ spot also has a menu with _Show_ which will display your app.
+
+h3. Finding Documentation
+
+When I built the small example above, I read through the _User Guide_ and _Reference_ documents here: "Akshell Documentation":http://www.akshell.com/docs/0.2/.  Familiarity with projects like Rails, Sinatra and Express will translate directly into Akshell's APIs.
+
+h3. Thoughts
+
+"Akshell's about page":http://www.akshell.com/about/ makes it look like Anton Korenyushkin singlehandedly developed the product.  If so, he's clearly a maverick genius.  He definitely seems like a programmer's programmer, which I'm cool with -- Akshell is easy to learn, fast, and fun to play with.  However, that does mean the overall design isn't kick-ass, and the text on the site could do with some copywriting.
+
+Given these minor limitations, it's also worth being aware that apps must be released open source under the BSD or MIT licenses.  I don't think this is a massive problem, but it makes me wonder why Akshell's core isn't open source.  If it's just because Anton wants to get feedback and prepare commercialisation through optionally closed paid apps, that's OK by me.
+
+Right now, Akshell is off to a promising start.  Continued development, commercialisation, and user interface improvements could make it take off in a bigger way.
