@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Real Time Editing with Sockets, Node and Redis"
+author: Alex Young
+categories: 
+- server
+- nodejs
+- redis
+---
+
+In "Real-time Collaborative Editing with Web Sockets, Node.js &amp; Redis":http://www.web2media.net/laktek/2010/05/25/real-time-collaborative-editing-with-websockets-node-js-redis/ Lakshan Perera discusses "realie":http://github.com/laktek/realie, a real-time editor built with web sockets, Node, and Redis.  To understand the concept, check out "Etherpad":http://etherpad.com/.
+
+There's a video preview of the project:
+
+<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,115,0' width='560' height='345'><param name='movie' value='http://screenr.com/Content/assets/screenr_1116090935.swf' /><param name='flashvars' value='i=73493' /><param name='allowFullScreen' value='true' /><embed src='http://screenr.com/Content/assets/screenr_1116090935.swf' flashvars='i=73493' allowFullScreen='true' width='560' height='345' pluginspage='http://www.macromedia.com/go/getflashplayer'></embed></object>
+
+Lakshan discusses the reasoning behind using Node in his post, and points out why Node is a good choice for this type of project.  He also mentions "google-diff-match-patch":http://code.google.com/p/google-diff-match-patch/ -- the diff library he's using, which is available for JavaScript.
+
