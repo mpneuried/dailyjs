@@ -35,7 +35,7 @@ JSONP works like this:
 
 # The framework transparently creates a callback for this specific request
 # A script tag is inserted into a document.  This is of course invisible to the user
-# The <code>src</code> attribute is set to <code>http://example.com/json?callback=jsonpCallback
+# The <code>src</code> attribute is set to <code>http://example.com/json?callback=jsonpCallback,/code>
 # The server generates a response
 # The server wraps its JSON response like this: <code>jsonpCallback({ ... })</code>
 # Once the script has loaded, the callback is called, and the client code can process the JSON accordingly
