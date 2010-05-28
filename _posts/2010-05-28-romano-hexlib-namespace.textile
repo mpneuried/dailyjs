@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Romano, Hexlib, Namespace"
+author: Alex Young
+categories: 
+- games
+- libraries
+---
+
+h3. Romano
+
+!/images/posts/romano.png!
+
+"Romano":http://github.com/patternleaf/Romano is a HTML5 game library for creating 2D games.  It includes features to help with sprite handling, basic physics, and collision detection.
+
+The project depends on jQuery and Raphael, and the APIs work through jQuery-inspired object-oriented code.
+
+h3. Hexlib
+
+!/images/posts/hexlib.png!
+
+"Hexlib":http://github.com/jimbojw/hexlib (MIT License) is a library for making tile games played on a hexagonal grid.  There's a demo on "hexlib.com":http://hexlib.com that you can play around with.
+
+The code has some inline documentation, and you can look at the hexlib.com source ("script.js":http://hexlib.com/hexlib/js/script.js) for an example of the library in use.
+
+h3. Namespace.js
+
+"Namespace.js":http://code.google.com/p/namespacedotjs/ is a little library for creating namespaces in JavaScript and loading remote files.  Usage looks like this:
+
+{% highlight javascript %}
+Namespace('com.example', {
+   MyClass: function() { return {}; }
+});
+var obj = new com.example.MyClass();
+
+Namespace.use('com.example.MyClass');
+var obj2 = new MyClass();
+{% endhighlight %}
