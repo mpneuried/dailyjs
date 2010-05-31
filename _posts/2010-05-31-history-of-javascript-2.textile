@@ -1,0 +1,64 @@
+---
+layout: post
+title: "History of JavaScript: Part 2"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+---
+
+This article is part 2 of our History of JavaScript series.  Last week we looked at Brendan Eich, who created JavaScript for Netscape.  Subsequently, the first edition of the ECMA-262 specification was accepted in 1997.
+
+h3. ECMAScript
+
+Once ECMAScript was standardised, JavaScript became Netscape's _dialect_ of ECMAScript.  Other popular dialects are ActionScript and JScript (used in Internet Explorer).  A dialect can be said to be ECMA-262 compliant if it satisfies the specification, and will often include proprietary extensions that suit the context of the implementation.
+
+h3. Browser Wars
+
+As I mentioned last week, Microsoft introduced JScript as a reaction to Netscape's JavaScript.  Microsoft kept JScript largely compatible, which helped JavaScript gain popularity.
+
+It sounds funny now, but some unloved proprietary features like the <code>blink</code> tag were introduced during the browser wars.  More serious features were also introduced, but the usefulness of these wasn't always apparent at the time.
+
+A good example is XMLHttpRequest. Microsoft created the concept behind it, although ActiveX was used.  This shipped with Internet Explorer 5.0 in 1999.  It wasn't until 2006 that the W3C published a working draft for XMLHttpRequest itself.
+
+Another proprietary feature introduced by Microsoft was the <code>innerHTML</code> property.  Netscape added support for this property in May 2000 due to its popularity and requests from the community.
+
+h3. Document Object Model
+
+With proprietary tags and properties like <code>innerHTML</code>, it's not surprising that the development of the Document Object Model (DOM) was central to the browser wars.  JavaScript's power in client-side web code is crippled without a clean API for manipulating elements, and Microsoft and Netscape had a few false starts before standardisation.
+
+Level 0 DOM was implemented by Netscape in JavaScript for Netscape 2.  Even modern browsers support it, despite its questionable usefulness.  Microsoft copied it for Internet Explorer 3.
+
+If you started learning web development in the 90s, you'll probably be familiar with the basic usage of DOM Level 0:
+
+{% highlight javascript %}
+// Return all the forms on the page:
+document.forms[]
+
+// Return the first image:
+document.images[0]
+
+// Changing a property:
+document.images[0].src = '/images/rollover.gif'
+{% endhighlight %}
+
+The World Wide Web Consortium (W3C) was founded in 1994, and had already helped standardise JavaScript through ECMAScript.  In late 1998 the recommendation for DOM Level 1 was announced.  Internet Explorer 5.0 shipped with partial support.  It wasn't until 2000 that DOM Level 2 was published and we finally had <code>getElementById</code> and an event model.
+
+In some ways this was already too late.  Microsoft had its own event model, which is still used today.  If you've been following our _Let's Make A Framework_ series you should have seen example code for Microsoft event handling.
+
+h3. Antitrust
+
+Meanwhile, as of version 4, Internet Explorer had been integrated into Windows.  This was the point at which Netscape's market share started to suffer.  Eventually it became clear that Microsoft's strategy was potentially anti-competitive, and this prompted the antitrust case in 1998.
+
+The case didn't help Netscape -- Internet Explorer 6 became the dominant browser.  This arguably ended an era of rapid innovation on the web, and it wasn't until the excitement over Web 2.0 that IE started to seriously lose ground.
+
+h3. Part 3
+
+Next week I'll continue this series, exploring the years leading up to the Web 2.0 revolution.
+
+h3. References
+
+* "DOM Level 0":http://www.quirksmode.org/js/dom0.html
+* "United States v. Microsoft":http://en.wikipedia.org/wiki/United_States_Microsoft_antitrust_case
+* "Using innerHTML in Netscape 6":http://www.webreference.com/js/tips/001209.html
