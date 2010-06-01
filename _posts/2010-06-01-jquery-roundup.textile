@@ -1,0 +1,29 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 10: jquery-offline, Lightbox_me, Mapbox"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup, episode 10.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jquery-offline
+
+"jquery-offline":http://github.com/wycats/jquery-offline by Yehuda Katz helps build JavaScript applications that run on unpredictable connections, like mobile web apps.  This plugin can make use of a "HTML5 cache manifest":http://www.w3.org/TR/offline-webapps/#offline and "jquery-tmpl":http://github.com/jquery/jquery-tmpl to make building content from JSON data relatively straightforward.
+
+bq. Because of the architecture of jQuery Offline, you can call $.retrieveJSON whether or not the user is online, and the plugin will either make an immediate request or kick off a request when the user comes back online. This also means you can kick off a timer for a request for new content in the callback to jQuery.retrieveJSON.
+
+h3. Lightbox_me
+
+It seems like I've already written about a lot of lightbox plugins, but "Lightbox_me":http://buckwilson.me/lightboxme/ (Apache License, Version 2.0) is a relatively small and useful addition to the collection.  It adds events to handle window resizes, and has a very small DOM footprint, unlike many lightbox solutions which can be quite heavy.
+
+h3. Mapbox
+
+!/images/posts/mapbox.png!
+
+I've had to write a cut-down Google Maps style map interface before, and it's not trivial.  "Mapbox":http://wayfarerweb.com/jquery/plugins/mapbox/ (MIT License) would have been a good alternative: it can show multiple layers of content, supports mousewheel zoom, and has a simple API and DOM requirements.
+
+Although Google Maps is great, there are times when a real map isn't required or a particular project's licensing or legal requirements prohibit Google Maps.  It's worth keeping projects like this in your bookmarks for just such occasions.
