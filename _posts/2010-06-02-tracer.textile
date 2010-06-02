@@ -14,7 +14,7 @@ To understand this, remember that functions on objects can be iterated over.  Al
 This can even be done recursively:
 
 {% highlight javascript %}
-tracer.traceAll(jQuery,true)
+tracer.traceAll(jQuery, true)
 >> tracing init
 >> tracing size
 >> tracing toArray
