@@ -1,0 +1,25 @@
+---
+layout: post
+title: "Tracer"
+author: Alex Young
+categories: 
+- language
+- utilities
+---
+
+I just finished reading about Angus Croll's "tracer":http://javascriptweblog.wordpress.com/2010/06/01/a-tracer-utility-in-2kb/ utility -- a tiny pure JavaScript method tracer.  It traverses prototype chains and wraps each method in a new function that calls the tracer's code.
+
+To understand this, remember that functions on objects can be iterated over.  Also recall that functions in JavaScript are first class objects, which means they can be decorated with properties.  Combining these two facts allows object methods to be iterated over and safely modified to call external code.
+
+This can even be done recursively:
+
+{% highlight javascript %}
+tracer.traceAll(jQuery,true)
+>> tracing init
+>> tracing size
+>> tracing toArray
+// ...
+{% endhighlight %}
+
+The source code is in the article: "A tracer utility in 2kb":http://javascriptweblog.wordpress.com/2010/06/01/a-tracer-utility-in-2kb/.
+
