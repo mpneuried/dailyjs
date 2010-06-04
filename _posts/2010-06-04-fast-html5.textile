@@ -1,0 +1,20 @@
+---
+layout: post
+title: "Fast HTML5"
+author: Alex Young
+categories: 
+- performance
+- html5
+- animation
+---
+
+I've been thinking a lot about hardware acceleration in CSS animations because of the current theme of "Let's Make a Framework":http://dailyjs.com/2010/06/03/framework-part-15/.  There is actually a lot of scope in CSS3 and HTML5 to create animations, and in some ways you can improve performance over traditional design techniques.
+
+In "Making an iPad HTML5 App & making it really fast":http://mir.aculo.us/2010/06/04/making-an-ipad-html5-app-making-it-really-fast/, Thomas Fuchs discusses techniques he's discovered for creating turbo-charged apps on Mobile Safari.  Most of these techniques are relevant to other modern browsers.
+
+One point that I like is "Images slow things down immensely -- get rid of them".  Thomas recommends using techniques like gradients for buttons and backgrounds rather than using images.  I've been building buttons in 100% CSS instead of using images lately because I'm a programmer and writing CSS is easier than messing around with Photoshop.  I never really thought about performance advantages though, I just liked the way the results looked and how they scale nicely.
+
+!/images/posts/apple_html5.png!
+
+Meanwhile, Apple published a great "HTML5 showcase":http://www.apple.com/html5/, with some interesting uses of modern CSS and JavaScript.  The 360 degrees example and "VR" effects are particularly impressive -- hopefully this means people can stop using those awkward QuickTime VR and Flash-based techniques!
+
