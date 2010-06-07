@@ -1,0 +1,54 @@
+---
+layout: post
+title: "History of JavaScript: Part 3"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+---
+
+This article is part 3 of our History of JavaScript series.  Last week we looked at the development of the Document Object Model, and the browser wars, which culminated in Microsoft losing the antitrust case yet reaching total domination by the time Internet Explorer 6 was released.
+
+h3. Rhino
+
+SpiderMonkey was written by Brendan Eich at Netscape, and was implemented in C.  This was the first JavaScript interpreter, and is still used by Firefox, Adobe products, and many other applications.
+
+Rhino began life as a part of a planned Java version of Netscape Navigator, and was initially created by Norris Boyd.  A Java Netscape never emerged, but Rhino did.  Sun licensed it, and it was eventually released to Mozilla in 1998.  It was released as an open source project soon after.
+
+Rhino originally compiled JavaScript into bytecode, but compilation took too long, so an interpretive mode was added.
+
+h3. ECMA-262 Edition 3
+
+At the end of 1999, ECMA-262 edition 3 was published.  This edition added regular expressions, exception handling with <code>try</code> and <code>catch</code>, and other improvements.  Most browsers today still ship with a superset of edition 3.
+
+After this point, ECMAScript entered a strange time in its development.  A compact version was published to suit embedded devices, which appeared in the HD DVD specification.  E4X was also published, which is ECMAScript for XML.  This version of the language adds native XML support, which was thought to be a useful alternative to DOM interfaces.
+
+h3. ECMAScript 4
+
+Work on ECMAScript 4th edition started after the release of the 3rd edition in 1999.  An interim report was released in 2003, at which point work on the standard stopped.  ActionScript and JScript.NET implemented parts of this early standard.
+
+In 2005, work started on ES4 again.  The group wanted to draw on Microsoft and Adobe's experiences, and expected to complete the 4th edition by the end of 2008.
+
+The feature laundry list was just over two pages long by October 2007: class-based OO, multi-methods and operator overloading, optional type annotations, strict mode, generators, and many more features were expected to be supported.
+
+At this point, Douglas Crockford spoke out about the complexity of the proposal at the Ajax Experience conference.  Brendan Eich wasn't impressed -- he'd been working on edition 4 for 2 years already.  He admitted that Microsoft's support had been lacklustre.  A longer response was published on "Brendan's Roadmap Updates":http://weblogs.mozillazine.org/roadmap/archives/2007/10/open_letter_to_chris_wilson.html.
+
+h3. RIP ECMAScript 4
+
+This represented a turning point in the political discourse of ECMAScript 4.  By the end of 2007 it seemed obvious that this dispute was serious and work on ES4 was untenable.  By August 2008, Brendan Eich announced the Harmony project, which aimed to reunite parties and continue development on a new ECMAScript standard.  ECMAScript 4 and JavaScript 2 had died.
+
+Even though ECMAScript 4 seems naive in retrospect, many developers had already built open source libraries that could work with it.  Even savvy developers like John Resig had blogged and talked about the derailed standard.
+
+This difficult period demonstrated that JavaScript's strengths lie in its simplicity, which is an important lesson for the community at large.
+
+h3. Next Week
+
+Next week I'll review the frameworks that made the Web 2.0 revolution take off.
+
+h3. References
+
+* "Rhino History":http://www.mozilla.org/rhino/history.html
+* "SpiderMonkey at MDC":https://developer.mozilla.org/en/SpiderMonkey
+* "ECMAScript Edition 4: Brendan Speaks Out":http://ajaxian.com/archives/ecmascript-edition-4-brendan-speaks-out
+* "ECMAScript Harmony by John Resig":http://ejohn.org/blog/ecmascript-harmony/
