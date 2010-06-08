@@ -1,0 +1,31 @@
+---
+layout: post
+title: "Wu.js"
+author: Alex Young
+categories: 
+- libraries
+- functional
+---
+
+"Wu.js":http://fitzgen.github.com/wu.js/ by Nick Fitzgerald is a lazy functional library for JavaScript.  Wu.js makes it easy to work with lazy iterators and compose functions from functional methods like <code>curry</code>.
+
+Basic usage involves calling <code>wu()</code> on an object, then calling a chained sequence of methods:
+
+{% highlight javascript %}
+wu([[0,2], [1,2], [2,2], [3,2]]).mapply(Math.pow).toArray();
+{% endhighlight %}
+
+If you're familiar with lazy iterators in languages like Clojure, you'll appreciate the lazy methods.  Sequences can be created with methods like <code>cycle</code>, and then processed with <code>.takeWhile()</code>, <code>.asyncEach()</code>, or <code>.next()</code>.
+
+The "Lego functions":http://fitzgen.github.com/wu.js/#lego-functions are also interesting:
+
+{% highlight javascript %}
+function square(x) { return x * x; }
+function add2(x) { return x + 2; }
+wu.compose(square, add2)(5);
+// 49
+wu.compose(add2, square)(5);
+// 27
+{% endhighlight %}
+
+The GitHub page is here: "fitzgen/wu.js":http://github.com/fitzgen/wu.js.
