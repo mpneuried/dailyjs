@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Geddy"
+author: Alex Young
+categories: 
+- nodejs
+- frameworks
+- libraries
+---
+
+"Geddy":http://geddyjs.org/ is a web framework for Node by "Matthew Eernisse":http://fleegix.org/ inspired by larger web frameworks like Rails.  It has a command line application which can be used to build and run apps.  It supports routing, with Rails-style resources.
+
+h3. Installation
+
+The author currently recommends using version 0.1.94 of Node, so upgrade if necessary.
+
+{% highlight sh %}
+git clone git://github.com/mde/geddy.git
+cd geddy
+make
+sudo make install
+{% endhighlight %}
+
+h3. App Configuration
+
+An app can be generated with <code>geddy-gen app app-name</code>.  This will create an app template files, much like Rails.  Then all you need to do is edit <code>config/environments/development.js</code> to include database config, and you can generate resources with <code>geddy-gen resource resource-name</code>.
+
+The configuration file should have an example database config commented out.  There are more examples here: "The two-minute Geddy app":http://wiki.github.com/mde/geddy/the-two-minute-geddy-app.
+
+h3. Issues
+
+I ran into problems building node-sqlite for the current version of Node.  The "version on GitHub":http://github.com/grumdrig/node-sqlite seems newer than the one on Google Code, but I can't get Geddy to work with it.  Because Node changed a lot over the last few months, I assume the sqlite library hasn't caught up yet.
+
+h3. Future
+
+The "author mentions":http://fleegix.org/articles/2010-04-26-geddy-models-validations-for-node-js that the project is being used commercially at "Yammer":https://www.yammer.com/, so hopefully work will continue and the project won't be left idle like so many Node frameworks.
+
+Geddy is based around resources which saves a lot of time when building many types of apps and APIs.  This framework will appeal to Rails developers, it could be a good way of attracting Rails developers to Node.  Success will be purely down to keeping up with Node's changes and making installation as easy as possible.
