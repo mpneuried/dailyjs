@@ -35,4 +35,4 @@ h3. Future
 
 The "author mentions":http://fleegix.org/articles/2010-04-26-geddy-models-validations-for-node-js that the project is being used commercially at "Yammer":https://www.yammer.com/, so hopefully work will continue and the project won't be left idle like so many Node frameworks.
 
-Geddy is based around resources which saves a lot of time when building many types of apps and APIs.  This framework will appeal to Rails developers, it could be a good way of attracting Rails developers to Node.  Success will be purely down to keeping up with Node's changes and making installation as easy as possible.
+Geddy is based around resources, so it will save a lot of time when building many types of apps and APIs.  This framework will appeal to Rails developers, it could be a good way of attracting Rails developers to Node.  Success will be purely down to keeping up with Node's changes and making installation as easy as possible.
