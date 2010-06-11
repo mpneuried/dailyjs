@@ -1,0 +1,59 @@
+---
+layout: post
+title: "Lawnchair, 91 Icons, Charts"
+author: Alex Young
+categories: 
+- graphics
+- storage
+---
+
+I like to keep Friday informal here on DailyJS, so here is my latest set of loosely game-development-related links.
+
+h3. Lawnchair
+
+<pre>
+    .____                                 .__            .__         
+    |    |   _____  __  _  ______   ____  |  |__ _____   |__|_______ 
+    |    |   \__  \ \ \/ \/ /    \_/ ___\ |  |  \\__  \  |  |\_  __ \
+    |    |___ / __ \_\     /   |  \  \___ |   Y  \/ __ \_|  | |  | \/
+    |_______ (____  / \/\_/|___|  /\___  >|___|  (____  /|__| |__|   
+            \/    \/ Lawnchair! \/     \/      \/     \/             
+</pre>
+
+I keep mentioning HTML5 storage solutions in our "useful game-related junk" posts because sophisticated games are much more palatable when they take advantage of local storage.  "Lawnchair":http://brianleroux.github.com/lawnchair/ is an interesting project -- it's like a very simple ORM library that relies on JSON.
+
+It supports iteration and has several ways of iterating over collections:
+
+{% highlight javascript %}
+people.each(function(r){
+    console.log(r);
+});
+
+// Classic with terse shorthand syntax
+people.each('console.log(r)');
+
+// Iterate documents conditionally! 
+// The first function is a conditional. The second is a callback to execute on records returned by the first
+people.find(
+    function(r) {
+        return r.name == brian;
+    },
+    function(r) {
+	console.log(r);
+    }
+);
+{% endhighlight %}
+
+h3. 91 Icons
+
+!/images/posts/91_icons.png!
+
+I really like these SVG icons by the Raphael author: "91 Icons":http://raphaeljs.com/icons/.  Click an icon to see the path string used to generate the vector.
+
+h3. Campaign Monitor's New Charts
+
+!/images/posts/campaign_monitor_charts.png!
+
+Campaign Monitor have dropped Flash for charts and switched to a JavaScript solution.  What's cool about this is they've written up a blog post explaining how they did it: "Say goodbye to Flash with our all new charts":http://www.campaignmonitor.com/blog/post/3161/say-goodbye-to-flash-with-our-new-javascript-charts/.
+
+They've used the "Highcarts":http://www.highcharts.com/ library and added touch support so devices like the iPad will work with events properly.
