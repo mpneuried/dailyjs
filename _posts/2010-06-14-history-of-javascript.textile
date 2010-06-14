@@ -1,0 +1,64 @@
+---
+layout: post
+title: "History of JavaScript: Part 4"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+---
+
+This article is part 4 of our History of JavaScript series.  Last week we looked at the development of Rhino, and the downfall of JavaScript 2.  This week I'm going to dig into Ajax and JavaScript frameworks
+
+h3. Ajax
+
+As we've already seen, Microsoft had a version of <code>XMLHttpRequest</code> pretty early on.  Mozilla quickly followed, by adding support to Gecko, but it wasn't fully-functional until around 2002.  Other browsers eventually implemented similar functionality, prior to standardisation by the W3C.
+
+Meanwhile, "Jesse James Garrett":http://blog.jjg.net/ published an essay entitled "Ajax: A New Approach to Web Applications":http://www.adaptivepath.com/ideas/essays/archives/000385.php in February 2005.  Garrett cited <code>XMLHttpRequest</code> as a major component in what Adaptive Path dubbed _Ajax_.
+
+The importance of this new approach quickly became apparent.  The main lesson people took away from the essay was the power of asynchronous client-side code.  The term Ajax quickly became synonymous with the more awkward term <code>XMLHttpRequest</code>.
+
+I still prefer Adaptive Path's original definition of Ajax, and I think it's useful to draw a distinction between the terms.  It hasn't helped that certain popular JavaScript libraries confuse Ajax with <code>XMLHttpRequest</code>.
+
+h3. XMLHttpRequest
+
+The W3C published a working draft for the <code>XMLHttpRequest</code> object in April 2006.  The last version is draft 19, published November 2009, at "www.w3.org/TR/XMLHttpRequest/":http://www.w3.org/TR/XMLHttpRequest/.
+
+Even though the first draft of this spec was 2006, 2005 was the start of the web 2.0 revolution.
+
+h3. The Rise of Web 2.0
+
+Interest in web applications waned after the dot com crash.  This was the era in which I graduated, so I have first-hand experience trying to survive in that period.  Thankfully, by 2005 Garrett's essay and popular sites like Google Maps inspired a new breed of web application.
+
+I remember colleagues telling me that Ajax was dangerous because of the number of HTTP requests clients would generate back to the server.  It was actually very rare that this was a problem, and JavaScript libraries started to appear that addressed web 2.0 technologies like <code>XMLHttpRequest</code>.
+
+The first library I remember using was Prototype by Sam Stephenson. It used a lot of conventions from Ruby, and it was popular with Ruby developers due to ties with Rails.  It made <code>XMLHttpRequest</code> easy to use, and it also patched a lot of cross-browser issues which had plagued JavaScript development.
+
+Other libraries also appeared in 2005:
+
+* Dojo Toolit
+* MochiKit
+* Scriptaculous
+
+Scriptaculous built on Prototype to provide rich UI features.
+
+h3. A New Type of API
+
+Libraries like Prototype were influenced by other programming languages.  Their internal structures and APIs are similar to traditional OO classes.  While libraries were battling to support the next fashionable UI widget, other developers were wondering if there was a more natural way to work with JavaScript in the browser.
+
+One of these brave souls was John Resig.  In "Selectors in Javascript":http://ejohn.org/blog/selectors-in-javascript/ he discusses a library called Behaviour, and ponders ways of linking JavaScript code to CSS selectors.
+
+By pushing what JavaScript could do natively, he had created the basis of jQuery.  A year later, "jQuery 1.0 was released":http://blog.jquery.com/2006/08/26/jquery-10/.
+
+h3. Historical Lessons
+
+I have a lot of respect for Sam Stephenson, Thomas Fuchs and John Resig.  They took their projects in different directions and made a lot of things easier for us developers in the trenches.  The lesson we can take away from this period, however, is that playing to the strengths of your language will always pay off in the end.
+
+As kangax pointed out this year, Prototype's approach of extending the DOM has major issues.  It looks like Prototype 2 might work more like jQuery.  Rather than bringing in a Ruby, Python or Java influence, Resig stuck to his guns and looked at how to write _natural_ JavaScirpt, and this approach paid off.
+
+h3. References
+
+* "Ajax: A New Approach to Web Applications":http://www.adaptivepath.com/ideas/essays/archives/000385.php by Jesse James Garrett
+* "XMLHttpRequest at MDC":https://developer.mozilla.org/en/xmlhttprequest
+* "www.w3.org/TR/XMLHttpRequest/":http://www.w3.org/TR/XMLHttpRequest/
+* "Ajax Summit: Sam Stephenson, Prototype":http://ajaxian.com/archives/ajax-summit-sam-stephenson-prototype
