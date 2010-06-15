@@ -1,0 +1,44 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 11: Default, YoxView, Panel Magic"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- forms
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup, episode 11.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Default
+
+"Default":http://github.com/kbjr/Default (MIT and GPL) by James Brumond can be used to manage default text for form fields.  The API can be accessed by calling <code>defaultText</code> on a form element:
+
+{% highlight javascript %}
+$('input').defaultText({ defText: 'Enter your first name' }))
+{% endhighlight %}
+
+Alternatively, <code>title</code> attributes will be used for the <code>defText</code> option when calling <code>defaultText</code> with no parameters.
+
+h3. YoxView
+
+!/images/posts/yoxview.png!
+
+"YoxView":http://yoxigen.com/yoxview/Default.aspx (MIT license) by Yossi Kolesnicov is yet another lightbox-style image viewer.  It can work with video sites like YouTube, and also image sharing sites like Flickr.  It's also optimised for search engines.  Multiple images can be assigned for a single thumbnail as well, which not all lightbox libraries support.
+
+After installing the script and required assets, usage is pretty simple:
+
+{% highlight javascript %}
+$("#images").yoxview([options]);
+{% endhighlight %}
+
+The expected HTML is a set of images inside a div.  For more details, see the "API documentation":http://yoxigen.com/yoxview/usage.aspx.
+
+h3. Panel Magic
+
+!/images/posts/panel_magic.png!
+
+"jquery-panel-magic":http://code.google.com/p/jquery-panel-magic/ (MIT License) by Craig Hoover is a curious plugin that turns a page into a set of panels that can be navigated between in a fashion similar to Apple's Exposé (or Safari's home screen).  The author is experimenting with iPad support, and it seems like a good fit for touchscreens.
+
+
