@@ -1,0 +1,50 @@
+---
+layout: post
+title: "JSonduit"
+author: Alex Young 
+categories: 
+- services
+- server
+- json
+---
+
+!/images/posts/jsonduit.png!
+
+"JSonduit":http://jsonduit.com by Chris Winberry from "Tautologistics":http://tautologistics.com/ is a service that allows you to process a page with server-side JavaScript to create a JSON feed.  Feeds can then be loaded remotely, or widgets can be created.
+
+JSonduit works by allowing you to run remote JavaScript which scrapes pages.  JSonduit's API gives you tools like <code>getElementById</code> and <code>getElementsByTagName</code> to iterate over elements.
+
+The service doesn't require registration, so you can use my example to build your own feed:
+
+{% highlight javascript %}
+// Scrapes dailyjs.com/tags.html
+var tags = [],
+     container = getElementById('container', data[0]);
+
+getElementsByTagName('h3', container).forEach(function(item, index, list) {
+  var tag = item.children[0].data;
+  tags.push({ title: tag, link: 'http://dailyjs.com/tags.html#' + tag });
+});
+
+saveResult(tags);
+{% endhighlight %}
+
+Notice <code>saveResult</code> is called once to save the data.
+
+h3. What's the Point?
+
+Remotely accessing the feeds from browsers is very easy.  Include <code>http://jsondiut.com/js/tools.min.js</code> then load the feed:
+
+{% highlight javascript %}
+JSonduit.feed.load(feedId, 0, function(data) {
+  if (data.error) {
+    alert('Feed Error: ' + data.error.error + ' : ' + data.error.desc);
+  } else {
+    alert(JSON.stringify(data.result));
+  }
+});
+{% endhighlight %}
+
+I've used "Yahoo! Pipes":http://pipes.yahoo.com/ before, but this is made by a "nodejs list poster":http://groups.google.com/group/nodejs/browse_thread/thread/b6ec3f67c90e7a6?tvc=2 and it's immediately familiar to me as a JavaScript developer.
+
+Granted, the interface could use a bit of work, but given that it's a young service JSonduit looks promising.  If you come up with cool feeds, please share in the comments!
