@@ -1,0 +1,29 @@
+---
+layout: post
+title: "jsdo.it, Sencha"
+author: Alex Young
+categories: 
+- sites
+- services
+- html5
+- css3
+- mobile
+---
+
+"jsdo.it":http://jsdo.it by "KAYAC Inc.":http://www.kayac.com/ is a new service that allows you to share JavaScript, HTML5 and CSS snippets.  Code is ranked, so you can browse the site to find interesting things.  I've found some cool graphical effects on the site so far, like this example: "はじめてのかんばす":http://jsdo.it/vesperworks/A6C0
+
+You can sign in using Google, Facebook, Twitter, Yahoo! or OpenID.  Once you're signed in you can fork code or create your own stuff.  The editor is web-based, and allows you to enter JavaScript, HTML and CSS:
+
+!/images/posts/jsdoit.png!
+
+h3. Ext JS is now Sencha
+
+!/images/posts/sencha.png!
+
+Ext JS has recently rebranded to Sencha.  They've also combined forces with jQTouch and Raphaël, and these libraries will remain MIT licensed:
+
+bq. We're setting up a foundation called Sencha Labs that will hold the copyright and trademarks for all the non-commercial projects a ffiliated with Sencha. Our license of choice for these projects is, and will continue to be, the MIT license.
+
+The move is interesting because all three of these projects are already well-known and respected.  The combined framework is being marketed as _Sencha Touch_, and was misinterpreted by some well-known Apple bloggers as a way of doing native app development (rather than simply another useful mobile web framework). 
+
+Read more on Sencha's blog: "Ext JS + jQTouch + Raphaël = Sencha":http://www.sencha.com/blog/2010/06/14/ext-js-jqtouch-raphael-sencha/
