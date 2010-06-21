@@ -18,7 +18,7 @@ Brendan Eich developed JavaScript for Netscape in the 90s, and it was included w
 
 During development JavaScript was called _Mocha_ and then _LiveScript_.  Although people like to point out it wasn't developed by Sun and isn't exactly like Java, Brendan was keen to push it as Java's little brother:
 
-bq. And we were pushing it as a little brother to Java, as a complementary language like Visual Basic was to C++ in Microsoft’s language families at the time.
+bq. And we were pushing it as a little brother to Java, as a complementary language like Visual Basic was to C++ in Microsoft's language families at the time.
 
 h3. Ecma International
 

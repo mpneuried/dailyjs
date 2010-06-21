@@ -1,0 +1,51 @@
+---
+layout: post
+title: "History of JavaScript: Part 5"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+---
+
+This article is part 5 of our History of JavaScript series.  Last week we looked at the development of Ajax, XMLHttpRequest, and the rise of Web 2.0.
+
+h3. Prototype and Objects
+
+I haven't been able to track down a concrete answer to the question "why is JavaScript prototype-based?".  If you recall part 1 of this series, you might remember this quote from Brendan Eich:
+
+bq. And we were pushing it as a little brother to Java, as a complementary language like Visual Basic was to C++ in Microsoft's language families at the time.
+
+It's clear that JavaScript's creator wished to make something simpler than Java, and as most of us know Java's object model is extensive.  Conversely, JavaScript's object model is very simple.  Advanced OO-like features can be built using JavaScript's core features: prototype objects and closures.
+
+h3. Class-Oriented Programming
+
+I remember hearing about a talk by "Dave Thomas":http://pragdave.pragprog.com/ where he bemoaned the overuse of classes in object oriented programming.  Is object oriented programming about _objects_ or _classes_?  The way most people are taught is _class_ oriented.
+
+This is something worth keeping in mind when we talk about prototype-based programming.  It's not always easy for those trained in classical object oriented programming to see the distinction between the two.
+
+h3. The History of Prototype Programming
+
+Prototypes came from a desire to further develop object-oriented languages, with the language "Self":http://selflanguage.org/.  The language was first publicly released in 1990.  In 1991 the developers moved to Sun Microsystems which may explain the JavaScript connection.
+
+Self challenges the notion that classes and objects are distinct.  In Self, much like JavaScript, copies of objects are made rather than instantiating objects from a template.  Objects used to create copies are known as prototypes.
+
+You can learn about Self in the "Language Reference":http://docs.selflanguage.org/langref.html.
+
+Between Self and widespread adoption of JavaScript, other interesting prototype-based languages were developed.  Lua was created in 1993, and is now widely used in the games industry for scripting tasks.  REBOL appeared in 1997, using the <code>make</code> function to construct and return objects.
+
+One prototype-based language I've played with quite a bit is "io":http://www.iolanguage.com/, which was created in 2002.  It's succinct and easy to learn, and I think it should appeal to Lisp or JavaScript enthusiasts.
+
+h3. Trends in Prototype-based Languages
+
+If you look through the popular prototype languages you'll notice a few common themes:
+
+* Simple syntax
+* Dynamic
+* Inspired by languages like Scheme
+* Small, efficient VM
+
+h3. Conclusion
+
+Prototype-based languages like JavaScript and Lua have found their respective niches, and more developers than ever are versed in this style.  Given the amount of innovation in VM design and implementation, these languages will continue to grow in popularity.
+
