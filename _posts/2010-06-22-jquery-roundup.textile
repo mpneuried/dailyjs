@@ -1,0 +1,46 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 12: Animations, Twitterize"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- animation
+- twitter
+---
+
+Welcome to the jQuery Plugin Roundup, episode 12.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Animated Box Shadows
+
+!/images/posts/animated_box_shadows.png!
+
+"This shadow animation plugin":http://www.bitstorm.org/jquery/shadow-animation/ ("MIT and GPL License":http://www.bitstorm.org/jquery/license.html) by Edwin Martin animates shadows using CSS.  It's an interesting effect when used with mouse over events.
+
+{% highlight javascript %}
+$('#box1').animate({shadow: '0 0 30px #44f'});
+{% endhighlight %}
+
+h3. Colour Animation
+
+"jquery.animate-colors.js":http://www.bitstorm.org/jquery/color-animation/, by the same author with the same licensing, can animated colour properties.  It can animate a lot of different properties, and works more reliably than Color Animations by John Resig:
+
+{% highlight javascript %}
+$('#demodiv').animate({backgroundColor: '#400101'})
+{% endhighlight %}
+
+Edwin's plugins all work using the standard jQuery <code>animate</code> method, so they're transparent and work the way you're used to.
+
+h3. Twitterize
+
+!/images/posts/twitterize.png!
+
+"Twitterize":http://repsis.com/jquery/twitterize/ (MIT License) by Vicente Plata shows a floating div with Twitter updates from a particular user.
+
+It'll need a bit of styling to make it look really cool, but it's a simple drop-in plugin so it shouldn't be too much work:
+
+{% highlight javascript %}
+$('#user').twitterize({target: 'dailyjs'});
+{% endhighlight %}
+
+
