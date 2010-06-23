@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Node Knockout"
+author: Alex Young 
+categories: 
+- nodejs
+- events
+---
+
+!/images/posts/nodeko.png!
+
+"Node Knockout":http://nodeknockout.com/ is based on Rails Rumble -- an event where contestants in teams up to 4 get 48 hours to build a web project from scratch with "Node":http://nodejs.org/.  The event begins on August 28th, and contestants can take part simply by submitting code to GitHub and deploying projects to Joyent or Heroku.
+
+Node Knockout was started by "fortnight labs":http://www.fortnightlabs.com/ who made "Track Your Happiness":http://www.trackyourhappiness.org/, "among other things":http://www.fortnightlabs.com/portfolio.
