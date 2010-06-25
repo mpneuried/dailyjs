@@ -1,0 +1,26 @@
+---
+layout: post
+title: Ringo, Less.js, Rejex
+author: Alex Young
+categories: 
+- css
+- server
+---
+
+h3. Ringo
+
+!/images/posts/ringo.png!
+
+There was a lot of talk about "Ringo":http://www.ringojs.org this week thanks to "RingoJS vs NodeJS":http://www.gmosx.com/blog/agVnbW9zeHIPCxIHQXJ0aWNsZRjh2gEM/ringojs-vs-nodejs by George Moschovitis.  Ringo used to be known as _Helma NG_, which is an evolution of Helma's original platform which has been around for a long time.
+
+Ringo is a CommonJS implementation based on Rhino.
+
+h3. Less.js
+
+<img src="/images/posts/less.png" style="border: none" alt="" />
+
+"Less.js":http://github.com/cloudhead/less.js by Alexis Sellier is "LESS":http://lesscss.org/ running on browser or server-side JavaScript.  It makes CSS a little bit easier to work with by adding variables, mixins, nested rules, and operations.  It's easy to learn and may find more popularity now it can be run in a browser.
+
+h3. Rejex
+
+"Rejex":http://rejex.heroku.com/ by Oliver Nightingale is a marvelous little tool for experimenting with regular expressions.  It's open source and implemented with jQuery and a tiny bit of Ruby.
