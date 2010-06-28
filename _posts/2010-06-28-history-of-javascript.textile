@@ -1,0 +1,68 @@
+---
+layout: post
+title: "History of JavaScript: Part 6"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+- animation
+---
+
+This article is part 6 of our History of JavaScript series.  Last week I discussed the history of prototype-based programming.  I've been writing a lot about JavaScript animations lately, so this week I thought I'd cover the history of JavaScript animation.
+
+h3. The DHTML Era
+
+Animation in web design used to involve roll-over effects, animated gifs, image maps, and other things that have been largely superseded with simple CSS.  The blanket term for these techniques was _DHTML_ (Dynamic HTML), and a great deal of books were written on the nebulous topic.  I hardly ever hear the term DHTML anymore, and it seems like post-dot-com era designers and developers have quietly moved on.
+
+When Netscape 4 came out people started doing incredibly advanced tricks with JavaScript and the <code>layer</code> tag.  I blog a lot about cutting edge JavaScript -- HTML5 games, animations, applications -- but this has all been done before almost 10 years ago, albeit with less elegant markup and legacy technology.
+
+Netscape invented layers in 1997, at the same time the W3C were working on the <code>div</code> tag, so it isn't surprising that layers died quickly.  There was a lot of hype and excitement about layers, but their big downside was they were Netscape 4 specific.  Positioning and sizing a layer was straightforward, as was moving one.
+
+Another relic from 4th generation browsers is "revealTrans":http://msdn.microsoft.com/en-us/library/ms532847(v=VS.85).aspx.  We still use <code>filter:</code> in IE to bend it into supporting things like opacity, but <code>revealTrans</code> could be used to create transition effects for elements or entire pages.
+
+Browser-specific APIs and poor use of these effects gave DHTML a bad name.  The rise of the web standards movement encouraged designers to try out new techniques.
+
+h3. Standards Movement
+
+Cross-browser and semantic XHTML became the next big thing.  And even though IE6 was the elephant in the room making life difficult for designers, innovators still looked at how to build better sites without breaking the specs.
+
+Sites using animations and effects started to look dated.  Online communities like "A List Apart":http://www.alistapart.com preached the good word of standards compliance.
+
+At this point I felt like dynamic HTML and JavaScript animation might be something left in the past, but then Matthew Linderman at 37signals published "Web Interface Design Tip: The Yellow Fade Technique":http://37signals.com/svn/archives/000558.php.  37signals had become famous for simple, focused web design, and pushed the standards-based approach.  The Yellow Fade Technique used a little bit of JavaScript to briefly highlight a changed item on a page in a web app.  It didn't matter if the browser couldn't display it, it simply enriched the experience where available.
+
+A design-savvy company backing what could have been regarded as a dated DHTML-like technique meant people began to take animations more seriously again.  And 37signals' relationship with "script.aculo.us":http://script.aculo.us/ through Rails meant JavaScript animation caught on with a new generation of developers.  Although other animation frameworks were appearing, script.aculo.us was probably the most widely known and a key piece of the JavaScript animation renaissance.
+
+h3. The Solution
+
+Back in the 90s while Netscape and Microsoft were battling each other with proprietary technology, our core present-day animation tool was already available.  In fact, <code>setTimeout</code> was introduced with JavaScript 1.0 in Netscape 2.0.
+
+Netscape even had an example called "Sliding Tower":http://www.chipchapin.com/WebTools/JavaScript/exampleA01.html that used setTimeout to animate moving a picture.  It's ironic that while browsers fought each other with flashy new techniques, all we really needed was good old <code>setTimeout</code> and a workable DOM.
+
+Originally <code>setTimeout</code> was considered too slow because of the performance of browsers and computers in the 90s.  But now most animations on the web use this family of functions.
+
+To create animations with <code>setTimeout</code> or <code>setInterval</code>, styles are manipulated through the DOM.  This commonly involves manipulating opacity or positional attributes.  Modern browsers can even use GPUs to render effects: "3D Transforms":http://webkit.org/blog/386/3d-transforms/ on "webkit.org":http://webkit.org/ has some examples.
+
+Animated vector graphics using the <code>canvas</code> tag has increased in popularity with the rise of JavaScript libraries that translate SVG to IE's VML.
+
+h3. CSS Animations
+
+Apple's war with Flash mean they're a big backer of "CSS animations":http://webkit.org/blog/138/css-animation/.  The working draft of "CSS Animations Module Level 3":http://www.w3.org/TR/css3-animations/ has three editors, all from Apple.  WebKit browsers already have support.
+
+Purists argue that JavaScript should deal with behaviour, while CSS should be left to styling.  Jonathan Snook makes an argument against CSS animations in "CSS Animations in Safari":http://snook.ca/archives/javascript/css_animations_in_safari/.
+
+It seems like the future may be driven by mobile devices, which might be why Apple would prefer to offer highly optimised effects through CSS rather than JavaScript.  I'm sure in 10 years we'll be either laughing at Apple, Adobe, CSS3, or all of the above.
+
+h3. References
+
+* "Articles on DHTML and layers":http://htmlgoodies.earthweb.com/beyond/dhtml/
+* "About the layer tag":http://devedge-temp.mozilla.org/library/manuals/1998/htmlguide/tags12.html from Netscape
+* "Smooth animation using DHTML":http://home.online.no/~warnckew/programming/dhtml/smooth-animation/ (from 1999)
+* "Image Animation w/Speed Control":http://www.chipchapin.com/WebTools/JavaScript/exampleA01.html (2000)
+* "Introduction to Filters and Transitions":http://msdn.microsoft.com/en-us/library/ms532847(v=VS.85).aspx
+* "DHTML Utopia: Modern Web Design Using JavaScript &amp; DOM":http://www.sitepoint.com/books/dhtml1/
+* "Cross-Browser Animation":http://oreilly.com/pub/a/javascript/2002/05/24/animation.html by Dave Thau (2002)
+* "Better Living Through XHTML":http://www.alistapart.com/articles/betterliving/ by Jeffrey Zeldman
+* "window.setTimeout at MDC":https://developer.mozilla.org/en/window.setTimeout
+* "3D Transforms":http://webkit.org/blog/386/3d-transforms/
+* "CSS Animations in Safari":http://snook.ca/archives/javascript/css_animations_in_safari/
