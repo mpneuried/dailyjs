@@ -47,7 +47,7 @@ Animated vector graphics using the <code>canvas</code> tag has increased in popu
 
 h3. CSS Animations
 
-Apple's war with Flash mean they're a big backer of "CSS animations":http://webkit.org/blog/138/css-animation/.  The working draft of "CSS Animations Module Level 3":http://www.w3.org/TR/css3-animations/ has three editors, all from Apple.  WebKit browsers already have support.
+Apple's war with Flash means Apple is a big backer of "CSS animations":http://webkit.org/blog/138/css-animation/.  The working draft of "CSS Animations Module Level 3":http://www.w3.org/TR/css3-animations/ has three editors, all from Apple.  WebKit browsers already have support.
 
 Purists argue that JavaScript should deal with behaviour, while CSS should be left to styling.  Jonathan Snook makes an argument against CSS animations in "CSS Animations in Safari":http://snook.ca/archives/javascript/css_animations_in_safari/.
 
