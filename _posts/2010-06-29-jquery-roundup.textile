@@ -1,0 +1,57 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 13: SliderNav, jQuery.validity, Marble"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 13.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. SliderNav
+
+!/images/posts/slider_nav.png!
+
+"SliderNav":http://devgrow.com/slidernav-jquery-plugin/ (MIT, BSD, GPL) by Monjurul Dolon adds dynamic vertical sliding to lists, in a similar way to Apple's iPhone table interface.
+
+The author's article, "SliderNav: iPhone Style Contact Lists Using jQuery and CSS":http://devgrow.com/slidernav/, features usage instructions and example HTML.
+
+h3. jQuery.validity
+
+"jQuery.validity":http://validity.thatscaptaintoyou.com/ (MIT) by Wyatt Allen is a simple form validation plugin:
+
+{% highlight javascript %}
+$('form').validity(function() {
+    $('#vehicles')    
+        .require()
+        .match('number')
+        .range(4, 12);
+    
+    $('#dob')
+        .require()
+        .match('date')
+        .lessThanOrEqualTo(new Date());
+});
+{% endhighlight %}
+
+The available validators are:
+
+* Require (make sure a value is present)
+* Match integer, date, email, usd, url, number, phone, guid, time12, time24, regex
+* Range
+* Boolean operators (greater/less than, etc.)
+* Length
+* Non-HTML
+* Aggregate equal (check each matched element equals each other)
+* Uniqueness
+* Sum
+* Customised validation with <code>assert</code>
+
+h3. Marble
+
+"jquery.ui.marble":http://dienstleistung-kultur.de/jquery/ui/marble/ by Ernesto can apply a background to a group of elements.  The effect looks pretty good on a set of buttons:
+
+!/images/posts/marble_buttons.png!
+
+Does that screenshot remind anyone else of MUI in Amiga OS?
