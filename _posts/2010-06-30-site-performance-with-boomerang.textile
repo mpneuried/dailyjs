@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Measuring Performance with Boomerang"
+author: Alex Young
+categories: 
+- performance
+- tutorials
+---
+
+"Boomerang":http://hacks.bluesmoon.info/boomerang/doc/ by the "Exceptional Performance":http://developer.yahoo.com/performance/ team at Yahoo! is a way of measuring site performance from a visitor's point of view.  It can measure roundtrip time, bandwidth and latency.
+
+Roundtrip measurements are the total time it takes to initiate a resource request to the point at which it is completely available.  This is implemented by using event handlers on <code>window.onunload</code> and <code>window.onload</code>.  The <code>unload</code> handler takes the time in milliseconds and stores it in a cookie, with the URL of the page.  The <code>onload</code> event then compares the current time to the one in the cookie, or attempts to use the "Web Timing":http://dev.w3.org/2006/webapi/WebTiming/ API.
+
+Timers can be associated with the entire page load time, or each resource within it.
+
+h3. Measuring Bandwidth and Latency
+
+Use git to download the code into a suitable location on your web server:
+
+{% highlight sh %}
+cd /var/www/my_site/
+git clone http://github.com/yahoo/boomerang.git
+{% endhighlight %}
+
+Then create a test HTML page like this one: "gist: 458518":http://gist.github.com/458518.
+
+The important piece of code here is this:
+
+{% highlight javascript %}
+BOOMR.init({
+  user_ip: '10.0.0.1',
+  BW: {
+    base_url: 'images/',
+    cookie: 'DAILYJS-BOOMERANG'
+  },
+  RT: {
+    cookie: 'DAILYJS-BOOMERANG'
+  }
+});
+{% endhighlight %}
+
+On a production site, the <code>base_url</code>  would probably be a full path to where you keep boomerang -- perhaps you have a separate server for static files.  The authors recommend setting the IP address using server-side scripts.
+
+The <code>BOOMR.subscribe('before_beacon', ...)</code> code is used instead of a remote beacon to print bandwidth and latency statistics.  It'll take a few seconds to display the stats after loading the page.
+
+h3. Other Use Cases
+
+The Boomerang documentation has a full set of use cases with code samples: "Use cases for boomerang":http://yahoo.github.com/boomerang/doc/use-cases.html.
+
+The "API documentation":http://yahoo.github.com/boomerang/doc/api/index.html is fairly easy to follow too.
