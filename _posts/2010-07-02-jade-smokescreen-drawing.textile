@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Jade, Smokescreen, Drawing with HTML5"
+author: Alex Young
+categories: 
+- graphics
+- animation
+- haml
+---
+
+h3. Jade
+
+TJ Holowaychuk announced a new project yesterday called "Jade":http://jade-lang.com/ -- a new template engine for "node":http://nodejs.org/ that focuses on readability, error handling, and performance.
+
+It looks like this:
+
+{% highlight javascript %}
+!!! 5
+html(lang="en")
+  head
+    title= pageTitle
+    :javascript
+      | if (foo) {
+      |    bar()
+      | }
+  body
+    h1 Jade - node template engine
+    #container
+      - if (youAreUsingJade)
+        p You are amazing
+      - else
+        p Get on it!
+{% endhighlight %}
+
+TJ wanted to improve on "Haml":http://haml-lang.com/'s syntax, and felt like existing template engines were hard to debug.  His post refers to Jade as "a Haml killer":http://tjholowaychuk.com/post/759178288/jade-haml-killer-for-nodejs, which should garner it some attention.
+
+The guts of Jade are the tokenizer, which generates tokens complete with line number for detailed debugging.  You can have a read through the source in "jade.js":http://github.com/visionmedia/jade/blob/master/lib/jade.js.
+
+h3. Smokescreen
+
+"Smokescreen":http://smokescreen.us/ promises to translate Flash to HTML and will be open source at some point in the near future.  I don't know if they're involved with "Gordon":http://wiki.github.com/tobeytailor/gordon/, but they appear to be pitching it at designers who won't want to migrate away from Adobe's creative tools.
+
+h3. Drawing with JavaScript in HTML5 vs ActionScript 3 in Flash
+
+"Drawing with JavaScript in HTML5 vs ActionScript 3 in Flash":http://www.williammalone.com/articles/flash-vs-html5-canvas-drawing/ by William Malone demonstrates creating a logo with JavaScript and the canvas tag, then compares it to ActionScript 3.
+
+The code examples are side by side, so you can see how similar they are which is interesting if you're a hardcore JavaScript anti-Flash cheerleader but have never actually worked with ActionScript.
