@@ -1,0 +1,95 @@
+---
+layout: post
+title: "History of JavaScript: Part 7"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+- ecmascript5
+---
+
+This article is part 7 of our History of JavaScript series.  Last week I covered the history of JavaScript animation.  This week I'll take a look at ECMAScript 5. 
+
+h3. JavaScript 2
+
+If you recall "part 3":/2010/06/07/history-of-javascript-3/, JavaScript 2 died as the community fought over the direction of the language's future.  ECMA-262 5th edition was "approved in 2009":http://www.ecma-international.org/news/PressReleases/PR_Ecma%20approves%20major%20revision%20of%20ECMAScript.htm.  The original press release states:
+
+bq. Work on future ECMAScript editions continues as part of the previously announced ECMAScript Harmony project.
+
+h3. ECMAScript 5th Edition
+
+ECMAScript 5th Edition isn't as radical as JavaScript 2 was supposed to be.  It's a very different beast.  The main changes are relatively conservative:
+
+* Array methods: indexOf, lastIndexOf, forEach, filter, every, map, some
+* String.trim: remove whitespace from the start and end of a string
+* Native JSON
+* Date: now, toISOString, parse
+
+There are also some more fundamental language changes:
+
+* Function.prototype.bind
+* Updated object model
+* Strict mode
+* Constants
+* Getters and setters
+
+h3. Updated Object Model
+
+Object gets a lot of new methods: Object.create, Object.getPrototypeOf, Object.keys, Object.getOwnPropertyNames, object descriptors, Object.seal, Object.freeze.
+
+I don't want to write about all of these new Object methods, but basically: we now have a way of freezing objects, and safely enumerating over methods that want to be enumerated over.
+
+There's coverage in "Enhanced Scripting in IE9: ECMAScript 5 Support and More":https://blogs.msdn.com/b/ie/archive/2010/06/25/enhanced-scripting-in-ie9-ecmascript-5-support-and-more.aspx and "Object.getPrototypeOf":http://ejohn.org/blog/objectgetprototypeof/.
+
+These methods will give more control to API authors and a greater sense of control over objects.
+
+h3. Strict mode
+
+<code>use strict;</code> will instruct the interpreter to run with strict mode.  This is a useful way of ensuring that code only uses ECMAScript features, rather than a dialect:
+
+bq. The strict variant of ECMAScript is commonly referred to as the strict mode of the language. Strict mode selection and use of the strict mode syntax and semantics of ECMAScript is explicitly made at the level of individual ECMAScript code units.
+
+h3. Constants
+
+Constants aren't actually in ECMAScript 5, <code>const</code> is marked as a future reserved word.  Some interpreters support it already, although I wouldn't rely on the behaviour the exhibit being totally future-proof.
+
+h3. Getters and Setters
+
+The keywords <code>get</code> and <code>set</code> are used to decorate functions that are getters or setters:
+
+{% highlight javascript %}
+user = {
+  first_name: 'Alex',
+  last_name: 'Young',
+  
+  get full_name() { return this.first_name + ' ' + this.last_name; },
+  
+  set full_name(name) {
+    name = name.split(' ');
+    this.first_name = name[0];
+    this.last_name = name[1];
+  }
+};
+
+user.full_name
+// returns: Alex Young
+user.full_name = 'Alex Smith'
+user.full_name
+// returns: Alex Smith
+{% endhighlight %}
+
+You can already use this in Rhino and Firefox, as well as V8 and probably lots of other interpreters.
+
+This is being used out there in the wild, so it's worth getting used to the syntax.
+
+h3. Future
+
+ECMAScript 5 adds enough syntax sugar to keep developers happy for the foreseeable future.  It also addresses some areas in the object model that we were left to code for ourselves.  The <code>Array</code> and <code>String</code> changes also add things we've previously had to patch ourselves.  More importantly, these changes combined with <code>use strict</code> help in areas where JavaScript interpreters had diverged, which means hopefully future browsers (and our code) should be more consistent.
+
+h3. References
+
+* ECMAScript 5th Edition: "tc39-2009-043.pdf":http://www.ecmascript.org/docs/tc39-2009-043.pdf
+* "Enhanced Scripting in IE9: ECMAScript 5 Support and More":https://blogs.msdn.com/b/ie/archive/2010/06/25/enhanced-scripting-in-ie9-ecmascript-5-support-and-more.aspx
+* "ECMAScript 5: The Definitive Slides":http://davidflanagan.com/Talks/es5/slides.html
+* "Object.getPrototypeOf":http://ejohn.org/blog/objectgetprototypeof/
