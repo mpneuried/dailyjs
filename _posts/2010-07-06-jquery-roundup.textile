@@ -1,0 +1,51 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 14"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- calendars
+- ajax
+---
+
+Welcome to the jQuery Plugin Roundup, episode 14.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+The average day can take me from Objective-C to Ruby, then to server-side JavaScript and perhaps even into Photoshop for some design work.  Being a freelancer keeps my work incredibly varied. But...  I've actually been working with jQuery a lot lately!
+
+h3. Supersized 2.0
+
+!/images/posts/supersized.jpeg!
+
+"Supersized 2.0":http://www.buildinternet.com/project/supersized/ by Sam Dunn resizes images to fit the browser window, and can show modern transition and loading effects.  It's packaged with some example files that despite having .php extensions seem more like plain HTML.  The images Supersized ships with look cool, so it might be a nice quick start if you need this kind of functionality on a project.
+
+{% highlight javascript %}
+$.fn.supersized.options = {  
+  startwidth: 640,  
+  startheight: 480,
+  vertical_center: 1,
+  slideshow: 1,
+  navigation: 1,
+  transition: 1,
+  pause_hover: 0,
+  slide_counter: 1,
+  slide_captions: 1,
+  slide_interval: 3000  
+};
+{% endhighlight %}
+
+h3. Ajax Retry
+
+I haven't tested "jquery-ajax-retry":http://github.com/execjosh/jquery-ajax-retry (MIT License) by execjosh, but I like the idea.  It attempts to retransmit a request when it fails.  The requests are spaced out until a certain number have been sent.  It might work well for certain classes of mobile web apps.
+
+h3. Internationalised Calendars
+
+!/images/posts/chinese_calendar.png!
+
+I thought "e-calendar":http://code.google.com/p/e-calendar/ (MIT License) was interesting, it displays a "Chinese calendar":http://en.wikipedia.org/wiki/Chinese_calendar.  It reminded me of my recent work adding I18n support to an app, which was nearly three weeks of solid work.
+
+"jQuery Calendars Datepicker":http://keith-wood.name/calendarsPicker.html (GPL or MIT) by Keith Wood supports a whole load of calendars.  You can even select a Mayan calendar, but it doesn't have an Easter Egg for selecting 2012.
+
+Other calendar plugins sometimes support internationalization, and hopefully browser manufacturers won't botch the HTML 5 date picker.
+
+I'll have to write a calendar picker roundup at some point -- jQuery alone has a huge selection available.
