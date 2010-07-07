@@ -1,0 +1,26 @@
+---
+layout: post
+title: "InfoVis Toolkit 2.0"
+author: Alex Young
+categories: 
+- data
+- visualization
+- graphics
+---
+
+!/images/posts/infovis.png!
+
+Version 2.0 of the "JavaScript InfoVis Toolkit":http://thejit.org/ ("License":http://github.com/philogb/jit/blob/master/LICENSE) has been released.  InfoVis, by Nicolas Garcia Belmonte, ships with a wide range of interesting data visualisation types, and can be used to create customised visualisations or generic graphs.  For examples, see the extensive "demos":http://thejit.org/demos/ page.
+
+Everything sits under <code>$jit</code>, so the library should be easy to slot into existing projects.  To read more about the API, browse the "API documentation":http://thejit.org/static/v20/Docs/files/Core/Core-js.html.
+
+Version 2.0 adds:
+
+* New visualisations (AreaChart, BarChart, PieChart, Sunburst, Force-Directed)
+* Mobile support
+* An events system
+* Panning and zooming
+* Animation improvements
+* Cleaner API (the major change is the use of the global object, <code>$jit</code>)
+
+Read more in detail here: "The JavaScript InfoVis Toolkit 2.0 is out!":http://blog.thejit.org/2010/06/28/the-javascript-infovis-toolkit-2-0-is-out/
