@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Two Canvas Projects"
+author: Alex Young
+categories: 
+- canvas
+- graphics
+- libraries
+---
+
+I recently received emails about two canvas libraries, "canvg":http://code.google.com/p/canvg/ and "canvas_library":http://github.com/dkln/canvas_library.  It's funny how we still don't see canvas used that often, given that it's been available in Safari, Opera and Firefox for a long time, and IE support is relatively simple through libraries that convert it to VML.
+
+h3. canvg
+
+!/images/posts/canvg.png!
+
+"canvg":http://code.google.com/p/canvg/ (MIT License) by Gabe Lerner is an SVG parser and renderer that uses the canvas element to display results (it currently uses FlashCanvas for IE support).  There are "extensive demos available":http://canvg.googlecode.com/svn/trunk/examples/index.htm.
+
+It even supports animations.  The author is aiming for full SVG support; filters, interactivity, linking, and scripting are currently unsupported.
+
+h3. canvas_library
+
+"canvas_library":http://github.com/dkln/canvas_library (BSD License) by Diederick Lawson is a canvas API based on ActionScript 3.0.  Usage looks like this:
+
+{% highlight javascript %}
+var mainDisplayObj = new canvaslib.DisplayContainer("test_canvas");
+
+var shape = new canvaslib.Shape();
+shape.x = 10;
+shape.y = 10;
+
+shape.fillStyle("rgba(0, 0, 0, 255)");
+shape.fillRect(0, 0, 50, 50);
+{% endhighlight %}
+
+It can also load and draw bitmaps, and handle tween-based animations. 
+
+
