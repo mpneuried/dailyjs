@@ -1,0 +1,56 @@
+---
+layout: post
+title: "History of JavaScript: Part 8"
+author: Alex Young
+categories: 
+- language
+- history
+- hoj
+---
+
+This article is part 8 of our History of JavaScript series.  Last week I covered the features in ECMAScript 5.  These are the core language features that have partly appeared in browsers and interpreters.  The other piece of the puzzle is the complimentary web APIs that we can expect to see now or in the near future.
+
+Although many of these APIs are published by the W3C, the WHATWG community played an important role in the development of HTML5.
+
+h3. WHATWG
+
+WHATWG was founded by people from Apple, the Mozilla Foundation, and Opera Software in 2004.  The group was founded partly as a reaction against the direction the W3C were taking HTML through XHTML.
+
+It might be some time before HTML5 is recommended for production use, but with initiatives like this we already have access to some of these APIs in recent browsers.
+
+h3. Web Workers
+
+The idea behind Web Workers is to allow developers to spawn background workers running in parallel to the main page's thread.  Demonstrations have already been created that run in modern browsers (we've talked about the API on this blog before).
+
+* "Firefox 3.5: Web Workers in action":http://blog.mozbox.org/post/2009/04/10/Web-Workers-in-action
+* "Computing with JavaScript Web Workers":http://ejohn.org/blog/web-workers/
+* "Prime number demo":http://html5demos.com/worker
+
+h3. File API
+
+The "File API":http://dev.w3.org/2006/webapi/FileAPI/ allows programmatic manipulation of files.  It addresses the limitations of current browser file handling to allow us to handle multiple files, binary data, file metadata, and error handling.
+
+Read more in "HTML5 File API":http://dailyjs.com/2009/11/30/html5-file-api/.
+
+h3. Canvas
+
+"Canvas":http://dev.w3.org/html5/canvas-api/canvas-2d-api.html makes programmatic drawing easier.  This is another W3C specification, currently at the working draft stage.
+
+h3. Other APIs
+
+* "Drag and Drop":http://www.w3.org/TR/html5/dnd.html
+* "Offline Web Applications":http://www.w3.org/TR/offline-webapps/ through cache manifests
+* "Geolocation API":http://dev.w3.org/geo/api/spec-source.html
+* "Web Storage":http://dev.w3.org/html5/webstorage/
+* "Messaging":http://www.w3.org/TR/html5/comms.html
+
+h3. Conclusion
+
+WHATWG played an important role in the direction of the web's future.  The desire for more "application-like" features are useful if you're an application developer.  If you're a designer it means you'll have richer tools for creating more reliable and intuitive user experiences.
+
+Many UI issues can be overcome without specific API support -- drag and drop support would be nice but we've been doing it for years.  And even though there are good techniques for overcoming the single origin policy, better messaging would be nice, especially for real-time applications.
+
+Combining the File API with more modern messaging and offline capabilities will make web apps suddenly feel more like desktop apps in a way they haven't before (without Java or Flash).  Pure HTML and JavaScript manipulating local binary data is really the last piece of the puzzle, and some browsers already support it.
+
+If you want to read more about HTML5 APIs, if you use the "WHATWG specs":http://www.whatwg.org/specs/web-apps/current-work/ there are annotations with information about browser support, tests, and links to demos.
+
