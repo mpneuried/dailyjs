@@ -1,0 +1,32 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 15"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 15.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Signs of a Poorly Written jQuery Plugin
+
+"Signs of a poorly written jQuery plugin":http://remysharp.com/2010/06/03/signs-of-a-poorly-written-jquery-plugin/comment-page-1/ by Remy Sharp takes a very simple plugin example and then shows some common mistakes -- classics like "double jQuery", where people accidentally call $() on an existing jQuery instance.
+
+If you're interested in writing a jQuery plugin, you should read this and the comments.  The article was posted last month, so there is some interesting discourse in the comments.
+
+h3. placeholder.js
+
+!/images/posts/placeholder.png!
+
+"placeholder.js":http://github.com/NV/placeholder.js (MIT License) by Nikita Vasilyev brings the input element's placeholder attribute to all browsers.  It's a simple plugin, and nicer than using a bunch of JavaScript just to show example field values.
+
+h3. Boxes with Easing and Motion Blur
+
+"Floating Boxes with motion blur and easing":http://www.marcelljusztin.com/blog/javascript/jquery-plugin-floating-boxes-with-motion-blur-and-easing/ by Marcell Jusztin isn't necessarily going to be used in your next project.  The reason I found it interesting is the author uses CSS 3 box-shadow and text-shadow to simulate motion blur, which I thought was a cool hack.
+
+h3. autoNumeric
+
+"autoNumeric":http://decorplanit.com/plugin/ (MIT License) by Robert J Knothe makes supporting international currencies and number formats easy.  This plugin makes input fields automatically display the correct formatting for a given currency -- separator type and placement, currency symbol and placement, decimal places, and rounding are all handled.
+
+I've run into the complexities of supporting multiple currency formats before, so this may be useful in the future.
