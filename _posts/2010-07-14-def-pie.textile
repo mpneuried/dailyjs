@@ -22,9 +22,9 @@ def('User') ({
 });
 
 def('Admin') << User ({
-    init: function(name){
-        __super__();
-    }
+  init: function(name){
+    __super__();
+  }
 });
 {% endhighlight %}
 
