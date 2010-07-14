@@ -1,0 +1,38 @@
+---
+layout: post
+title: Def.js, CSS3 Pie
+author: Alex Young
+categories: 
+- libraries
+- oo
+- css3
+---
+
+h3. Def.js
+
+If you don't love Prototype objects and inheritance there are many alternative options available.  Mainly because prototype-based programming is so flexible, which is ironic when you think about it.  Anyway, I found "Def.js":http://github.com/tobeytailor/def.js (MIT License) today.  It's written by Tobias Schneider, and aims to ape Ruby's object model.
+
+What I found interesting about this library is it uses a single method to generate objects.  I haven't seen this approach before, but I'm probably just late to the party:
+
+{% highlight javascript %}
+def('User') ({
+  init: function(name) {
+    this.name = name;
+  }
+});
+
+def('Admin') << User ({
+    init: function(name){
+        __super__();
+    }
+});
+{% endhighlight %}
+
+I like the use of <code>def('Admin') << User</code>.
+
+h3. CSS3 Pie
+
+!/images/posts/pie.png!
+
+"CSS3 Pie":http://css3pie.com/ (Apache 2.0) by Jason Johnston stands for _Progressive Internet Explorer_.  It brings CSS3 features to IE through IE's "HTML Components":http://msdn.microsoft.com/en-us/library/ms531018(VS.85).aspx and JavaScript.  Although "Modernizr":http://www.modernizr.com/ is widely used, Pie is simply focused on bringing the missing CSS3 elements to IE.
+
