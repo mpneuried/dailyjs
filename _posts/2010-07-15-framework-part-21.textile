@@ -71,7 +71,7 @@ The previous example should create a red box that stretches and moves (a _transl
 
 h3. CSS3 Transforms
 
-There are sevearl different transforms:
+There are several different transforms:
 
 {% highlight css %}
 transform: translate(50px, 200px);
