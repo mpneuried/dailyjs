@@ -1,0 +1,58 @@
+---
+layout: post
+title: "nStore, multi-node"
+author: Alex Young
+categories: 
+- libraries
+- nodejs
+- server
+---
+
+h3. nStore
+
+"nStore":http://github.com/creationix/nstore (MIT License) by Tim Caswell is a simple key/value store for Node.  It uses an append-only file format and writes changes to disk, so data should be safe if your application's process crashes, and you can back it up with standard tools like rsync.
+
+nStore can be installed with "npm":http://github.com/isaacs/npm.
+
+To use a store, it has to be created first:
+
+{% highlight javascripts %}
+var users = nStore('data/users.db')
+{% endhighlight %}
+
+The syntax for creating documents requires a key, values, and then an error callback.  Loading documents is similar.
+
+
+{% highlight javascript %}
+users.save('alex', { name: 'Alex', admin: false }, function(err) {
+  if (err) { throw err; }
+})
+
+users.get('alex', function(err, document, meta) {
+    if (err) { throw err; }
+})
+{% endhighlight %}
+
+For examples on streaming, filtering, and searching results, see the "README":http://github.com/creationix/nstore.
+
+h3. Multi-Node
+
+"Multi-node":http://github.com/kriszyp/multi-node by Kris Zyp can launch multiple Node processes to concurrently serve requests.  The following example creates a HTTP server, then 4 concurrent instances of it:
+
+{% highlight javascript %}
+var http = require('http'),
+    server,
+    nodes;
+
+server = http.createServer(function(request, response) {
+  response.writeHead(200, {'Content-Type': 'text/plain'})
+  response.end('Whatever')
+})
+
+nodes = require('multi-node').listen({
+  port: 80, 
+  nodes: 4
+}, server)
+{% endhighlight %}
+
+Multi-node can also be used for inter-process communication, which can be used to share state across servers.
