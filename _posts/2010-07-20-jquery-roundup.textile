@@ -1,0 +1,31 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 16"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 16.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. loopedSlider
+
+Do you know how many plugins I've found that slide images from left-to-right?  I'm not sure what compels so many people to write this plugin, but Nathan Searles has written another one and it seems nice enough.  "loopedSlider":http://github.com/nathansearles/loopedSlider requires simple markup and only needs you to call <code>('#loopedSlider').loopedSlider()</code> on the parent element.
+
+h3. Touchwipe
+
+"Touchwipe":http://www.netcu.de/jquery-touchwipe-iphone-ipad-library (MIT License) by Andreas Waltl makes detecting swipe events from touch screen devices easier.  It's a small plugin, so might be useful for projects where you want to add touch-screen gestures but don't want to use a large library.
+
+The API requires a container element, then callbacks for the supported events:
+
+{% highlight javascript %}
+$(container).touchwipe({
+  wipeLeft: function() { },
+  wipeRight: function() { }
+});
+{% endhighlight %}
+
+h3. Sliding Form
+
+"Fancy Sliding Form with jQuery":http://tympanus.net/codrops/2010/06/07/fancy-sliding-form-with-jquery/ is an article about building a multi-part form with tabs that slides each part of the form horizontally.  The tabs show a red mark when they're invalid.  The nice thing about this jQuery-based approach is it makes visualising the form completion progress easier than separate pages: any form can be completed in any order.
