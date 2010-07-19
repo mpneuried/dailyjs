@@ -1,0 +1,71 @@
+---
+layout: post
+title: "A Comparison of JavaScript Engines"
+author: Alex Young
+categories: 
+- language
+- server
+---
+
+When I was writing the "History of JavaScript":/tags.html#hoj series I collected a lot of notes about JavaScript interpreters.  If you're wondering why people keep talking about V8 engines, monkeys and rhinos, read on.
+
+<table class="amy large">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Garbage Collection</th>
+      <th>Security</th>
+      <th>Implemented In</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Rhino</td>
+      <td>Compiler and interpreter</td>
+      <td>Java runtime</td>
+      <td>SecuritySupport interface, domain-based</td>
+      <td>Java</td>
+    </tr>
+    <tr>
+      <td>SpiderMonkey</td>
+      <td>Compiler and interpreter</td>
+      <td>Mark-and-Sweep, non-conservative (exact) collector</td>
+      <td>Java principals security model</td>
+      <td>C </td>
+    </tr>
+    <tr>
+      <td>V8</td>
+      <td>Virtual machine</td>
+      <td>Generational stop-the-world collector</td>
+      <td>Context-based, with security tokens</td>
+      <td>C++</td>
+    </tr>
+  </tbody>
+</table>
+
+
+h3. Engine Types
+
+Rhino and SpiderMonkey can run as compilers or interpreters.  They parse JavaScript into an intermediate stage.  V8 is different in that it has no intermediate parser -- it generates assembler.  This makes it sound more like a compiler than anything, but it does include a runtime environment of its own.
+
+h3. Garbage Collection
+
+SpiderMonkey works by recursively searching all properties of all objects in the current scope and deallocating any without references.  V8 stops execution to reclaim memory, but it only usually processes part of the heap to reduce the impact of stopping the program.  The disadvantage of V8's approach is that it has to stop the program -- imagine a JavaScript program suddenly pausing and beachballing or egg-timering.  However, because it's simple, it's also fast.
+
+h3. Trace Trees
+
+SpiderMonkey 1.8.1 has a just-in-time compiler that can convert bytecode into machine code to improve performance.  This was contributed by Adobe and now co-maintained by Mozilla.  The JIT watches for commonly executed code and attempts to optimise the equivalent native code.  The "Tracing JIT":https://developer.mozilla.org/En/SpiderMonkey/Internals/Tracing_JIT page on Mozilla's site has more details.
+
+This is one of the reasons that recent performance graphs show Mozilla's JavaScript engines catching up with V8.  V8's core innovation was compiling straight into native code.
+
+h3. References
+
+* "Rhino Overview (with security section)":http://www.mozilla.org/rhino/overview.html
+* "SpiderMonkey Internals":https://developer.mozilla.org/en/SpiderMonkey/Internals
+* "SpiderMonkey Security":https://developer.mozilla.org/en/JavaScript_C_Engine_Embedder's_Guide#Security
+* "Tracing JIT":https://developer.mozilla.org/En/SpiderMonkey/Internals/Tracing_JIT 
+* "John Resig on TraceMonkey":http://ejohn.org/blog/tracemonkey/
+* "V8 Design Elements":http://code.google.com/apis/v8/design.html
+* "V8 Security Notes":http://code.google.com/apis/v8/embed.html#security
+* "V8 Under the Hood":http://offthelip.org/?p=113 by Matthieu Riou
