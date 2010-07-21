@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Yahoo! and Node"
+author: Alex Young 
+categories: 
+- nodejs
+---
+
+In "Multi-Core HTTP Server with NodeJS":http://developer.yahoo.net/blog/archives/2010/07/multicore_http_server_with_nodejs.html, Peter Griess (Principal Engineer, Yahoo! Mail) discusses using Node at Yahoo! Mail.  He discusses threading, and solutions like "multi-node":http://github.com/kriszyp/multi-node.  He also demonstrates using node-v0.1.100 with "node-webworker":http://github.com/pgriess/node-webworker (which he wrote).
+
+One interesting point in his post is about the quality of modules written in C++.  Given the paradigm shift between writing solid JavaScript and efficient, portable and _safe_ C++, modules aren't always reliable.  Hopefully the community will attract more hardened C++ developers to help improve popular modules.
+
+It's great to see a company like Yahoo! taking an interesting in Node, and I hope they end up using it in their architecture.  Peter's already created some useful projects (at "github/pgriess":http://github.com/pgriess), and this would be great ammunition to use if you're trying to sell your boss on using Node.
