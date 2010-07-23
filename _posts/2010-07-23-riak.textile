@@ -24,4 +24,4 @@ db.save('airlines', 'KLM', {fleet: 111, alliance: 'SkyTeam'}, { links:
 })()
 {% endhighlight %}
 
-One thing I like about this library is they have versions for both Node and jQuery versions, and you can install the Node version with npm!
+One thing I like about this library is they have versions for both Node and jQuery, and you can install the Node version with npm!
