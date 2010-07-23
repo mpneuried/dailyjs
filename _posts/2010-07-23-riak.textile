@@ -1,0 +1,27 @@
+---
+layout: post
+title: "riak-js"
+author: Alex Young 
+categories: 
+- libraries
+- databases
+---
+
+!/images/posts/riaklogo.png!
+
+I found "riak-js":http://riakjs.org/ today.  It's a JavaScript driver for connecting to "Riak":https://wiki.basho.com/display/RIAK/An+Introduction+to+Riak datastores.  I hadn't actually heard of Riak, so I've been reading up on it:
+
+bq. Riak is heavily influenced by Dr. Eric Brewer's CAP Theorem and Amazon's Dynamo paper. Most of the core team comes from Akamai which also explains their focus on operational ease and fault tolerance.
+
+Riak itself is licensed under Apache License Version 2.0, and it's built with erlang and C.
+
+The riak-js syntax is pretty clean.  This example is from the site:
+
+{% highlight javascript %}
+db.save('airlines', 'KLM', {fleet: 111, alliance: 'SkyTeam'}, { links:
+  [{ bucket: 'flights', key: 'KLM-8098', tag: 'cargo' },
+   { bucket: 'flights', key: 'KLM-1196', tag: 'passenger' }]
+})()
+{% endhighlight %}
+
+One thing I like about this library is they have versions for both Node and jQuery versions, and you can install the Node version with npm!
