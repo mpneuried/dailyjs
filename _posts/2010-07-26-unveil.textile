@@ -1,0 +1,49 @@
+---
+layout: post
+title: "Unveil"
+author: Alex Young
+categories: 
+- data
+- visualization
+- graphics
+---
+
+"Unveil":http://github.com/michael/unveil by Michael Aufreiter is a data-driven visualization toolkit.  In some ways it's similar to "InfoVis":/2010/07/07/infovis/, but the data-driven design gives it a slightly different feel.  The "documentation":http://docs.quasipartikel.at/#/unveil gives some examples of this through the collection API:
+
+{% highlight javascript %}
+var countries = new Collection({
+  "properties": "properties": {
+    "name": {
+      "name": "Country Name",
+      "type": "string",
+      "unique": true
+    },
+    "official_language": {
+      "name": "Official language",
+      "type": "string",
+      "unique": true
+    }
+    // ...
+  "items": {
+    "arg": {
+      "name": "Argentina",
+      "official_language": "Spanish Language",
+    // ...
+{% endhighlight %}
+
+The <code>properties</code> and <code>items</code> properties define a <code>Collection</code>.  These can be searched, sorted, and transformed:
+
+{% highlight javascript %}
+var english = countries.all('item').select(function(key, i) {
+ return i.value('official_language') === 'English'; 
+});
+{% endhighlight %}
+
+The visualization API can then be used to render all kinds of graphs, complete with animation:
+
+* "Stacks":http://quasipartikel.at/unveil/examples/stacks.html
+* "Random Bars":http://quasipartikel.at/unveil/examples/random_bars.html
+* "Scatterplot":http://quasipartikel.at/unveil/examples/scatterplot.html
+* "Linechart":http://quasipartikel.at/unveil/examples/linechart.html
+
+This is a fairly new project, so I expect there should be a lot of activity in the repository.  The APIs have a pragmatic approach, but some of the underlying JavaScript is a little bit... Ruby style?  <code>Object</code> is extended and global functions are used, rather than keeping everything within a closure.
