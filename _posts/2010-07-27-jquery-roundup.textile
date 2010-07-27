@@ -1,0 +1,45 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 17"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+- ui
+---
+
+Welcome to the jQuery Plugin Roundup, episode 17.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Awesomecomplete
+
+!/images/posts/awesomecomplete.png!
+
+"Awesomecomplete":http://github.com/clint-tseng/Awesomecomplete by Clint Tseng ("demo":http://dev.dontexplain.com/awesomecomplete/example/example.html) is an autocomplete plugin that attempts to address common problems with similar plugins.  The author says it's better because:
+
+bq.  It's an autocomplete plugin that works against multiple fields, with a pretty powerful and flexible search algorithm ... JavaScript is a dynamically typed language that’s trivially easy to reflect against. Why should I care what you give me? Just give me a list of whatever JavaScript model objects you use.
+
+Usage looks like this:
+
+{% highlight javascript %}
+$('#element').awesomecomplete({
+  noResultsMessage: '<p>No results found.</p>',
+  staticData: [ // whatever ],
+  valueFunction: function(dataItem) {
+      return dataItem['name'] + ' <' + dataItem['email'] + '>';
+  }
+});
+{% endhighlight %}
+
+As you can see, the <code>valueFunction</code> does what the quote says.
+
+I think the author's idea of making this more data-driven and reflective does make it better than the other autocomplete plugins I've used.
+
+h3. password123
+
+"password123":http://github.com/timmywil/password123 by Timmy Willison (MIT and GPL) helpers create an iPhone-like password field, with <code>$('input:password').password123();</code>.  It's simple, looks nice, and might work for your next HTML5-rich-UI app.
+
+If you're not familiar with the iPhone, the "demo":http://timmywillison.com/samples/password123/ explains the effect.
+
+Coincidentally, when this plugin was sent to me the WebKit autofill data vulnerability was announced.  So I saw "Safari... password" in the email and got worried.  It turned out to be one of those strange coincidences!
+
+
