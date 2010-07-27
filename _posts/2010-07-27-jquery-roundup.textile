@@ -6,6 +6,7 @@ categories:
 - jquery
 - plugins
 - ui
+- internationalization
 ---
 
 Welcome to the jQuery Plugin Roundup, episode 17.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
@@ -42,4 +43,16 @@ If you're not familiar with the iPhone, the "demo":http://timmywillison.com/samp
 
 Coincidentally, when this plugin was sent to me the WebKit autofill data vulnerability was announced.  So I saw "Safari... password" in the email and got worried.  It turned out to be one of those strange coincidences!
 
+h3. jsperanto
 
+"jsperanto":http://github.com/jpjoyal/jsperanto (MIT) by Jean-Philippe Joyal helps handle translation in JavaScript templates.  It reminds me of other internationalisation APIs, so you might be familiar with the API already (he says it's like i18n in Rails):
+
+{% highlight javascript %}
+$.jsperanto.init(function(t){
+  t('project.name'); //-> "jsperanto"
+  $.t('project.store'); //-> "JSON"
+  $.t('can_speak',{count:1}); //-> "I can only speak one language"
+  // and so on
+{% endhighlight %}
+
+The author has checked the script with JSLint and written unit tests, and carefully namespaced everything.  It seems like a pretty solid project.
