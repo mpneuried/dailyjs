@@ -28,4 +28,4 @@ It can be installed with npm if you want to quickly try it out.  The author, TJ 
 
 h3. Node Inspector
 
-"Node Inspector":http://github.com/dannycoates/node-inspector by Danny Coates is a debugger for Node that uses WebKit's Web Inspector.  I'm used to working with graphical debuggers so I'm looking forward to using this.
+"Node Inspector":http://github.com/dannycoates/node-inspector by Danny Coates is a debugger for Node that uses WebKit's Web Inspector.  I'm used to working with graphical debuggers so I'm looking forward to using this.  I wanted to paste a screenshot of me debugging some awesomely complex script, but I can't get it to work for some reason... If anyone has any luck please post in the comments.
