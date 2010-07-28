@@ -1,0 +1,31 @@
+---
+layout: post
+title: "Node Roundup 1"
+author: Alex Young 
+categories: 
+- node
+- server
+---
+
+
+Welcome, fellow server-side JavaScript aficionados, to the first Node Roundup.  I get so many interesting Node links that I thought it might be best to do something similar to the jQuery roundup.  These posts will include recent interesting projects built with Node, as well as other Node news.
+
+Send your apps in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Experimenting with Node.js
+
+In "Experimenting with Node.js":http://jeffkreeftmeijer.com/2010/experimenting-with-node-js/, Jeff Kreeftmeije discusses using "node-websocket-server":http://github.com/miksago/node-websocket-server to build an interesting example of real time data where mouse pointer positions are recorded and replayed to other visitors on the page.
+
+The actual blog post features the demo, so you might see other people moving their mouse around as you read.
+
+h3. Expresso
+
+!/images/posts/expresso.png!
+
+"Expresso":http://github.com/visionmedia/expresso is an asynchronous test framework.  It can generate coverage reports, and features very clear reporting.
+
+It can be installed with npm if you want to quickly try it out.  The author, TJ Holowaychuk, also builds the Express framework, so it naturally works well as a HTTP app testing tool.
+
+h3. Node Inspector
+
+"Node Inspector":http://github.com/dannycoates/node-inspector by Danny Coates is a debugger for Node that uses WebKit's Web Inspector.  I'm used to working with graphical debuggers so I'm looking forward to using this.
