@@ -7,7 +7,6 @@ categories:
 - server
 ---
 
-
 Welcome, fellow server-side JavaScript aficionados, to the first Node Roundup.  I get so many interesting Node links that I thought it might be best to do something similar to the jQuery roundup.  These posts will include recent interesting projects built with Node, as well as other Node news.
 
 Send your apps in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
