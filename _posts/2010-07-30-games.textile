@@ -1,0 +1,35 @@
+---
+layout: post
+title: "EffectGames, 10K Apart"
+author: Alex Young
+categories: 
+- games
+- competitions
+- frameworks
+---
+
+h3. EffectGames
+
+!/images/posts/effectgames.png!
+
+I haven't written a games-related post for a while, but I found "EffectGames":http://www.effectgames.com recently and it was too good not to post.  It's a service that provides a bunch of JavaScript APIs and resources for building games.  There are complex tools like a "level designer":http://www.effectgames.com/effect/#Article/docs/Level_Editor_Guide and more nuts and bolts features like "collision detection":http://www.effectgames.com/effect/#Article/docs/Geometry_and_Collision_Guide and "sprite management":http://www.effectgames.com/effect/#Article/docs/Sprites_and_Tiles_Guide.
+
+EffectGames is actually a hosted service, and while you can develop locally, you release games through their site.  The "license agreement":http://www.effectgames.com/effect/#Article/main/End_User_License_Agreement has all the details on the service and the ownership of code released through it.
+
+There's an active community on the site, and a development blog with lots of interesting resources.  The post on "Old School Color Cycling with HTML5":http://www.effectgames.com/effect/#Article/joe/Old_School_Color_Cycling_with_HTML5 ("demo":http://www.effectgames.com/demos/canvascycle/) really brought back some memories!
+
+h3. 10K Apart
+
+!/images/posts/10k.png!
+
+"10K Apart":http://10k.aneventapart.com/ is a competition to develop a web app in 10K.  The rules are as follows:
+
+* Size: Total file size, including images, scripts and markup, must be under 10K
+* Standards: HTML5 is encouraged, and apps must work in IE9, Firefox and WebKit browsers
+* Libraries: Major CDN-hosted libraries don't count, but only if they're jQuery, Prototype, or Typekit
+
+The first prize is $3000 plus a bunch of other stuff.  The judges include Zeldman and Erik Meyer.
+
+When I saw "web app" I wondered if they meant server-side as well, but it seems to be just client-side code, with a "designer" emphasis.  Now, if we can get some ex-demoscene hackers to enter we could really blow some minds.
+
+"Why is IE9 mentioned in the rules?" I hear you ask.  Well, Microsoft are the sponsor of the event.  Make of that what you will.
