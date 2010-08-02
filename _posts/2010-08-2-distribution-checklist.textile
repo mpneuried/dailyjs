@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Distribution Checklist"
+author: Alex Young
+categories: 
+- programming
+- opensource
+---
+
+As you might know, I review a lot of jQuery, Node, and CommonJS plugins and libraries.  This isn't always as easy as it seems, because these projects come in all kinds of different states of preparedness.
+
+If you're planning on releasing a jQuery plugin, or another open source JavaScript project, here's a few things that you might like to consider.  This is from my perspective as a journalist writing about your work.
+
+h3. Packaging
+
+The README should include:
+
+* At least one sentence explaining what the project does
+* The license
+* The author
+* Relevant URLs: author's URL, company, documentation
+* Dependencies
+* Examples on how to quickly test out the project
+* Your preferred method to communication for suggestions, bug reports
+
+Please make it clear what your project's license is.  This might not matter to you, but it does to companies who want to build on your work, or to contributors who want to improve it.
+
+I estimate that 70% of the jQuery plugins I review don't make the author's name clear.  Can you believe that?  Are people embarrassed about their work?  The only way I can usually find the author's name is through the GitHub/Google Code/etc. profile that their project links to.  And this doesn't always include their actual name.
+
+h3. Distribution
+
+If something is on GitHub, I'm likely to write about it.  Google Code is like a foreign land to me, but it's OK too.
+
+If your project is on another system that most journalists aren't familiar with, make sure the README is prominent or you have a clear site for the project.
+
+If you expect to simply link to a compressed archive of your project... I'm likely to only write about it if I'm short of material (and it doesn't suck).
+
+I know jQuery's site has listings for projects, but this isn't sufficient for a well-rounded plugin.  Have some pride in your work!  Go all out with blog posts, READMEs, the works.
+
+h3. Tests
+
+We recently linked to a post about "writing jQuery plugins properly":http://remysharp.com/2010/06/03/signs-of-a-poorly-written-jquery-plugin/comment-page-1/.  When reviewing a project I can't always go over the code to check it's well-written.  I take a casual look, with more detail if it's short, but it's not always easy to gauge the quality.
+
+One thing I do believe is you should write unit tests.  We might be deploying to a particular version of jQuery, so we'd like an easy way of testing your plugin before inserting it into our app and doing functional testing.  Or... I might just need a way of checking the plugin actually works before posting here (I've found some stinkers).
+
+Whatever the reason, consider distributing your work with unit tests that other people can run.  Include instructions for running them.  Even if your plugin isn't the best quality code, tests can only help.
+
