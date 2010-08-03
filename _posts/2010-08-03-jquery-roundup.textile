@@ -1,0 +1,65 @@
+---
+layout: post
+title: "jQuery Plugin Roundup 18"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 18.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+I've been writing a lot of jQuery lately, and subsequently I've found some very badly written plugins.  But instead of boring you with those, readers have sent interesting ones in!
+
+h3. js-fragment
+
+"js-fragment":http://github.com/rsms/js-fragment by Rasmus Andersson (MIT license) is a browser-based templating toolkit.  It builds interfaces from _fragments_, which are lightweight templates.
+
+Fragments can be combined and mixed with data, and remote fragments can be loaded from a server.  It can work with a custom version of Mustache as well.  The "js-fragment site":http://hunch.se/js-fragment/ has more details.
+
+h3. jQuery.tubeplayer
+
+!/images/posts/jquery-youtube.png!
+
+"jQuery.tubeplayer":http://www.tikku.com/jquery-youtube-tubeplayer-plugin by Nirvana Tikku is a friendly JavaScript API for the YouTube player.  Given a suitable container, a video can be controlled like this (example taken from the site):
+
+{% highlight javascript %}
+jQuery("#youtube-player-container").tubeplayer({
+	width: 600, // the width of the player
+	height: 450, // the height of the player
+	allowFullScreen: "true", // true by default, allow user to go full screen
+	initialVideo: "DkoeNLuMbcI", // the video that is loaded into the player
+	playerID: "youtube-player", // the ID of the embedded youtube player
+	preferredQuality: "default",// preferred quality: default, small, medium, large, hd720
+	onPlay: function(id){}, // after the play method is called
+	onPause: function(){}, // after the pause method is called
+	onStop: function(){}, // after the player is stopped
+	onSeek: function(time){}, // after the video has been seeked to a defined point
+	onMute: function(){}, // after the player is muted
+	onUnMute: function(){} // after the player is unmuted
+});
+{% endhighlight %}
+
+It's not exactly earth-shattering, but it's the exact kind of thing clients ask me to do.
+
+h3. InputNotes
+
+"InputNotes":http://fredibach.ch/jquery-plugins/inputnotes.php by Fredi Bach lets you display errors under textareas or inputs, based on regular expressions.  As the name suggests, additional information can be displayed as well.
+
+{% highlight javascript %}
+$(document).ready(function() {
+  $('#message').inputNotes({
+      sexwarning: {
+        pattern: /(^|\s)sex(\s|$)/ig,
+        type: 'warning',
+        text: "No sex please, we're British" 
+      },
+      numbersnote: {
+        pattern: /[0-9]/,
+        type: 'note',
+        text: 'Do not type numbers!' 
+      }
+    }
+  );
+});
+{% endhighlight %}
