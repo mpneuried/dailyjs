@@ -1,0 +1,65 @@
+---
+layout: post
+title: "Node Roundup 2"
+author: Alex Young 
+categories: 
+- node
+- server
+---
+
+Welcome to the Node Roundup, episode 2.  I've been hanging out at irc.freenode.net/#node.js.  It's a busy channel with some interesting discussions.  Check it out (unless you've got work to do, in which case check it out anyway.)
+
+Send your apps in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. JSONloops
+
+!/images/posts/jsonloops.png!
+
+"JSONloops":http://github.com/Marak/JSONloops isn't exactly useful beyond being an interesting experiment, but that was enough to amuse me for 10 minutes.  The author, Marak Squires, uses Node to trigger sample playback in the browser.
+
+Is this just insane or is Marak on to something?  There must be more music-related Node apps out there!
+
+h3. Step
+
+I covered Do by creationix (Tim Caswell) a while ago now, so I was flicking through his repositories to see what else he's come up with.  "Step":http://github.com/creationix/step is a function that accepts a list of functions to execute in sequence.  It's adapted to work with Node, so things like IO can be performed in parallel:
+
+{% highlight javascript %}
+Step(
+  function readSelf() {
+    fs.readFile(__filename, this);
+  },
+  function capitalize(err, text) {
+    if (err) throw err;
+    return text.toUpperCase();
+  },
+  function showIt(err, newText) {
+    if (err) throw err;
+    console.log(newText);
+  }
+);
+{% endhighlight %}
+
+bq. Notice that we pass in <code>this</code> as the callback to <code>fs.readFile</code>. When the file read completes, step will send the result as the arguments to the next function in the chain. Then in the <code>capitalize</code> function we're doing synchronous work so we can simple return the new value and Step will route it as if we called the callback.
+
+I find JavaScript's inherent ability to facilitate _composition_ fascinating, so I like to keep libraries like this around in case they suit a particularly messy piece of code.
+
+A related discussion to this was on the Node mailing list: "A way to reduce nested code":http://groups.google.com/group/nodejs/browse_thread/thread/de9a3179ae9fe46b/a16a265484e2b96e.
+
+h3. GraphicsMagick
+
+I've had a lot of bad experiences with image libraries.  Shelling out to command line ImageMagick tools always seems somehow less painful than compiling bindings, even though you'd think bindings should be relatively simple libraries...
+
+Anyway, "gm":http://github.com/aheckmann/gm by Aaron Heckmann (MIT License) shells out, so once you've got GraphicsMagick it should just work.  The API allows chained calls:
+
+{% highlight javascript %}
+gm('/path/to/my/img.jpg')
+  .resize(240, 240)
+  .noProfile()
+  .write('/path/to/resize.png', function(err){
+    if (!err) print('done')
+})
+{% endhighlight %}
+
+h3. More Node News Resources
+
+Tim Hastings sent a link to "tagwalk/tag/nodejs":http://tagwalk.com/tag/nodejs which is a way of viewing recent mentions of related topics on Twitter.  It's similar to the site we featured last week, "nodejs.se":http://nodejs.se/.
