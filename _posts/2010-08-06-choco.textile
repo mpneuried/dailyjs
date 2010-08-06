@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Choco, JS1k"
+author: Alex Young
+categories: 
+- libraries
+- web
+- competitions
+- events
+---
+
+h3. Choco
+
+"Choco":http://github.com/ahe/choco by Anthony Heukmes is a framework for building web apps built from one HTML page.  It's a bit like Cappuccino and SproutCore, except a lot simpler.  It's built from 3 other libraries:
+
+* "Sammy":http://github.com/quirkey/sammy - a client-side, jQuery-based Sinatra style routing framework
+* "js-model":http://github.com/benpickles/js-model - a way of handling data structures in the client
+* "Jim":http://github.com/quirkey/jim - yet another JavaScript package manager
+
+Most of Choco seems to be built by Ruby developers, and the author has a Rails 3 example project.  If you're building Rails projects you might find something useful here.
+
+h3. JS1k
+
+Angus contacted us about "JS1k":http://js1k.qfox.nl/ which is a conference to build a JavaScript demo in no more than 1024 bytes.  This doesn't include external libraries, but minification is allowed.  The conference is organised by Peter van der Zee, and it seems to have a demo scene attitude about it.
+
+There have been JavaScript related scene demos in the past (search "Scene.org":http://www.scene.org), but it's good to see this type of thing in our area of interest and I hope JS1k gets some awesome entries.
