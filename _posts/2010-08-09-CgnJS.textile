@@ -1,0 +1,22 @@
+---
+layout: post
+title: "CgnJS Meetings in Cologne"
+author: Alex Young
+categories: 
+- events
+---
+
+CgnJS is a open meet-up that takes place once a month in Cologne, Germany.  Matthias Lübken is one of the founders, and the rest are on this Twitter list: "@cgnjs/founders":http://twitter.com/cgnjs/founders
+
+Matthias got in touch with us recently about the group:
+
+bq. Back in June a couple of JavaScript enthusiasts met and founded the Cologne JavasScript Meetup aka CgnJS. Although we have very different backgrounds (Web, jQuery, Dojo, Server, Node, Mobile ...) we share the enthusiasm about Javascript and hope that we can share this with other developers.
+
+bq. CgnJS meets once a month on the second tuesday. There are two short talks with discussions. The focus of the meetup is to meet other JavaScript developers so there is plenty of room to talk and discuss.
+
+The next meeting will be tomorrow (August 10th) with talks on _Test-driven Widget Development_, and _Getting started with the Dojo Toolkit_.  Doors open at 7pm, and the talks start at 7:30pm.  They're meeting at Cowoco, Deutz-Mülheimer Straße 129, 51063 Köln.
+
+If you want to read more, try "The Google group":http://groups.google.com/group/cgnjs or "@cgnjs":http://twitter.com/cgnjs.  There's also "colognejs":http://colognejs.de/.
+
+Fellow JavaScript enthusiast Oleg Podsech (who also has an awesome DailyJS Node-related article coming soon) has been to CgnJS and he enjoys it, so it's worth checking out if you can make it.
+
