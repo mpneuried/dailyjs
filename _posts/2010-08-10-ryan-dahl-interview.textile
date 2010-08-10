@@ -1,0 +1,59 @@
+---
+layout: post
+title: "Ryan Dahl Interview: Part 1"
+author: Oleg Podsechin
+categories: 
+- interviews
+- nodejs
+---
+
+<div class="box">This interview was conducted by "Oleg Podsechin":http://www.ionsquare.com/ with "Ryan Dahl":http://tinyclouds.org/ on the 8th of July, shortly after Ryan's talk in Cologne.  Oleg is a JavaScript enthusiast who runs Ionsquare Ltd, an IT consultancy.</div>
+
+OP: The first question is an introduction really. How did you arrive at Node? Did you have experience with JavaScript before? When did you get started with JavaScript? And also event driven software?
+
+*RD*: I was a contractor and I was doing various little C projects usually involving server and event driven software and I realized that I was doing this same code over and over. C is a nice language to work in, but I wanted something I could script in the same way that I was programming these servers.
+
+OP: Had you done any front end stuff in JavaScript?
+
+*RD*: A little. I used to work a lot with Ruby on Rails - so I’d often be dealing with front-end code. Back then I wrote a little Ruby web server called Ebb that was meant to be a faster Mongrel. That code was the starting point for Node.
+
+OP: Ebb was mostly in C right? So you went from writing it in Ruby, then writing it in C and now you’re sort of ending up writing it in JavaScript?
+
+*RD*: Right. So what originally was Ruby turned into C. For a while I toyed with the idea of having a small web server C library - but it’s hard to get anything done in C. One day I had this epiphany: “JavaScript is exactly the language that I’m looking for here.” That happened shortly after V8 being released. 
+
+OP: You’ve said that there are two languages that will always be around: C and JavaScript. So, what are your thoughts on JavaScript as a general purposed programming language?
+
+*RD*: JavaScript has certain characteristics that make it very different than other dynamic languages, namely that it has no concept of threads. Its model of concurrency is completely based around events. This makes it rather different than other general purpose dynamic programming languages like Ruby and Python. At least for certain classes of problems, I’ve found JavaScript to be much easier to program in--for example when writing an IRC server.
+
+OP: How do you see the future of JavaScript? Do you see JavaScript becoming increasingly more prevalent, not only on servers but also on desktops?
+
+*RD*: JavaScript is already doing a great job describing GUIs. I think with a familiar browser-like API JavaScript could also make a good desktop application language. 
+
+OP: JavaScript is quite unstructured, so people just copy paste JavaScript code ...
+
+*RD*: Yeah, not having a module system doesn’t help. JavaScript really encourages people to dump everything into global variables. That’s a real detractor for JavaScript but in the end better practices can overcome that sort of thing.
+
+OP: So, did you follow the whole discussion around EcmaScript 4 and EcmaScript 5?
+
+*RD*: I like Crockford’s opinion that the language should be kept simple. One of the best things about JavaScript was its simplicity. It didn’t have many predefined ideas about how to do stuff - particularly for I/O. Although EcmaScript 4 didn’t define any I/O, it did define a lot. It did make a lot of breaking changes. That said, I wish EcmaScript 5 did have a few more features.
+
+OP: Any particular ones in mind?
+
+*RD*: What’s this called? Destructive assignment? If you have an array on the right and a list of variables on the left, and they can be define that way. That would be nice to have.
+
+OP: That’s included in Rhino, but not in V8
+
+OP: So let’s move on to Node itself. what is the most difficult design decision you made with regards to the project?
+
+*RD*: Something that was very hard for me was ... my original idea was that it was going to be purely non-blocking system and I’ve backed out of that a big in the module system and a few other areas. In the browser load JavaScript from a script tag is non-blocking. You don’t really know when the scripts are completely evaluated until an onLoad callback is made. Originally Node was similar. You would load a bunch of module files and you wouldn’t know that they were fully interpreted, fully evaluated, until a “loaded” event was . This made things a bit complicated. You couldn’t just do “require” and start using that stuff right below it, you had to wait for the callback to do that.
+
+OP: The hello world app would have one more indentation.
+
+*RD*: Right.
+
+OP: But it’s funny because people say that one of the benefits JavaScript offers is that you can use it in the browser as well. You can run the same validation logic on the server and browser, but the CommonJS module spec doesn’t work within the browser, so there are these efforts to try and make frameworks with asynchronous module loading.
+
+*RD*: Right, so in terms of difficult design decisions, I wanted Node to be browser-like. Maybe it didn’t use the same methods but the same structures could be ported easily, aliasing methods to the browser ones. Originally Node achieved that--it was totally browser-like. Originally, it even had a ‘window’ object. I slowly backed off that API as it became clear it wasn’t necessary to have the server-side environment be exactly the same. So I went with the CommonJS module system which was rather reasonable; the CommonJS people had put a lot of thought into it and I didn’t really want to worry about modules so much. So yeah, require is blocking and there are some other minor things that are blocking in Node. Generally this pragmatic approach of being non-blocking 99% of the time, but allowing a few synchronous operations here and there has worked out well. It probably doesn’t matter for a server-side program if you load modules synchronously.
+
+
+<div class="box">Part 2 of this interview will be posted tomorrow (Wednesday 11th August).</div>

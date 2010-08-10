@@ -38,6 +38,8 @@ ul.breadcrumb li.home:before { content: "" !important }
 
 #logo { font-size: 150%; float: left }
 
+.box { background-color: #f8f8ff; border: 2px solid #ddd; padding: 2px 10px !important; margin-top: 10px; line-height: 1.5em }
+
 .highlight { background-color: #f8f8ff; border: 1px solid #ddd; padding: 2px 10px !important; overflow: auto }
 .lineno { color: #666 }
 
