@@ -7,7 +7,7 @@ categories:
 - nodejs
 ---
 
-<div class="box">This interview was conducted by "Oleg Podsechin":http://www.ionsquare.com/ with "Ryan Dahl":http://tinyclouds.org/ on the 8th of July, shortly after Ryan's talk in Cologne.  Oleg is a JavaScript enthusiast who runs Ionsquare Ltd, an IT consultancy.</div>
+<div class="box">This interview was conducted by "Oleg Podsechin":http://twitter.com/olegpodsechin with "Ryan Dahl":http://tinyclouds.org/ on the 8th of July, shortly after Ryan's talk in Cologne.  Oleg is a JavaScript enthusiast who runs Ionsquare Ltd, an IT consultancy.</div>
 
 OP: The first question is an introduction really. How did you arrive at Node? Did you have experience with JavaScript before? When did you get started with JavaScript? And also event driven software?
 
