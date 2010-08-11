@@ -1,0 +1,106 @@
+---
+layout: post
+title: "Ryan Dahl Interview: Part 2"
+author: Oleg Podsechin
+categories: 
+- interviews
+- nodejs
+---
+
+<div class="box">This interview was conducted by "Oleg Podsechin":http://twitter.com/olegpodsechin with "Ryan Dahl":http://tinyclouds.org/ on the 8th of July, shortly after Ryan's talk in Cologne.  Oleg is a JavaScript enthusiast who runs Ionsquare Ltd, an IT consultancy.</div>
+
+OP: So on the topic of CommonJS, are you following any of the APIs or any of the discussions on the list?
+
+*RD*: Yeah, sure
+
+OP: And which ones are you most interested in?
+
+*RD*: CommonJS has some good specs and some less good specs. Some specs are rather prescriptive without any implementation - which I find wrong. I do like the idea of having a common server-side javascript interface - I just think it’s going to take some time to experiment with different APIs. A binary spec is quite important because JavaScript currently lacks a way of dealing with raw binary in any reasonable way. The module spec is good, the assert spec is good, the others are questionable.
+
+OP: What about the package spec?
+
+*RD*: Oh yeah, it also looks good. I don’t want to work on a package system, so I’m not following it super closely, but I think that there’s a lot of good ideas there. 
+
+OP: As a user you must use a package management system. Which ones do you use?
+
+*RD*: I’m playing around with NPM. It’s OK, kind of buggy, but you can use it. 
+
+OP: So with regards to packages, obviously there’s some stuff that’s going into the core of Node, but external packages, like XML parsing, are there any packages that you think are important that aren’t there already?
+
+*RD*: There needs to be a better MySQL solution, libmysql_client, the library that comes with MySQL is blocking so that is not a solution. There are other solutions, but they seem kind of buggy. A lot of people use MySQL and it would be a hindrance for them if they couldn’t access that easily. That’s one. 
+For a long time I was lusting after a good JavaScript HTML parser, but it seems that has solved. I also wanted a DOM implementation and it seems like that’s been solved too. I would really like a way to access Cassandra, which uses Thrift - that’s not been done yet.
+
+OP: There aren’t really any decent JavaScript Thrift libraries
+
+*RD*: Thrift is a piece of crap but unfortunately some projects are using it so we’ve got to interface with it. Some sort of Thrift binding would be good. 
+
+OP: I think in the next release they’re looking to have a RESTful interface.
+
+*RD*: I’ve heard they’re introducing an interface based on Avro, a new message serialization RPC thing, but I’m not sure how good the Avro support is. Avro seems a lot better than Thrift so just binding to Avro would be the best way go for talking to Casandra - I don’t know.
+
+Being able to connect to databases is important for users. If it’s not there, then it’s a total roadblock for a lot of people. So, MySQL is a major one.
+
+OP: A slight aside, but a big trend, aside from server side JavaScript is non relational databases and Node seems like the perfect glue, if you will, to connect these different data stores together. CouchDB guys are using it for that purpose. What are your thoughts, can you see an opportunity there?
+
+*RD*: Exactly, Node perfectly fills the proxy and authentication layer, between the storage backend and client. So yeah, I think it’s a good sort of glue and I agree with the CouchDB philosophy that the bulk of the application can kind of sit in the database. All the hard stuff can be back in Couch and Node can just proxy data back and forth.
+
+OP: So talking about the packages you’d like in Node, moving into the core and looking at the way the project is being built, what are your thoughts on project leadership in open source projects? What do you think is the right way to do it, which things shouldn’t you do? What’s your personal approach? Because you used to post little challenges for people to get them excited and get them contributing a little bit. Can you talk more about that?
+
+*RD*: I have a strong arm in the project. I’m the only committer and I dictate how things go and I think that’s a good approach for Node at this stage. At some point, hopefully, Node will grow up and we’ll a committee that decides on things. But at the moment having somebody that’s dedicated to the project and who will make sure that any changes that go in will be maintained is important. Part of that roll is not accepting changes that I can’t maintain myself, and so it means rejecting a lot of good code - just because it doesn’t fit into my contrained idea of what “Node core” is. There are users who would have contributed, for example, package manager code, but it’s not something I have time to maintain. 
+
+Another part of leading this project is getting people involved by very explicitly suggesting to people what needs to be done. I’m sending a lot of I emails to people saying “hey, you should give me a patch on this thing, that would be very helpful”. 
+
+OP: Nudging them a little bit in the right direction ...
+
+*RD*: Yeah.
+
+OP: So how big of a role has GitHub played in this? And git and the social coding element of it?
+
+*RD*: GitHub is great - it’s best feature is the ability to have web links source code - at a particular commit, with a specific section highlighted. Linking to source code like that really improves communication in email and on IRC.  That’s probably the best feature of GitHub.
+
+OP: Issue tracker?
+
+*RD*: The issue tracker I use, which is OK, but it could be better. Generally, GitHub could be doing more by hosting a mailing lists. Google Groups sucks.
+
+OP: Moving on, with regards to commitment to the project, you’re saying that you’re fully behind (it and so on and so forth,) so you’re currently employed by Joyent? and working 100% on Node?
+
+*RD*: Yeah - Node and projects based on Node. It’s great.
+
+OP: I guess the question is more about the commercial nature of Node and commercialization of Node. Clearly Joyent have an interest in it, being a hosting company, but do you see an ecosystem of businesses emerging around Node at some point and if so what types of businesses are these likely to be?
+
+*RD*: One obvious thing is hosting of applications in an simple way like Heroku is doing. Node opens the door to independent contractors making little real-time websites for people -- so there’s that ecosystem.
+
+OP: You don’t have an interest in building a service on top of Node? Rather you wish to maintain the core project?
+
+*RD*: I work for Joyent, so I work on products for them, but my main interest is making Node perform well and make users happy.
+
+OP: So the last couple of questions are a bit more abstract. The first one is about the asynchronous nature of Node. Do you see event driven webapps becoming more prevalent in the future? Not only Node, but asynchronous webapps in general.
+
+*RD*: Yeah, definitely. Not waiting for a database is a big win in terms of performance - the amount of bagage associated with each TCP stream is just much smaller. We need that for real-time applications where many mostly-idle connections are being held. But even for normal request response websites I think we’ll see more asynchronous setups just because of the performance wins - even if it’s necessary. It’s clear that asynchronous servers perform better in almost every way, it’s difficult to ignore that.
+
+OP: I guess writing callbacks and indentation in JavaScript is one hurdle towards asynchronous programming, but JavaScript is much easier for doing such stuff than other languages. 
+
+*RD*: There are of course efficient green thread and coroutine implementations which allow you to write asynchronous code in a synchronous looking way - Eventlet for example. I’m not convinced that’s the right approach, I think it’s a leaky abstraction. There’s no abstraction with callbacks - it’s a rather direct translation from the interface the operating system gives.
+
+OP: Have you tried other languages that compile to JavaScript, like CoffeeScript, they do callbacks and deferred and stuff like that.
+
+*RD*: CoffeeScript is cute. I’m not convinced by CoffeeScript’s deferred thing. I haven’t used it but it seems maybe that it will confuse the users.
+
+OP: Do you not like the idea of using JavaScript as an intermediary language? If you’re going to be writing stuff for JavaScript, you should write it in JavaScript?
+
+*RD*: I mean nobody would choose JavaScript if they had a choose, there are a lot of things wrong with it, but it’s an important language and it’s set in stone by its ties to the browser.
+
+OP: So all these tools, like debugging ...
+
+*RD*: CoffeeScript is beautiful but it makes programming more difficult. If there was more toolage around CoffeeScript, like a debugger which translated  line numbers from compiled code to CoffeScript lines, it will be interesting. For myself, Node is already buggy enough, another layer hurts rather than helps. The deferred concept is interesting, basically when you put in a deferred keyword before a function call, the rest of the current callback is put into a callback as the last parameter to the deferred call. Wonder how that’s going to work out - it seems too simplisitic. It’s kind of cute that you still have the same programming model. I mean, it’s not the same as what’s happening for coroutines or green threads, there’s still only one execution stack. Who knows, maybe CoffeeScript’s deferred keyword will end up working out well, I’m skeptical though.
+
+OP: So, last question. Which is sort of two questions rolled into one really. At the last talk you gave the other day you mention that your view of a program is that it’s a set of inputs of data from various sources, somehow transforms that data and forwards it on. Can you elaborate on that a bit?
+
+*RD*: Yeah, I think most of the programs, or a large part of the programs that we write, are just proxies of some form or another. We proxy data from a database to a web browser, but maybe run it through a template first and put some HTML around or do some sort of logic with it. But largely, we’re just passing data from one place to the other. It’s important that Node is setup to pass data from one place to the other efficiently and with proper data throttling. So that when data is coming in too quickly from the database, that you can stop that incoming flow. Suppose it’s over a TCP connection, you can just stop reading from that data source and not fill up your memory with the whole response. Start sending out the first part of the template that you’re sending to the web browser and then pull in more data from the DB. You know, it must properly shuffle the data through the process without blowing up the memory if one side is slower than the other. You shouldn’t have to pull down the entire table, put into a template and then send it out. It should just be able to flow through your system, so creating an environment where it’s easy to setup these flows in the proper way is important. We’re not there yet, but that’s kind of my vision of what Node will be. Lots of shuffling of data from one file descriptor to the next, without having to buffer a ton of data.
+
+OP: So in a way you can look at different Node instances talking to each other, forming a graph with directed edges between the different nodes? Is that where the name Node comes from? How did you come up with the name?
+
+*RD*: I used the name “Node” because I envision it as one part of a larger program. A program is not a process, a program is a database plus an application plus a load balancer and Node is one node of that. It’s not necessarily a bunch of NodeJS instances but a couple Node.js instances plus some other things.
+
+OP: Sounds good! Thank you for taking the time to chat.
+
