@@ -12,7 +12,7 @@ categories:
 
 Welcome to part 25 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.  This part is about handling when the DOM had loaded.
 
-If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called Turing and is available on GitHub: "turing.js":
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called Turing and is available on GitHub: "turing.js":http://github.com/alexyoung/turing.js.
 
 h3. The Point
 
