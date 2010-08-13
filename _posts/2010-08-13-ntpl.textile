@@ -10,7 +10,7 @@ categories:
 
 h3. nTPL
 
-"nTPL":http://github.com/donnerjack13589/nTPL by "Fedor Indutny":http://habrastat.ru/ is a simple templating system for Node.  The author has concentrated on making it fast, and it can be installed with <code>npm</code>.
+"nTPL":http://github.com/donnerjack13589/nTPL by "Fedor Indutny":http://github.com/donnerjack13589 is a simple templating system for Node.  The author has concentrated on making it fast, and it can be installed with <code>npm</code>.
 
 Part of this library is written with C++, and it can reload templates when the file is saved.  It's not a template language like haml, so if you're looking for a Node-friendly alternative to haml you could try "Jade":http://jade-lang.com/.
 
