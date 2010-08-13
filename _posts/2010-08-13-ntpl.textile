@@ -1,0 +1,21 @@
+---
+layout: post
+title: "nTPL"
+author: Alex Young
+categories: 
+- node
+- templating
+- server
+---
+
+h3. nTPL
+
+"nTPL":http://github.com/donnerjack13589/nTPL by "Fedor Indutny":http://habrastat.ru/ is a simple templating system for Node.  The author has concentrated on making it fast, and it can be installed with <code>npm</code>.
+
+Part of this library is written with C++, and it can reload templates when the file is saved.  It's not a template language like haml, so if you're looking for a Node-friendly alternative to haml you could try "Jade":http://jade-lang.com/.
+
+h3. Tab Completion in Node
+
+I checked out the latest version of Node yesterday, and I noticed tab completion was mentioned.  It looks like the readline support has been improved by Trent Mick, and this was posted to the group:  "Node v0.1.104":http://groups.google.com/group/nodejs/browse_thread/thread/867a3ca129586dfc.
+
+I actually alias <code>rlwrap js</code> for various JavaScript REPLs because I'm used to history and completion.  If you've never tried it before it's worth knowing about.  I installed it with either dpkg, port, or Homebrew, but you can get the source here: "rlwrap":http://utopia.knoware.nl/~hlub/rlwrap/.
