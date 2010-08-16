@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Mobile, Hummingbird, Mongoose"
+author: Alex Young
+categories: 
+- jquery
+- node
+- server
+- apps
+---
+
+h3. jQuery Mobile
+
+You've probably already heard about jQuery Mobile, but as I like jQuery and mobile JavaScript, I thought I should link it up.  "jQuery Mobile":http://jquerymobile.com/ is aimed at touch-based phones and tablets.  There's a great "graded browser support":http://jquerymobile.com/gbs/ checklist -- they're working hard to support a wide range of devices.
+
+The framework includes layouts and widgets, and ThemeRoller support.
+
+"jQuery’s Mobile Strategy":http://jquerymobile.com/strategy/ is a detailed overview of the project.  It covers progress so far and future plans.
+
+bq. We've been fixing bugs as we go and will continue to do so throughout the rest of the summer of 2010. We're hoping to have a fully A and B grade-compatible release of jQuery and Sizzle ready by October of 2010.
+
+h3. Hummingbird
+
+"Hummingbird":http://github.com/mnutt/hummingbird is a Node app for web analytics.  It uses "MongoDB":http://www.mongodb.org/ and as such is a good example of a site built with Mongo and Node.
+
+It uses git submodules for dependency management, which makes it easy to deploy to services like Heroku.  If you're addicted to npm but not comfortable with git submodules, you could reference how Hummingbird does it.
+
+I've been looking through the source and it seems like a solid app.  Even if you're not interested in using the app, it's a good example of a Node app that uses Express and Mongo.
+
+h3. Mongoose
+
+I've been using MongoDB for a project with Node, and I felt a bit disappointed with "node-mongodb-native":http://github.com/christkv/node-mongodb-native.  It's a good library, but it does suffer from the old JavaScript nested callback problem.
+
+The Mongo site links to "Mongoose":http://github.com/LearnBoost/mongoose which attempts to address this problem.  Mongoose uses _models_ which are wrappers around collections.  Promises are used to help create a slightly "flatter" syntax.
+
+Mongoose uses <code>__defineGetter__</code> to define getters and setters, so your collection fields can be accessed with succinct syntax.
+
+It looks like a good library to me but I haven't used it in anger yet.
+
+h3. jsvi
+
+I love vi, so here's "jsvi":http://gpl.internetconnection.net/vi/.  I was pleasantly surprised with the bits of vi that it supports.  If I can find a way of jamming it into gmail I'll be happy.  I've spent a few weeks using "Vimperator":http://vimperator.org/ once and I was actually fairly happy with it.
