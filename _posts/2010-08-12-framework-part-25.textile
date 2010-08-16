@@ -206,7 +206,7 @@ window.onload = init;
 
 As you can see, the concept of a loaded DOM is a messy thing to deal with.  It's not really the fault of any one browser manufacturer, it's just growing pains as a consequence of JavaScript evolving through the DOM levels.
 
-I had this old code kicking around for years, and I was convinced the whole DOM loaded thing was over.  But last year Dead Edwards wrote "Callbacks vs Events":http://dean.edwards.name/weblog/2009/03/callbacks-vs-events/ on the topic.  In particular he deals with handling <code>DOMContentLoaded</code> through custom events, and the article has some interesting comments.
+I had this old code kicking around for years, and I was convinced the whole DOM loaded thing was over.  But last year Dean Edwards wrote "Callbacks vs Events":http://dean.edwards.name/weblog/2009/03/callbacks-vs-events/ on the topic.  In particular he deals with handling <code>DOMContentLoaded</code> through custom events, and the article has some interesting comments.
 
 h3. Conclusion
 
