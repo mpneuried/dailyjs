@@ -1,0 +1,88 @@
+---
+layout: post
+title: "jQuery Rolling and Polling"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 19.  Remember you can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. The Evolution of a Polling Plugin
+
+Everybody hates polling.  If you use polling Internet goblins will attack you for not using WebSockets.  There are times when polling makes sense, but the main thing you need is a good library.  "Ajax.PeriodicalUpdater":http://www.prototypejs.org/api/ajax/periodicalupdater served me well for many years, and I could technically use it alongside jQuery, but a jQuery plugin would be better.
+
+h3. 360innovate
+
+"360innovate":http://www.360innovate.co.uk/blog/2009/03/periodicalupdater-for-jquery/ (GPL and MIT) rewrote <code>PeriodicalUpdater</code> for jQuery.
+
+It has a jQuery-style API:
+
+{% highlight javascript %}
+$(document).ready(function(){
+  $.PeriodicalUpdater({
+    url : 'random.php'
+  },
+  function(data){
+    var myHtml = 'The data returned from the server was: ' + data + '';
+    $('#results').append(myHtml);
+  });
+});
+{% endhighlight %}
+
+It can do useful things like decay the time between requests when the response doesn't change.  This not only limits the traffic but also limits the amount of work your browser's doing.
+
+h3. Robert Fischer
+
+Robert Fischer updated 360innovate's plugin in "JQuery-PeriodicalUpdater":http://enfranchisedmind.com/blog/posts/jquery-periodicalupdater-ajax-polling/.  The usage changes a little bit, and it plays better with jQuery's <code>$.ajax</code>:
+
+{% highlight javascript %}
+$.PeriodicalUpdater('/path/to/service', {
+    method: 'get',          // method; get or post
+      data: '',                   // array of values to be passed to the page - e.g. {name: "John", greeting: "hello"}
+      minTimeout: 1000,       // starting value for the timeout in milliseconds
+      maxTimeout: 8000,       // maximum length of time between requests
+      multiplier: 2,          // if set to 2, timerInterval will double each time the response hasn't changed (up to maxTimeout)
+      type: 'text',           // response type - text, xml, json, etc.  See $.ajax config options
+    maxCalls: 0,            // maximum number of calls. 0 = no limit.
+    autoStop: 0             // automatically stop requests after this many returns of the same data. 0 = disabled.
+}, function(data) {
+      // Handle the new data (only called when there was a change)
+});
+{% endhighlight %}
+
+Here's a comment I liked from Robert's post:
+
+bq. One stunt which people should definitely pay attention to is using executable code blocks for factoring out loop-invariant checks. In this case, it's demonstrated in the logic to boost the decay:
+
+{% highlight javascript %}
+var boostPeriod = function() { return; };
+if (settings.multiplier > 1) {
+  boostPeriod = function() {
+    timerInterval = timerInterval * settings.multiplier;
+
+    if (timerInterval > settings.maxTimeout) {
+        timerInterval = settings.maxTimeout;
+    }
+  };
+}
+{% endhighlight %}
+
+h3. jquery.poll
+
+Ethan Fremen modified Robert's plugin to produce "jquery.poll":https://launchpad.net/jquery.poll (simplified BSD license).  This version can handle multiple active pollers and allows changes to the polling interval.  His blog post, "jquery.poll – a periodic polling plugin for jquery":http://canhas.biz/2010/01/10/jquery-poll/, has more details.
+
+Robert and Ethan briefly discuss some of the changes in the comments.
+
+h3. smartupdater
+
+Meanwhile, "smartupdater":https://code.google.com/p/smartupdater/wiki/Smartupdater2 (GPL and MIT) by Vadim Kiryukhin has been released.  This one has a "demo site":http://www.eslinstructor.net/demo/smartupdater2/smartupdater_home.html with a lot of examples.
+
+Smartupdater has some interesting features, like dynamic timeouts, decay (he calls it multiplier), and it even supports _remote control_ from the server to reduce load.
+
+h3. So What?
+
+As you can see from the evolution of Prototype's PeriodicalUpdater, polling is not a simple problem to solve.  The original Prototype code made it look easy, but it hid a lot of complexity.  And there are some really bad jQuery polling plugins out there.  If you've got a good one, please tell me about it!
+
+
