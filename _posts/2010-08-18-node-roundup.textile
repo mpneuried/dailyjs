@@ -1,0 +1,36 @@
+---
+layout: post
+title: "Node Roundup 3"
+author: Alex Young 
+categories: 
+- node
+- server
+---
+
+Welcome to the Node Roundup. Send your apps in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Nitrode
+
+"Nitrode":http://github.com/ollym/nitrode is a new HTTP server.  It's a young project but it already has some interesting features:
+
+* Basic auth
+* Redirects
+* ETag and If-Modified-Since support 
+* Static files
+* SSL
+* Virtual hosts
+
+"The thread on the nodejs list":http://groups.google.com/group/nodejs/browse_thread/thread/479e1e5de272931d has more details, with a good discussion from list regulars.
+
+h3. Node Boilerplate
+
+"Node Boilerplate":http://github.com/robrighter/node-boilerplate bundles lots of commonly used libraries together to make starting a new Node/Express project very easy.  If you use Node a lot you probably have your own way of doing this, or perhaps you use npm, but it seems like it might be a good starting point for new users or tutorial writers.
+
+If you want to experiment with Node, try it out.  The author, Rob Righter, is also on twitter: "@robrighter":http://twitter.com/robrighter.
+
+h3. Twitter Node.js WebSocket Example
+
+This has been kicking around for a while, but I noticed "Twitter Node.js WebSocket Example":http://github.com/andregoncalves/twitter-nodejs-websocket has been updated.  I was looking for examples of Node and WebSockets yesterday when I wrote that jQuery polling post, and I dug it up on GitHub.
+
+It's by Andre Goncalves ("@andregoncalves":http://twitter.com/andregoncalves on Twitter), and it's pretty simple -- the server-side part is only 50 lines.
+
