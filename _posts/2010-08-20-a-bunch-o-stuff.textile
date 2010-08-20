@@ -1,0 +1,33 @@
+---
+layout: post
+title: "Brequire, Node Pipe, Enable JavaScript"
+author: Alex Young
+categories: 
+- node
+- commonjs
+- browser
+---
+
+h3. Brequire
+
+"Brequire":http://github.com/weepy/brequire makes CommonJS features available to browsers.  It uses a compiler to inject the functionality into your scripts.  It's actually a script that you run before loading your code in a browser:
+
+{% highlight sh %}
+bin/brequire test/src test/lib open test/test.html
+{% endhighlight %}
+
+h3. Node Yahoo! Pipe
+
+Alex Kessinger sent me a "blog post":http://alexkessinger.net/story/rss-feed-changes-node-package-manager-registry about a "Yahoo! Pipe":http://pipes.yahoo.com/pipes/pipe.info?_id=5b0da27aa93f45f401b5ab7be2a6553b that gets the latest updated packages from the npm registry.
+
+At the moment npm traffic isn't too insane, so you could follow this to keep abreast of what's being released.  Of course, not everything is released through npm, but it's getting very popular.
+
+h3. Enable JavaScript
+
+This is a simple idea, but genuinely useful.  "Enable JavaScript":http://www.enable-javascript.com/ by Toni Podmanick explains how to enable JavaScript in each major browser.  It's the kind of thing that will come in handy when trying to explain such a thing to an awkward client.
+
+h3. Write for Us
+
+Despite popular opinion I don't spend all day tinkering with JavaScript and writing for DailyJS; I have a day job!  I'm looking for writers to help with the site.  I'd like people who can write short news posts like this one, and also people who can write awesome tutorials.  You'll get full credits and mad links to your sites and projects.
+
+I haven't got a formal advertising system for DailyJS yet so the site doesn't make much revenue, which means I won't be able to pay you some kind of salary.  I could pay you in beer if you live within a train trip of London.  Get in touch through the site's "contact":/contact.html form, or join "JsChat":http://jschat.org's #dailyjs room.
