@@ -13,7 +13,7 @@ h3. Brequire
 "Brequire":http://github.com/weepy/brequire makes CommonJS features available to browsers.  It uses a compiler to inject the functionality into your scripts.  It's actually a script that you run before loading your code in a browser:
 
 {% highlight sh %}
-bin/brequire test/src test/lib open test/test.html
+bin/brequire test/src test/lib
 {% endhighlight %}
 
 h3. Node Yahoo! Pipe
