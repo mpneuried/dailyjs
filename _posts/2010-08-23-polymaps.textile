@@ -1,0 +1,25 @@
+---
+layout: post
+title: "Polymaps"
+author: Alex Young
+categories: 
+- maps
+- geojson
+- svg
+---
+
+!/images/posts/polymaps.png!
+
+I noticed Polymaps has been updated recently, which is one of the graphics-related libraries I usually keep tabs on for my Friday graphics and gaming-themed posts.  "Polymaps":http://polymaps.org/ by "SimpleGeo Inc.":http://simplegeo.com/ and "Stamen":http://stamen.com/ is an open source ("License":http://github.com/simplegeo/polymaps/blob/master/LICENSE) library for dealing with scalable SVG maps.  It only works with SVG, but is fast and can deal with some cool technology like "GeoJSON":http://geojson.org/.
+
+The project is professionally presented, with clear "documentation":http://polymaps.org/docs/ and excellent "examples":http://polymaps.org/ex/.  There's a cool "Mandelbrot":http://polymaps.org/ex/mandelbrot.html#2.00/-36.3/-22.1 zoomer example -- it even puts the Mandelbrot co-ordinates in the URL!
+
+In the "Why SVG?" part of the documentation, the authors state:
+
+bq. Existing libraries are hamstrung by the need to support antiquated browsers, in particular IE6.
+
+They actually answer why they're not using a Canvas and VML approach like other projects:
+
+bq. SVG allows styling to be applied via CSS, which simplifies development and allows the use of CSS3 transitions and animation. In contrast to HTML5 Canvas, SVG facilitates interaction through event handlers, :hover psuedo-classes, and tooltips.
+
+I know you're probably thinking "but I'd just use Google Maps!" There are many instances where you can't rely on Google Maps, like legal issues with Google's terms, or specific design requirements that it can't support.
