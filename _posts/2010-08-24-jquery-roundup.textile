@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young 
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup, episode 20.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Touch Gallery
+
+!/images/posts/touchgallery.png!
+
+"Touch Gallery's":http://neteye.github.com/touch-gallery.html site says _this is not another lightbox_.  Hooray!  Touch Gallery is a fullscreen photo gallery aimed at touchscreen devices.  It works best in Safari, but will also work in other browsers.
+
+To use it, create a container that contains a bunch of links and call:
+
+{% highlight javascript %}
+  $('#container a').touchGallery();
+{% endhighlight %}
+
+It's released under the MIT license.
+
+Felix Gnass sent me this plugin, and there are more by the same people at "neteye.github.com":http://neteye.github.com/ 
+
+h3. jQuery Globalization Plugin
+
+I missed this plugin when it was announced, but I've been doing localisation work lately so I discovered it.  "jquery-glob":http://github.com/nje/jquery-glob features complex number and date parsing for many "cultures":
+
+bq. Each language, and the countries that speak that language, have different expectations when it comes to how numbers (including currency and percentages) and dates should appear.
+
+This plugin allows people to write data in their native format and it'll get converted into data-types JavaScript likes.
+
+Interestingly, this is a plugin from Microsoft: "jQuery Globalization Plugin from Microsoft":http://weblogs.asp.net/scottgu/archive/2010/06/10/jquery-globalization-plugin-from-microsoft.aspx.  That meant the first thing I thought was, "So what's the license?  Something crazy I'd need a law degree to understand?" It turns out there is no license.  Or tests.  Like most jQuery plugins!
+
+h3. Simulating JavaScript Events
+
+In "Programatically simulating JavaScript events in your test environment":http://kernowsoul.com/blog/2010/08/20/programatically-simulating-javascript-events-in-your-test-environment, Jamie Dyer discusses using Jasmine and jsMocha for testing with a jQuery project.  Technically this isn't a plugin, but when I review plugins for this site I often find problems with them, look for the tests, discover there aren't any, get angry, then wish people would write tests for their plugins.
+
+To that end, add this article to your "to read list" if you're a plugin author who doesn't write tests.
