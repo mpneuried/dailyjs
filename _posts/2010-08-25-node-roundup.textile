@@ -1,0 +1,59 @@
+---
+layout: post
+title: "Node Roundup 4"
+author: Alex Young 
+categories: 
+- node
+- server
+---
+
+Welcome to the Node Roundup. Send your apps and libraries in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Webshell
+
+"Webshell":http://github.com/fictivekin/webshell from "Fictive Kin":http://fictivekin.com/ (by Evan Haas and Sean Coates) is a JavaScript HTTP client, released under Apache License 2.0 that uses Node.
+
+You can issue commands like this:
+
+!/images/posts/webshell.png!
+
+It supports HTTP auth, cookies, and JSON.  There's lots of examples of usage in the README.  It seems like something I might end up using when I'm debugging JSON-heavy Node projects.  And by "debugging" I mean "should be writing tests but would prefer to do things the hackish way."
+
+h3. nDistro
+
+"nDistro":http://github.com/visionmedia/ndistro by TJ Holowaychuk is a way of quickly installing Node with a bunch of dependencies, based on simple configuration files.  Configuration looks like this:
+
+<pre>
+node 0.1.102
+module senchalabs connect
+module visionmedia express 1.0.0beta2
+module visionmedia connect-form
+module visionmedia connect-redis
+module visionmedia jade
+module visionmedia ejs
+</pre>
+
+This is useful for a few things: testing your libraries against different versions of Node, or recreating a particular environment for a production server.  It's a shell script that downloads binary distributions of Node, which means you should technically only need a shell to get Node up and running.
+
+Full installation and usage instructions are available in the "README":http://github.com/visionmedia/ndistro.
+
+The author also posted a "screencast":http://screenr.com/sV0 of nDistro in use.
+
+h3. Node on Windows
+
+If you usually work on a Windows desktop machine, you might have found building Node a bit of a chore.  Try following "Step by step instructions to install NodeJS on Windows":http://boxysystems.com/?p=203 -- it relies on Cygwin but at least you can get Node running without dual-booting or starting a VM.
+
+h3. Japanese Node Group
+
+I noticed there's a "Japanese Node Google Group":http://groups.google.com/group/nodejs_jp started by Toshihiro Shimizu.  He's also been translating the Node site into Japanese at "nodejs.jp":http://nodejs.jp/nodejs.org_ja/.
+
+h3. Group Discussions
+
+"V8 Object Limits":http://groups.google.com/group/nodejs/browse_frm/thread/4acc4851a792f6c9, started by Timothy Caswell, is an interesting discussion on the nodejs Google Group about performance and plain JavaScript objects.  He was looking into the speed at which V8 can insert properties, then analysing the performance characteristics as the object grows.
+
+bq. You'll notice that it starts out nice and fast at 2,673,179  inserts per second, but by the time it reaches about 13,273,357  properties, it's down to taking almost 2 seconds to insert a single property.  Also I'm seeing some blips in my graph that I assume are the stop-the-world garbage collector.
+
+A related discussion is "Node / v8 1gb memory limit?":http://groups.google.com/group/nodejs/browse_frm/thread/28a36f5bb75b9473
+
+TJ Holowaychuk mentioned that perhaps frameworks should adopt "NODE_ENV":http://groups.google.com/group/nodejs/browse_frm/thread/226ebaafae6d965c as a convention for determining the application's environment (production, development, testing, etc.)  I think this would be useful, especially now that everyone on GitHub has started their own Node web framework.
+
