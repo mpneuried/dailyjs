@@ -10,7 +10,7 @@ categories:
 
 Welcome to part 26 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
 
-If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called.
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.
 
 I received some feedback last week about Turing -- very useful and interesting points that I thought followers of the series would enjoy.
 
