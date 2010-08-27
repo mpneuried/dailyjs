@@ -1,0 +1,38 @@
+---
+layout: post
+title: "PaintbrushJS, Canvas Wrapper, Rangy"
+author: Alex Young
+categories: 
+- graphics
+- canvas
+---
+
+h3. PaintbrushJS
+
+"PaintbrushJS":http://github.com/mezzoblue/PaintbrushJS by Dave Shea, released under the MIT License, is a browser-based image processing library.  It creates a canvas that contains the image and applies various image filtering algorithms.  There's a page of "demos":http://mezzoblue.github.com/PaintbrushJS/demo/ that illustrate the effects.
+
+The effects work by getting pixels with <code>getImageData</code> then looping through them and applying the selected filter.
+
+h3. CanvasContext2DWrapper
+
+"CanvasContext2DWrapper":http://github.com/millermedeiros/CanvasContext2DWrapper by Miller Medeiros, released under the prestigious "WTFPL":http://sam.zoy.org/wtfpl/ license, wraps canvas context 2D properties to allow method chaining:
+
+{% highlight javascript %}
+contextWrapper.fillStyle('#F00').fillRect(25,25,100,100).fillStyle('#0F0').fillRect(50,50,100,100);
+{% endhighlight %}
+
+h3. Rangy
+
+I hate dealing with range selection.  I can't remember if it's due to IE, or if every browser does it differently, but I have a piece of JavaScript I've been using to do this for years and I barely remember how it works.  "Rangy":http://code.google.com/p/rangy/ by Tim Down (MIT License) is a library that addresses this lapse in my pragmatism.  It's currently pre-alpha, but already has some useful functionality:
+
+{% highlight javascript %}
+var range = rangy.createRange();
+
+// All DOM Range methods and properties supported
+range.selectNodeContents(document.body);
+
+// All HTML5 Selection methods and properties supported
+var sel = rangy.getSelection();
+sel.removeAllRanges();
+sel.addRange(range);
+{% endhighlight %}
