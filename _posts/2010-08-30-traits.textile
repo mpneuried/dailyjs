@@ -15,7 +15,7 @@ bq. Create is similar to the Ecmascript 5 built-in Object.create except that it 
 
 It also ensures the resulting object is frozen, and <code>this</code> is bound to the instantiated object in all accessors and methods.
 
-As you can see by what <code>create</code> does, this process creates objects that are more strictly controlled than mixin or multiple inheritance-based code.
+As you can see by what <code>create</code> does, this process generates objects that are more strictly controlled than mixin or multiple inheritance-based code.
 
 The "tutorial":http://soft.vub.ac.be/~tvcutsem/traitsjs/tutorial.html has a good example called _An Enumerable Trait_ which helped me get the hang of the basic usage of the library.
 
