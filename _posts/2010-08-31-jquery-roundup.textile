@@ -1,0 +1,48 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup 21.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jquery-flickr-plugin
+
+!/images/posts/jquery-flickr.png!
+
+I go through phases when I have a lot of fun with photography and get really creative, so I was looking for a way to package up photo sets and display them on my own site.  "jquery-flickr-plugin":http://github.com/blat/jquery-flickr-plugin by Mickael Blatiere (MIT License) is a great way to display Flickr photos -- check out the "third demo":http://blat.github.com/jquery-flickr-plugin/demo3.html.
+
+Setting it up is pretty easy:
+
+{% highlight javascript %}
+$(function() {
+  $('#my_gallery').flickr({
+    user_id: '##USER_ID##',
+    api_key: '##API_KEY##',
+  });
+});
+{% endhighlight %}
+
+Another popular related plugin is "Galleria":http://galleria.aino.se/ (the "fullscreen demos":http://galleria.aino.se/media/galleria/demos/fullscreen-03.html are interesting).
+
+h3. jquery-bitly-plugin
+
+"jquery-bitly-plugin":http://github.com/gumayunov/jquery-bitly-plugin by Victor Gumayunov lets you access Bitly through jQuery.  This looks similar to the "bitly JavaScript client":http://code.google.com/p/bitly-api/wiki/JavascriptClientApiDocumentation but has a more jQuery-style API:
+
+{% highlight javascript %}
+var b = new jQuery.Bitly({ login: 'LOGIN', key: 'KEY' });
+b.shorten('http://google.com', function(short_url) { console.debug(short_url)});
+{% endhighlight %}
+
+h3. JOSHUA
+
+!/images/posts/joshua.png!
+
+"JOSHUA":http://github.com/Destru/JOSHUA (or jQuery Operating System, HUA!) is an amusing artefact I found while searching GitHub.  It's a web-based command line interface by Alexander Støver.  It's not a jQuery plugin, and it's not fundamentally useful, but it's fun to play with!
+
+bq. Making Joshua has been (and still is) a fun challenge for me. Although in all honesty it's pretty much the most awkward way to navigate a website ever perceived. But then again; Mouseclicking is so 90's.
+
+Try it out here: "JOSHUA":http://binaerpilot.no/alexander/
