@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Node Roundup 4"
+author: Alex Young 
+categories: 
+- node
+- server
+- programming
+---
+
+Welcome to the Node Roundup. Send your apps in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Bounce
+
+"Bounce":http://github.com/weepy/bounce by Jonah Fox is a wrapper around a Node process that will watch for JavaScript file changes and restart the Node process.  You can run it like this:
+
+{% highlight sh %}
+bounce lib/server.js
+{% endhighlight %}
+
+The author has also included tests (!).  At the moment it recursively watches the file system, rather than using kernel-based notifications, but it's still great for those of us that are used to automatic reloading on other development platforms/frameworks.
+
+h3. node-supervisor
+
+"node-supervisor":http://github.com/isaacs/node-supervisor is a similar project by Isaac Z. Schlueter; it can also relaunch programs when they crash.  Supervisor also uses a recursive file system approach to watch for file changes.
+
+h3. Nodules
+
+On a related topic... "Nodules":http://github.com/kriszyp/nodules is a URL-based CommonJS module loader for Node.  That means it has automatic dependency resolution, so modules will be downloaded as required.  It's part of "Persevere":http://www.persvr.org/, which is a Dojo Foundation project.
+
+h3. Node Knockout
+
+"Node Knockout":http://nodeknockout.com/ voting is still open:
+
+bq. All voting will take place at the same time: between 03:00 GMT on Monday, August 30 and 0:00 GMT on Friday, September 3.
+
+I've had a lot of fun playing with the "entries":http://nodeknockout.com/teams, check them out if you haven't already!
