@@ -1,0 +1,46 @@
+---
+layout: post
+title: "The Future of Mobile Sync"
+author: Alex Kessinger
+categories: 
+- mobile
+- data
+- storage
+---
+
+<div class="box">
+This article is by "Alex Kessinger":http://alexkessinger.net. He works for Yahoo! as an FE, and is currently working on a book about "HTML5 Apps":http://alexkessinger.net/story/i-am-writing-book-real-one for "Packt":http://www.packtpub.com/. You can also follow him on Twitter: "@voidfiles":http://twitter.com/voidfiles.
+</div>
+
+The mobile web apps community has been systematically knocking down the barriers to building apps on web technologies. We have "offline data storage":http://dev.w3.org/html5/webstorage/, "offline application cache":http://www.w3.org/TR/offline-webapps/#offline, coming soon we will have access to "devices":http://dev.w3.org/html5/html-device/, and "files":http://www.w3.org/TR/FileAPI/, but there is something missing: _data sync_. 
+
+As a web developer, I have always felt that mobile web apps are just like small web pages. If you think about web apps like that, you can see how many of our traditional FE methods can be used to build mobile apps. Data sync is a relatively new requirement for web developers. Yes, we have had server communication for a long time, in which we could transfer data, but web pages going offline for long periods of time is new. 
+
+It also doesn't seem like we are going to get any guidance from the standards bodies. In the Dive Into HTML5, Mark Pilgrim states:
+
+bq. "If your application creates data or saves state, it's up to you to store that data locally while you're offline and synchronize it with the remote server once you're back online. In other words, HTML5 can take your web application offline. What you do once you're there is up to you." ("source":http://diveintohtml5.org/offline.html)
+    
+While Pilgrim is not the W3C, he does have input, and was apart of the process. What it means is that it's up to us the community to figure this out. I am writing this for a couple of reasons. First, let's get all the prior work into the open. It's possible somebody somewhere has figured this out, or there might be a solution that has been overlooked. Two, there are existing standards that might be used, we should take a look. Finally, there are a couple of different sync scenarios, and they might have different solutions we should take a look at a couple.
+
+Libraries, and the greater Internet, might have the information we need, but I figured that if I couldn't even find anything on the surface that looked close to a solution then I should ask the community first, it might save time. I was able to find a couple possible starting points. These are specific to sync. 
+
+* "OData":http://www.odata.org/home -- seems to be backed by Microsoft, XML, and JSON
+* "FeedSync, or Simple Sharing Extensions":http://en.wikipedia.org/wiki/Simple_Sharing_Extensions built on top or RSS 
+* "SyncML":http://en.wikipedia.org/wiki/SyncML
+    
+These seem to have a largish amount of people behind each project. SyncML seems to be the most open, which I know is hard word to define, but they are all lacking something. I know it's an incredibly un-technical way of assessing an idea, but I don't see hackers using any of the above I am open to be proven wrong though. I also found a "2 year old link":http://blog.o-micron.com/2008/06/mobile-databases-or-write-through-web.html to a thing called AtomDB, which was going to be based on the AtomPub spec, but it's 2 years old. 
+
+Are any of the above possible players in mobile web apps? I don't know, I am partial to saying I don't think so. If there isn't anything out there we should probably try and define some of the problems that will need to be solved. I have two scenarios in mind.
+
+The first scenario is like a text based sync. In this scenario the user has lots of textual data, like a bunch of notes, something similar to "Simplenote":http://simplenoteapp.com. The user goes offline for a while. While offline they make changes to a note, and let's say they have a shared note with a friend. This friend modifies the same note while the user is offline. Now, we have two notes with changes that aren't in sync. The user comes back online, and then what happens? That is scenario one. I think this one could be handled by some kind of versioning scheme like git, and svn merge code.
+
+The second one is a buisnessy one. Let's say a traveling sales man is out selling some widgets. He has a mobile order entry device. He has an internal copy of the inventory data that stays closely in sync with the central copy until he goes offline. When he enters his order he is offline. While he is offline a co-worker in the central office takes a phone order. They both need to see the rest of the inventory. When the traveling salesmen comes back online there is now a conflict, but it can't easily be merged -- there has to be a resolution of some kind. 
+
+Mayby both of these problems are incredibly unique to their respective circumstances. Even if they are unique, there has to be repeatable patterns that can be used. There must be a way to provide a framework to handle sync, and either it exists out there, or someone needs to build it.
+
+I would like to note that "Couchio":http://www.couch.io/ seems to be trying to fix this problem with CouchDB. They might have more to say, but they have an interesting model for how web apps could use CouchDB. For example, on the Android platform CouchDB can run as a service in the background. Your web app would be able to talk to the local CouchDB server all the time. When you device is online CouchDB will handle the data sync to an upstream database.
+
+That would be awesome, but it's not a standard, and it's not everywhere. Even if they figure out how to get it on to many different devices in the future it still might take awhile, and I think we need something sooner then that.
+
+This is a call to action, do we have a problem, is their a solution already, do we need to build something?
+
