@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Mastering Node, Pragmatic CSS3, Wink"
+author: Alex Young
+categories: 
+- frameworks
+- graphics
+- nodejs
+---
+
+I was at the dConstruct conference on Friday.  If you'd like to read about it, take a look at my summary (lovingly crafted, complete with photos): "dConstruct 2010":http://alexyoung.org/2010/09/06/dConstruct/.
+
+h3. Mastering Node
+
+You might remember TJ Holowaychuk from other JavaScript projects like "Express":http://github.com/visionmedia/express and "Jade":http://github.com/visionmedia/jade.  He's back again with a book called "Mastering Node":http://github.com/visionmedia/masteringnode.  It's a good start, but he isn't planning on writing much more:
+
+bq. Mastering node is an open source eBook by node hackers for node hackers. I started this as a side project and realized that I don't have time :) so go nuts, download it, build it, fork it, extend it and share it.
+
+Despite the fact he says he doesn't have time to finish it, his last update was 4 days ago and there's content on installing node, modules, events, and other core subjects.
+
+The content is all in Markdown, and he uses a simple Makefile with command line tools to generate HTML, PDF, and e-reader formats.  Which is a pretty cool way to write a book -- I've always been a LaTeX man myself but this seems like a much more straightforward way of generating all those formats (I'm a Kindle fan so generating ePub/Mobi is important to me).
+
+Why not check it out and contribute?
+
+h3. Pragmatic CSS3
+
+"Pragmatic CSS3 - Webit-Transform Matrix3d Tutorial":http://9elements.com/html5demos/matrix3d/ is a tutorial that demystifies CSS3 matrix transforms.  It does a good job as well.  Complete source is available on GitHub, under "9elements / Matrix3d-Tutorial":http://github.com/9elements/Matrix3d-Tutorial.
+
+h3. Wink
+
+Jérôme Giraud got in touch to talk about "Wink":http://www.winktoolkit.org/, a mobile JavaScript framework.  The site has downloads, previews, demos, and even some tutorials.
+
+Wink is targeting cutting-edge WebKit features, they're particularly proud of their "3D effects":http://www.winktoolkit.org/?section=previews&previews=57 and "multitouch support":http://www.winktoolkit.org/?section=previews&previews=66.
+
+I recently covered the basics of touchscreen device support in our "Let's Make A Framework":http://dailyjs.com/tags.html#lmaf series, and it sparked an interesting discussion about gesture support.  Apple have specifically targeted gestures as well as simple touch events, but there was some confusion about the best way of supporting them.  Hopefully Wink is looking into this area.
+
+I took a cursory look over the framework, and they appear to have namespaced the framework like other modern JavaScirpt libraries. 
