@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup 22.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Captify
+
+!/images/posts/captify.png!
+
+"Captify":http://thirdroute.com/projects/captify/ by "Brian Reavis":http://thirdroute.com/ is a really clean and easy way of adding elegant captions to images.  Use some markup like this:
+
+{% highlight html %}
+<img src="theimage.jpg" class="captify" rel="caption1" />
+{% endhighlight %}
+
+And JavaScript:
+
+{% highlight js %}
+$(function(){
+	$('img.captify').captify({
+  // ...
+{% endhighlight %}
+
+The same author also has an interesting plugin that can move scrollbars to the left-hand-side of an element: "native-looking vertical left scrollbars":http://thirdroute.com/projects/left-scrollbars/.  It's a slightly obscure thing to need to do but would drive me crazy if I didn't have a plugin to do it for me.
+
+h3. filterNav
+
+"filterNav":http://github.com/ablomen/filterNav (BSD License) by "Alexander Blomen":http://www.ablomen.nl/ helps create layered and filtered navigation systems.  What I liked about it in particular was the price range example in the "demos":http://ablomen.nl/filternav/ -- as an alternative to jQuery UI-based sliders for range selection.
+
+The associated markup is based around unordered lists, and you just need to call <code>filterNav()</code> on a suitable element to initialise it.  Custom attributes are used to represent values, like <code>data-value</code> and <code>data-min-value</code>.
+
+h3. transliterate
+
+"transliterate":http://github.com/amundo/transliterate (MIT License) by "Patrick Hall":http://www.fileslip.net/ is a transliteration plugin to help convert between writing systems.  I expected it to be a fairly trivial plugin for transliterating to ASCII, but it's actually a more full-blown system that can be extended to support more transliteration schemes.
+
+If you're not sure what this means, there's a "demo":http://ruphus.com/stash/katakana.html that illustrates transliteration for katakana (which just reminded me that my first name doesn't work in Japanese very well.)
