@@ -1,0 +1,23 @@
+---
+layout: post
+title: "Write a JavaScript GameBoy Emulator, Handlebars.js"
+author: Alex Young
+categories: 
+- graphics
+- games
+- templates
+---
+
+h3. JavaScript GameBoy Emulation Tutorial
+
+"This GameBoy emulation tutorial":http://imrannazar.com/GameBoy-Emulation-in-JavaScript:-Integration by Imran Nazar teaches you how to build a GameBoy emulator in browser-based JavaScript.  It's incredibly well presented and a lot of fun.
+
+When I was studying at university we had to build an emulator as an early in-depth programming assignment.  It was only a simple RISC CPU, but it was interesting nonetheless.  _GameBoy Emulation in JavaScript_ features graphics, CPU, memory -- all the basics of what makes the GameBoy tick in the language you love.
+
+h3. Handlebars.js
+
+"Handlebars.js":http://github.com/wycats/handlebars.js by the prolific "Yehuda Katz":http://www.yehudakatz.com builds on "Mustache":http://mustache.github.com/ to add paths, block helpers, partials, and a Node-based compiler.  It looks like yet another great templating tool for your rich interface JavaScript projects.
+
+Katz has posted a good overview/tutorial in "Announcing Handlebars.js":http://yehudakatz.com/2010/09/09/announcing-handlebars-js/.
+
+
