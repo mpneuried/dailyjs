@@ -1,0 +1,108 @@
+---
+layout: post
+title: "Juggernaut Tutorial"
+author: Alex MacCaw
+categories: 
+- node
+- server
+- programming
+- realtime
+---
+
+<div class="box">
+This article is by "Alex MacCaw":http://www.eribium.org/.  He's a JavaScript and Ruby developer and his blog is "Lead Thinking":http://leadthinking.com/.  Follow him on Twitter here: "@maccman":https://twitter.com/maccman.
+</div>
+
+"Juggernaut":http://github.com/maccman/juggernaut gives you a realtime connection between your servers and client browsers. This lets you do awesome things like multiplayer gaming, chat, group collaboration and more. What's more, Juggernaut is built on top of "node.js":http://nodejs.org/ so you can take advantage of its incredible speed and scalability.
+ 
+Example code is worth a thousand words, so here's a simple group chat implementation using Juggernaut:
+
+{% highlight html %}
+<script src="http://localhost:8080/application.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+ jQuery(function($){
+   var jug = new Juggernaut;
+   jug.subscribe("/chats", function(data){
+     $("#chats").append($("<li />").text(data));
+   });
+ });
+</script>
+{% endhighlight %}
+ 
+That's it, the browser will set up a streaming connection to Juggernaut's node server. Any messages pushed to the channel "/chats" will be sent to the client. For example, we can push data from a Ruby client:
+
+{% highlight ruby %}
+require "juggernaut"
+Juggernaut.publish("/chats", "Hello World!");
+{% endhighlight %}
+
+That's all the code you need - all clients connected will see the message.
+
+Juggernaut's features include:
+
+* node.js server
+* Ruby client
+* Supports the following protocols:
+** WebSocket
+** Comet
+** Adobe Flash Socket
+* Reconnection support
+* Massive horizontal scaling
+ 
+h3. Installation
+
+So you want to try it out? We need to install some dependencies first:
+ 
+# Install "node.js":http://nodejs.org/
+# Install "npm":http://npmjs.org (node package manager):<br/>{% highlight sh %}curl http://npmjs.org/install.sh | sudo sh{% endhighlight %}
+# Install "socket.io":http://socket.io/:<br/>{% highlight sh %}sudo npm install socket.io{% endhighlight %}
+# Install node-static:<br/>{% highlight sh %}sudo npm install http://github.com/cloudhead/node-static/tarball/master{% endhighlight %}
+# Install redis-client:<br/>{% highlight sh %}sudo npm install http://github.com/technoweenie/redis-node-client/tarball/npm{% endhighlight %}
+ 
+Right, now we need to start "Redis":http://code.google.com/p/redis/ ("install":http://code.google.com/p/redis/wiki/QuickStart it if you don't have it already). Juggernaut uses Redis for PUBSUB:
+
+{% highlight sh %}
+./redis-server redis.conf
+{% endhighlight %}
+ 
+Download Juggernaut, and start the Juggernaut server:
+
+{% highlight sh %}
+git clone git://github.com/maccman/juggernaut.git
+cd juggernaut
+node server.js
+{% endhighlight %}
+ 
+That's it! Open "http://localhost:8080":http://localhost:8080 and you'll see Juggernaut in action.
+ 
+h3. Publishing
+
+Now we've got our client running, let's publish to it. We need to install the Ruby gem to do so (don't forget the --pre option!):
+
+{% highlight sh %}
+sudo gem install juggernaut --pre
+{% endhighlight %}
+ 
+And now in irb:
+
+{% highlight ruby %}
+require "juggernaut"
+Juggernaut.publish("channel1", "Yo yo yo")
+{% endhighlight %}
+ 
+You can also publish to multiple channels:
+
+{% highlight ruby %}
+Juggernaut.publish(["channel1", "chan2"], "yo yo, my good fellow")
+{% endhighlight %}
+ 
+And send objects:
+
+{% highlight ruby %}
+Juggernaut.publish("channel1", {:where => "is my yo yo?"})
+{% endhighlight %}
+ 
+h3. Conclusion
+
+So, that's a brief introduction to Juggernaut. You can check out more use cases in the "README":http://github.com/maccman/juggernaut. Now go and build something awesome!
+
