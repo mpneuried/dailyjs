@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- forms
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup 23.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery Simple iPhone-Slide
+
+"jQuery Simple iPhone-Slide":http://github.com/hinablue/jqiphoneslide ("demos and API examples":http://jquery.hinablue.me/jqiphoneslide/) by Cain Chen displays pages in a similar fashion to iOS.  Each set of pages can be set up to scroll horizontally, vertically, or in a matrix, and pages will snap into display using animations.  It will try to detect swipe speed, like iOS's standard acceleration scrolling.
+
+h3. Formation
+
+"Formation":http://mattnull.com/formation by Matthew Null can be used to generate forms using simple code like this:
+
+{% highlight javascript %}
+$(document).ready(function() {
+  $("#new_form").formation();
+  $.formation.addInput({type:"text",labelValue:"First Name:",required:true});
+  $.formation.addInput({type:"text",labelValue:"Last Name:",required:true});
+{% endhighlight %}
+
+The generated forms support validation and error messages.  This might seem like an odd thing to do in JavaScript, but if you're building a single-page web app with heavy JavaScript reliance it's very convienient.  Combining this with a hot jQuery UI theme will allow you to create something pretty amazing very quickly.
+
+h3. Barcode Coder
+
+!/images/posts/barcode.jpg!
+
+"Barcode Coder":http://barcode-coder.com/en/barcode-jquery-plugin-201.html can generate barcodes using jQuery (they also have a version for Prototype).  It supports various formats (EAN 8, EAN13, 128), and can output images to a canvas or a bunch of divs with background colours to create the effect.
+
+{% highlight javascript %}
+$("#bcTarget").barcode('1234567890128', 'ean13', {type: 'datamatrix'});
+{% endhighlight %}
+
+I thought this plugin would be great if you're generating HTML product data sheets or invoices.
+
