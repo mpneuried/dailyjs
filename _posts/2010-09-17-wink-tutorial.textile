@@ -1,0 +1,69 @@
+---
+layout: post
+title: "Wink Tutorial"
+author: Jérôme Giraud
+categories: 
+- graphics
+- mobile
+- frameworks
+---
+
+<div class="box">
+This tutorial is by Jérôme Giraud.  He's a JavaScript developer who works on the "Wink Toolkit":http://www.winktoolkit.org/.
+</div>
+
+h3. Wink: not just another mobile JavaScript framework
+
+About two months ago, Orange Labs released the Webapp Innovation Kit (Wink) within the Dojo Foundation. Wink is an Open Source mobile JavaScript framework primarily targetting the mobile WebKit based browsers you can now find on the iPhone or Android platforms.
+
+It has been thought and built to meet the constraints of the mobile environment (low bandwidth, limited device resources, various screen sizes). People working on Wink really tried to keep it smart and simple.
+
+Wink has been divided in several packages:
+
+_Wink core_ (20kb minified) offers all the basic functionality a developer would need (performing XHR, manipulating the DOM, publishing events, applying CSS transforms...) plus some useful _mobile only_ features like touch events handling.
+
+_Wink ui_ gathers all the graphical components of the toolkit. Some are quite familiar like the date picker or the carousel whereas it's more surprising to see a full HTML 3D tag cloud running on a mobile browser.
+
+These examples demonstrate some of the 3D features:
+
+* "Carousel":http://www.winktoolkit.org/?section=previews&previews=63
+* "Tag cloud":http://www.winktoolkit.org/?section=previews&previews=47
+
+In this package you can also find layouts like scrollers ("preview":http://www.winktoolkit.org/?section=previews&previews=112) or sliding panels if you which to make your application "iPhone-like".
+
+In _Wink ux_, you can find everything related to user interaction. Of course, touches and multitouch gestures but also related stuff like Drag and Drop ("preview":http://www.winktoolkit.org/?section=previews&previews=51), or even the adaptation of a gesture recognition engine ("preview":http://www.winktoolkit.org/?section=previews&previews=55). 
+
+_Wink ux_ also offers solutions to handle the browser's history or to detect orientation changes on devices other than the iPhone.
+
+_Wink net_ includes a set of loaders. The JsLoader can load external JavaScript ressources, which can be very useful in a mobile environment when you don't want everything to be downloaded at the page startup, but it is also adapted for JSONp. Images and CSS preloading are also part of the package.
+
+The instantiation of the components always stays simple and allways follow the same pattern.  For instance, if you want to load images and data asynchronously:
+
+{% highlight javascript %}
+jsLoader = new wink.net.JsLoader();
+jsLoader.load('http://server2.example.com/getjson?jsonp=parseResponse');
+
+imagesLoader = new wink.net.ImagesLoader();
+imagesLoader.load([
+  './img/test1.jpg',
+  './img/test2.jpg',
+  './img/test3.jpg'
+   ]);
+{% endhighlight %}
+
+_Wink fx_ contains all the CSS effects libraries to help you with the 2D and 3D transforms; the Wink API provides abstraction layers above the HTML5 local storage and geolocation and the new Wink multimedia package now contains an HTML5 audio player for iPhone and iPad.
+
+h3. Where Can I Find Wink?
+
+Wink can be downloaded directly at "http://www.winktoolkit.org/":http://www.winktoolkit.org/
+
+h3. What New Features Can We Expect?
+
+The team is currently working on new features:
+
+* Feature detection
+* HTML5 video player for iPad
+* UI components based on the canvas tag
+* Easy resource caching (for better performance)
+* New layouts and more
+
