@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Pixastic, JavaScript TLS"
+author: Alex Young
+categories: 
+- cryptography
+- graphics
+---
+
+h3. Pixastic
+
+"Pixastic":http://www.pixastic.com/ ("MPL":http://www.pixastic.com/lib/license.txt) uses the canvas element to apply effects to images.  The supported effects include blur, noise, emboss, brightness/contrast, desaturate, and noise removal.  
+
+The source code is available on GitHub under "jseidelin/pixastic":http://github.com/jseidelin/pixastic/.  There's also a "photo editor demo":http://editor.pixastic.com/ that uses the library.
+
+Like many similar libraries, the core of the plugin relies on <code>getImageData</code> from the canvas API.
+
+h3. A JavaScript TLS Implementation
+
+"Force":http://github.com/digitalbazaar/forge is a JavaScript TLS implementation.  TLS (Transport Layer Security) is a cryptographic protocol for secure client/server communication.  Force currently depends on Flash for sockets, but it could remove the dependency in the future.
+
+The authors have written a detailed background to the library in two parts, including the rationale behind implementing TLS in JavaScript:
+
+* "Part 1":http://digitalbazaar.com/2010/07/20/javascript-tls-1/
+* "Part 2":http://digitalbazaar.com/2010/07/20/javascript-tls-2/
+
