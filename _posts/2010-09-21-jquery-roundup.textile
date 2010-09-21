@@ -1,0 +1,45 @@
+---
+layout: post
+title: "jQuery Roundup: UI"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- forms
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup 24.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+In this week's jQuery Roundup I'm going to review some of my favourite jQuery UI themes and related extensions.
+
+h3. jQuery UI
+
+If you're not familiar with "jQuery UI":http://jqueryui.com/, it's a collection of useful abstractions for animations and themeable widgets.  The APIs for each component are consistent and easy to learn.
+
+* "Demos and documentation":http://jqueryui.com/demos/
+* "Themes":http://jqueryui.com/themeroller/ -- Themeroller can be used to quickly make your own themes
+
+jQuery UI is split into interactions, widgets, and effects.  Interactions include things like a drag and drop API, which can be combined with most interface elements to give your application an intuitive feel.  Widgets are high-level, with a nice "Datepicker":http://jqueryui.com/demos/datepicker/ and "tabs":http://jqueryui.com/demos/tabs.  The effects APIs will be familiar to those of you schooled in Scriptaculous.
+
+The "jQuery UI design and planning wiki":http://wiki.jqueryui.com/ has a status for current and planned work.  There are many useful things in the planning stage, in particular the "tree view":http://wiki.jqueryui.com/Tree and even a "data visualisation":http://wiki.jqueryui.com/DataVisualization API.  
+
+h3. Aristo
+
+!/images/posts/aristo.png!
+
+"Aristo":http://taitems.tumblr.com/post/482577430/introducing-aristo-a-jquery-ui-theme by Tait Brown ("demo":http://www.warfuric.com/taitems/demo.html) is a theme based on "Cappuccino's":http://cappuccino.org/ theme.  The look and feel is best described as Mac-like, and you can get great results with little effort.
+
+It's licensed under "Attribution-ShareAlike 3.0":http://creativecommons.org/licenses/by-sa/3.0/us/ which allows you to remix and share the work.  You must attribute the theme, and it's distributed under permission from 280 North and Pinvoke.
+
+h3. Absolution
+
+!/images/posts/absolution.png!
+
+"Absolution":http://www.michaelvanderheeren.be/?p=382 by Michaël Vanderheeren ("demo":http://michaelvanderheeren.be/jquery-ui/) is another jQuery theme that attempts to go beyond the defaults provided by jQuery UI.  The author actively updates the "repository":http://github.com/michaelvanderheeren/Absolution (as do the Aristo developers).
+
+h3. Uniform
+
+!/images/posts/uniform-2.png!
+
+We've covered "Uniform":http://pixelmatrixdesign.com/uniform/ before, and it's not specifically for jQuery UI, but it works well in combination with it.  Uniform replaces standard form controls with themed ones which work like real controls but are cross-browser (and arguably look better).
