@@ -17,7 +17,7 @@ Like many similar libraries, the core of the plugin relies on <code>getImageData
 
 h3. A JavaScript TLS Implementation
 
-"Force":http://github.com/digitalbazaar/forge is a JavaScript TLS implementation.  TLS (Transport Layer Security) is a cryptographic protocol for secure client/server communication.  Force currently depends on Flash for sockets, but it could remove the dependency in the future.
+"Forge":http://github.com/digitalbazaar/forge is a JavaScript TLS implementation.  TLS (Transport Layer Security) is a cryptographic protocol for secure client/server communication.  Forge currently depends on Flash for sockets, but it could remove the dependency in the future.
 
 The authors have written a detailed background to the library in two parts, including the rationale behind implementing TLS in JavaScript:
 
