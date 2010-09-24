@@ -1,0 +1,75 @@
+---
+layout: post
+title: "Son, Sequelize"
+author: Alex Young
+categories: 
+- libraries
+- databases
+- templating
+---
+
+h3. Sequelize
+
+"Sequelize":http://sequelizejs.com/ by Sascha Depold is an ORM for Node and MySQL.  It can be installed with <code>npm install sequelize</code>.  Creating mappings to tables is straightforward:
+
+{% highlight javascript %}
+var Project = sequelize.define('Project', {
+  title: Sequelize.STRING,
+  description: Sequelize.TEXT
+})
+{% endhighlight %}
+
+After defining these structures, Sequelize can create suitable tables:
+
+{% highlight javascript %}
+Project.sync(function(table, error) {
+})
+{% endhighlight %}
+
+This library also supports associations:
+
+{% highlight javascript %}
+Project.hasMany('tasks', Task, 'projects')
+{% endhighlight %}
+
+And finders with a familiar API:
+
+{% highlight javascript %}
+Project.find(1, function(project) {
+})
+{% endhighlight %}
+
+I like the look of the <code>chainQueries</code> method, which is a query chaining helper.
+
+h3. Son
+
+"Son":http://github.com/twfarland/Son by Tim Farland converts JSON to CSS -- it's a little bit like "Sass":http://sass-lang.com/ but designed to be more JavaScript-native.  This example is provided in the README:
+
+{% highlight javascript %}
+(function(){
+  var myColour = '#ff0000';
+  var styles = {
+    "#navbar": {
+      width: "80%",
+      height: "23px",
+      ul: {
+        list: {
+          "style-type":  "none"
+         }
+      },
+      li: {
+          "float": "left",
+          border: "1px solid " + myColour,
+          padding: "10px",
+          a: {
+              "font-weight": "bold",
+              color: myColour
+          }
+      }
+  };
+
+  return styles;
+})();
+{% endhighlight %}
+
+As well as variable support, it also has a mixin helper.  The author has written up a list of gotchas and ideas for future features, so it seems like he's using it actively.
