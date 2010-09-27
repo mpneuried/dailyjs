@@ -1,0 +1,51 @@
+---
+layout: post
+title: "JSConf.eu"
+author: Alex Young
+categories: 
+- conferences
+- events
+---
+
+"JSConf.eu - 2010":http://jsconf.eu/2010/ was this weekend, so a lot of interesting things have been going on in the JavaScript community.  I wasn't actually at the conference, but Oleg (who "interviewed Ryan Dahl":http://dailyjs.com/2010/08/10/ryan-dahl-interview/) stopped by, which means we should have more awesome interviews soon.
+
+Videos of the talks haven't been posted yet, so keep your eyes on "@jsconfeu":http://twitter.com/jsconfeu.
+
+h3. JS1k Winners
+
+!/images/posts/js1kwinner.png!
+
+The "JS1k":http://js1k.com/ winners were announced at the conference, with "Legend Of The Bouncing Beholder":http://js1k.com/demo/635 by "Marijn Haverbeke":http://twitter.com/marijnjh taking the top prize.  This is also one of the demos that most impressed me, in particular the whimsical graphics.
+
+I feel like this contest was a huge success, and has been both well-received and respected by the community.  I look forward to the next one!
+
+h3. Slides
+
+I've compiled all the slides I could find from the talks:
+
+* "Browser Extensions for Web Hackers by Mark Wubben":http://www.slideshare.net/novemberborn/browser-extensions-for-web-hackers ("source":http://github.com/novemberborn/Browser-Extensions-for-Web-Hackers)
+* "JavaScript + Web Standards II: The Quickening by Jenn Lukas":http://www.slideshare.net/JennLukas/javascript-and-web-standards-2-the-quickening
+* "The Front-end Takeover by Aaron Quint":http://swinger.quirkey.com/#/preso/sammy-jsconfeu/display/1
+* "Pirating the Semantic Web with JavaScript by Thomas Steiner":https://chrome.google.com/extensions/detail/iceopjodmdipccjbknbjolkfogkgloei
+* "Rapid Prototyping for Multiple Platforms with JavaScript by Joe McCann":http://www.slideshare.net/joemccann/rapid-prototyping-with-javascript-for-multiple-platforms
+* "Lessons learnt pushing browsers to the limit by Ben Firshman":http://jsconfeu2010-bfirsh.heroku.com/
+* "PhoneGap: Love the Web and Lose the SDK by Brian LeRoux":https://docs.google.com/present/view?id=d99cqmc_389hntm6hcp
+* "Techniques and Tools for Taming Tangled Twisted Trains of Thought by Tim Caswell":http://creationix.com/jsconf.pdf (PDF)
+
+h3. Announcements
+
+Joyent quietly announced a limited public beta of their "Node.js service":https://no.de/.  The people who have been playing with it seem impressed so far.
+
+"Promotejs.com":http://promotejs.com/ was widely shared during the conference.  It's an attempt to get better search engine results for serious JavaScript documentation (instead of dodgy dotcom-era sites).
+
+h3. Sound bites
+
+bq. 'Does it run JavaScript' is the new 'Does it run Linux' "@phiggins":http://twitter.com/jsconfeu/status/25482880587
+
+bq. Don't know about you, but to me, giving a talk with Brendan Eich and Douglas Crockford in the audience is pretty intimidating. :-) "@robertnyman":http://twitter.com/robertnyman/status/25486203570
+
+bq. I don't know an unemployed JavaScript developer. "@rmurphey":http://twitter.com/joemccann/status/25504911306
+
+bq. surrounded by sleepless drunk people listening to crockford - it must be jsconf "@aq":http://twitter.com/aq/status/25572241515
+
+bq. Thanks all for making this night so very memorable. "@jsconfeu":http://twitter.com/jsconfeu/status/25543402127
