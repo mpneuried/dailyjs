@@ -21,7 +21,7 @@ h3. Lettering.js
 $(".fancy_title").lettering();
 {% endhighlight %}
 
-Generates:
+Which generates:
 
 {% highlight html %}
 <h1 class="fancy_title">
