@@ -1,0 +1,60 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- forms
+- graphics
+---
+
+Welcome to the jQuery Plugin Roundup 25.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Lettering.js
+
+!/images/posts/letteringjs.png!
+
+"Lettering.js":http://daverupert.com/2010/09/lettering-js by Dave Rupert (and some other folks) can split a container into spans that contain each letter, like this:
+
+{% highlight javascript %}
+$(".fancy_title").lettering();
+{% endhighlight %}
+
+Generates:
+
+{% highlight html %}
+<h1 class="fancy_title">
+  <span class="char1">S</span>
+  <span class="char2">o</span>
+  <span class="char3">m</span>
+  <span class="char4">e</span>
+  <span class="char5"></span>
+  <span class="char6">T</span>
+  <span class="char7">i</span>
+  <span class="char8">t</span>
+  <span class="char9">l</span>
+  <span class="char10">e</span>
+</h1>
+{% endhighlight %}
+
+It's hard to visualise what kind of effects might be possible with this plugin, but the heading in the blog post is a great example (pictured above).
+
+Word wrap can also be used.  The author makes an interesting point about performance in the blog post:
+
+bq. Unfortunately, we found the best solution to avoid/minimize the FOUT caused by this plugin is to put your scripts (jQuery, Lettering.js) in the document <head>. On the one hand, your page will load slower. On the other hand, a flash/restyling makes your site feel slow. Users might ultimately feel the site is faster if they don’t see the FOUT.
+
+This plugin is available on GitHub: "davatron5000 / Lettering.js":http://github.com/davatron5000/Lettering.js.  There's no licensing information yet.
+
+h3. jSlider
+
+!/images/posts/jslider.png!
+
+I've covered quite a few of these plugins now, but this one is shaping up to be a smart little project.  "jSlider":http://onesite.se/jquery/jslider/ (GPL/MIT) by "Fredrik Forsmo":http://www.efoo.se/ is an extensible image slider.  Just run <code>$.jSlider('#container')</code> and you're done.
+
+The project is on GitHub at "Frozzare / jSlider":http://github.com/frozzare/jslider.
+
+h3. Catch My Fame
+
+The "Catch My Fame":http://www.catchmyfame.com/catchmyfame-jquery-plugins/ site also has a lot of jQuery gallery plugins.  "Panel Gallery":http://www.catchmyfame.com/2010/09/13/jquery-panel-gallery-2-0-released in particular has a lot of effects and is interesting because it doesn't require images to be sliced or edited, it'll shove images into containers appropriately.
+
