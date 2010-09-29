@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Node Roundup"
+author: Alex Young
+categories: 
+- node
+- server
+- benchmarks
+---
+
+Welcome to the Node Roundup. Send in your apps and libraries using our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Node.js Memory and GC Benchmarks
+
+In "Update on my Node.js Memory and GC Benchmark":http://hns.github.com/2010/09/29/benchmark2.html by Hannes Wallnöfer, the author discusses a conversation with Ryan Dahl about Node's garbage collection performance in reference to "RingoJS vs. Node.js: Runtime Values":http://hns.github.com/2010/09/21/benchmark.html.
+
+V8 uses a stop-the-world garbage collector, which technically means it will stop execution when performing garbage collection.  The intention of V8's design is to make an accurate and reliable garbage collector.  The "Design Elements":http://code.google.com/apis/v8/design.html document explains this in more detail.
+
+What Wallnöfer appears to be saying is V8 isn't _perfectly_ tuned to the types of workloads we see in web applications.  I think he makes a good point, but as I haven't had any gripes about real world performance with Node it's not something I'm too worried about right now.
+
+h3. Nutshell
+
+"Nutshell":http://nutshell-node.posterous.com/ by Shahriar Haque, available at "shahriarhaque / nutshell":http://github.com/shahriarhaque/nutshell is a unix shell that runs on Node.  The author's example makes usage pretty clear:
+
+{% highlight javascript %}
+ls -l | filter ""function(file) { return file.size < 2000; }""
+{% endhighlight %}
+
+In a sh style shell this would be written as follows:
+
+{% highlight sh %}
+ls -l | awk '{ if ($5 < 2000) { print $0 }}'
+{% endhighlight %}
+
+Haque's idea is to try to make the shell more intuitive:
+
+bq. But if the second command is to do anything useful with this input, it has to go and parse it first. That's what the awk command is doing. It is splitting the output of ls -l ,taking the 5th token of each line, performing the comparison, and printing the whole line if the test succeeds. This is where shell scripting is unproductive. It's all about parsing output
+
+h3. Why node.js disappoints me
+
+"Why node.js disappoints me":http://www.eflorenzano.com/blog/post/why-node-disappoints-me/ by Eric Florenzano is a brief critique of Node.  I feel like the author might be a little irked by the constant stream of excited coverage ("Hacker News":http://news.ycombinator.com/ loves those Node articles), but I still found the post interesting.
+
+bq. Yet one of Node's advantages that you'll hear repeated again and again by its proponents is that you can now code in One Language, and you won't have to deal with the cognitive load of context switching between different languages.
+
+I personally haven't heard that sentiment repeated "again and again" -- I became interested in Node because I respected the work that went into V8 and enjoy writing JavaScript.  My JavaScript skills carry over intuitively and Node builds easily on all of my platforms, so I never really thought about it like that.
+
+He also mentions that people have written libraries for Node that depend on Node, which effectively makes the Node environment a subset of JavaScript.  There are libraries out there which are distributed with npm but work in a browser or another JavaScript interpreter.  I'm not sure if the author is familiar with CommonJS, but the Node developers certainly don't work in ignorance of it.
+
+The article has some good comments by the usual suspects (Tim Caswell for example), which are generally not of the screaming-and-pitchfork-waving variety but more like a real conversation.
+
+
