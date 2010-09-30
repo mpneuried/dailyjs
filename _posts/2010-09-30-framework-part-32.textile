@@ -69,7 +69,7 @@ var jsmin = require('jsmin').jsmin;
 jsmin(code);
 {% endhighlight %}
 
-This is based on Crockford's original script.  You might get better results by pasting Turing into "Google Closure":http://code.google.com/closure/ or Dead Edwards' "Packer":http://dean.edwards.name/packer/.
+This is based on Crockford's original script.  You might get better results by pasting Turing into "Google Closure":http://code.google.com/closure/ or Dean Edwards' "Packer":http://dean.edwards.name/packer/.
 
 For now I'm going to stub this task out until there's a better minifier.
 
