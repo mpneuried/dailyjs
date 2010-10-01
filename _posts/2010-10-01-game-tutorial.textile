@@ -1,0 +1,45 @@
+---
+layout: post
+title: "Game Tutorial, has.js"
+author: Alex Young
+categories: 
+- games
+- html5
+---
+
+h3. Tutorial: Simple Game with HTML5 Canvas
+
+Michal Budzynski has written another HTML5 game tutorial.  This one is a five part series: "here's part 1":http://michalbe.blogspot.com/2010/09/simple-game-with-html5-canvas-part-1.html.
+
+These tutorials are based on Michal's "10k":http://10k.aneventapart.com/ entry, and cover set up, animation, physics, controls, collisions, scrolling, and game states.
+
+h3. has.js
+
+"has.js":http://github.com/phiggins42/has.js by Peter E Higgins, tentatively released under three licenses (Academic Free License, New BSD License, and the MIT License), is a library of tests for feature detection.  The author's first example illustrates the intended usage:
+
+{% highlight javascript %}
+mylibrary.trim = has('string-trim') ? function(str) {
+    return (str || '').trim();
+} : function(str) {
+    /* Implement trim here */
+}
+{% endhighlight %}
+
+Tests can be added like this:
+
+{% highlight javascript %}
+has.add("some-test-name", function(global, document, anElement) { });
+{% endhighlight %}
+
+Higgins mentions that it's likely that people will use portions of the library rather than the entire thing.  The project doesn't have a build script yet, but I imagine in future their build script will allow the required tests to be specified to.
+
+Take a look at the tests in "detect/":http://github.com/phiggins42/has.js/tree/master/detect to get a feel for the library.
+
+h3. Why is getElementsByTagName() faster that querySelectorAll()?
+
+In "Why is getElementsByTagName() faster that querySelectorAll()?":http://www.nczonline.net/blog/2010/09/28/why-is-getelementsbytagname-faster-that-queryselectorall/ Nicholas C. Zakas discusses the performance characteristics of the <code>NodeList</code> object for static and live <code>NodeLists</code>.
+
+The author refers to WebKit source code, so he's dug pretty deep into the issue:
+
+bq. Live NodeList objects can be created and returned faster by the browser because they don’t have to have all of the information up front while static NodeLists need to have all of their data from the start. To hammer home the point, the WebKit source code has a separate source file for each type of NodeList: DynamicNodeList.cpp and StaticNodeList.cpp.
+
