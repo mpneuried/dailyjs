@@ -1,0 +1,54 @@
+---
+layout: post
+title: "A Look Inside Zepto.js"
+author: Alex Young
+categories: 
+- libraries
+- mobile
+---
+
+"Zepto.js":http://github.com/madrobby/zepto is a small library for working with mobile WebKit browsers by Thomas Fuchs and released under the MIT License.  The library's API is similar to jQuery, allowing method chaining, and familiar syntax for and element functions.  Here are a few examples:
+
+{% highlight javascript %}
+// Return paragraph tags
+$('p')
+
+// Change the HTML inside a paragraph
+$('p').html('Hello World')
+
+// Change the style too
+$('p').html('Hello World').css('background-color: red')
+
+// Iterate over each element
+$('div').each(function(element) {
+  // element is the actual node
+})
+
+// Animate an element using webkit-transform
+$('div').anim('rotate(720deg)', 0.5, 10);
+{% endhighlight %}
+
+Zepto contains a lot of tricks to keep the library size down.  Targeting WebKit is one way it keeps a smaller size -- if you follow our framework series you'll know how much work cross-browser support can be.
+
+The first thing I noticed was a lot of "void 0":https://developer.mozilla.org/en/JavaScript/Reference/Operators/Special_Operators/void_Operator, rather than a comparison against <code>undefined</code> or <code>typeof variable === 'undefined'</code>.
+
+The chained API is created by returning <code>fn</code> inside <code>$()</code>:
+
+{% highlight javascript %}
+function fn(_){ return fn.dom.forEach(_), fn }
+{% endhighlight %}
+
+Because <code>$()</code> can accept many different types (<code>Array</code>, <code>String</code>, <code>Element</code>), there's a complicated set of ternary operators to correctly set up the DOM querying state.  It looks confusing at first, but there's some neat code in there.  For example, to check if the function has already been run on the argument, <code>(typeof _ == 'function' && 'dom' in _)</code> will return true.  Here the "in operator":https://developer.mozilla.org/en/JavaScript/Reference/Operators/Special_Operators/in_Operator is used to detect a property.  Just to illustrate:
+
+{% highlight javascript %}
+'dom' in { 'dom': 'example', 'another': 'example 2' }
+// true
+'another' in { 'dom': 'example', 'another': 'example 2' }
+// true
+'example' in { 'dom': 'example', 'another': 'example 2' }
+// false
+{% endhighlight %}
+
+Fuchs has been actively updating Zepto since he announced it.  It's full of interesting tricks to keep space down (like "Emile":http://github.com/madrobby/emile), but use what you learn from these libraries with caution -- they're specifically designed to be small rather than easy for colleagues and collaborators to read!
+
+Fuchs also released "JS1k intro: fun with CSS transforms and hardware acceleration":http://mir.aculo.us/2010/10/04/js1k-intro-fun-with-css-transforms-and-hardware-acceleration/ today ("madrobby / js1k-finals":http://github.com/madrobby/js1k-finals) which is like a mini old school scene demo.

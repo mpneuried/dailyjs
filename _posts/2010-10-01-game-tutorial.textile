@@ -1,15 +1,17 @@
 ---
 layout: post
-title: "Game Tutorial, has.js"
+title: "Game Tutorial, has.js, getElementsByTagName Performance"
 author: Alex Young
 categories: 
 - games
 - html5
+- dom
+- libraries
 ---
 
 h3. Tutorial: Simple Game with HTML5 Canvas
 
-Michal Budzynski has written another HTML5 game tutorial.  This one is a five part series: "here's part 1":http://michalbe.blogspot.com/2010/09/simple-game-with-html5-canvas-part-1.html.
+Michal Budzynski has written another HTML5 game tutorial.  This one is a five part series: "here's part one":http://michalbe.blogspot.com/2010/09/simple-game-with-html5-canvas-part-1.html.
 
 These tutorials are based on Michal's "10k":http://10k.aneventapart.com/ entry, and cover set up, animation, physics, controls, collisions, scrolling, and game states.
 
@@ -39,7 +41,7 @@ h3. Why is getElementsByTagName() faster that querySelectorAll()?
 
 In "Why is getElementsByTagName() faster that querySelectorAll()?":http://www.nczonline.net/blog/2010/09/28/why-is-getelementsbytagname-faster-that-queryselectorall/ Nicholas C. Zakas discusses the performance characteristics of the <code>NodeList</code> object for static and live <code>NodeLists</code>.
 
-The author refers to WebKit source code, so he's dug pretty deep into the issue:
+The author refers to WebKit source code, so he's dug into the issue pretty deeply:
 
 bq. Live NodeList objects can be created and returned faster by the browser because they don’t have to have all of the information up front while static NodeLists need to have all of their data from the start. To hammer home the point, the WebKit source code has a separate source file for each type of NodeList: DynamicNodeList.cpp and StaticNodeList.cpp.
 
