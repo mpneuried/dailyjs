@@ -16,7 +16,7 @@ nStore can be installed with "npm":http://github.com/isaacs/npm.
 
 To use a store, it has to be created first:
 
-{% highlight javascripts %}
+{% highlight javascript %}
 var users = nStore('data/users.db')
 {% endhighlight %}
 

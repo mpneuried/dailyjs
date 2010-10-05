@@ -5,6 +5,8 @@ author: Alex Young
 categories: 
 - jquery
 - plugins
+- video
+- html5
 ---
 
 Welcome to the jQuery Plugin Roundup 26.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
