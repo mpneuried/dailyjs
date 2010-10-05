@@ -1,0 +1,47 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Plugin Roundup 26.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jquery-swapable
+
+"jquery-swapable":http://www.eslinstructor.net/demo/swappable/swappable_home.html (MIT License) by Vadim Kiryukhin is a little bit like "Sortable":http://jqueryui.com/demos/sortable/ but instead swaps items.  Usage is similar to Sortable, except it also requires a <code>cursorAt</code> parameter:
+
+{% highlight javascript %}
+$('#swappable').swappable({
+  items: '.itemClass',
+  cursorAt: { top: -10 } 
+});
+{% endhighlight %}
+
+It will work with "lists":http://www.eslinstructor.net/demo/swappable/swappable_list.html, "grids":http://www.eslinstructor.net/demo/swappable/swappable_grid.html, and "horizontal rows":http://www.eslinstructor.net/demo/swappable/swappable_row.html.
+
+The project is hosted on Google Code: "jquery-swapable":http://code.google.com/p/jquery-swapable/.
+
+h3. jQuery Templates
+
+I've mentioned Scott Guthrie's Microsoft-supported jQuery plugins before, but now there's news "jQuery Templates":http://api.jquery.com/category/plugins/templates/ will be included with jQuery 1.5.
+
+Read more in "jQuery Templates, Data Link, and Globalization Accepted as Official jQuery Plugins":http://weblogs.asp.net/scottgu/archive/2010/10/04/jquery-templates-data-link-and-globalization-accepted-as-official-jquery-plugins.aspx.
+
+h3. jquery.sg.video
+
+"jquery.sg.video":http://github.com/filippo/jquery.sg.video (MPL) by Filippo Pacini is based on "Video for Everybody":http://diveintohtml5.org/video.html, an idea put forward by Kroc Camen.  The plugin uses feature detection from "Modernizr":http://www.modernizr.com/, and can provide information on format support through <code>$.support.video</code>.  For example, the browser I'm using right now returns this:
+
+{% highlight javascript %}
+{"ogg": "", "h264": "probably", "webm": ""}
+{% endhighlight %}
+
+If your videos have the same file name with different extensions for each format, you can set up a video like this:
+
+{% highlight javascript %}
+ $('#video-container').video('video_file_name', options);
+{% endhighlight %}
+
+This is a minimal yet useful plugin -- most video plugins attempt to provide a complete solution, with fancy player graphics and other features.  This one keeps things simple instead.
