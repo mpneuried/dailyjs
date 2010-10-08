@@ -1,0 +1,45 @@
+---
+layout: post
+title: "eyeballs.js, Artisan JS, Markup.io"
+author: Alex Young
+categories: 
+- graphics
+- canvas
+- libraries
+---
+
+h3. eyeballs.js
+
+"eyeballs.js":http://github.com/paulca/eyeballs.js (MIT License) by Paul Campbell is an MVC framework that works with a library like jQuery or Prototype, yet provides a layer of features for organising your code.
+
+bq. eyeballs.js can sit on top of an already implemented web app with a well thought out object model. It can also be used to build standalone javascript apps, backed by HTML5 local storage or something like CouchDB.
+
+Models are defined like this:
+
+{% highlight javascript %}
+o_O('Post', function(post) {});
+
+o_O('Post', function(post) {
+  post.validates_presence_of('title')
+});
+
+var post = Post.initialize({ title: 'All work and no play makes Alex...' });
+{% endhighlight %}
+
+Now you can see where the library gets its name from.  I'm not sure if I'll get tired of typing <code>o_O</code>, admittedly it made me laugh.
+
+Routing and controllers work using the URL hash, much like many similar frameworks out there.  The framework ships with tests and a little Sinatra app so REST can be tested.
+
+h3. Artisan JS
+
+"Artisan JS":http://artisanjs.com/ (GPL/MIT) by David Brooks is another Canvas library.  It targets Canvas specifically, so it doesn't work with IE.  You might be wondering why you'd bother with such a library when "Raphael":http://raphaeljs.com/ is cross-browser and very popular; well, it may suit projects when you really do only need to work with Canvas but you're frustrated with the Canvas API.
+
+Brooks has included support for layered data -- graphics can be layered and flattened when rendered, but the data remains.  This means the data can continue to be manipulated after it is rendered -- read more in "Layers in Artisan JS":http://www.luzcannon.com/article/layers-artisan-js.
+
+The Artisan site has some good documentation, and there's also a GitHub repository at "davidbrooks / Artisan":http://github.com/davidbrooks/Artisan.
+
+h3. Markup.io
+
+I don't usually feature commercial projects here -- this site is more of an open source kind of place.  But I was impressed by "Markup.io":http://markup.io/, it's a web annotation service built using Node, "Express":http://expressjs.com/ and "Connect":http://github.com/senchalabs/connect.
+
+Whenever I work with new technology my boss at the time (or client) asks "so what commercial projects are built with this?"  I'm going to add Markup.io to my growing list of JavaScript server-side app bookmarks.  Please send yours in as well, whether they're Node, Rhino, Ringo, Narwhal... or something else!
