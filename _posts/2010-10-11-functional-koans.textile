@@ -1,0 +1,24 @@
+---
+layout: post
+title: "Functional Koans, Ringo 0.6"
+author: Alex Young
+categories: 
+- technique
+- functional
+- ringo
+---
+
+"Functional Koans":http://github.com/mrdavidlaing/functional-koans by David Laing is a way of learning functional JavaScript through testing.  Each koan has associated tests that fail, and your job is to correct the code to make them pass.  The koans presents a fundamental concept which you must master to be able to fix the code.
+
+The project is based on "Ruby Koans":http://rubykoans.com/ by Jim Weirich, which made a fairly big impact amongst Ruby developers.  The word "Koan":http://en.wikipedia.org/wiki/Kōan is used in reference to Zen Buddhism:
+
+bq. As part of the training of teachers, monks, and students, koan can refer to a story selected from sutras and historical records. They may consist of a perplexing element or a concise but critical word or phrase extracted from the story.
+
+h3. Ringo 0.6
+
+"Ringo 0.6":http://ringojs.org/wiki/Release_0.6/ is out, which includes improvements to http server and client libraries, no more extending JavaScript objects (that code is now effectively namespaced), CommonJS unit testing, and bunch of other changes.
+
+The "RingoJS tutorial":http://ringojs.org/wiki/Tutorial/ has "App Engine Deployment" listed in the table of contents, but the content hasn't been written yet.  Gabriel Munteanu took this example and extended it to work more like a fully-functional blog, and called it "Ringopress":http://github.com/jgabios/ringopress.  The project's documentation explains how to configure and deploy "App Engine":http://code.google.com/appengine/.  If you're new to Ringo or App Engine, this might be a nice project to play around with.
+
+If you haven't yet looked into App Engine and JavaScript, "AppengineJS":http://www.appenginejs.org/ is a JavaScript port of the Python SDK by George Moschovits.
+
