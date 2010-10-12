@@ -1,0 +1,47 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Roundup 27.  You can send your plugins in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery 1.4.3 Release Candidate 1
+
+"jQuery 1.4.3 Release Candidate 1 has been released":http://blog.jquery.com/2010/10/10/jquery-1-4-3-release-candidate-1-released/.  The areas that have major changes are:
+
+* CSS handling methods
+* Logic for determining element visibility and toggling of display in animation code
+* Traversing logic (is, filter, closest, find)
+
+There's no release notes yet (unless you feel like reading through lots of commit logs):
+
+bq. Full details concerning the release are forthcoming – for now we just need your help in catch regressions.
+
+h3. jQuery at Dusk
+
+"jQuery at Dusk":http://james.padolsey.com/stuff/jQueryBookThing/ by James Padolsey is a book about jQuery.  It refers to jQuery's internals a bit like our _Let's Make a Framework_ series, so if you're an experienced jQuery hacker but haven't tinkered under the hood it might be worth reading.  The book has been around a while (last update was 29th March), but it's new to me.
+
+h3. jQuery Placeholder
+
+"jQuery Placeholder":http://plugins.jquery.com/project/input-placeholder (MIT and GPL) by Michael J. Ryan adds placeholder text to input fields using a label tag:
+
+bq. This tag will then be absolutely positioned over the text input, so that it displays over the top when the input has no value, and is not focused.
+
+The author has provided some suitable CSS, referencing html5 placeholder support.
+
+h3. jQuery-Placeholder
+
+Almost the same day, Daniel Stocks sent us "jQuery-Placeholder":http://github.com/danielstocks/jQuery-Placeholder.  Is there some kind of war of placeholder supremacy going on?  Anyway, this one is designed to bring HTML5 placeholder support back to older browsers.  Stocks says it supports IE6 as well.  There's a "demo":http://webcloud.se/code/jQuery-Placeholder/ with more browser support details.
+
+h3. jQuery Collapse
+
+!/images/posts/collapse.png!
+
+I noticed the same author also created "jQuery-Collapse":http://webcloud.se/code/jQuery-Collapse/ ("available on GitHub":http://github.com/danielstocks/jQuery-Collapse) which can be used to make "progressive disclosure" panels, with state saved to cookies.
+
+bq. The plugin has been designed with WAI-ARIA in mind which defines a way to make Web content and Web applications more accessible to people with disabilities.
+
