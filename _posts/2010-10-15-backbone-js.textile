@@ -1,0 +1,19 @@
+---
+layout: post
+title: "backbone.js: JavaScript MVC"
+author: Ric Roberts
+categories: 
+- data
+- libraries
+- underscore
+---
+
+"backbone.js":http://github.com/documentcloud/backbone from "DocumentCloud":http://documentcloud.org/ is a small (2KB, packed) open-source library which allows you to apply the MVC (Model-View-Controller) principle to your JavaScript applications. It helps provide a bit of structure for rich client side apps, by preventing you from having to tie data directly to the DOM.  When models change, the views representing the data can be notified, causing them to automatically re-render.
+
+To define a model, you extend <code>Backbone.Model</code> with your own properties and methods, and the framework provides ways to get and set the attributes, set up validations, serialize the object, detect if it has changed etc.  To save a model to your persistence layer, if the model is valid, Backbone will delegate to its <code>sync</code> function and make a relevant RESTful request (using JSON by default) to the server.
+
+Backbone proxies to DocumentCloud's "underscore":http://documentcloud.github.com/underscore/ library for dealing with collections of models.
+
+For views, you create a custom view class which extends Backbone.view, and then instantiate it, passing some options which can include the model, a collection, the HTML element, etc...  You can define a <code>render</code> function on the view to setup the view (with whatever flavour of templating or DOM manipulation you like), and this can be bound to model events.
+
+The "documentation":http://documentcloud.github.com/backbone/ is well written and comprehensive, providing good examples, and there's a test-suite too.  "Get the code on Github":http://github.com/documentcloud/backbone
