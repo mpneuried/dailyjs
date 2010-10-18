@@ -71,7 +71,7 @@ Works in Narwhal but displays an error in Node:
 Error: print() has moved. Use require('sys') to bring it back.
 {% endhighlight %}
 
-And recently Node decided to deprecate _sys_ for "util":http://github.com/ry/node/commit/e38eb0c5a4d4e8497f5815be81994ddb01fbceb7.
+And recently Node's core maintainers decided to move away from the _sys_ module name to "util":http://github.com/ry/node/commit/e38eb0c5a4d4e8497f5815be81994ddb01fbceb7.
 
 h3. Specification Versions
 
