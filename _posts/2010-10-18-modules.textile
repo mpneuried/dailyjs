@@ -1,0 +1,95 @@
+---
+layout: post
+title: "Demystifying CommonJS Modules"
+author: Alex Young
+categories: 
+- commonjs
+- modules
+- tutorials
+---
+
+I've noticed a lot of misconceptions about CommonJS Modules coming from server-side JavaScript newcomers.  The momentum behind the Node community is definitely a catalyst for this, although Node isn't to blame -- it's very good at attracting newcomers to JavaScript.
+
+If you're happily hacking with Node<sup>"1":#footnote-1</sup> but feel a bit intimidated by talk of "CommonJS":http://www.commonjs.org/ then hopefully this article will elucidate the matter.
+
+h3. History
+
+Although commercial companies and open source projects have been using server-side JavaScript for a long time, the available environments had fragmented.  This article deals with _Modules_ in particular, but even with this singular example it's easy to see evidence of fragmentation.
+
+For example, "Rhino":http://www.mozilla.org/rhino/ included files using <code>load()</code>, a simple function that read a file and evaluated it.  In Node you'd use <code>require()</code>.  What happens when you want to run your Rhino code on Node?
+
+It became obvious that a set of standards should be created to harmonise interpreters, enabling us to use libraries across environments.  The CommonJS group was founded with the goal of creating a set of specifications with this in mind.
+
+As part of this initiative, "CommonJS Modules":http://wiki.commonjs.org/wiki/Modules was created to determine how code should be loaded.  Right now there are three specifications: "1.0":http://wiki.commonjs.org/wiki/Modules/1.0, "1.1":http://wiki.commonjs.org/wiki/Modules/1.1, and "1.1.1":http://wiki.commonjs.org/wiki/Modules/1.1.1.
+
+h3. Politics
+
+I remember reading this heated "CommonJS discussion on the Node group":http://groups.google.com/group/nodejs/msg/7121230f4b7fc176::
+
+bq. I generally support the CommonJS idea, but let's be clear: it's hardly a specification handed down by the gods (like ES5); it's just some people discussing ideas on a mailing list. Most of these ideas are without actual implementations.
+
+- Ryan Dahl
+
+bq. I'm happy you think that. A good example is the Module spec, which isn't easily implementable in the browser. One promise of CommonJS is to be able to share code between browser and server but at the same time they seem eager to loose backward-compatibility that browsers impose. I hope more effort will be put in that sense. 
+
+- Jonas Pfenniger
+
+The political debates between implementors and CommonJS are interesting, especially as Node has built up such a large community that may be perceived by CommonJS as "locked in" to Node.
+
+Another related thread of CommonJS discussions is whether or not browsers are first class citizens -- getting modules to work as intended in browsers isn't necessarily straightforward.
+
+However, our problems are practical - I want to write software that as many people can run as possible.  If you're choosing a server-side platform and like the idea of CommonJS adherence, then you'll want to look at the "implementations table on the wiki":http://wiki.commonjs.org/wiki/CommonJS.
+
+h3. Modules: Basic Syntax
+
+I prefer reading code to specs.  This is what a module looks like:
+
+{% highlight javascript %}
+exports.hello = function() {
+  return 'Hello World'
+};
+{% endhighlight %}
+
+This module makes the <code>hello</code> function available to the outside world.  It can be loaded using <code>require</code>:
+
+{% highlight javascript %}
+var example = require('./example.js');
+example.hello();
+{% endhighlight %}
+
+This will work in "Narwhal":http://narwhaljs.org/ and "Node":http://nodejs.org/ although you won't see anything if you run it because it doesn't print the output.
+
+This raises an interesting point: even simply printing the output makes you get into a mess if you want to write portable JavaScript:
+
+{% highlight javascript %}
+print(example.hello());
+{% endhighlight %}
+
+Works in Narwhal but displays an error in Node:
+
+{% highlight sh %}
+Error: print() has moved. Use require('sys') to bring it back.
+{% endhighlight %}
+
+And recently Node decided to deprecate _sys_ for "util":http://github.com/ry/node/commit/e38eb0c5a4d4e8497f5815be81994ddb01fbceb7.
+
+h3. Specification Versions
+
+As I mentioned, there are currently three versions of the Modules specification.  Version 1.1 adds some clarifications and extended functionality.
+
+During the evolution of the specifications, there were discussions that pulled the concept of modules from extremes that sounded like more like package management systems, back to something simple like version 1.0 introduced:
+
+bq. I think there needs to be a separation between *package management* and *module loading*.
+
+- Christoph Dorn, from the "modules packaging discussion":http://groups.google.com/group/commonjs/browse_thread/thread/9f73afe65dc33df7/06e830d0d2826d98?lnk=gst#06e830d0d2826d98
+
+h3. Conclusion
+
+We need to be able to share library code and even split our own projects up into modular chunks.  JavaScript didn't have this functionality out of the box because it originated in browsers, where a script tag was sufficient.  As it turned out, JavaScript is a simple, flexible language that we'd like to use elsewhere, so this deceptively easy problem needs a lot of work to solve it satisfactorily.
+
+"Modules 1.1.1":http://wiki.commonjs.org/wiki/Modules/1.1.1 has been approved, and implementations (like Narwhal) have appeared.
+
+<hr />
+
+<p id="footnote-1">[1] Other environments are available!</p>
+
