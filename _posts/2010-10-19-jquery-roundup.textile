@@ -1,0 +1,87 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- voip
+---
+
+Welcome to the jQuery Roundup 28.  You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery 1.4.3 Released
+
+"jQuery 1.4.3 is out":http://blog.jquery.com/2010/10/16/jquery-143-released/ and it now passes Crockford's JSLint, which means Crockfordites can finally put down their pitchforks.  Something else interesting I noticed (given how I harp on about this in the _Let's Make a Framework_ posts) was that the internal modules are less dependent on each other, which means chunks of the framework can be used in isolation.
+
+There are a lot of other changes too, especially in the CSS module.  I like the fact <code>jQuery.fx.interval</code> can be used to control animation smoothness, at the expense of CPU cycles.
+
+All this from a so-called _minor_ release!
+
+bq. jQuery 1.4.3 is passing 3621 tests on all supported browsers. We're 100% passing on Firefox 4 and nearly passing in IE 9 (we discovered two bugs, filed them, and one of them has already been fixed).
+
+The "blog post":http://blog.jquery.com/2010/10/16/jquery-143-released/ has full details, with benchmarks and graphs.  And if you really like reading about jQuery changes, it's worth following on "GitHub/jquery":http://github.com/jquery/jquery.
+
+h3. Phono
+
+"Phono":http://www.phono.com/ is a jQuery plugin and SDK for working with phones and IM.  The server-side components are "Voxeo Cloud":http://www.voxeo.com/ and "Tropo":https://www.tropo.com/, but the authors want to release a gateway to allow SIP VoIP communication without Voxeo.  The plugin is made by Voxeo, and is released under the Apache2 license.
+
+Events for ringing, answering, and hanging up are passed in using a simple object:
+
+{% highlight javascript %}
+$("#call").click(function() {
+  $("#call").attr("disabled", true).val("Busy");
+  phono.phone.dial("985-655-2500", {
+    onRing: function() {
+      $("#status").html("Ringing");
+    },
+    onAnswer: function() {
+      $("#status").html("Answered");
+    },
+    onHangup: function() {
+      $("#call").attr("disabled", false).val("Call");
+      $("#status").html("Hangup");
+    }
+  });
+});
+{% endhighlight %}
+
+I think this is an interesting project with a friendly API for us JavaScript developers.  I've always wanted to make something with "Tropo":https://www.tropo.com/ but I haven't thought up a suitable project yet.
+
+h3. Sean Koole's jQuery Posts
+
+Sean Koole sent me a link to his blog, where he writes about JavaScript and jQuery.  In "On jQuery and Caching":http://blog.seankoole.com/qotd-why-should-you-cache-when-using-jquery he writes about how to reduce the amount of jQuery objects that get created when instantiating elements.  He describes several solutions, like chaining calls or assigning <code>$(this)</code> to a variable.
+
+Koole discusses the differences between <code>$.fn.each</code> and <code>$.fn.map</code> in "Fine dining, jQuery's map and each...":http://blog.seankoole.com/fine-dining-map-and-each-lets-digg-in  He also covers <code>$.fn.clone</code> in "What you should know about cloning form values":http://blog.seankoole.com/cloning-form-values-and-what-you-should-know, which is useful reading if you haven't yet had to deal with the weird world of IE and cloning elements.
+
+"Digging into jQuery 1.4.3's data method":http://blog.seankoole.com/digging-into-jquery-143s-data-method is a lengthier article all about the changes to the <code>data</code> method.  He actually explains the internal changes and how they relate to native JavaScript behaviour.
+
+h3. Closure
+
+The "jQuery Closure plugin":http://code.abnoctus.com/jclosure/doc/ by Paul Hinds (MIT and GPL) provides this:
+
+{% highlight javascript %}
+jQuery.callback = function(object, method) {
+    return function() {
+       return method.apply(object, arguments);
+    };
+};
+{% endhighlight %}
+
+So callbacks can be written using <code>$.callback()</code>:
+
+{% highlight javascript %}
+$('selector').click($.callback(this, this.eventHandler));
+{% endhighlight %}
+
+This makes it a little bit easier to follow closure capturing.  Arguments can also be captured with <code>$.closeArgs()</code>:
+
+{% highlight javascript %}
+var i = 0;
+for(; i < 5; i++) {
+	  jQuery('#id' + i).click($.closeArgs(this, this.myEventHandler, i));
+}
+{% endhighlight %}
+
+In combination these methods are similar to Prototype's bind.
+
