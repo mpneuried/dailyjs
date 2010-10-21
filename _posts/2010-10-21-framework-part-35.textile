@@ -124,4 +124,4 @@ It'll bind to all of the paragraphs instead of just the first one.
 
 h3. Conclusion
 
-It's easy to iteratively generate sets of functions or method aliases in JavaScript, but you need to be aware of scope and pay attention to closures.  It's easy to see why <code>jQuery.each</code> is in "core.js":http://github.com/jquery/jquery/blob/master/src/core.js -- it makes framework code simpler, especially given how jQuery handles context.
+Generating sets of functions or method aliases iteratively is straightforward in JavaScript, but you need to be aware of scope and pay attention to closures.  It's easy to see why <code>jQuery.each</code> is in "core.js":http://github.com/jquery/jquery/blob/master/src/core.js -- it makes framework code simpler, especially given how jQuery handles context.
