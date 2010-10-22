@@ -1,0 +1,33 @@
+---
+layout: post
+title: "Knockout, London Meetup"
+author: Alex Young
+categories: 
+- frameworks
+- events
+- server
+---
+
+h3. Knockout
+
+"Knockout":http://knockoutjs.com (GitHub: "SteveSanderson / knockout":http://github.com/SteveSanderson/knockout) is a library for building rich interfaces that sync to the underlying data model.  The author says it works well with the "MVVM":http://en.wikipedia.org/wiki/Model_View_ViewModel pattern.  There's a "tutorial":http://knockoutjs.com/documentation/introduction.html  that explains the basic features provided by the library: UI dependency tracking, declarative bindings for connecting the UI to data, templating, and solid browser support (IE6!)
+
+Over the last few years I've found myself writing very basic versions of some of the things this library does, so it might be time to use something more pragmatic.  I expect it might work well in combination with jQuery UI as a lighter version of something like "SproutCore":http://www.sproutcore.com/.
+
+h3. London JavaScript Meetup
+
+I noticed "The London JavaScript Meetup Group":http://www.meetup.com/javascript-3/ has an Ext.js event coming up on the 28th October.  There's going to be two presentations: one by Roland Swingler and another by Lucian Lature.
+
+I'm planning on going, so if you want to get drunk with me or pitch articles why not come along?  Even if you're not working with Ext.js it'll be worth going to meet some of the growing London JavaScript hacker community.
+
+h3. Erbix
+
+I found "Erbix":http://www.erbix.com/ recently.  It really reminds me of "Akshell":http://www.akshell.com/, which "I wrote about in May":http://dailyjs.com/2010/05/25/akshell/.  Erbix presents a CommonJS environment for writing and hosting web apps running on RingoJS.  It's designed to minimise reliance on Erbix, which means code should run outside it.  There's an online editor and SQL console.
+
+bq. Our virtualization and separation technology allows us to host several accounts on the same dedicated server while keeping full account isolation between individual accounts. This allows us to offer hosting for your web-apps with no configuration or installation problems.
+
+If you're new to server-side JavaScript, Erbix or Akshell might be a good way of experimenting.  Even though hosting is cheap and Heroku/AppEngine/Joyent are awesome, there's still definitely room to explore the concept of hosted services and online collaboration.
+
+There's a discussion on Reddit where the Erbix developer actually answers some questions about the project: "New JS startup - write apps in the browser, host them online":http://www.reddit.com/r/javascript/comments/dsedw/new_js_startup_write_apps_in_the_browser_host/
+
+
