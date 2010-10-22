@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Knockout, London Meetup"
+title: "Knockout, London Meetup, Erbix"
 author: Alex Young
 categories: 
 - frameworks
