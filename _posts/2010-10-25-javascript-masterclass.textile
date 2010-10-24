@@ -21,7 +21,7 @@ Whoever of Amy or Thomas weren't presenting were available in a "Campfire":http:
 
 This format worked really well, and didn't require an especially fast Internet connection (I know this because my ISP was having problems on the second day, and I had to connect using a 3G mobile modem!).
 
-The slides (in original, and printable format) were available for download before the course started, which I found useful since I occasionally wanted to dwell on a slide.  Amy and Thomas also promised that a recording of the video and a transcript of the chat room would be available for download shortly after the class finished (but it hasn't appeared yet).
+The slides (in original, and printable format) were available for download before the course started, which I found useful since I occasionally wanted to dwell on a slide.  A recording of the video and a transcript of the chat room were available for download a few days after the class.
  
 As a bonus, included in the price of the course ($429), was a copy of the "Javascript Performance Rocks":http://jsrocks.com/ e-book, which we "reviewed last year":http://dailyjs.com/2010/01/19/javascript-performance-rocks/.
 
