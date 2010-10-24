@@ -1,0 +1,82 @@
+---
+layout: post
+title: "JavaScript Master Class: a review"
+author: Ric Roberts
+categories: 
+- learning
+- reviews
+---
+
+!/images/posts/jsmasterclass.png!
+
+Last week I attended Amy Hoy's and Thomas Fuchs's "JavaScript Masterclass: Virtual Edition October 2010":http://javascriptmasterclass.com/.  This article is an account of my experience. Hopefully it will help you decide whether to attend their next class.
+
+_*Ric's Disclaimer*: Although I admit to generally being a fan of Amy's and Thomas's work, I've tried to write a balanced review, and I paid full price for my ticket._
+
+h3. Format
+
+The class mainly took the form of either Amy or Thomas - one at a time - talking through slides and examples via live video and screen-sharing (using Adobe Connect).  There were two four-hour sessions (across 2 days) with breaks every hour or so, during which there were optional exercises to complete based on the content just covered.  There was also a more challenging 'homework' exercise after the first day's session.
+
+Whoever of Amy or Thomas weren't presenting were available in a "Campfire":http://campfirenow.com room for questions, clarification and general chat.  There were twenty or so people in the class (and therefore the chatroom), so I was initially worried that the chat room would be too busy, but in my class only about half a dozen people actively participated in the chat room, so it was easy to get my questions answered.
+
+This format worked really well, and didn't require an especially fast Internet connection (I know this because my ISP was having problems on the second day, and I had to connect using a 3G mobile modem!).
+
+The slides (in original, and printable format) were available for download before the course started, which I found useful since I occasionally wanted to dwell on a slide.  Amy and Thomas also promised that a recording of the video and a transcript of the chat room would be available for download shortly after the class finished (but it hasn't appeared yet).
+ 
+As a bonus, included in the price of the course ($429), was a copy of the "Javascript Performance Rocks":http://jsrocks.com/ e-book, which we "reviewed last year":http://dailyjs.com/2010/01/19/javascript-performance-rocks/.
+
+h3. Content
+
+h4. Day One
+
+The first day was presented by Amy (with Thomas in the chat room) and covered JavaScript language principles including:
+
+* Javascript's object model
+* Metaprogramming
+* Functions 
+* Closures and scope
+* Extending the language
+* JSON
+* Constructors and prototypes 
+* Mix-ins and inheritance
+
+h4. Day Two
+
+Day Two moved on from esoteric language concepts on to how most of us use JavaScript 'in the real' world i.e. in a browser context.  The first part was presented by Amy again and covered:
+
+* Browsers
+* The DOM
+* Events
+* Frameworks, such as Prototype.js
+
+For the latter part of the second day, Thomas took over presenting and Amy migrated to the chat room.  Thomas gave some advice about how to manage your own JavaScript projects, with the following topics:
+
+* Minification
+* Namespaces
+* Deployment
+* Preprocessors like Sprockets.js
+* Refactoring 
+* Performance
+* Unit Testing
+* Documentation
+
+h3. Conclusion
+
+The class was billed as a framework-agnostic course intermediate for advanced level JavaScript developers, who want to "level up to expert".  
+
+I don't consider myself to be particularly advanced when it comes to JavaScript, but I found that the Language parts of the course (i.e. Day One and the first part of Day 2) were mainly just revision, although Amy's and Thomas's explanations of the concepts (as well as the exercises) did help to clarify my understanding.  
+
+It was great to get an insight into how experts like Thomas go about organising large projects such as "Prototype.js":http://prototypejs.org, "Script.aculo.us":http://scripty2.com and "Freckle":http://letsfreckle.com (their time-tracking app).  
+
+Regarding framework agnosticism, although no prior knowledge of any frameworks were required before the course, many examples were taken from Prototype.js, (so being familiar with this helped) and the presenters certainly weren't afraid of voicing their opinions of other popular JavaScript frameworks. :)
+
+I would have liked to have seen less focus on language concepts, although they certainly did a good job of explaining them, and more practical advice on applying them in different situations.
+
+Having said that, I certainly felt that I got something from the course. The content was engaging and well prepared, and it was fun to chat with Amy, Thomas and the other participants (and ask their advice and opinions on the matters covered).  It's not often you get the opportunity to get the attention of a true Javascript master like Thomas Fuchs for a full eight hours - for me, this was worth the admission fee alone.
+
+
+
+
+
+
+
