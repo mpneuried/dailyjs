@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "JavaScript Master Class: a review"
+title: "JavaScript Master Class: A Review"
 author: Ric Roberts
 categories: 
 - learning
 - reviews
 ---
 
-<img src="/images/posts/jsmasterclass.png style="border: none" />
+<img src="/images/posts/jsmasterclass.png" style="border: none" />
 
 Last week I attended Amy Hoy's and Thomas Fuchs's "JavaScript Masterclass: Virtual Edition October 2010":http://javascriptmasterclass.com/.  This article is an account of my experience. Hopefully it will help you decide whether to attend their next class.
 
