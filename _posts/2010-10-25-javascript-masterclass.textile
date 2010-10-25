@@ -7,7 +7,7 @@ categories:
 - reviews
 ---
 
-!/images/posts/jsmasterclass.png!
+<img src="/images/posts/jsmasterclass.png style="border: none" />
 
 Last week I attended Amy Hoy's and Thomas Fuchs's "JavaScript Masterclass: Virtual Edition October 2010":http://javascriptmasterclass.com/.  This article is an account of my experience. Hopefully it will help you decide whether to attend their next class.
 
@@ -23,7 +23,7 @@ This format worked really well, and didn't require an especially fast Internet c
 
 The slides (in original, and printable format) were available for download before the course started, which I found useful since I occasionally wanted to dwell on a slide.  A recording of the video and a transcript of the chat room were available for download a few days after the class.
  
-As a bonus, included in the price of the course ($429), was a copy of the "Javascript Performance Rocks":http://jsrocks.com/ e-book, which we "reviewed last year":http://dailyjs.com/2010/01/19/javascript-performance-rocks/.
+As a bonus, included in the price of the course ($429), was a copy of the "JavaScript Performance Rocks":http://jsrocks.com/ e-book, which we "reviewed last year":http://dailyjs.com/2010/01/19/javascript-performance-rocks/.
 
 h3. Content
 
@@ -31,7 +31,7 @@ h4. Day One
 
 The first day was presented by Amy (with Thomas in the chat room) and covered JavaScript language principles including:
 
-* Javascript's object model
+* JavaScript's object model
 * Metaprogramming
 * Functions 
 * Closures and scope
@@ -72,7 +72,7 @@ Regarding framework agnosticism, although no prior knowledge of any frameworks w
 
 I would have liked to have seen less focus on language concepts, although they certainly did a good job of explaining them, and more practical advice on applying them in different situations.
 
-Having said that, I certainly felt that I got something from the course. The content was engaging and well prepared, and it was fun to chat with Amy, Thomas and the other participants (and ask their advice and opinions on the matters covered).  It's not often you get the opportunity to get the attention of a true Javascript master like Thomas Fuchs for a full eight hours - for me, this was worth the admission fee alone.
+Having said that, I certainly felt that I got something from the course. The content was engaging and well prepared, and it was fun to chat with Amy, Thomas and the other participants (and ask their advice and opinions on the matters covered).  It's not often you get the opportunity to get the attention of a true JavaScript master like Thomas Fuchs for a full eight hours - for me, this was worth the admission fee alone.
 
 
 
