@@ -1,0 +1,35 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Roundup 29.  You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Updates From jQuery Core
+
+"jQuery 1.4.4":http://blog.jquery.com/2010/10/24/community-updates-2610/ was discussed on the jQuery blog:
+
+bq. For 1.4.4, we've identified those bugs that were most critical for us to fix and thanks to John Resig and the bug triage team, we've already fixed the majority of these issues. We currently intend on releasing 1.4.4 in early November, assuming no further major bugs are targeted for this release.
+
+There's a version you can test on GitHub called "jquery-git.js":http://code.jquery.com/jquery-git.js
+
+h3. Multirow-Checkbox-Menu
+
+!/images/posts/multirow.png!
+
+"Multirow-Checkbox-Menu":http://github.com/simpleweb/Multirow-Checkbox-Menu (dual MIT/GPL) by Tom Holder displays Gmail-style Select All/None menus at the top of checkboxes.  There's also a "demo":http://simpleweb.github.com/Multirow-Checkbox-Menu/ so you can try it out to see how it works.  It just requires a container with suitable inputs and a <code>$('div.multiRowCheckboxMenu').checkboxMenu();</code> call to use it.  I think it's a pretty nice plugin, I've had to write something similar myself recently so I might give it a try.
+
+h3. jQuery Google Bubbles
+
+"jquery-google-bubbles":http://github.com/timmywil/jquery-google-bubbles by Timmy Willison for customising Google Maps.  It has options for things like setting the marker graphics and window images.  I've mentioned one of the author's plugins before, but if you want to see more his GitHub profile has the following interesting projects listed:
+
+* jquery-google-bubbles
+* "html5placeholders":http://github.com/timmywil/html5placeholders
+* "requiredfields":http://github.com/timmywil/requiredfields
+* "password123":http://github.com/timmywil/password123
+* "Inputs-Selector":http://github.com/timmywil/Inputs-Selector
+
