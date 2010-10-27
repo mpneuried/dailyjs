@@ -37,7 +37,7 @@ win.print("Max number of color pairs supported by this terminal == " + win.maxCo
 win.print("White on black\n");
 {% endhighlight %}
 
-You might think I'm joking about Ncurses being my nemisis, but every time I run the node-ncurses examples I get "kernel panics":http://github.com/mscdex/node-ncurses/issues#issue/3!
+You might think I'm joking about Ncurses being my nemesis, but every time I run the node-ncurses examples I get "kernel panics":http://github.com/mscdex/node-ncurses/issues#issue/3!
 
 !/images/posts/ncurses.png!
 
