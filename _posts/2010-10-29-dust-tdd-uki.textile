@@ -1,0 +1,31 @@
+---
+layout: post
+title: "Dust, TDD, UKI"
+author: Alex Young
+categories: 
+- templates
+- testing
+- frameworks
+---
+
+h3. Dust
+
+"Dust":http://akdubya.github.com/dustjs/ ("License":http://github.com/akdubya/dustjs/blob/master/LICENSE, "code":http://github.com/akdubya/dustjs/) by Aleksander Williams is an asynchronous templating engine based on Mustache that works with Node or browsers.  The syntax is markup-like, and it offers features to allow "safe" templates, so admin area editable templates should be possible in a CMS/blog project.
+
+Data can be streamed to templates, which might be useful for building MVC-like encapsulation in a data-heavy web app.  The interactive examples on "Dust's documentation pages":http://akdubya.github.com/dustjs/ demonstrate this in detail.
+
+h3. TDD and Magic Unicorns
+
+In "Test driven development at Transloadit":http://debuggable.com/posts/test-driven-development-at-transloadit:4cc892a7-b9fc-4d65-bb0c-1b27cbdd56cb, Felix Geisendörfer discusses test-driven development at Transloadit, for a large Node-based project.  He talks about dealing with the difficulties of using bleeding edge libraries and maintaining a TDD discipline.
+
+It's a well-written high-level article that talks about TDD in a professional context.
+
+h3. Zepto.js Presentation
+
+Good old madrobby published "a presentation":http://mir.aculo.us/2010/10/28/zepto-js-a-jquery-compatible-mobile-javascript-framework-in-2k-presentation/ about his framework, Zepto.js.  The "hacker news post":http://news.ycombinator.com/item?id=1843130 had some interesting discussion, with responses from Fuchs.
+
+h3. UKI
+
+I was at the "London JavaScript Meetup Group":http://www.meetup.com/javascript-3/ last night, which had presentations on Ext.js.  "Roland Swingler":http://twitter.com/knaveofdiamonds gave an interesting talk about the basics of Ext.js, and how it worked in an administration area he's been working on for his day job.
+
+After the talk someone asked me if I'd seen "UKI":http://ukijs.org/ before, which is a similar project.  It's cross-browser and has some screencasts to quickly get you up to speed.  There's some great examples, especially the "100 line Wave layout demo":http://ukijs.org/examples/core-examples/wave/.
