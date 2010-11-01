@@ -1,0 +1,106 @@
+---
+layout: post
+title: "Let's Make a Web App: Nodepad"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+---
+
+Welcome to part 1 of _Let's Make a Web App_, a new tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through building a web app with Node, covering all the major areas you'll need to face when building your own applications.
+
+The app we're going to build is a web notepad called *Nodepad*.  Not particularly original, but well-defined and easy to understand.
+
+h3. Selecting Frameworks and Tools
+
+Modern web applications depend on several components:
+
+* Storage: Relational database, NoSQL
+* Storage library: simple, ORM
+* Web server
+* Package manager
+* Server-side framework
+* Client-side framework
+* Testing libraries
+* Version control
+
+Ultimately, the choice is down to context.  I've had to use certain technologies due to the deployment environment, and when I build open source software I'm likely to use something I know people can easily install.
+
+In this case my criteria for selection will be based on feedback we've had about what our readers are interested in, and my own areas of expertise.
+
+h3. Server-Side
+
+Building web apps with Node typically involves a framework of some kind.  If you read our weekly Node Roundups you'll know there are plenty of excellent web application frameworks out there.  Some aim to port complete solutions like Rails or Django to Node, and others are more focused on the routing and HTTP layers.
+
+An example of a popular "Rails-like":http://rubyonrails.org/ framework is "Geddy":http://github.com/mde/geddy.  It has been around for about 7 months, and continues to be updated.  A simpler, "Sinatra":http://www.sinatrarb.com/ style framework is "Express":http://github.com/visionmedia/express which has been around since June 2009, and is still regularly updated.
+
+The larger frameworks usually provide one-to-many mapping of resources to files through a Model View Controller abstraction.  A project might be organised like this:
+
+* Models: user.js, note.js
+* Controllers: users.js, notes.js
+* Views: index.html (item list), edit.html, new.html
+
+Not all frameworks are MVC, though.  And in the Node world there's also a lot of so-called microframeworks.  I originally thought Express was a microframework, but it provides abstractions for dealing with the whole stack, so it's a bit fatter.
+
+I feel like Express has the right balance for this project.  We could successfully use any framework within reason, but Express bundles enough things to make this project pleasant to work on without being too heavy.
+
+h3. Frontend
+
+A UI framework of some kind will reduce the chore of interface development.  The JavaScript UI frameworks scene has exploded over the last few years.  The following framework types are available:
+
+* Rich, desktop-like frameworks: Cappuccino, Sprout, Ext.js
+* Frameworks that provide lower-level features: jQuery, Prototype, MooTools
+* Frameworks that mix low-level and rich UI tools: YUI
+* Interface-specific libraries that sit on top of lower-level frameworks: Scriptaculous, jQuery UI
+
+I feel like SproutCore and Cappuccino would be too heavy for this particular project.  jQuery UI and the "Aristo theme":http://github.com/taitems/Aristo-jQuery-UI-Theme work well together -- you can get great results without making the app feel too heavy.
+
+h3. Testing
+
+In _Let's Make a Framework_ I recently mentioned that there's a "CommonJS Unit Testing Specification":http://wiki.commonjs.org/wiki/Unit_Testing/1.0.  "Nodeunit":http://github.com/caolan/nodeunit is based on the CommonJS assert module, and the tests should look very familiar to those of you who have written unit tests before.
+
+On the other hand, "Expresso":http://visionmedia.github.com/expresso/ offers <code>assert.response</code>, which makes testing servers a little bit cleaner.  Expresso is written by the same author as Express (TJ Holowaychuk), so it's not surprising that it has this type of feature.
+
+I'm not sure which route to take yet, so I'll try both when I start building the app and select the most suitable.
+
+h3. Storage
+
+Storage has gone insane in the last two years.  When I started out, it was either relational databases or object databases that I never really got to use.  That meant I used either Oracle, PostgreSQL, or MySQL.  Now NoSQL has started to take up mindshare, we've got CouchDB, MongoDB, Riak, Redis, Tokyo Cabinet, and many more.
+
+If you've used any of these NoSQL frameworks you'll know some are kind of enough to have JavaScript shells, which makes life easy for us.  They're also broadly grouped into key value stores and document storage systems.  Document storage sounds suspiciously like what we want given that we're writing a notepad.
+
+Choosing a storage system is one thing, but then you need to choose a library for your language and framework.  Express doesn't prescribe model-layer abstractions, so we can use any storage library and system we want.
+
+I'd like to use MongoDB for this project.  I feel like CouchDB would also be a good choice, but I've written a lot of code that uses "Mongoose":http://www.learnboost.com/mongoose/ so I'd like to draw on that knowledge.
+
+The Mongoose API makes asynchronous database access less syntax-heavy than it could be.  The popular "default" MongoDB library for Node uses callbacks everywhere, rather than some clean abstractions and function call chains, so it becomes incredibly hard to read.
+
+So far I've been using "Heroku":http://heroku.com/ with "MongoHQ":http://mongohq.com/ and these services have simplified my sysadmin chores a great deal.  Because the underlying technology is open I can download MongoDB and run it locally for development, then deploy to something I'm effectively paying someone else to maintain.  If I had the time I'd deploy to my own servers, but it turns out I like writing these articles too much! 
+
+h3. Resources
+
+I've tried to write this part of the tutorial in a way that demonstrates how to select suitable technologies for real open source or commercial projects.  If you're in a similar position, here are some helpful resources:
+
+* "Comparison of JavaScript frameworks":http://en.wikipedia.org/wiki/Comparison_of_JavaScript_frameworks
+* "Node modules on the Node wiki":http://github.com/ry/node/wiki/modules
+* "NoSQL resources":http://nosql-database.org/
+* "NPM package list":http://npm.mape.me/
+
+h3. Next
+
+In the next part, I'll go through getting a development environment and basic app set up.
+
+The areas the tutorial will cover will be:
+
+* Installing everything
+* Building a simple Express app
+* Writing tests for Node web apps
+* Building a rich interface with jQuery UI
+* Using Mongoose with Node
+* Deployment
+
+Some parts might take several weeks to cover depending on how involved they are, like the _Framework_ series.
+
