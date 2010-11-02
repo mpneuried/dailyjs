@@ -1,0 +1,38 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery Roundup 30.  You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+I go through a lot of jQuery plugins every week.  Most plugins are thrown onto a dodgy WordPress blog as a zip file (and sometimes even rar).  If you're distributing plugins, please consider the following:
+
+* Using source control on a public site like "GitHub":http://github.com/ to distribute your plugin and allow people to track updates
+* Writing tests
+* Giving the plugin a license (most people use GPL or MIT)
+* Writing documentation
+* Hosting a demo ("GitHub Pages":http://pages.github.com/ can also be used to host demo pages for free)
+
+And then I won't get grumpy and think your plugin looks unprofessional.  Thanks!
+
+h3. jTweetsAnywhere
+
+"jTweetsAnywhere":http://thomasbillenstein.com/jTweetsAnywhere/ (MIT license) by Thomas Billenstein is a nice little Twitter library for displaying real-time updates.  It can read a user's tweets, lists, or a search.
+
+There's a "demo page":http://thomasbillenstein.com/jTweetsAnywhere/demo/ that links to several different examples.
+
+h3. todos.js
+
+I noticed "todos.js":http://documentcloud.github.com/backbone/docs/todos.html by "Jérôme Gravel-Niquet":http://jgn.me/, which uses jQuery and "Backbone.js":http://documentcloud.github.com/backbone/.  
+
+The code for todos.js is presented in a really cool way, with commentary on the left and code on the right.  A version of the code is running here: "todos.js demo":http://documentcloud.github.com/backbone/examples/todos/index.html.
+
+h3. jQuery Masonry
+
+"jQuery Masonry":http://desandro.com/resources/jquery-masonry/ (MIT license) by David DeSandro is a layout plugin that can position floats in an evenly spaced grid.  DeSandro has quite a collection of resources to go with the plugin, including "frequently asked questions":http://github.com/desandro/masonry/wiki, "issues":http://github.com/desandro/masonry/issues, and "documentation":http://desandro.com/demo/masonry/docs/.
+
+
