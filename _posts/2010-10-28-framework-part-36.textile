@@ -6,8 +6,7 @@ categories:
 - frameworks
 - tutorials
 - lmaf
-- events
-- dom
+- testing
 ---
 
 Welcome to part 36 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
