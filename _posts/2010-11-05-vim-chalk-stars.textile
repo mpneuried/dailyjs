@@ -1,0 +1,28 @@
+---
+layout: post
+title: "JavaScript Starfield, jslint.vim, Chalk"
+author: Alex Young
+categories: 
+- editors
+- graphics
+- canvas
+---
+
+h3. JavaScript Starfield
+
+!/images/posts/starfield.png!
+
+When I was a teenager I spent hours writing starfields on my Amiga.  It's quite a rewarding effect given the amount of effort required.  If you want to do the same thing with Canvas, Charles Leifer has written a tutorial in "More fun with Canvas - a JavaScript Starfield!":http://charlesleifer.com/blog/more-fun-with-canvas-a-javascript-starfield/
+
+h3. jslint.vim
+
+"jslint.vim":http://www.vim.org/scripts/script.php?script_id=2729 is a handy Vim plugin for running JSLint.  It automatically highlights errors, and can display extra information in the command line when the cursor is over the error.
+
+h3. 37signals' Chalk Dissected
+
+In "37signals' Chalk Dissected":http://samisamhuri.blogspot.com/2010/11/37signals-chalk-dissected.html by Sami Samhuri, the author looks at the techniques used to create 37signals' "Chalk":http://chalk.37signals.com, a simple drawing web app designed for iPad.
+
+bq. I dove into the JavaScript a little and explained most of it. Sam Stephenson tweeted that Chalk is written in CoffeeScript and compiled on the fly when served using Brochure
+
+Interesting that he uses CoffeeScript, given that he's the Prototype Guy&trade;.
+
