@@ -1,0 +1,198 @@
+---
+layout: post
+title: "Node Tutorial Part 2"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+---
+
+Welcome to part 2 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.
+
+This part covers installing the basic tools and libraries, and we'll also create a skeleton app and take a look at the generated code.
+
+h3. Requirements
+
+This project depends on the following:
+
+* A working Node install
+* MongoDB
+* npm
+
+I'll walk you through the installation of each of these.  Refer to "part 1":http://dailyjs.com/2010/11/03/node-roundup/ to see why I decided to use these technologies.
+
+h3. Installation: Node
+
+If you don't have Node installed download it and decompress it.  I'm using "0.2.4":http://nodejs.org/dist/node-v0.2.4.tar.gz.  You could also use a package manager if you have one on your system.  There are Debian packages, "Homebrew recipes":https://github.com/mxcl/homebrew, and more besides.
+
+You should be able to build and install Node like this:
+
+{% highlight sh %}
+./configure
+make
+make install
+{% endhighlight %}
+
+You may need to change the permissions of the installation directory before running <code>make install</code>, or use <code>sudo</code> or <code>su</code>.
+
+These steps will work for a unix-based system.  If you're using Windows you'll have to figure this part out for yourself, but running Node on Windows is possible.
+
+h3. MongoDB
+
+I want to use MongoDB for our database.  It's also pretty easy to install -- there are packages and compilation should be straightforward.  The site has lots of "binaries available":http://www.mongodb.org/downloads.
+
+MongoDB needs a data directory, which can be created with <code>mkdir -p /data/db</code>.  This is the default path, but it can be changed.  I use the default on all my development machines.
+
+The "MongoDB Quickstart Guide":http://www.mongodb.org/display/DOCS/Quickstart is a good place to start for more installation help.
+
+h3. npm
+
+"npm":https://github.com/isaacs/npm makes managing Node packages quicker and easier than fetching their source.  The recommended installation method is to run a command that downloads a script and installs npm _somewhere you have permission to write_.
+
+If you're developing on your own machine, you could <code>chown -R $USER /usr/local</code> and run <code>curl http://npmjs.org/install.sh | sh</code>.
+
+Alternatively, build Node with its <code>prefix</code> somewhere in your home directory:
+
+{% highlight sh %}
+./configure --prefix=~/local
+{% endhighlight %}
+
+npm will then see this and install its packages alongside Node.  There are detailed instructions in "gist 579814":https://gist.github.com/579814.
+
+h3. Packages
+
+Now we've got npm our required packages can be installed:
+
+{% highlight sh %}
+npm install express mongoose jade less expresso
+{% endhighlight %}
+
+Don't be put off by npm's verbosity, the messages are actually fairly easy to follow.  Just make sure it prints _Success_ for each package.
+
+h3. A Basic Express App with MongoDB
+
+When I work with Mongo, I usually start a local server.  This is straightforward:
+
+{% highlight sh %}
+mongod
+{% endhighlight %}
+
+It'll display the port it's using, which you needs to be noted down for the Mongoose connection settings.
+
+Express ships with a commandline utility for creating apps.  Change to a suitable directory and type this to generate a skeleton app:
+
+{% highlight sh %}
+express nodepad
+{% endhighlight %}
+
+The resulting code should run with <code>node app.js</code>.  View it by visiting "http://localhost:3000":http://localhost:3000.
+
+h3. Skeleton Analysis
+
+The first line is standard CommonJS: the <code>express</code> module is required, and the app is created and exported -- that just makes it easier to test, don't worry if this doesn't make sense yet.
+
+Express has changed a lot in the last year, so be careful with old tutorials because they may use a different API.  Since the initial release, _connect_ has been added, which is a middleware layer.  This allows certain chunks of the HTTP stack and web app framework to be interchangeable.  Configuration in particular has changed a lot.
+
+What you should be seeing is this:
+
+{% highlight javascript %}
+app.configure(function() {
+  app.set('views', __dirname + '/views');
+  app.use(express.bodyDecoder());
+  app.use(express.methodOverride());
+  app.use(express.compiler({ src: __dirname + '/public', enable: ['less'] }));
+  app.use(app.router);
+  app.use(express.staticProvider(__dirname + '/public'));
+});
+{% endhighlight %}
+
+By default Express apps are very simple -- notice the view path is specified, and a static file handler is set up with <code>staticProvider</code>.  <code>express.bodyDecoder</code> is just used to decode <code>application/x-www-form-urlencoded</code> data -- i.e., forms.  The <code>methodOverride</code> middleware allows Express apps to behave like RESTful apps, as popularised by Rails; HTTP methods like <code>PUT</code> can be used through hidden inputs.  There has been a lot of dispute about whether this is a good idea, which is presumably why Holowaychuk has made it optional.
+
+The main body of the app uses a jade template to generate HTML, and sets a variable to pass to the template:
+
+{% highlight javascript %}
+app.get('/', function(req, res) {
+  res.render('index.jade', {
+    locals: {
+        title: 'Express'
+    }
+  });
+});
+{% endhighlight %}
+
+This method call defines a route and corresponding HTTP verb, <code>GET</code> and '/'.  That means this little chunk of code won't respond to a <code>POST</code> to '/'.
+
+The last few lines are interesting because they actually check if the app is running as the top-level module:
+
+{% highlight javascript %}
+if (!module.parent) {
+  app.listen(3000);
+  console.log("Express server listening on port %d", app.address().port)
+}
+{% endhighlight %}
+
+Again, this makes testing easier; don't worry if it seems strange.
+
+h3. Connecting Up MongoDB
+
+Mongoose allows us to conveniently wrap simple classes around Mongo collections.  We need to load the library and instantiate a database connection instance first:
+
+{% highlight javascript %}
+mongoose = require('mongoose').Mongoose
+db = mongoose.connect('mongodb://localhost/nodepad')
+{% endhighlight %}
+
+I've made a models file with an example model:
+
+{% highlight javascript %}
+var mongoose = require('mongoose').Mongoose;
+
+mongoose.model('Document', {
+  properties: ['title', 'data', 'tags'],
+
+  indexes: [
+    'title'
+  ]
+});
+
+exports.Document = function(db) {
+  return db.model('Document');
+};
+{% endhighlight %}
+
+The models can be required in app.js, like this:
+
+{% highlight javascript %}
+Document = require('./models.js').Document(db);
+{% endhighlight %}
+
+The database instance is passed, so <code>db.model</code> will return a model instance based on the <code>mongoose.model('Document', ...)</code> declaration.  I thought putting the models in their own file would make the Mongoose behaviour a little more opaque so the application controller code is easier to follow.
+
+h3. The Templates
+
+The generator uses "Jade":http://jade-lang.com/ by default, and it created this template:
+
+{% highlight javascript %}
+h1= title
+p Welcome to #{title}
+{% endhighlight %}
+
+This is similar to Haml, and it attempts to reduce the noise of HTML templates.  If you like plain HTML templates an alternative like "ejs":http://embeddedjs.com/ can be used.
+
+h3. Running Tests
+
+The Express generator also created a skeleton test.  The tests are run by typing <code>expresso</code>.
+
+h3. Get the Source
+
+This is available on my GitHub account at "alexyoung/nodepad":https://github.com/alexyoung/nodepad.
+
+h3. Conclusion
+
+You should now be comfortable with installing a base Node development environment with npm and mongo.  You should also have a skeleton Express app, and understand how it works and how to run Expresso tests.
+
+I'll flesh out the app a little bit more next week.
+
