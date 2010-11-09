@@ -5,6 +5,8 @@ author: Alex Young
 categories: 
 - jquery
 - plugins
+- twitter
+- design
 ---
 
 Welcome to the jQuery Roundup 30.  You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.

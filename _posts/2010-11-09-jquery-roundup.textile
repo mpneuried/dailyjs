@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery roundup 31.  You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.  This article was written before a live studio audience.
+
+h3. Spinners
+
+"This jQuery spinner plugin":https://github.com/staaky/spinners by Nick Stakenburg can display loading animations using Canvas without using any gifs.  It'll work with IE through "ExplorerCanvas":http://code.google.com/p/explorercanvas/.
+
+A spinner can be set up with <code>new Spinner('selector')</code>. It'll insert a div that contains a Canvas element.  I tried styling the div so it displays inline, and it worked, so you could use the spinner in a variety of instances.
+
+h3. Snippet
+
+I've been going through jQuery syntax highlighting projects, and one that I liked was "Snippet":http://steamdev.com/snippet/ by SteamDev.  It uses an existing project's highlighting definition files, "shjs":http://shjs.sourceforge.net/lang/.
+
+All you need to do is put your code in a suitable tag and tell the library what highlighter to use:
+
+{% highlight javascript %}
+$('pre.js').snippet('javascript');
+{% endhighlight %}
+
+There are various colour schemes available (39 at present).
+
+h3. jQuewy
+
+"jQuewy":http://jquewy.com/ by Jamie McElwain is a library for loading jQuery plugins:
+
+{% highlight javascript %}
+$j('lettering');
+$j('backbone');
+{% endhighlight %}
+
+There's a list of plugins here: "forrst.com/posts/JQuewy-5NZ":http://forrst.com/posts/JQuewy-5NZ.
+
+The source is available on "GitHub / jQuery":https://github.com/jgmcelwain/jQuewy.
+
