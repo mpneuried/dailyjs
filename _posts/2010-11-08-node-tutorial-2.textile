@@ -10,7 +10,9 @@ categories:
 - nodepad
 ---
 
-Welcome to part 2 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.
+Welcome to part 2 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+"Part 1":http://dailyjs.com/2010/11/01/node-tutorial/ introduced this series and discussed how to select appropriate libraries for your Node projects.
 
 This part covers installing the basic tools and libraries, and we'll also create a skeleton app and take a look at the generated code.
 
