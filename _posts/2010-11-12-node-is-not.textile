@@ -1,0 +1,52 @@
+---
+layout: post
+title: "Node Isn't..."
+author: Alex Young
+categories: 
+- node
+- essays
+- tutorials
+---
+
+There seem to be a lot of misconceptions about what Node is and why it's worth using.  This article should help clarify what Node is, particularly for newcomers who are interested in Node but haven't seen much beyond the hype.  In many ways it warrants the hype, and I'm enjoying working with it, but it's not what many people think it is.
+
+So, let's take a look at what *Node isn't*:
+
+h3. The Only WebSocket Solution
+
+Node is a good solution for writing servers.  It also works well with WebSockets.  However, there's no WebSocket support out of the box.  True, there are great libraries for Node like "Socket.IO-node":https://github.com/LearnBoost/Socket.IO-node, but Node isn't necessarily the answer to WebSockets for current projects.
+
+Somehow people have got Node and WebSockets inexorably linked in their minds.  If you haven't written much server-side JavaScript or Node before, and you're thinking of using Node for a project that would benefit real-time communication or fast updates, you might be OK with your current platform.  If you're using PHP, Ruby, Python, Perl, or anything else, there are probably libraries that will help write low-latency server-side processes.  People have been writing amazing code with "Twisted":http://twistedmatrix.com/ and "EventMachine":http://rubyeventmachine.com/ for years.
+
+h3. A Magical Multi-Threaded Scalability Solution
+
+Run a Node process and look at the process list in <code>top</code>.  You'll see that it uses one thread on one CPU.  Node doesn't *magically scale code to use lots of threads and every processor*.
+
+"Node's homepage itself":http://nodejs.org/ spells out why Node is good at concurrency without necessarily being concurrent in the typical sense of the word:
+
+bq. Node tells the operating system that it should be notified when a new connection is made, and then it goes to sleep. If someone new connects, then it executes the callback. Each connection is only a small heap allocation.
+
+bq. This is in contrast to today's more common concurrency model where OS threads are employed. Thread-based networking is relatively inefficient and very difficult to use.
+
+bq. Furthermore, users of Node are free from worries of dead-locking the process—there are no locks.
+
+This is good for a lot of the work we do when building web applications.  This may not _always_ be the ideal solution.  Certain types of problems that benefit concurrency may better suit threads, because operating systems and modern processors can parallelize threads across multi-core processors.
+
+It's possible to take advantage of multi-core machines using projects like "multi-node":https://github.com/kriszyp/multi-node -- this simply runs more than one Node instance so the operating system utilises each core.
+
+One of the things that makes a lot of web applications perform poorly is IO.  Using Node's evented IO approach gets a lot of bang-for-buck out of hardware.  I've written a few Objective-C projects that take advantage of threads for things that wouldn't work as well in Node, but these instances are much rarer than times when evented IO would have helped improve performance.
+
+Tim Caswell wrote a great post to the nodejs Google Group about this in "Nodejs for Concurrency":http://groups.google.com/group/nodejs/msg/6b81b448117f336a.
+
+h3. The Only Server-Side JavaScript Solution
+
+Readers of DailyJS might be surprised that I point this out, but I keep meeting people who think Node *is* server-side JavaScript.  There are other incredible projects out there, like "RingoJS":http://ringojs.org/ and "Narwhal":http://narwhaljs.org/.  RingoJS in particular evolved from "Helma":http://helma.org/, which was already well-established.  It also has some great features, like instant reloading.
+
+h3. Conclusion: How to Get Started with Node like a Pro
+
+Before using Node for your next project, make sure it's the best solution.  It's wonderful for a diverse range of applications, but make sure you're clear about what its advantages are.
+
+# "Read the homepage, carefully!":http://nodejs.org/
+# "Read the V8 Design Elements document":http://code.google.com/apis/v8/design.html
+# "Read great posts on the Google Group":http://groups.google.com/group/nodejs/msg/6b81b448117f336a
+
