@@ -1,0 +1,31 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+Welcome to the jQuery roundup 32. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery 1.4.4
+
+Have you noticed that jQuery has been moving like a juggernaut recently?  "1.4.4":http://blog.jquery.com/2010/11/11/jquery-1-4-4-release-notes/ was released a few days ago, hot on the heels of 1.4.3, and they're already talking about 1.5.  This update adds a new animation method called ".fadeToggle":http://api.jquery.com/fadeToggle/, and about 25 bug fixes.
+
+I forgot to mention that "return false has changed in jquery 1.4.3":http://neeraj.name/2010/10/25/return-false-in-jquery-1.4.3.html.  This post by Neeraj Singh discusses the changing significance of returning false from event handlers in detail.
+
+h3. jQuery 1.5 Feature Nomination
+
+I noticed this "tweet by @rwaldron":http://twitter.com/rwaldron/status/3095954089582592 saying they're looking for jQuery 1.5 feature ideas, and you can contribute using this "Google spreadsheet":http://j.mp/dq0bdh.  If you've got something to say, let them know!
+
+h3. Placeholder-jQuery-Plugin
+
+I can't keep track of the amount of jQuery placeholder plugins now.  I was working on some code the other day for one of my web apps that uses the new HTML5 search input type, with the placeholder attribute.  It's pretty amazing in WebKit, and it really worked well with the app's clean Mac-like design.  Of course, no other browser wanted to play ball.  That meant I had to code a quick JavaScript patch using "Modernizr":http://www.modernizr.com/.  I didn't use a placeholder plugin just because I wanted to remember how laughably simple it is to do anyway.
+
+So why would you bother with "Placeholder-jQuery-Plugin":https://github.com/mathiasbynens/Placeholder-jQuery-Plugin, by Mathias Bynens?  Well, it works in most browsers, including IE6.  That'll keep the corporate stooges happy.  It also correctly identifies browsers that have partial placeholder support, like Safari 4.  That means Bynens has raised the bar on this deceptively simple problem.
+
+h3. jSignature
+
+"jSignature":https://github.com/brinley/jSignature by Brinley Ang, released under the MIT License, makes it possible to accept signatures in forms.  Signatures in the literal sense; a little image that you draw.  There's a corresponding "jSignature website":http://www.unbolt.net/jSignature/ with examples and demos.
+
