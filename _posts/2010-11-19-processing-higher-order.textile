@@ -1,0 +1,27 @@
+---
+layout: post
+title: "Processing.js 1.0, Higher Order JavaScript"
+author: Alex Young
+categories: 
+- graphics
+- functional
+---
+
+h3. Processing.js 1.0
+
+"Processing.js 1.0":http://processingjs.org/blog/?p=250 has been released.  Processing.js is a port of "Processing":http://processing.org/, which is a programming language and environment for creating images, animations, interactive experiences, or just about anything that screams _weird/cool art installation_.
+
+Version 1.0 adds optimisations, bug fixes, and "better documentation":http://processingjs.org/learning.  I've mentioned it a few times on this blog, but if you haven't tried it out before I strongly recommend taking some time to try the demos and build some basic sketches.  Who knows, maybe you'll build the "next Peggle":http://processingjs.org/learning/topic/reflection2 in pure JavaScript?
+
+h3. Higher Order Javascript
+
+"Higher Order Javascript":http://www.bofh.org.uk/2010/11/18/higher-order-javascript by Piers Cawley is a discussion about the application of "higher order":http://en.wikipedia.org/wiki/Higher-order_programming techniques to JavaScript.  The bulk of his examples of CoffeeScript, and they touch on many areas I've tried to cover in our DailyJS tutorials over the last year:
+
+bq. Remember, higher order programming arises from applying the following principles: [...] Functions can take functions as arguments, [...] Functions can return new functions
+
+It's a very detailed tutorial, drawing on many influences.  Definitely worth a readitlater/instapaper for the weekend!
+
+h3. This Just In: Awesome Node Libraries
+
+I'll cover these libraries next week in the Node roundup, but if you've got free time this weekend you might like to check out "node.io":http://node.io/ and "should.js":https://github.com/visionmedia/should.js.
+
