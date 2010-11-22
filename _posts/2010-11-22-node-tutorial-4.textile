@@ -1,0 +1,255 @@
+---
+layout: post
+title: "Node Tutorial Part 4"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+---
+
+Welcome to part 4 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+
+In this part I'll add so much stuff you should get up and make a cup of tea first.
+
+By the end of the tutorial (or right now if you check the code out from git), you'll have something that looks like this:
+
+!/images/posts/nodepad3.png!
+
+Not all of the code is in this tutorial text: I've shortened a few code examples and haven't included any CSS.  It's all available in the repository, so download it and open it up in your editor.
+
+h3. Updating Expresso
+
+Expresso has been updated to 0.70.  Upgrade yours with <code>npm update expresso</code>.  The version we started out with is no-longer fully compatible with "the documentation":http://visionmedia.github.com/expresso/, particularly the <code>beforeExit</code> method handling.
+
+h3. Rendering Templates
+
+The document list method (<code>/documents</code>) should render a list of documents that we can edit.  To do this, add an appropriate <code>render</code> invocation:
+
+{% highlight javascript %}
+res.render('documents/index.jade', {
+  locals: { documents: documents }
+});
+{% endhighlight %}
+
+... and a corresponding template:
+
+{% highlight javascript %}
+ul
+  - for (var d in documents)
+    li= d.title
+{% endhighlight %}
+
+Remember that our templates are written with Express's default language, "Jade":http://jade-lang.com/. 
+
+h3. Jade
+
+Using Jade is strange at first, but it's actually pretty easy to get the hang of.  Here are the key things to remember:
+
+* Indentations represent tag nesting
+* The equals sign means include a variable
+* Not equal means include a variable without escaping it first
+* The hyphen sign allows inclusion of JavaScript
+
+Note that it's generally a good idea to escape as much as possible to reduce the chance of XSS attacks.
+
+h3. Partials
+
+Jade and Express make partials -- little snippets of reusable templates -- easy.  Here's the new document (views/documents/new.jade) template:
+
+{% highlight javascript %}
+h2 New Document
+form(method='post', action='/documents')
+  !=partial('documents/fields', { locals: { d: d } })
+{% endhighlight %}
+
+The partial is rendered by calling <code>partial(template file name, options)</code>. The output isn't escaped because we'd just see HTML tags if it was -- the user-defined fields within it will be escaped, so it's still safe.
+
+h3. New and Edit Forms
+
+Before creating the mind-blowingly awesome Ajax interface, let's make some simple templates.  Our REST API defined create and update methods, so we should make corresponding new and edit methods to provide a user interface.
+
+I usually split forms like this into three templates.  One is a reusable partial that contains the form fields.  The other two are new and edit templates that contain the appropriate form code to wrap around the fields.
+
+The new form was used as an example above.  The edit form, views/documents/edit.jade looks like this:
+
+{% highlight javascript %}
+h2 Edit Document
+form(method='post', action='/documents/' + d.id)
+  input(name='document[id]', value=d.id, type='hidden')
+  input(name='_method', value='PUT', type='hidden')
+  !=partial('documents/fields', { locals: { d: d } })
+{% endhighlight %}
+
+That's the same as new, but with added hidden input fields.  The <code>_method</code> field allows us to <code>POST</code> this form to a <code>put</code> route, which came from the RESTful API we designed last week.
+
+The fields partial (views/partials/documents/fields.jade) is simple as well:
+
+{% highlight javascript %}
+div
+  label Title:
+    input(name='document[title]', value=d.title || '')
+div
+  label Note:
+    textarea(name='document[data]')
+      =d.data || ''
+div
+  input(type='submit', value='Save')
+{% endhighlight %}
+
+By this point you should be getting a feel for Jade.  I'm not a die-hard haml/Jade fan, but as you can see these examples have been very light on syntax.
+
+h3. New and Edit Back-end Methods
+
+All the new and edit server-side methods do is load a document and render the forms:
+
+{% highlight javascript %}
+app.get('/documents/:id.:format?/edit', function(req, res) {
+  Document.findById(req.params.id, function(d) {
+    res.render('documents/edit.jade', {
+      locals: { d: d }
+    });
+  });
+});
+
+app.get('/documents/new', function(req, res) {
+  res.render('documents/new.jade', {
+    locals: { d: new Document() }
+  });
+});
+{% endhighlight %}
+
+The new method makes a blank <code>Document</code> to keep the form templates happy.
+
+h3. Mongo IDs
+
+Did you notice that the templates refer to <code>d.id</code>?  Mongoose makes <code>_id</code> fields by default, which are <code>ObjectID</code> data types.  This doesn't look too great on the web, so I made this getter method and added it to model.js:
+
+{% highlight javascript %}
+getters: {
+  id: function() {
+    return this._id.toHexString();
+  }
+}
+{% endhighlight %}
+
+By using <code>toHexString</code> we get nice IDs like <code>4cd733fb20a558cee5000001</code>.
+
+h3. Update and Delete
+
+Both the update and destroy methods load the document first then call <code>save</code> or <code>remove</code> on it.  The general pattern is as follows:
+
+{% highlight javascript %}
+app.put('/documents/:id.:format?', function(req, res) {
+  // Load the document
+  Document.findById(req.body.document.id, function(d) {
+    // Do something with it
+    d.title = req.body.document.title;
+    d.data = req.body.document.data;
+
+    // Persist the changes
+    d.save(function() {
+      // Respond according to the request format
+      switch (req.params.format) {
+        case 'json':
+          res.send(d.__doc);
+         break;
+
+         default:
+          res.redirect('/documents');
+      }
+    });
+  });
+});
+{% endhighlight %}
+
+Delete is basically the same, except <code>remove</code> is called instead of <code>save</code>.
+
+h3. Delete JavaScript
+
+One quirk of our API is we're using Express's <code>del</code> method, which means it'll expect to see <code>_method="delete"</code> in the post parameters.  Most frameworks implement this by using a bit of client-side JavaScript.
+
+As I said in the first tutorial, we're going to use jQuery.  jQuery can be included by editing the layout.jade template to look like this:
+
+{% highlight javascript %}
+!!!
+html
+  head
+    title= 'Nodepad'
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js')
+  body!= body
+    script(type='text/javascript', src='/javascripts/application.js')
+{% endhighlight %}
+
+This also includes our JavaScript at the bottom.  Express is already set up to serve static files that are in the public directory.
+
+The client-side delete JavaScript works by:
+
+# Using <code>confirm()</code> to check if the user really wanted to delete the document
+# Dynamically inserting a form with a hidden input called <code>_method</code> with a value of <code>delete</code>
+# Submitting the form
+
+Of course, this is simple with jQuery.  I wrote the whole thing as one chained set of instructions:
+
+{% highlight javascript %}
+$('.destroy').live('click', function(e) {
+  e.preventDefault();
+  if (confirm('Are you sure you want to delete that item?')) {
+    var element = $(this),
+        form = $('<form></form>');
+    form
+      .attr({
+        method: 'POST',
+        action: element.attr('href')
+      })
+      .hide()
+      .append('<input type="hidden" />')
+      .find('input')
+      .attr({
+        'name': '_method',
+        'value': 'delete'
+      })
+      .end()
+      .submit();
+  }
+});
+{% endhighlight %}
+
+It uses a live event delegate so we don't litter our client-side HTML with inline JavaScript.
+
+h3. The Index Page
+
+I've made the default action redirect to <code>/documents</code>, and the document index action do this:
+
+{% highlight javascript %}
+h1 Your Documents
+
+p
+  a(class='button', href='/documents/new') + New Document
+
+ul
+  - for (var d in documents)
+    li
+      a(class='button', href='/documents/' + documents[d].id + '/edit') Edit
+      a(class='button destroy', href='/documents/' + documents[d].id) Delete
+      a(href='/documents/' + documents[d].id)
+        =documents[d].title
+{% endhighlight %}
+
+This is an example of using an iterator in Jade.  A preferable approach would be to use partial's collection support, but it's useful to demonstrate how control blocks within templates work in Jade.
+
+h3. Conclusion
+
+As of "commit f66fdb5":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5 we now have a basic working notepad.
+
+Check out the latest version of "Nodepad":https://github.com/alexyoung/nodepad/ and see what cool features you can add before I continue the series next week.
+
