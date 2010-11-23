@@ -1,0 +1,38 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- graphics
+---
+
+Welcome to the jQuery roundup 33. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Face Detection
+
+This "jQuery face detection":https://github.com/jaysalvat/jquery.facedetection plugin by Jay Salvat can detect faces in images using a Canvas.  The actual face detection code is by Liu Liu -- the plugin provides a jQuery interface to it:
+
+{% highlight javascript %}
+var coords = $('#myPicture').faceDetection();
+{% endhighlight %}
+
+There's a "demo":http://facedetection.jaysalvat.com/ if you'd like to try it out.
+
+h3. 2D Transformations
+
+"2D Transformations":https://github.com/heygrady/transform by "Grady":https://github.com/heygrady provides a simple API to CSS3 transformations, and degrades to Microsoft's matrix filter where appropriate.  The "Transform wiki":https://github.com/heygrady/transform/wiki/ has details on the client-side requirements and implementation, as well as code examples.
+
+It can work with jQuery's CSS API as well providing its own method:
+
+{% highlight javascript %}
+$('#example').transform({rotate: '30deg'});
+$('#example').css({rotate: '30deg'});
+{% endhighlight %}
+
+h3. jQuery.splitter
+
+I've made two web apps recently that use resizable panels, but unfortunately I found "jQuery.splitter":http://krikus.com/js/splitter/ after I wrote my own code to do the same thing.
+
+I found it easy to implement my own version of this, but Krikus's version has a lot of features, like disabling text selection during dragging, and minimum and maximum sizes for the panels.

@@ -5,6 +5,8 @@ author: Alex Young
 categories: 
 - jquery
 - plugins
+- placeholders
+- graphics
 ---
 
 Welcome to the jQuery roundup 32. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
