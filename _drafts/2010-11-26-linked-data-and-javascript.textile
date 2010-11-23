@@ -70,7 +70,7 @@ We'll just call the query against the endpoint using jQuery's <code>ajax</code> 
 {% highlight html %} 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
   <script type="text/javascript">
-     //<![CDATA[
+    //<![CDATA[
     var queryUrl = "http://sparql.publishmydata.com?query=PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0A%0D%0ASELECT+%3Fname+%3Fnorthing+%3Feasting+WHERE+%7B%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FdistrictAdministrative%3E+%3Chttp%3A%2F%2Fstatistics.data.gov.uk%2Fid%2Flocal-authority-district%2F00BN%3E+.+%0D%0A%0D%0A++%3Fschool+rdfs%3Alabel+%3Fname+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FphaseOfEducation%3E+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FPhaseOfEducation_Secondary%3E+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fspatialrelations%2Fnorthing%3E+%3Fnorthing+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fspatialrelations%2Feasting%3E+%3Feasting+.%0D%0A%7D";
     queryUrl += "&output=json";
 
@@ -78,7 +78,7 @@ We'll just call the query against the endpoint using jQuery's <code>ajax</code> 
       dataType: "jsonp",  
       url: queryUrl
     });             
-  //]]>
+    //]]>
   </script>    
 {% endhighlight %}
        
@@ -160,6 +160,10 @@ Now things start to get interesting. To draw the map, we'll need to include a co
 The <code>LatLngToOSGB.js</code> script is for converting northings/eastings into latitude/longitudes.  Frustratingly, Google uses the "World Geodetic System (WGS84)":http://en.wikipedia.org/wiki/World_Geodetic_System, for lat/long but the <code>NEtoLL</code> function from that library returns values using the "Ordnance Survey National Grid (OSGB36)":http://en.wikipedia.org/wiki/OSGB36.  So we'll need to do a 2-step process to convert them if we want accurate positions for the map points.  The functions below wrap up that conversion for you:
 
 {% highlight javascript %}
+
+  // extra conversion functions: Google uses WGS84 whereas the National Grid uses OSGB36  
+  // (thanks to: http://www.roxburgh.net/projects/googlemaps/)
+  
   // Returns object with attributes lat and lon     
   function ENtoLL84(easting, northing) {
     var vlatlng = NEtoLL(easting,northing);
@@ -216,7 +220,7 @@ Now we've got that out of the way, lets make a div for the map to live in:
       }); 
     }                                             
   }                
-{% endhighlight %} 
+{% endhighlight %}
 
 Now all that's left to do is to add the call to <code>drawMap</code> to the ajax success callback.        
 
@@ -234,7 +238,7 @@ Now all that's left to do is to add the call to <code>drawMap</code> to the ajax
 
 You should now have something that looks a bit like "this page":http://ricroberts.s3.amazonaws.com/linked-data-and-javascript-tutorial.html.
 
-h3. References
+h3. Useful links
 
 * "SPARQL reference":http://www.w3.org/TR/rdf-sparql-query/    
 * "Linked Data":http://www.w3.org/standards/semanticweb/data
