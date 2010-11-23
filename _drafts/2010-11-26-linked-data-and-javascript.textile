@@ -65,7 +65,7 @@ The array in <code>head.vars</code> contains the variables that we selected in t
                   
 h3. Using jQuery to call the URL
 
-We'll just call the query against the endpoint using jQuery's <code>ajax</code> function (but you could use any other framework if you prefer).
+We'll just call the query against the endpoint using jQuery's <code>ajax</code> function (but you could use any other framework if you prefer). Notice that we use "JSONP":http://en.wikipedia.org/wiki/JSON#JSONP data type to avoid "CORS":http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing issues.                   
 
 {% highlight html %} 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
@@ -75,6 +75,7 @@ We'll just call the query against the endpoint using jQuery's <code>ajax</code> 
     queryUrl += "&output=json";
 
     $.ajax({
+      dataType: "jsonp",  
       url: queryUrl
     });             
   //]]>
@@ -89,10 +90,11 @@ Let's create a table in the html
   <table id="results"></table>   
 {% endhighlight %}
 
-... and add a <code>success</code> callback, to populate it with the results of the SPARQL.        
+... and add a <code>success</code> callback, to populate it with the results of the SPARQL. 
 
 {% highlight javascript %}
   $.ajax({
+    dataType: "jsonp",
     url: queryUrl
     success: function(data) {    
       // get the table element
@@ -116,7 +118,7 @@ Let's create a table in the html
   });    
 {% endhighlight %}
   
-In the code above, I've used a few simple little helper functions which just loop through the data from the JSON, and make <code>tr</code>s and <code>td</code>s from it. 
+In the code above, I've used a few simple little helper functions which just loop through the data from the JSON, and make table rows and cells from it.
 
 {% highlight javascript %}
   function getTableHeaders(headerVars) {
@@ -181,6 +183,7 @@ Now we've got that out of the way, lets make a div for the map to live in:
 ... and a function to plot the schools' locations:
 
 {% highlight javascript %}
+
   function drawMap(data){      
                                                             
     // make a map, centred on Manchester
@@ -235,5 +238,7 @@ h3. References
 
 * "SPARQL reference":http://www.w3.org/TR/rdf-sparql-query/    
 * "Linked Data":http://www.w3.org/standards/semanticweb/data
-* "Google Maps API":http://code.google.com/apis/maps/documentation/javascript/basics.html
+* "Google Maps API":http://code.google.com/apis/maps/documentation/javascript/basics.html 
+* "Converting map grid types":http://www.roxburgh.net/projects/googlemaps/
 * "MapKi (Google Maps wiki)":http://mapki.com/wiki/
+* "JQuery Ajax Docs":http://api.jquery.com/jQuery.ajax/
