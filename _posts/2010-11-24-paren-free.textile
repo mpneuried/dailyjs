@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Paren Free"
+author: Alex Young
+categories: 
+- language
+---
+
+In "Paren-Free":http://brendaneich.com/2010/11/paren-free/ Brendan Eich, creator of JavaScript, discusses the potential removal of parentheses around control structure heads:
+
+{% highlight javascript %}
+if year > 2010 {
+  syntax++
+}
+
+// i is a fresh let binding!
+for i in iter {
+  frob(i)
+}
+
+while lo <= hi {
+  let mid = (lo + hi) / 2
+}
+
+// array comprehension
+return [i * i for i in range(n)]
+{% endhighlight %}
+
+Eich discusses the difficulties of working in a committee, which gives us some interesting anecdotal details on the people and processes that shape the future of JavaScript.
+
+bq. The good news is that the committee agreed that some kind of meta-programmable iteration should be in the language.
+
+bq. The bad news is that the committee did something committees often do: try to compromise between divergent beliefs or subjective value theories.
+
+His point about a change in lexical scope behaviour is interesting, because it would make one of JavaScript's most confusing aspects more consistent:
+
+bq. We believe that future JS, the Harmony language, must include at least one incompatible change to runtime semantics: no more global object at the top of the scope chain. Instead, programmers would have lexical scope all the way up.
+
+He also mentions some of the of the ideas that were implemented in Mozilla's JavaScript 1.7, which many of us are now familiar with through writing server-side JavaScript.  How many of you regularly use getters and setters, and array comprehensions now?
+
+In fact, if the suggestions discussed here are ever formalised and accepted, we're likely to be the first people to use them in earnest.  Eich mentions Rhino and SpiderMonkey in his post, but he doesn't point out how many of us work outside browsers.  Of course, browsers are the primary concern, but I feel like the people in a position to take advantage of language changes sooner are server-side developers. 
+
