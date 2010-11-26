@@ -1,0 +1,244 @@
+---
+layout: post
+title: "A Simple Linked Data and JavaScript Tutorial"
+author: Ric Roberts
+categories: 
+- linked-data
+- tutorial
+---
+
+!/images/posts/linked-data-and-javascript-map.png!
+
+_Disclaimer: This article by Ric is a short tutorial on how to consume Linked Data using JavaScript. Some of the examples use Ric's company's new Linked Data publishing platform, "PublishMyData":http://publishmydata.com._
+  
+h3. Introduction
+
+Mention Linked Data or RDF and many developers run screaming.  The truth is that "Linked Data":http://www.w3.org/standards/semanticweb/data is really rather simple (and in many cases you don't even need to use "RDF":http://www.w3.org/RDF/ if you don't want to). In this tutorial we're going to use jQuery to request some data from a Linked Data service, and then display the results in a table and on a map.  You can see the final result of the tutorial "here":http://ricroberts.s3.amazonaws.com/linked-data-and-javascript-tutorial.html (just view source to see all the code).  
+
+h3. Writing the SPARQL Query
+
+We'll need to run some SPARQL to get the data we're interested in ("SPARQL":http://www.w3.org/TR/rdf-sparql-query/ is a query language analogous to SQL for relational databases). The following query selects the names and locations (northing and easting) of all the secondary schools in the City of Manchester ("district '00BN'":http://statistics.data.gov.uk/id/local-authority-district/00BN).
+
+{% highlight sql %}
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?name ?northing ?easting WHERE {
+  ?school <http://education.data.gov.uk/def/school/districtAdministrative> <http://statistics.data.gov.uk/id/local-authority-district/00BN> .
+  ?school rdfs:label ?name .
+  ?school <http://education.data.gov.uk/def/school/phaseOfEducation> <http://education.data.gov.uk/def/school/PhaseOfEducation_Secondary> .
+  ?school <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/northing> ?northing .
+  ?school <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/easting> ?easting .
+}
+{% endhighlight %}
+
+h3. Constructing the URL to call against the endpoint
+
+The SPARQL endpoint we're using expects requests in the following format:
+                                                           
+<code>http://sparql.publishmydata.com?query=URL-ENCODED-SPARQL&output=FORMAT</code>
+  
+We could have used the <code>encodeURI</code> JavaScript function to encode the SPARQL, but I just copied and pasted it from the side-bar on "this page":http://publishmydata.com/sparql?utf8=✓&q=PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0A%0D%0ASELECT+%3Fname+%3Fnorthing+%3Feasting+WHERE+%7B%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FdistrictAdministrative%3E+%3Chttp%3A%2F%2Fstatistics.data.gov.uk%2Fid%2Flocal-authority-district%2F00BN%3E+.+%0D%0A%0D%0A++%3Fschool+rdfs%3Alabel+%3Fname+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FphaseOfEducation%3E+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FPhaseOfEducation_Secondary%3E+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fspatialrelations%2Fnorthing%3E+%3Fnorthing+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fspatialrelations%2Feasting%3E+%3Feasting+.%0D%0A%7D&commit=Execute+Query, where I originally wrote the SPARQL.
+                                   
+The SPARQL-endpoint will return RDF/XML by default, but since we're using javascript, JSON would be much more useful, so we'll append <code>&output=JSON</code> to the end of the query string and the results come back in this format:   
+
+{% highlight javascript %}
+{
+  "head": {
+    "vars": [ "name" , "northing" , "easting" ]
+  } ,
+  "results": {
+    "bindings": [
+      {
+        "name": { "type": "literal" , "value": "Parrs Wood High School" } ,
+        "northing": { "datatype": "http://www.w3.org/2001/XMLSchema#integer" , "type": "typed-literal" , "value": "390094" } ,
+        "easting": { "datatype": "http://www.w3.org/2001/XMLSchema#integer" , "type": "typed-literal" , "value": "385464" }
+      },
+      ...
+    ]
+  }
+}
+{% endhighlight %}
+  
+The array in <code>head.vars</code> contains the variables that we selected in the SPARQL query, and <code>results.bindings</code> contains one object per row of results.
+                  
+h3. Using jQuery to call the URL
+
+We'll just call the query against the endpoint using jQuery's <code>ajax</code> function (but you could use any other framework if you prefer). Notice that we use "JSONP":http://en.wikipedia.org/wiki/JSON#JSONP data type to avoid "CORS":http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing issues.                   
+
+{% highlight html %} 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript">
+  //<![CDATA[
+  var queryUrl = "http://sparql.publishmydata.com?query=PREFIX+rdfs%3A+%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0D%0A%0D%0ASELECT+%3Fname+%3Fnorthing+%3Feasting+WHERE+%7B%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FdistrictAdministrative%3E+%3Chttp%3A%2F%2Fstatistics.data.gov.uk%2Fid%2Flocal-authority-district%2F00BN%3E+.+%0D%0A%0D%0A++%3Fschool+rdfs%3Alabel+%3Fname+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FphaseOfEducation%3E+%3Chttp%3A%2F%2Feducation.data.gov.uk%2Fdef%2Fschool%2FPhaseOfEducation_Secondary%3E+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fspatialrelations%2Fnorthing%3E+%3Fnorthing+.%0D%0A%0D%0A++%3Fschool+%3Chttp%3A%2F%2Fdata.ordnancesurvey.co.uk%2Fontology%2Fspatialrelations%2Feasting%3E+%3Feasting+.%0D%0A%7D";
+  queryUrl += "&output=json";
+
+  $.ajax({
+    dataType: "jsonp",  
+    url: queryUrl
+  });             
+  //]]>
+</script>    
+{% endhighlight %}
+       
+h3. Making an HTML table from the results
+
+Let's create a table in the html:
+
+{% highlight html %}            
+<table id="results"></table>   
+{% endhighlight %}
+
+... and add a <code>success</code> callback, to populate it with the results of the SPARQL. 
+
+{% highlight javascript %}
+$.ajax({
+  dataType: "jsonp",
+  url: queryUrl
+  success: function(data) {    
+    // get the table element
+    var table = $("#results");              
+
+    // get the sparql variables from the 'head' of the data.
+    var headerVars = data.head.vars; 
+
+    // using the vars, make some table headers and add them to the table;
+    var trHeaders = getTableHeaders(headerVars);
+    table.append(trHeaders);  
+
+    // grab the actual results from the data.                                          
+    var bindings = data.results.bindings;
+
+    // for each result, make a table row and add it to the table.
+    for(rowIdx in bindings){
+      table.append(getTableRow(headerVars, bindings[rowIdx]));
+    } 
+  }
+});
+{% endhighlight %}
+  
+In the code above, I've used a few simple helper functions which just loop through the data from the JSON, and make table rows and cells from it.
+
+{% highlight javascript %}
+function getTableHeaders(headerVars) {
+  var trHeaders = $("<tr></tr>");
+  for(var i in headerVars) {
+    trHeaders.append( $("<th>" + headerVars[i] + "</th>") );
+  }
+  return trHeaders;
+}
+
+function getTableRow(headerVars, rowData) {
+  var tr = $("<tr></tr>");
+  for(var i in headerVars) {
+    tr.append(getTableCell(headerVars[i], rowData));
+  }
+  return tr;
+}
+
+function getTableCell(fieldName, rowData) {
+  var td = $("<td></td>");
+  var fieldData = rowData[fieldName];
+  td.html(fieldData["value"]);
+  return td;
+}
+{% endhighlight %}
+
+h3. Plotting the schools on a map
+                    
+Now things start to get interesting. To draw the map, we'll need to include a couple of external scripts:
+                 
+{% highlight html %}
+<!-- Google maps api-->
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"> </script>
+
+<!-- Ordnance survey Lat-long converter (from: http://mapki.com/wiki/Tools:Snippets) -->
+<script type="text/javascript" src="http://www.bdcc.co.uk/LatLngToOSGB.js"></script>
+{% endhighlight %}
+
+The <code>LatLngToOSGB.js</code> script is for converting northings/eastings into latitude/longitudes.  Frustratingly, Google uses the "World Geodetic System (WGS84)":http://en.wikipedia.org/wiki/World_Geodetic_System, for lat/long but the <code>NEtoLL</code> function from that library returns values using the "Ordnance Survey National Grid (OSGB36)":http://en.wikipedia.org/wiki/OSGB36.  So we'll need to do a 2-step process to convert them if we want accurate positions for the map points.  The functions below wrap up that conversion for you:
+
+{% highlight javascript %}
+// extra conversion functions: Google uses WGS84 whereas the National Grid uses OSGB36
+// (thanks to: http://www.roxburgh.net/projects/googlemaps/)
+
+// Returns object with attributes lat and lon
+function ENtoLL84(easting, northing) {
+  var vlatlng = NEtoLL(easting, northing);
+  return OGBToWGS84(vlatlng.lat, vlatlng.lon, 0);
+}
+
+// Returns object with attributes east and north
+function LL84toEN(lat, lon) {
+  var vlatlon = WGS84ToOGB(lat, lon, 0);
+  return LLtoNE(vlatlon.lat, vlatlon.lon);
+} 
+{% endhighlight %}
+
+Now we've got that out of the way, lets make a div for the map to live in:
+
+
+{% highlight html %}
+<div id="map_canvas" style="width:500px; height:500px;"></div> 
+{% endhighlight %}
+   
+... and a function to plot the schools' locations:
+
+{% highlight javascript %}
+function drawMap(data) {
+  // make a map, centred on Manchester
+  var manchesterLatLon = new google.maps.LatLng(53.480110, -2.237940);
+  var myOptions = {
+    zoom: 11,
+    center: manchesterLatLon,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+ 
+  // add a marker for each school 
+  var bindings = data.results.bindings; 
+  for (var i in bindings) {
+  
+    var schoolData = data.results.bindings[i];
+   
+    var northing = schoolData["northing"]["value"];
+    var easting = schoolData["easting"]["value"];
+    var name = schoolData["name"]["value"];
+  
+    // call our 2-step conversion
+    var latLng = ENtoLL84(easting, northing);
+
+    // make a marker with the label as the school name
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng( latLng.lat, latLng.lon ),
+      map: map,
+      title: name
+    });
+  } 
+} 
+{% endhighlight %}
+
+Now all that's left to do is to add the call to <code>drawMap</code> to the ajax success callback.        
+
+{% highlight javascript %}
+$.ajax({
+  url: queryUrl
+  success: function(data) {
+  
+    // ... existing code here
+  
+    drawMap(data);
+  }
+});
+{% endhighlight %}
+
+You should now have something that looks a bit like "this page":http://ricroberts.s3.amazonaws.com/linked-data-and-javascript-tutorial.html.
+
+h3. Useful links
+
+* "SPARQL reference":http://www.w3.org/TR/rdf-sparql-query/    
+* "Linked Data":http://www.w3.org/standards/semanticweb/data
+* "Google Maps API":http://code.google.com/apis/maps/documentation/javascript/basics.html 
+* "Converting map grid types":http://www.roxburgh.net/projects/googlemaps/
+* "MapKi (Google Maps wiki)":http://mapki.com/wiki/
+* "JQuery Ajax Docs":http://api.jquery.com/jQuery.ajax/
+
