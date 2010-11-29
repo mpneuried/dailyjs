@@ -1,0 +1,18 @@
+---
+layout: post
+title: JavaScript Developer Survey 
+author: Alex Young 
+categories: 
+- community
+- surveys
+---
+
+Last year I ran the "DailyJS JavaScript Developer Survey":http://dailyjs.com/2009/11/25/javascript-survey/ ("results":http://dailyjs.com/2009/12/02/survey-results/).  It produced some interesting results that are useful to both open source and commercial developers, so I'd like to run it again.
+
+The results of this survey will be shared with the community on DailyJS, and are also visible after submitting the survey.
+
+No personal details will be collected in this survey.
+
+The survey will close on Monday December 13th, 2010.
+
+<iframe src="https://spreadsheets0.google.com/embeddedform?formkey=dHJwLUs3VHo0T1drN0JpWFg1bXBMR0E6MA" width="560" height="2616" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
