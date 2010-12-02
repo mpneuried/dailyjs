@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Let's Make a Framework: eBook"
+title: "Let's Make a Framework: Free eBook"
 author: Alex Young
 categories: 
 - frameworks
