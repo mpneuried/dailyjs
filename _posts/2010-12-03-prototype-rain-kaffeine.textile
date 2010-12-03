@@ -1,0 +1,75 @@
+---
+layout: post
+title: "Prototype Update, Kaffeine, js-signals, Zepto, rain.js"
+author: Alex Young
+categories: 
+- zepto
+- prototype
+- languages
+- graphics
+---
+
+h3. Prototype 1.7
+
+"Prototype 1.7":http://prototypejs.org/2010/11/22/prototype-1-7 is out, and activity on 1.7.0.1 has begun already.  This is the version of Prototype that adds Sizzle, <code>$().on</code>, <code>Element.Layout</code>, and ES5 compliance.
+
+h3. Kaffeine
+
+"Kaffeine":https://github.com/weepy/kaffeine ("License":https://github.com/weepy/kaffeine/blob/master/LICENSE) by Jonah Fox progressively enhances JavaScript while remaining backwards compatible.  "The documentation":http://weepy.github.com/kaffeine/ has examples of the bang syntax, <code>@</code> alias for <code>this</code>, implicit brackets and more.
+
+That means code that looks like this:
+
+{% highlight javascript %}
+Edge::add = (nick, name, complete, opts) {
+  opts ||= {}
+  @client.select 15
+  user = User.find! {id: nick}
+  puzzle = Puzzle.find! {name: name}
+  err, data = client.set! "u:#{user}:p:#{puzzle}"
+  complete()
+}
+{% endhighlight %}
+
+Will turn into this:
+
+{% highlight javascript %}
+Edge.prototype.add = function(nick, name, complete, opts) {
+  opts = opts || {}
+  this.client.select(15)
+  User.find({id: nick}, function(user) {
+    Puzzle.find({name: name}, function(puzzle) {
+      client.set(("u:" + (user) + ":p:" + (puzzle)), function(err, data) {
+        return complete()
+      })
+    })
+  })
+}
+{% endhighlight %}
+
+The author has outlined his philosophy for the project:
+
+* Progressive enchancement
+* Concentrate on small useful feature set
+* Hackable, modular, extendable and testable
+* Whitespace is not significant
+
+In case you're wondering, the parser "tokenizes input":https://github.com/weepy/kaffeine/blob/340a995e5b69012381eaf986100199d03f28ecc7/lib/token.js and <code>eval</code>'s the result.
+
+h3. js-signals
+
+"js-signals":http://millermedeiros.github.com/js-signals/ (MIT License) by Miller Medeiros is an event/messaging system for JavaScript:
+
+bq. A Signal is similar to an Event Emitter/Dispatcher or a Pub/Sub system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. To know more about the differences and advantages/disadvantages of each approach "check the Wiki page":https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations.
+
+One of the claimed advantages of this project is to _favor composition over inheritance_.  This idea appeals to me and "the examples":https://github.com/millermedeiros/js-signals/wiki/Examples make it seem simple enough to get started with fairly quickly (should you need a pub/sub-like messaging system for your next project).
+
+h3. Zepto 0.2
+
+"Zepto 0.2":http://mir.aculo.us/2010/12/01/zepto-js-v0-2-—-backbone-js-compatibility-unbind-text-better-ajax/ by Thomas Fuchs is out.  This version adds support for "Backbone.js":http://documentcloud.github.com/backbone/ which seems like a good fit for the WebKit iOS-app style projects people are building with it.
+
+h3. Rain.js
+
+!/images/posts/rainjs.png!
+
+"Rain.js":https://github.com/juliocesar/rain.js (MIT License) by "Julio Cesar Ody":http://awesomebydesign.com/ generates a great rain effect.  As you might have noticed I'm a sucker for pretty graphical tricks.  If you've got any scene-style JavaScript hacks please send them in!
+
