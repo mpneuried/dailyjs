@@ -71,5 +71,5 @@ h3. Rain.js
 
 !/images/posts/rainjs.png!
 
-"Rain.js":https://github.com/juliocesar/rain.js (MIT License) by "Julio Cesar Ody":http://awesomebydesign.com/ generates a great rain effect.  As you might have noticed I'm a sucker for pretty graphical tricks.  If you've got any scene-style JavaScript hacks please send them in!
+"Rain.js":https://github.com/juliocesar/rain.js (MIT License) by "Julio Cesar Ody":http://awesomebydesign.com/ generates a great rain effect, there's a "demo here":http://rain-demo.heroku.com/.  As you might have noticed I'm a sucker for pretty graphical tricks.  If you've got any scene-style JavaScript hacks please send them in!
 
