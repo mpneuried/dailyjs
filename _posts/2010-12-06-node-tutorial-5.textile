@@ -1,0 +1,285 @@
+---
+layout: post
+title: "Node Tutorial Part 5"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+---
+
+Welcome to part 5 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+
+Before starting this tutorial remember to start up a mongo daemon if your computer doesn't run one automatically.
+
+h3. Authentication
+
+We've built a serviceable app, but it's not that useful without some kind of authentication system.  Most production systems and client projects require authentication, and even though there are interesting initiatives like OpenID and OAuth, most commercial projects are likely to have their own login system.
+
+This is usually achieved with a session:
+
+* A user fills out a form with their username and password
+* The password is encrypted with a hashing algorithm and salt
+* This value is compared with the user's record in the database
+* If it matches, a session key is generated that identifies the user
+
+We need the following things to manage users and sessions:
+
+* Users in the database
+* Sessions that can store the logged-in user ID
+* Password encryption
+* A way of restricting access to routes that require a logged-in user
+
+h3. Sessions in Express
+
+Express relies on Connect's session middleware, which is backed by a data storage mechanism.  There's a memory-based store, and third-party stores including "connect-redis":https://github.com/visionmedia/connect-redis and "connect-mongodb":https://github.com/masylum/connect-mongodb.  An alternative option is "cookie-sessions":https://github.com/caolan/cookie-sessions which stores session data inside the user's cookie.
+
+A session can be configured like this:
+
+{% highlight javascript %}
+app.use(express.cookieDecoder());
+app.use(express.session());
+{% endhighlight %}
+
+It's very important to place these configuration options in the right place during configuration, else the session variable won't appear in request objects.  I've put it after <code>bodyDecoder</code> and before <code>methodOverride</code>.  Refer to the full source on GitHub to see this in context. 
+
+Now our HTTP responders will have access to <code>req.session</code>:
+
+{% highlight javascript %}
+app.get('/item', function(req, res) {
+  req.session.message = 'Hello World';
+});
+{% endhighlight %}
+
+h3. MongoDB Sessions
+
+Install "connect-mongodb":https://github.com/masylum/connect-mongodb with <code>npm install connect-mongodb</code>.
+
+connect-mongodb works like any other session store.  During application configuration we need to specify our connection details:
+
+{% highlight javascript %}
+app.configure('development', function() {
+  app.set('db-uri', 'mongodb://localhost/nodepad-development');
+});
+
+var db = mongoose.connect(app.set('db-uri'));
+
+function mongoStoreConnectionArgs() {
+  return { dbname: db.db.databaseName,
+           host: db.db.serverConfig.host,
+           port: db.db.serverConfig.port,
+           username: db.uri.username,
+           password: db.uri.password };
+}
+
+app.use(express.session({
+  store: mongoStore(mongoStoreConnectionArgs())
+}));
+{% endhighlight %}
+
+Most of this code wouldn't be required if the API authors could decide on a standard format for connection options.  I've written a function that extracts the connection details from Mongoose.  In this example, <code>db</code> holds a Mongoose connection instance.  Mongoose expects connection details to be provided through URIs, which I like because it's easy to remember the format.  I've stored environment-specific connection strings using <code>app.set</code>.
+
+When writing Express applications it's a good idea to use <code>app.set('name', 'value')</code>.  Just remember that <code>app.set('name')</code> is used to access the setting, rather than <code>app.get</code>. 
+
+Running <code>db.sessions.find()</code> in the mongo console will now return any sessions that have been created.
+
+h3. Access Control Middleware
+
+Express provides an elegant way of restricting access to logged-in users.  When HTTP handlers are defined, an optional route middleware parameter can be specified:
+
+{% highlight javascript %}
+function loadUser(req, res, next) {
+  if (req.session.user_id) {
+    User.findById(req.session.user_id, function(user) {
+      if (user) {
+        req.currentUser = user;
+        next();
+      } else {
+        res.redirect('/sessions/new');
+      }
+    });
+  } else {
+    res.redirect('/sessions/new');
+  }
+}
+
+app.get('/documents.:format?', loadUser, function(req, res) {
+  // ...
+});
+{% endhighlight %}
+
+Now every route that requires a logged-in user can be handled by adding <code>loadUser</code> to the route.  The middleware itself gets the usual route parameters, and also <code>next</code> -- this can be used to run the route handler based on arbitrary logic.  In our project a user is loaded using a <code>user_id</code> in the session; if the user cannot be found <code>next</code> simply isn't called and the browser is redirected to the login screen.
+
+h3. RESTful Session Modelling
+
+I've modelled sessions in a similar way to documents.  There are new, create, and delete routes:
+
+{% highlight javascript %}
+// Sessions
+app.get('/sessions/new', function(req, res) {
+  res.render('sessions/new.jade', {
+    locals: { user: new User() }
+  });
+});
+
+app.post('/sessions', function(req, res) {
+  // Find the user and set the currentUser session variable
+});
+
+app.del('/sessions', loadUser, function(req, res) {
+  // Remove the session
+  if (req.session) {
+    req.session.destroy(function() {});
+  }
+  res.redirect('/sessions/new');
+});
+{% endhighlight %}
+
+h3. User Model
+
+The <code>User</code> model is more complicated than the <code>Document</code> model because it has to contain authentication-related code.  The strategy I've used, which you've probably seen before in OO web frameworks, is:
+
+* Passwords are stored in an encrypted format with a salt
+* Authentication can be performed by comparing an encrypted plain text password with the password in the database for a given user
+* A 'virtual' <code>password</code> property exposes a plain text password for the convenience of registration and login forms
+* This property has a setter which automatically encrypts the password before saving
+* A unique index is used to ensure there's only one user for each email address
+
+The password encryption uses Node's standard crypto library:
+
+{% highlight javascript %}
+var crypto = require('crypto');
+
+mongoose.model('User', {
+  methods: {
+    encryptPassword: function(password) {
+      return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+    }
+  }
+});
+{% endhighlight %}
+
+<code>encryptPassword</code> is an instance method which returns a sha1-hashed password with a salt.  The salt is generated before encrypting the password in the password setter:
+
+{% highlight javascript %}
+mongoose.model('User', {
+  // ...
+
+  setters: {
+    password: function(password) {
+      this._password = password;
+      this.salt = this.makeSalt();
+      this.hashed_password = this.encryptPassword(password);
+    }
+  },
+
+  methods: {
+    authenticate: function(plainText) {
+      return this.encryptPassword(plainText) === this.hashed_password;
+    },
+
+    makeSalt: function() {
+      return Math.round((new Date().valueOf() * Math.random())) + '';
+    },
+
+    // ...
+{% endhighlight %}
+
+The salt could be anything you like, I've generated a fairly random string here.
+
+h3. Saving Users and Registration
+
+Mongoose makes it easy to do things when records are saved by overriding the <code>save</code> method:
+
+{% highlight javascript %}
+mongoose.model('User', {
+  // ...
+  methods: {
+    // ...
+
+    save: function(okFn, failedFn) {
+      if (this.isValid()) {
+        this.__super__(okFn);
+      } else {
+        failedFn();
+      }
+    }
+
+    // ...
+{% endhighlight %}
+
+I've overridden <code>save</code> to allow for a failed save method.  This makes the failed registration handling simpler:
+
+{% highlight javascript %}
+app.post('/users.:format?', function(req, res) {
+  var user = new User(req.body.user);
+
+  function userSaved() {
+    switch (req.params.format) {
+      case 'json':
+        res.send(user.__doc);
+      break;
+
+      default:
+        req.session.user_id = user.id;
+        res.redirect('/documents');
+    }
+  }
+
+  function userSaveFailed() {
+    res.render('users/new.jade', {
+      locals: { user: user }
+    });
+  }
+
+  user.save(userSaved, userSaveFailed);
+});
+{% endhighlight %}
+
+No error messages are displayed right now; I'll get to that in another tutorial.
+
+Even though this validation is pretty dumb, the index is critical to this application:
+
+{% highlight javascript %}
+mongoose.model('User', {
+  // ...
+
+  indexes: [
+    [{ email: 1 }, { unique: true }]
+  ],
+
+  // ...
+});
+
+{% endhighlight %}
+
+This will prevent duplicate users from being saved.  The format is the same as "MongoDB's ensureIndex":http://www.mongodb.org/display/DOCS/Indexes#Indexes-UniqueIndexes.
+
+h3. Conclusion
+
+As of "commit 03fe9b2":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd we now have:
+
+* MongoDB sessions
+* User model, with support for sha1 password encryption
+* Routing middleware for controlling access to documents
+* User registration and login
+* Session management
+
+I've updated the Jade templates to include a basic login form.
+
+There are a few things missing from this version though:
+
+* Documents don't take into account the owner
+* The tests don't work properly because I'm having trouble figuring out session handling in Expresso tests
+
+I'll get to these things in future parts of this tutorial series.
+
