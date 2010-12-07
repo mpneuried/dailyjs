@@ -1,0 +1,62 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- geo
+- libraries
+- design
+---
+
+Welcome to the jQuery roundup 35. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Head JS
+
+!/images/posts/headjs.png!
+
+"Head JS":http://headjs.com/ by Tero Piirainen ("GitHub":https://github.com/headjs/headjs) is a parallel script loader.  The project has the byline "the only script in your &lt;head&gt;".  It also includes some other features:
+
+* onReady handling based on when scripts have been loaded with <code>head.ready</code>
+* CSS modernizer and HTML5 backwards compatibility
+* Dynamic CSS loading based on conditions
+* Browser detection
+* JavaScript feature detection
+
+Which makes this library a flexible meta-library that sits above your favourite frameworks like jQuery.
+
+The story behind Head JS is interesting because the project was being quietly developed by the author... that is until it was discovered on GitHub and apparently went viral:
+
+bq. This project was never announced. git push and it was all viral.
+
+Unlike most projects out there, the Piirainen made a good site with detailed documentation early on, so it just goes to show how packaging your projects can help them succeed.  Dumping jQuery plugins on free hosting with a poor website and little or no documentation isn't a good way to get your work noticed.
+
+h3. TumblrPostMap
+
+"TumblrPostMap":https://github.com/m4ktub/TumblrPostMap by Cláudio Gil ("demo":http://tumblrpostmap.tumblr.com, "documentation":https://github.com/m4ktub/TumblrPostMap/wiki) is another well-documented project that aims to enable Tumblr blogs to show graphs with as little work as possible.  It looks at posts tagged with _geo_ for markup like this:
+
+{% highlight html %}
+<p class="geo">Uluru, NT, Austrália: 
+    <span class="latitude">-25.345</span>, <span class="longitude">131.036111</span>
+</p>
+{% endhighlight %}
+
+I like the fact he's using the "Geo microformat":http://microformats.org/wiki/geo to structure the markup.  The Tumblr demo blog doesn't seem to work right now, I'm not sure if this is due to Tumblr's recent downtime or the fact it's being actively worked on.  Anyway, kudos for the documentation!
+
+h3. Fixed Center
+
+"Fixed Center":http://david-tang.net/2010/12/fixed-center-plugin/ ("demo":http://david-tang.net/plugins/fixedCenter/fixedCenter.html) by David Tang is a simple plugin that centres a div on a page.  It's the kind of thing a client wants you to do that you'd rather not have to spend much time on.  He recently updated it with performance enhancements, so it feels fairly lightweight. 
+
+h3. Packaging Your Plugins
+
+I've said it many times before, but please package your jQuery projects with the following:
+
+* A README with basic information
+* A license
+* Documentation
+* Tests, however limited
+* A corresponding website and demo
+
+GitHub even hosts pages for free, so you've got no excuse for not having a site or documentation.  If you're going to spend time building a plugin, why not package it in a way that makes it easy for us to use?  Even better, your work will be more likely to be featured on sites like this!
+
