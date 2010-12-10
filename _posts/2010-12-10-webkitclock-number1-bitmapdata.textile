@@ -1,0 +1,33 @@
+---
+layout: post
+title: "We're Number 1!"
+author: Alex Young
+categories: 
+- graphics
+- community
+---
+
+h3. JavaScript Hits #1 On GitHub
+
+"JavaScript is now the most popular language on GitHub":https://github.com/languages/JavaScript.  It only seems natural considering the popularity of web applications -- have you worked on a web application that doesn't use JavaScript somewhere?  But it's not just projects like jQuery at the top, key server-side projects are in the _most watched overall_ category, like "Express":https://github.com/visionmedia/express.  
+
+h3. BitmapData.js
+
+!/images/posts/bitmapdatajs.png!
+
+"BitmapData.js":http://peternitsch.net/bitmapdata.js/ ("GitHub: BitmapData.js":https://github.com/pnitsch/BitmapData.js) by Peter Nitsch is a Canvas implementation of the AS3 BitmapData class.  I haven't used much AS3 myself, but the examples look pretty good:
+
+* "Perlin Noise":http://peternitsch.net/bitmapdata.js/noise.html
+* "Animated Plasma":http://peternitsch.net/bitmapdata.js/plasma.html
+* "Blendmodes":http://peternitsch.net/bitmapdata.js/blendmodes.html
+
+This is another useful library for ActionScript developers who are moving into Canvas-based development.
+
+h3. WebKit Clock
+
+!/images/posts/webkitclock.png!
+
+"WebKit Clock":http://onotakehiko.com/webkitclock/ by Ono Takehiko uses no images (apart from the social network sharing buttons) to generate an amazing world clock.  There are delicious animations for switching between cities, and an Apple Dashboard-style clock.  It uses a lot of <code>box-shadow</code>, <code>border-radius</code>, and a Canvas for the map.
+
+I was particularly impressed with the map animation.  If you're looking for more inspiration, the author has dozens of other interesting projects on "onotakehiko.com":http://onotakehiko.com/.
+
