@@ -13,6 +13,5 @@ The results of this survey will be shared with the community on DailyJS, and are
 
 No personal details will be collected in this survey.
 
-The survey will close on Monday December 13th, 2010.
+The survey is now closed.
 
-<iframe src="https://spreadsheets0.google.com/embeddedform?formkey=dHJwLUs3VHo0T1drN0JpWFg1bXBMR0E6MA" width="560" height="2616" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>

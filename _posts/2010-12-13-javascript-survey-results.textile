@@ -1,0 +1,67 @@
+---
+layout: post
+title: "JavaScript Developer Survey Results"
+author: Alex Young
+categories: 
+- community
+- surveys
+---
+
+The JavaScript Developer Survey results are in!  The results are available here: "JavaScript Developer Survey Results":https://spreadsheets0.google.com/viewanalytics?formkey=dHJwLUs3VHo0T1drN0JpWFg1bXBMR0E6MA, and the raw data is here: "JavaScript Survey Raw Data":https://spreadsheets.google.com/pub?key=0AoLxLnkd2qTQdHJwLUs3VHo0T1drN0JpWFg1bXBMR0E&hl=en&single=true&gid=0&output=html.
+
+1218 people responded, which is up from 151 "last year":http://dailyjs.com/2009/12/02/survey-results/.
+
+h3. Analysis
+
+_Note that many of the questions allowed multiple responses, which is why the percentages might not add up to 100%._
+
+h4. Audience Background
+
+!/images/posts/survey-2010-env.png!
+
+98% of respondents say they work with JavaScript in the browser, and 35% are working on server-side code.  3% said they're working with WebOS, which may see more interest from our community since WebOS 2.0 has Node support for services.  11% are working on "other" server-based code, which might indicate the growing interesting in Node for network daemons.
+
+h4. Testing and Debugging
+
+!/images/posts/survey-2010-testing.png!
+
+66% of respondents _do not_ test their JavaScript (down from 68% last year).  There were 6 entries for "nodeunit":https://github.com/caolan/nodeunit and 10 for "Expresso":https://github.com/visionmedia/expresso.  "JsTestDriver":http://code.google.com/p/js-test-driver/ got some love with 15 people saying they use it.  Two people selected Selenium as well.  There are a lot of other responses in this category, I recommend scrolling through the "raw data":https://spreadsheets.google.com/pub?key=0AoLxLnkd2qTQdHJwLUs3VHo0T1drN0JpWFg1bXBMR0E&hl=en&single=true&gid=0&output=html if you're interested in testing.
+
+"JQUnit/QUnit":http://docs.jquery.com/QUnit (I'll change this to QUnit next year) was the most popular test library, with 34%.  "Jasmine":https://github.com/pivotal/jasmine is also pretty popular, with 18%. 
+
+Firebug is the most popular web-oriented debugger, at 78%.  Second was WebKit, with 49%.  As I'd expect people are using multiple tools to debug their browser-based code, but given the popularity of Chrome and Safari I thought Firebug's lead might have been less far ahead.
+
+Firebug is also the most popular benchmarking tool (71%).  12% benchmark based on unit tests.
+
+h4. Static Analysis, Packaging
+
+A huge amount of people are using JSLint, with a 95% share of those who use some form of static analysis.
+
+As for minifying code, 50% of people use YUI Compressor, and 41% use Closure Compiler.  JSMIN seems to be losing popularity, with 25%.
+
+h4. Hosting and Collaboration
+
+75% of respondents use GitHub to find code, which beats search engines at 68%.  38% use news sites like reddit and Hacker News.  GitHub is also the preferred hosting service, with 86%.  Launchpad, Codaset, and Codebase have a handful of votes each.
+
+h4. Preferred Interpreter
+
+Those of us who work with server-side JavaScript said we prefer Node as our interpreter, with 78%.  Second was Rhino, with 18%.
+
+h4. Other Languages
+
+!/images/posts/survey-2010-languages.png!
+
+PHP is the most popular language among our readers, at 46%.  Ruby is second at 33%, and Java is third at 25%.  Python is ahead of the C-family of languages, including Objective-C, at 24%.
+
+h3. Conclusion
+
+Thanks for taking part in the survey, we got a fascinating cross-section of the JavaScript community.
+
+I don't think it's too surprising that only half of respondents test their JavaScript, because it does seem like extra hard work for frontend developers.  If you're a frontend developer who's confused about how and what to test, I could write up more tutorials in that area.  Let me know via the comments.
+
+The popularity of PHP surprised me, but it's possible that this survey may have been featured on prominent PHP blogs.  However, both JavaScript and PHP are primarily web languages so it does make sense.  I recommend thinking outside of your comfort zone a little bit -- if you're a web developer there's no reason you can't pick up a bit of Objective-C for iPhone, Java for Android, or write some TCP/IP daemons in Node.
+
+Opera Dragonfly and Microsoft's JavaScript debugger tools didn't get much interest.  Why not try those out too?  You might learn something interesting!
+
+The strong interest in Node leads me to believe that we'll see a lot of startups working with Node or providing services for the Node community in the near future.  If you're working in this area why not meet up with us for beers to discuss your next project?
+
