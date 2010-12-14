@@ -1,0 +1,45 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- interface
+- graphics
+---
+
+Welcome to the jQuery roundup 36. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery.highlightRegex
+
+"jQuery.highlightRegex":https://github.com/jbr/jQuery.highlightRegex (MIT License, "demo":http://jbr.github.com/jQuery.highlightRegex/) by Johann Burkard highlights text based on a regular expression:
+
+{% highlight javascript %}
+$('selector').highlightRegex(/text/ig);
+{% endhighlight %}
+
+It's the kind of thing I could imagine being useful in a web application that deals with a lot of text (like a notepad, ereader, etc.)
+
+h3. jQuery Weather Widget
+
+The "jQuery weather widget 1.0":http://reesefelts.org/2010/11/18/the-reesenews-jquery-weather-widget-1-0/ (Creative Commons Attribution) by Seth Wright displays a nice little weather widget based on data from an XML file.  The author uses PHP to parse the XML, but I thought a possible extension to the project would be to use <code>jQuery.find</code> to read the XML from a JSONP weather API (if there is one, if not a server-side component will be required).
+
+h3. Booklet
+
+!/images/posts/moleskinebooklet.png!
+
+"Booklet":http://builtbywill.com/code/booklet/ (dual MIT and GPL License) is a plugin by Will Grauvogel that displays content in a flip-book layout.  There's a tutorial that uses this plugin to create an impressive Moleskine-themed page: "Moleskine Notebook with jQuery Booklet":http://tympanus.net/codrops/2010/12/14/moleskine-notebook/ ("demo":http://tympanus.net/Tutorials/MoleskineNotebook/).
+
+The Booklet API is very simple:
+
+{% highlight javascript %}
+
+$(function() {
+  $('#mybook').booklet({
+    width:  600,
+    height: 200
+  });
+});
+{% endhighlight %}
+
