@@ -1,0 +1,70 @@
+---
+layout: post
+title: "Node Roundup"
+author: Alex Young
+categories: 
+- node
+- server
+- wave
+- validation
+---
+
+Welcome to the Node Roundup. Send in your apps and libraries using our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Onvalid
+
+"Onvalid":https://github.com/doffm/Onvalid ("License":https://github.com/doffm/Onvalid/blob/master/LICENSE) by Mark Doffman is a validation library for Node (but should work elsewhere).  The "Onvalid documentation":http://doffm.github.com/Onvalid/onvalid.html is quite detailed and contains a lot of examples.  The suggested usage looks like this:
+
+{% highlight javascript %}
+var __ = Onvalid = require('./onvalid');
+
+var schema = {
+  name: __.exists
+};
+
+var user = {
+  'name': 'Bob'
+};
+
+if (Onvalid.validate(user, schema)) {
+  console.log('OK');
+}
+{% endhighlight %}
+
+Error messages are supplied to a callback as the third parameter of the <code>validate</code> method.
+
+I like the idea of using decoupled validation libraries, a library like this would work well with our Mongoose-based Nodepad tutorial project.
+
+h3. node-rlog
+
+"node-rlog":https://github.com/jbrisbin/node-rlog (Apache License 2.0) by J. Brisbin is a distributed logging solution for Riak and Node in the form of a library and command-line utility.  The Node usage is very simple:
+
+{% highlight javascript %}
+var rlog = require('node-rlog'),
+    log = rlog.getLogger('bucketname');
+log.debug('This is a debug line: ', myobj, myobj2);
+{% endhighlight %}
+
+Logs can then be viewed with the <code>noderlog</code> utility:
+
+{% highlight sh %}
+noderlog -b bucketname
+{% endhighlight %}
+
+Install it with <code>npm</code> from the GitHub repository:
+
+{% highlight sh %}
+git clone https://github.com/jbrisbin/node-rlog.git
+npm install ./node-rlog
+{% endhighlight %}
+
+h3. Wave-Node
+
+!/images/posts/wavenode.png!
+
+"Wave-Node":https://github.com/scottbw/wave-node (Apache License 2.0) by scottbw is a Node implementation of the "Google Wave Gadget API":http://code.google.com/apis/gadgets/docs/overview.html.  It uses WebSockets, which I thought was interesting because I'm fairly sure the last time I used Wave it polled aggressively with XMLHttpRequests.
+
+Apparently it can be integrated with the "Apache Wookie W3C Widget server":http://getwookie.org/.
+
+If you want to try out the server and examples, you'll need to check the code out from GitHub and install redis.
+
