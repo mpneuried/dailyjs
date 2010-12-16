@@ -74,7 +74,7 @@ exports.testDOM = {
 
 It's a good idea to have a message for each assertion to make it easier to track down failing tests.
 
-h3. Events Test
+h3. Events Tests
 
 The events tests look a little bit different because my other testing library will run functions when they're passed:
 
