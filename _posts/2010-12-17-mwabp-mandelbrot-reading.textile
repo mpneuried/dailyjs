@@ -1,0 +1,41 @@
+---
+layout: post
+title: "Distributed Mandelbrots, What to Read, 1k Christmas Tree, Mobile Best Practices"
+author: Alex Young
+categories: 
+- graphics
+- webworkers
+- basic
+- mobile
+---
+
+h3. Distributed Mandelbrot Generation
+
+!/images/posts/dmandel.png!
+
+When I was at university my dissertation was on distributed computing with arbitrary-precision arithmetic.  Which basically meant I used an entire lab to generate pretty pictures with very large numbers.
+
+So when I found "mandlebrotapp.appspot.com":http://mandlebrotapp.appspot.com/jobs I got all misty-eyed and nostalgic.  It uses browsers to generate sections of the Mandelbrot set.  It has a basic job management system so you can submit new jobs, and it'll use different colours during rendering so you can see which blocks other people generated.
+
+Given the news of recent password leaks from major sites, if anyone has the guile to create a rainbow table hash cracker using JavaScript delivered over ad networks the Internet will probably fall apart.  Don't do that!  Unless it's purely for research purposes, of course.
+
+h3. What to Read to Get Up to Speed in JavaScript
+
+"What to Read to Get Up to Speed in JavaScript":http://blog.reybango.com/2010/12/15/what-to-read-to-get-up-to-speed-in-javascript/ by Rey Bango is list of books and blogs for beginner, intermediate, and experienced JavaScript developers.  It mentions the classics, like _JavaScript: The Good Parts_, and even includes DailyJS (thanks!)
+
+h3. 1k Christmas Tree
+
+!/images/posts/1ktree.png!
+
+More animated weather effects.  This is becoming a DailyJS meme now.  "This animated Christmas tree":http://js1k.com/2010-xmas/demo/856 by "@romancortes":http://twitter.com/romancortes uses Canvas to render a rotating 3D tree, complete with falling snow.
+
+h3. Mobile Web Application Best Practices
+
+"Mobile Web Application Best Practices":http://www.w3.org/TR/2010/REC-mwabp-20101214/ is a W3C Recommendation published on 14th December, 2010.  It consists of a list of 32 best practices, with explanations for each point:
+
+bq. Use Cookies Sparingly
+
+bq. Cookies are a common and effective means to store small amounts of state on the client. [...] Information stored in cookies, however, is sent to the server for every request and so using them for excessive amounts of data can negatively impact performance, particularly on a mobile network.
+
+I actually think this would be a great resources for developers new to mobile web development, and even useful as a sanity check for more experienced developers and designers.
+
