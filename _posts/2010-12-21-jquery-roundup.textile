@@ -1,0 +1,51 @@
+---
+layout: post
+title: "jQuery Roundup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+- graphics
+- themes
+---
+
+Welcome to the jQuery roundup 37. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. FullCalendar
+
+!/images/posts/fullcalendar.png!
+
+"FullCalendar":http://arshaw.com/fullcalendar/ (GitHub: "arshaw / fullcalendar":https://github.com/arshaw/fullcalendar, GPL/MIT Dual License) by Adam Shaw is an incredibly elaborate jQuery calendar plugin.
+
+It reminds me of Google's calendar, but he's also got a "jQuery UI themed demo":http://arshaw.com/js/fullcalendar/demos/theme.html which shows a calendar with a theme.  It doesn't support editing, but it would be possible to add support using the events, which are listed in "FullCalendar's documentation":http://arshaw.com/fullcalendar/docs/.
+
+Even better, the project comes with "tests":https://github.com/arshaw/fullcalendar/tree/master/tests and a "Makefile":https://github.com/arshaw/fullcalendar/blob/master/Makefile!  It's not often I come across jQuery plugins that are packaged this well, believe me.
+
+h3. Capty
+
+"Capty":http://www.wbotelhos.com/capty/ (GitHub: "wbotelhos / capty":https://github.com/wbotelhos/capty, MIT License) by Washington Botelho is a little plugin that displays a caption over an image based on the <code>alt</code> attribute:
+
+{% highlight html %}
+$('#capty').capty();
+
+<img id="capty" src="image.jpg" alt="Example" />
+{% endhighlight %}
+
+If the image has a <code>name</code> attribute with a selector, it'll use the selector for the caption's content (see the _A custom caption with a external content_ example).
+
+The author has more interesting plugins on his GitHub account, "wbotelhos":https://github.com/wbotelhos.  In particular the "Wizard plugin":https://github.com/wbotelhos/stepy caught my eye, which I thought was something to do with incredible magical powers, but it's actually just for making multi-stage form wizards.
+
+h3. Absolution Updates
+
+!/images/posts/absolution.png!
+
+Michaël Vanderheeren has been working on his "Absolution":https://github.com/michaelvanderheeren/Absolution jQuery UI theme.  This theme uses CSS3, and has some interesting demos:
+
+* "Registration form demo":http://absolution.michaelvanderheeren.be/demos/registration.html
+* "Equalizer demo":http://absolution.michaelvanderheeren.be/demos/equalizer.html
+* "File, progress bars, and tabs":http://absolution.michaelvanderheeren.be/demos/download.html
+
+He's been making a lot of small tweaks lately so it uses more CSS3 and looks cleaner than before.
+
+This is one of the themes I previously covered in a general "jQuery UI roundup":http://dailyjs.com/2010/09/21/jquery-roundup/.
