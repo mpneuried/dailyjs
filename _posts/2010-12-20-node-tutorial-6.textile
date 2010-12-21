@@ -172,5 +172,7 @@ We haven't actually used any jQuery UI so far, but we'll get to that in the next
 
 I haven't had time to browser test yet, so stick to WebKit or Firefox.
 
-The latest Nodepad commit was "3e01054":https://github.com/alexyoung/nodepad/tree/3e010544717a8a0cc384d834f531d241ade579b7.
+The latest Nodepad commit was "dd40b":https://github.com/alexyoung/nodepad/tree/dd40b5917bf1e59597395425941cc74607110791.
+
+*Update*: I've changed the "Nodepad README":https://github.com/alexyoung/nodepad to include more details on library, binary and operating systems that I've tested it against.  This may help people who've been having trouble running it.
 
