@@ -1,0 +1,67 @@
+---
+layout: post
+title: "Crafty, Opera Widgets for Android, Exceptional and Node"
+author: Alex Young
+categories: 
+- node
+- server
+- games
+- libraries
+- frameworks
+- opera
+- android
+---
+
+h3. Crafty
+
+"Crafty":http://craftyjs.com (dual MIT and GPL license) is a JavaScript game engine by Louis Stow with a jQuery-inspired API.
+
+{% highlight javascript %}
+Crafty.init(50, 580, 225);
+
+var player = Crafty.e('2D, DOM, gravity, controls, twoway, image')
+	.attr({x: Crafty.viewport.width / 2, w: 16, h: 16})
+	.gravity('floor')
+	.twoway(2)
+	.image('favicon.png', 'no-repeat');
+
+var floor = Crafty.e('2D, floor')
+	.attr({x:0, y: 225, w: 580, h: 5});
+{% endhighlight %}
+
+As you can see, the API uses chained calls like jQuery.  At the moment Crafty is an early release (version 0.1), but the "Crafty blog":http://craftyjs.tumblr.com/ has a post about "upcoming features":http://craftyjs.tumblr.com/post/2442770427/whats-next.
+
+The author is keen to point out that the project is a game framework, rather than an engine.  Typically game engines are less general than the types of frameworks we're used to working with as web developers, so this probably suits our way of working (and should suit many types of game).
+
+h3. Opera Widgets for Android
+
+Opera Labs has announced an Android runtime that can run "WAC widgets":http://www.jil.org/web/jil (Wholesale Applications Community): "WAC 1.0 - Supporting runtime for Android: Installation instructions and release notes":http://labs.opera.com/docs/wac/installation_instructions/.  This means Android devices can now run a type of widget that's designed around open, standardised specifications.
+
+More details on about WAC Widgets can be found in: "Introduction to Widget Handset APIs in WAC 1.0":http://dev.opera.com/articles/view/widget-handset-apis-wac/.
+
+It's not just a superficial cross platform library, however:
+
+bq. Using these new APIs we can take pictures, check GPS location, browse our address books, access accelerometer information, and even send SMS, MMS and E-Mail messages
+
+h3. Exceptional and Node
+
+Exceptional, a service that manages exception notifications from web applications, now supports Node.  In "Exceptional and node.js":http://blog.getexceptional.com/post/2311766626/exceptional-and-node-js, the developers announced a new library called "exceptional-node":http://github.com/contrast/exceptional-node that makes exception reporting a breeze:
+
+{% highlight javascript %}
+var Exceptional = require(./'exceptional');
+Exceptional.API_KEY = **YOUR-API-KEY**
+
+process.addListener('uncaughtException', function(err) {
+  Exceptional.handle(err);
+});
+
+try {
+  // Your Code
+} catch(error) {
+  // Your own error processing
+  Exceptional.handle(error);
+}
+
+{% endhighlight %}
+
+It has a package.json file so you should be able to install it with <code>npm</code>.  It's released under the MIT license.
