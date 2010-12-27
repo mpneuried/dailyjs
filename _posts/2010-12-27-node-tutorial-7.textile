@@ -1,0 +1,143 @@
+---
+layout: post
+title: "Node Tutorial Part 7"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+- express
+---
+
+Welcome to part 7 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+
+h3. Package Versions
+
+I've updated the "Nodepad README":https://github.com/alexyoung/nodepad/blob/f2261c510c987b35df1e6e000be6e1e591cd9d6d/README.textile to include the versions of Node and Mongo that I'm using.  It also includes the versions of the packages I've used.  That should help you actually get the code running if it doesn't seem to work.  I've tested it on Mac OS and Debian.
+
+Also remember that you need to restart Node whenever you change code (but not Jade templates).
+
+We're using <code>npm</code> to install packages, and it sets up path names so specific package versions can be required.  To install a package at a specific version, do this:
+
+{% highlight sh %}
+npm install express@1.0.0
+{% endhighlight %}
+
+Then to use it, do this:
+
+{% highlight javascript %}
+var express = require('express@1.0.0');
+{% endhighlight %}
+
+You can verify this works by typing <code>node</code> and entering the previous line:
+
+{% highlight javascript %}
+> express = require('express@1.0.0')
+{ version: '1.0.0'
+, Server: { [Function: Server] parseQueryString: [Function] }
+, createServer: [Function]
+}
+{% endhighlight %}
+
+h3. Jade Tricks
+
+When I first demonstrated Jade I hardcoded all the attributes.  It's possible to save a lot of effort by writing selectors as a shorthand for classes and IDs:
+
+{% highlight javascript %}
+div#left.outline-view
+  div#DocumentTitles
+    ul#document-list
+      - for (var d in documents)
+        li
+          a(id='document-title-' + documents[d].id, href='/documents/' + documents[d].id)
+            =documents[d].title
+{% endhighlight %}
+
+Notice that an ID selector has been combined with a class name: <code>div#left.outline-view</code>.
+
+The default tag is <code>div</code>, which means the previous example can be reduced to this:
+
+{% highlight javascript %}
+#left.outline-view
+  #DocumentTitles
+    ul#document-list
+      - for (var d in documents)
+        li
+          a(id='document-title-' + documents[d].id, href='/documents/' + documents[d].id)
+            =documents[d].title
+{% endhighlight %}
+
+h3. Error Pages
+
+Express allows us to define a custom error handler with <code>app.error</code>:
+
+{% highlight javascript %}
+// Error handling
+function NotFound(msg) {
+  this.name = 'NotFound';
+  Error.call(this, msg);
+  Error.captureStackTrace(this, arguments.callee);
+}
+
+sys.inherits(NotFound, Error);
+
+// This method will result in 500.jade being rendered
+app.get('/bad', function(req, res) {
+  unknownMethod();
+});
+
+app.error(function(err, req, res, next) {
+  if (err instanceof NotFound) {
+    res.render('404.jade', { status: 404 });
+  } else {
+    next(err);
+  }
+});
+
+app.error(function(err, req, res) {
+  res.render('500.jade', {
+    status: 500,
+    locals: {
+      error: err
+    } 
+  });
+});
+{% endhighlight %}
+
+Error handlers get four parameters, the error, req, res, and next.  The <code>next</code> method can be used to pass the error on to the next handler.  In the previous example, the 404 handler passes on errors that aren't <code>NotFound</code>, and we effectively catch all other errors and consider them 500s.
+
+Visiting <code>/bad</code> in the browser will display the custom 500 page.  Notice that I specify the HTTP status code in the options for <code>render</code> -- it's important to correctly specify status codes else a 200 will be returned instead of a 404 or 500.
+
+h3. Error Handling within Mongoose Code
+
+The <code>next</code> method is available to all of our app HTTP verb methods, which means we can use it to render a custom 404 page:
+
+{% highlight javascript %}
+app.get('/documents/:id.:format?/edit', loadUser, function(req, res, next) {
+  Document.findById(req.params.id, function(d) {
+    if (!d) return next(new NotFound('Document not found'));
+    // Else render the template...
+{% endhighlight %}
+
+This is the pattern that I found easiest to read when using Mongoose.  Simply using <code>throw new NotFound</code> within a Mongoose callback will cause the application to crash rather than Express's error handlers being triggered.
+
+h3. Conclusion
+
+When distributing or deploying Node applications it's important to be specific about package versions.  Many key packages are still under heavy development, so distribution in particular can be difficult.
+
+Express makes it fairly easy to create custom error handlers with templates, but make sure you specify the HTTP status code and use <code>next(exception)</code> when in a callback.
+
+This version of Nodepad was in "commit 929f564":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892.
+
