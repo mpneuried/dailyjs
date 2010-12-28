@@ -1,0 +1,46 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery BBQ, blockUI"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+---
+
+Welcome to the jQuery roundup 38. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery BBQ
+
+"jQuery BBQ":https://github.com/cowboy/jquery-bbq (MIT and GPL licenses) by Ben Alman helps manage bookmarkable #hash history.  There's a "project page", "unit tests":https://github.com/cowboy/jquery-bbq/tree/master/unit, and "lots of examples":http://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/.
+
+This plugin can cope with multiple history states per page, as demonstrated in the "advanced example":http://benalman.com/code/projects/jquery-bbq/examples/fragment-advanced/.
+
+h3. jQuery History Plugin
+
+"jQuery History Plugin":https://github.com/tkyk/jquery-history-plugin by Mikage Sawatari and Takayuki Miwa is another <code>hashchange</code> event-based history plugin.  The API is slightly different to jQuery BBQ, using the <code>$.history.init()</code> and <code>$.history.load()</code> methods to work with history.
+
+h3. blockUI
+
+"blockUI":http://jquery.malsup.com/block/ ("GitHub: malsup / blockui":https://github.com/malsup/blockui/) by Mike Alsup allows you to block interactions with a page until asynchronous events have completed.  It fades the page and shows a message, but it also sets the mouse cursor to a suitable busy icon.  
+
+This example makes a nice rounded-corner style display:
+
+{% highlight javascript %}
+$(document).ready(function() { 
+  $('#demo2').click(function() { 
+    $.blockUI({ css: { 
+      border: 'none', 
+      padding: '15px', 
+      backgroundColor: '#000', 
+      '-webkit-border-radius': '10px', 
+      '-moz-border-radius': '10px', 
+      opacity: .5, 
+      color: '#fff' 
+    } }); 
+
+    setTimeout($.unblockUI, 2000); 
+  });
+});
+{% endhighlight %}
+
