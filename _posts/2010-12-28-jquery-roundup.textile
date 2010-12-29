@@ -10,6 +10,10 @@ categories:
 
 Welcome to the jQuery roundup 38. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
 
+h3. jQuery Community Updates for December
+
+Addy Osmani has posted the "jQuery Community Updates for December":http://blog.jquery.com/2010/12/28/jquery-community-updates-for-december-2010/ to the jQuery blog.  There are details on preparations for jQuery 1.5, which features a major overhaul of the <code>jQuery.ajax</code> code and API.
+
 h3. jQuery BBQ
 
 "jQuery BBQ":https://github.com/cowboy/jquery-bbq (MIT and GPL licenses) by Ben Alman helps manage bookmarkable #hash history.  There's a "project page", "unit tests":https://github.com/cowboy/jquery-bbq/tree/master/unit, and "lots of examples":http://benalman.com/code/projects/jquery-bbq/examples/fragment-basic/.

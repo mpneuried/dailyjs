@@ -1,0 +1,109 @@
+---
+layout: post
+title: "Node Roundup"
+author: Alex Young
+categories: 
+- node
+- server
+---
+
+Welcome to the Node Roundup. Send in your apps and libraries using our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Tobi
+
+!/images/posts/tobi.jpg!
+
+"Tobi":http://tjholowaychuk.com/post/2482255515/introducing-tobi ("GitHub: LearnBoost / tobi":https://github.com/learnboost/tobi, MIT license) is yet another project by TJ Holowaychuk and Guillermo Rauch from LearnBoost for server-side browser-based testing, in a similar vein to "Webrat":https://github.com/brynary/webrat.  Tobi uses jQuery and "jsdom":https://github.com/tmpvar/jsdom to make writing tests intuitive for us seasoned JavaScripters.
+
+TJ's example demonstrates using jQuery's selectors and the kind of chained API we're now familiar with:
+
+{% highlight javascript %}
+var tobi = require('tobi'),
+    app = require('./my/app'),
+    browser = tobi.createBrowser(app);
+
+browser.get('/login', function(res, $) {
+  $('form')
+    .fill({ username: 'tj', password: 'tobi' })
+    .submit(function(res, $) {
+      res.should.have.status(200);
+      res.should.have.header('Content-Length');
+      res.should.have.header('Content-Type', 'text/html; charset=utf-8');
+      $('ul.messages').should.have.one('li', 'Successfully authenticated');
+      browser.get('/login', function(res, $) {
+        res.should.have.status(200);
+        $('ul.messages').should.have.one('li', 'Already authenticated');
+        // We are finished testing, close the server
+        app.close();
+      });
+    });
+});
+{% endhighlight %}
+
+Tobi is actually test framework agnostic, and they've added hooks for TJ's "should.js":http://github.com/visionmedia/should.js assertion library (used in the example).  That means the syntax for writing assertions is expressive and succinct.
+
+Because this project is test framework (or test _runner_) agnostic, Tobi could be used with something like Expresso to run the tests.  This is an example of using should.js with Expresso:
+
+{% highlight javascript %}
+var lib = require('mylib'),
+    should = require('should');
+
+module.exports = {
+  'test .version': function() {
+    lib.version.should.match(/^\d+\.\d+\.\d+$/);
+  }
+};
+{% endhighlight %}
+
+h3. Zombie
+
+"Zombie":http://zombie.labnotes.org/ ("GitHub: assaf / zombie":https://github.com/assaf/zombie, MIT license) by Assaf Arkin is a similar project that simulates a browser to perform tests.  Assaf's examples use the CommonJS assertion module:
+
+{% highlight javascript %}
+var zombie = require("zombie");
+
+// Load the page from localhost
+zombie.visit('http://localhost:3000/', function(err, browser) {
+
+  // Fill email, password and submit form
+  browser.
+    fill('email', 'zombie@underworld.dead').
+    fill('password', 'eat-the-living').
+    pressButton('Sign Me Up!', function(err, browser) {
+      // Form submitted, new page loaded.
+      assert.equal(browser.text('title'), 'Welcome To Brains Depot');
+    });
+});
+{% endhighlight %}
+
+These tests could also be run with a suitable test runner.
+
+The author claims this library is insanely fast, but I haven't verified its performance.  Performance is important for testing because people are less likely to bother running them if they take too long to run, so it's probably worth trying both Zombie and Tobi out to see how they fare compared to your current functional/integration/acceptance testing solutions.
+
+h3. Node-validator
+
+"node-validator":https://github.com/chriso/node-validator ("License":https://github.com/chriso/node-validator/blob/master/LICENSE) by Chris O'Hara is a library for string validation, filtering and sanitization.
+
+It can be used in a browser or Node, but the really interesting thing about this library is the author's example of using it to validate requests in a Node app.  There's a "gist":https://gist.github.com/752126 that makes the following possible:
+
+{% highlight javascript %}
+get('/', function(req, res) {
+    req.onValidationError(function() {
+        // Redirect the user...
+    });
+
+    // Validate user input
+    req.check('zip', 'Please enter a valid ZIP code').len(4,5).isInt();
+    req.check('email', 'Please enter a valid email').len(6,64).isEmail();
+    req.checkHeader('referer').contains('localhost');
+
+    // Sanitize user input
+    req.sanitize('textarea').xss();
+    req.sanitize('foo').toBoolean();
+
+    // etc.
+});
+{% endhighlight %}
+
+Now requests to a URL with parameters like <code>http://localhost:8080/?zip=12345&foo=1&textarea=large_string</code> will be validated.  This could be very useful for sanity checking in an Express app, for example.
+
