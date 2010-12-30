@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Let's Make a Framework: More Tests"
+title: "Let's Make a Framework: Patterns"
 author: Alex Young
 categories: 
 - frameworks
