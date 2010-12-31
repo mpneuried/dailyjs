@@ -1,0 +1,40 @@
+---
+layout: post
+title: "GammaJS, emscripten"
+author: Alex Young
+categories: 
+- frameworks
+- games
+- webgl
+---
+
+h3. GammaJS: A WebGL platformer game engine
+
+"Gamma":http://gammajs.org/ ("GitHub: Royce / GammaJS":https://github.com/Royce/GammaJS, MIT license) by Royce Townsend is a library for creating browser-based 2.5D platform games.  It uses a few libraries like "RequireJS":http://gammajs.org/advanced/architecture.html#requirejsns, and there's documentation that takes you through "setting up Gamma":http://gammajs.org/intro/install.html.
+
+Creating a new project with Gamma basically looks like this:
+
+{% highlight javascript %}
+require(['gma/base', 'gma/manager'],
+    function(gma) {
+        // The game specification is contained within this function.
+        var manager = gma.manager();
+        manager.storeLevels({});
+        manager.init();
+    }
+);
+{% endhighlight %}
+
+The "manager":http://gammajs.org/api/docs/gma/manager.html object contains all the basic settings for a game, like the width, height, a canvas element, and other higher-level objects like a list of levels.
+
+This project has "a lot of documentation":http://gammajs.org/topics/index.html, so if you're looking into building a platform game with a traditional structure this might take a lot of the drudgery out of getting a project started.
+
+h3. emscripten
+
+!/images/posts/raytrace.png!
+
+Speaking of games, "emscripten":http://code.google.com/p/emscripten/ was released recently which is a LLVM-to-JavaScript compiler:
+
+bq. It takes LLVM bitcode (which can be generated from C/C++, using llvm-gcc or clang, or any other language that can be converted into LLVM) and compiles that into JavaScript, which can be run on the web (or anywhere else JavaScript can run).
+
+I really enjoyed looking at the "ray tracing demo":http://www.syntensity.com/static/raytrace.html.  If you want to run the WebGL examples you'll need a "compatible browser":http://www.khronos.org/webgl/wiki/Getting_a_WebGL_Implementation.   
