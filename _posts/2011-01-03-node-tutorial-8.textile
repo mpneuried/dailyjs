@@ -1,0 +1,217 @@
+---
+layout: post
+title: "Node Tutorial Part 8"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+- express
+---
+
+Welcome to part 8 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+* "Part 7: Node Library Versions, Jade Tricks, Error Pages":http://dailyjs.com/2010/12/27/node-tutorial-7/, source code commit: "929f5":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892
+
+h3. Flash Messages
+
+Flash messages are server-side messages that are displayed once.  The session is usually used to store flash messages until they're displayed, at which point they're deleted.  Express has support for flash messages through "Connect's flash middleware":http://extjs.github.com/Connect/flash.html:
+
+{% highlight javascript %}
+req.flash('info', '%s items have been saved.', items.length);
+{% endhighlight %}
+
+The first parameter is a category for the message. I usually associate these with CSS classes to display error messages differently to general feedback.  The second parameter is the message to be displayed, which can use formatters (only <code>%s</code> is available by default).
+
+h3. Helpers
+
+Express has two kinds of view helpers: static and dynamic.  Helpers can be variables or functions, and are added to the application like this:
+
+{% highlight javascript %}
+app.helpers({
+  nameAndVersion: function(name, version) {
+    return name + ' v' + version;
+  },
+
+  appName: 'Nodepad',
+  version: '0.1'
+});
+{% endhighlight %}
+
+I like to make a file called <code>helpers.js</code> with all of my helpers in, then load it with <code>require</code>:
+
+{% highlight javascript %}
+app.helpers(require('./helpers.js').helpers);
+{% endhighlight %}
+
+Now update the Jade templates to use the helper:
+
+{% highlight javascript %}
+#{nameAndVersion(appName, version)}
+{% endhighlight %}
+
+I've added this to the header in Nodepad.
+
+Dynamic helpers provide access to the <code>req</code> and <code>res</code> objects, which will mean we can use them to get at our flash messages.  Next I'll demonstrate how to use dynamic helpers to display flash messages.
+
+*Note*: The interesting thing about dynamic helpers is they're rendered before the view, which means they appear as variables rather than functions.  This may catch you out.
+
+h3. Adding Flash Message to Nodepad
+
+We'll need a helper to display flash messages.  Add this to <code>helpers.js</code>:
+
+{% highlight javascript %}
+exports.dynamicHelpers = {
+  flashMessages: function(req, res) {
+    var html = '';
+    ['error', 'info'].forEach(function(type) {
+      var messages = req.flash(type);
+      if (messages.length > 0) {
+        html += new FlashMessage(type, messages).toHTML();
+      }
+    });
+    return html;
+  }
+};
+{% endhighlight %}
+
+This loops through each message type and generates a flash message using <code>FlashMessage</code>.  This is a new class that I've made to make it easier to reuse the jQuery UI styles:
+
+{% highlight javascript %}
+function FlashMessage(type, messages) {
+  this.type = type;
+  this.messages = typeof messages === 'string' ? [messages] : messages;
+}
+
+FlashMessage.prototype = {
+  get icon() {
+    switch (this.type) {
+      case 'info':
+        return 'ui-icon-info';
+      case 'error':
+        return 'ui-icon-alert';
+    }
+  },
+
+  get stateClass() {
+    switch (this.type) {
+      case 'info':
+        return 'ui-state-highlight';
+      case 'error':
+        return 'ui-state-error';
+    }
+  },
+
+  toHTML: function() {
+    return '<div class="ui-widget flash">' +
+           '<div class="' + this.stateClass + ' ui-corner-all">' +
+           '<p><span class="ui-icon ' + this.icon + '"></span>' + this.messages.join(', ') + '</p>' +
+           '</div>' +
+           '</div>';
+  }
+};
+{% endhighlight %}
+
+The flash middleware returns multiple messages per type, so the code above handles this by joining each message with a comma.
+
+This simplifies the <code>flashMessages</code> helper by using <code>switch</code> statements to generate appropriate CSS classes based on the message type.  It then generates some HTML that will work well with jQuery UI code:
+
+!/images/posts/jquery-ui-login.png!
+
+Now load the dynamic helpers in <code>app.js</code>:
+
+{% highlight javascript %}
+app.dynamicHelpers(require('./helpers.js').dynamicHelpers);
+{% endhighlight %}
+
+And find some places to add flash messages to:
+
+{% highlight javascript %}
+app.post('/sessions', function(req, res) {
+  User.find({ email: req.body.user.email }).first(function(user) {
+    if (user && user.authenticate(req.body.user.password)) {
+      req.session.user_id = user.id;
+      res.redirect('/documents');
+    } else {
+      req.flash('error', 'Incorrect credentials');
+      res.redirect('/sessions/new');
+    }
+  }); 
+});
+{% endhighlight %}
+
+Now add the helper to the layout, <code>views/layout.jade</code>:
+
+{% highlight javascript %}
+#{flashMessages}
+{% endhighlight %}
+
+h3. Feedback Display Issues
+
+The only problem with the current code is it doesn't sit well with the editor design:
+
+!/images/posts/nt8-problems.png!
+
+The way around this is to use some styling.  In <code>styles.less</code>:
+
+{% highlight css %}
+.flash {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1001;
+  width: 100%;
+  opacity: 0.75;
+  background-color: #111;
+}
+
+.flash span {
+  float: left;
+  margin-right: .7em;
+}
+
+.flash .ui-corner-all {
+  width: 300px;
+  margin: 50px auto 0 auto;
+  padding: 0 5px;
+  opacity: 0.9;
+  font-weight: bold;
+  -moz-box-shadow: 0 0 8px #111;
+  -webkit-box-shadow: 0 0 8px #111;
+  box-shadow: 0 0 8px #111;
+}
+{% endhighlight %}
+
+This will take over the entire page and fade it to black while the message is visible.  To hide it, I've added this to <code>application.js</code>:
+
+{% highlight javascript %}
+function hideFlashMessages() {
+  $(this).fadeOut();
+}
+
+setTimeout(function() {
+  $('.flash').each(hideFlashMessages);
+}, 5000);
+$('.flash').click(hideFlashMessages);
+{% endhighlight %}
+
+h3. Conclusion
+
+Express has static and dynamic helpers.  Dynamic helpers are rendered just before the view, and they are passed the <code>req</code> and <code>res</code> objects.  They're accessed as variables in the views.
+
+It's easy to create a separate file that stores all of an application's helpers by using <code>require</code>.
+
+I built the <code>FlashMessage</code> class to demonstrate why using a file for helpers is useful, and also to covertly show some simple JavaScript OO with getters.  You may prefer to implement this by exposing flash messages to templates through dynamic helpers, which would mean the flash HTML can be written with Jade.  Why not try it out as a challenge?
+
+The current version of Nodepad is "commit df0b954":https://github.com/alexyoung/nodepad/tree/df0b954b3c4e83a69ab4cfe2d87f2fb1d0ffa162.
