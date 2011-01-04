@@ -1,0 +1,50 @@
+---
+layout: post
+title: "jQuery Roundup: Touchable, BetterGrow, Rotate and Fly"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+- graphics
+- animation
+- mobile
+---
+
+Welcome to the jQuery roundup. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Touchable
+
+"Touchable":https://github.com/dotmaster/Touchable-jQuery-Plugin ("Simplified BSD License":https://github.com/dotmaster/Touchable-jQuery-Plugin/blob/master/LICENSE) by Gregor Schwab is a small plugin that unifies touch and mouse events across platforms.  Elements must be initialized with <code>Touchable</code> or <code>Hoverable</code> first, then the unified events can be used:
+
+{% highlight javascript %}
+var element = $('selector').Touchable();
+element.bind('touchmove', function(e, touch) {
+  // Do something
+});
+{% endhighlight %}
+
+There's a "demo":http://dotmaster.github.com/Touchable-jQuery-Plugin/demo/demo.html that shows the basic features and _long taps_.
+
+h3. BetterGrow
+
+This is one of those things that I've had to write myself: "BetterGrow":http://tpgblog.com/2011/01/02/bettergrow/ ("GitHub: theproductguy / BetterGrow":https://github.com/theproductguy/BetterGrow, "demo":http://theproductguy.com/bettergrow/bettergrow.demo.html) by Jeremy Horn will resize textareas as users type.  It's a very simple plugin:
+
+{% highlight javascript %}
+$('selector').BetterGrow();
+{% endhighlight %}
+
+BetterGrow supports options for <code>initial_height</code>, <code>on_enter</code> (callback), and <code>do_not_enter</code> (explained in the "BetterGrow blog post":http://tpgblog.com/2011/01/02/bettergrow/).  
+
+h3. Rotate and Fly
+
+!/images/posts/jquery-rotate-fly.png!
+
+In "Rotate and Fly off elements with jQuery and CSS3":http://sarfraznawaz.wordpress.com/2010/12/27/rotate-and-fly-off-elements-with-jquery-and-css3/ by Sarfraz Ahmed, the author discusses how to use CSS3 animations with jQuery.  I expected to be able to do something like this:
+
+{% highlight javascript %}
+$('selector').animate({ WebkitTransform: 'rotate(360deg)' }, 1000);
+{% endhighlight %}
+
+But this isn't currently possible.  Sarfraz's technique uses <code>setInterval</code> and <code>$().css()</code> to set each proprietary CSS property (MozTransform, WebkitTransform, and transform). 
+
