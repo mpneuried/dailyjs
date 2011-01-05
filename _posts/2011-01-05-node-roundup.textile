@@ -1,0 +1,109 @@
+---
+layout: post
+title: "Bumper New Year Node Roundup"
+author: Alex Young
+categories: 
+- node
+- server
+---
+
+Welcome to the Node Roundup. Send in your apps and libraries using our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+I've received a huge amount of links about Node projects recently, so if your project isn't in the roundup this week it'll appear soon!
+
+h3. Node 0.3.3
+
+"Node 0.3.3":https://groups.google.com/group/nodejs/msg/52938e1c7aee8020 has been released:
+
+* V8 is now at 3.0.4
+* There's now more operating system support for functions like <code>os.cpus()</code>, <code>os.freemem()</code>, <code>os.totalmem()</code>, <code>os.loadavg()</code>
+* <code>process.stdin</code> is now used instead of <code>rocess.openStdin()</code>
+* Lots of TLS improvements
+
+I noticed "@ryah":http://twitter.com/ryah link to this "HTTPS API example":https://gist.github.com/764213 which looks very easy to use. 
+
+h3. Node.js Camp Videos
+
+!/images/posts/nodecamp-video.png!
+
+I also noticed "@ryah":http://twitter.com/ryah link to these "Node.js Camp videos":http://camp.nodejs.org/videos/ with talks from Tom Hughes-Croucher, Ryan Dahl, Isaac Schlueter, Guillermo Rauch, Tim Caswell, and Matt Ranney.
+
+The videos are even available at 1080p, so you can recreate the event in your living room at full HD!
+
+h3. n
+
+"n":https://github.com/visionmedia/n is a new project by TJ Holowaychuk for managing Node binaries.  It looks very simple indeed:
+
+{% highlight sh %}
+npm install n
+n 0.2.6
+# The 'v' is optional
+n v0.3.3
+n 0.2.6 --debug --oprofile
+{% endhighlight %}
+
+Also worth noting:
+
+bq. To alter where n operates simply export <code>N_PREFIX</code> to whatever you prefer.
+
+Given the name of this project I can only assume that TJ got tired of typing <code>nvm</code>.  Actually, the difference between this project and "nvm":https://github.com/creationix/nvm is that it requires less setup and doesn't set environmental variables for the active node version but instead manipulates the file system.  It can also accept <code>./configure</code> options for each Node version (just pass the flags after the version).
+
+h3. jspp
+
+"jspp":http://www.jspp.io/ (GitHub: "mikeal / jspp":https://github.com/mikeal/jspp/, Apache License 2.0), or JavaScript Pre-Processor, is a project by Mikeal Rogers that makes Node work a bit like PHP.
+
+People on Twitter seemed to interpret this as a joke, but it really does remind me of PHP:
+
+{% highlight html %}
+<html>
+  <body>
+    <div class="test1">
+      <?jspp $(this).text("This is server side!"); end(); ?>
+    </div>
+    </body>
+</html>
+{% endhighlight %}
+
+However, it can also use script tags of content type <code>application/jspp</code> -- combining this with support for jQuery makes scripts that really blur the line between server-side software and client-side code.
+
+I actually believe this is an interesting project with a large variety of use cases.  Rather than encouraging people to write scrappy projects that mix code with markup, it could be a killer app for those smaller projects you don't want a whole application environment.  Think contact forms and low budget client projects.
+
+h3. node-crontab
+
+"node-crontab":https://github.com/dachev/node-crontab (GPL) by Blagovest Dachev provides an API for reading and editing user crontabs, which might fit nicely into your deployment system.
+
+The API is asynchronous with callbacks:
+
+{% highlight javascript %}
+require('crontab').load(cronLoaded);
+
+function cronLoaded(err, tab) {
+    if (err) { console.log(err); process.exit(1); }
+
+    var command = '/usr/bin/env echo "starting some service..."';
+    tab.remove(tab.findCommand(command));
+
+    var item = tab.create(command);
+    item.everyReboot();
+    tab.save(cronSaved);
+}
+
+function cronSaved(err, tab) {
+    if (err) { console.log(err); process.exit(1); }
+
+    console.log('saved');
+}
+{% endhighlight %}
+
+The author said it can be used to turn a script into a daemon:
+
+bq. It allows you to set a program to run even after the original process is terminated. Since cron has a special @reboot slot it makes a great addition to "forever": your program becomes a true daemon.
+
+h3. Real-time Snowball Fights in Node
+
+!/images/posts/ogilvy.png!
+
+Mario Gonzalez wrote in with a game his team have built using Node and WebSockets: "Ogilvy & Mather Holiday Snowball Fight":http://holiday2010.ogilvy.com/.  It's a multiplayer game that uses a lot of interesting libraries, like "CAAT":https://github.com/hyperandroid/CAAT/ and "BiSON":https://github.com/BonsaiDen/BiSON.js.  The developers even say they based the multiplayer design on "Valve's Source Multiplayer Networking papers":http://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking.
+
+bq. The game-engine, collision and logic run on the server in JavaScript running on Node.js. The clients are simply rendering information sent from the server, and sending off keyboard input.
+
