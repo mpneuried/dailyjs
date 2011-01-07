@@ -1,0 +1,46 @@
+---
+layout: post
+title: "OOP: The Good Parts, JSMag, CssUserAgent"
+author: Alex Young
+categories: 
+- css
+- language
+- oop
+- functional
+---
+
+h3. OOP: The Good Parts
+
+I just finished reading "OOP The Good Parts: Message Passing, Duck Typing, Object Composition, and not Inheritance":http://fitzgeraldnick.com/weblog/39/ by Nick Fitzgerald.  Obvious references to Douglas Crockford's <a href="http://www.amazon.com/gp/product/0596517742?ie=UTF8&tag=da07e-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0596517742">JavaScript: The Good Parts</a><img src="http://www.assoc-amazon.com/e/ir?t=da07e-20&l=as2&o=1&a=0596517742" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> aside, the article builds on some interesting points by authors like Raganwald that will resonate with many DailyJS readers:
+
+bq. What if code re-use has nothing to do with inheritance, but uses composition, delegation, even old-fashioned helper objects or any technique the programmer deems fit?
+
+Fitzgerald defines a method called <code>quacksLike</code> that he uses to formalize object capability detection and <code>Object.combine</code> for object composition.
+
+These ideas aren't new, but there's an interesting code example of a DOM library that uses these methods.  It'll be particularly interesting to fans of _Let's Make a Framework_.
+
+h3. functools
+
+While we're on this topic, "functools":https://github.com/azer/functools ("documentation":http://functools.kodfabrik.com/man.html) by E. Azer Koçulu is a library for functional programming.  He's tested it with Node, but he says:
+
+bq. Despite functools follows CommonJS specs, my actual aim is to improve the experience of DOM programming
+
+It supports features like iterators, functional composition, currying, and partial function application.
+
+The author is also working on "Roka-Lisp":https://github.com/azer/rokalisp, a lisp dialect written in JavaScript. 
+
+h3. JSMag
+
+!/images/posts/jsmag.jpeg!
+
+"JSMag":http://www.jsmag.com/ is a magazine all about JavaScript.  The latest issue includes the following articles:
+
+* JavaScript Can't Do Math! - Rod Paddock
+* Sencha Touch - ExtJS and jQtouch - Shea Frederick
+* Worlds Collide - JavaScript and Flash Unite - Adrian Pomilio
+* Developing Web Applications for the iPad - Jason Gilmore
+* Helma Community - ExtJS Integration - Mike Schwartz
+* Community News - David Calhoun
+
+The magazine's PDFs are DRM-free, so you can read them on any device that supports PDF.
+
