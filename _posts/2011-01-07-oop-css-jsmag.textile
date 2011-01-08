@@ -3,7 +3,6 @@ layout: post
 title: "OOP: The Good Parts, JSMag"
 author: Alex Young
 categories: 
-- css
 - language
 - oop
 - functional
