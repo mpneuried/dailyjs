@@ -1,0 +1,238 @@
+---
+layout: post
+title: "Node Tutorial Part 9"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+- express
+---
+
+Welcome to part 9 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+* "Part 7: Node Library Versions, Jade Tricks, Error Pages":http://dailyjs.com/2010/12/27/node-tutorial-7/, source code commit: "929f5":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892
+* "Part 8: Flash Messages and Helpers":http://dailyjs.com/2011/01/03/node-tutorial-8/, source code commit: "841a49":https://github.com/alexyoung/nodepad/tree/841a493c03f0421dd1a2279fccac3fbcf1e17b1f
+
+h3. Updating connect-mongodb
+
+If you remember back to the start of this series, I had to write a hack to map a mongo connection string to the format "connect-mongodb":https://github.com/masylum/connect-mongodb expected.  I contacted the author about this through GitHub, and he promptly updated the library to work with connection strings.  That means we can scrap <code>mongoStoreConnectionArgs</code>.
+
+Install the version of the package that I'm using:
+
+{% highlight sh %}
+npm install connect-mongodb@0.1.1
+{% endhighlight %}
+
+Now update "app.js":https://github.com/alexyoung/nodepad/blob/master/app.js:
+
+{% highlight javascript %}
+// This is near the top of the file in the var declaration
+mongoStore = require('connect-mongodb@0.1.1')
+
+// The mongoStoreConnectionArgs function can be removed
+
+// In the app configure block, setting up connect.mongodb looks like this
+app.use(express.session({ store: mongoStore(app.set('db-uri')) }));
+{% endhighlight %}
+
+h3. Remember Me Functionality
+
+Making logins persist in web apps involves some server-side work.  It usually works like this:
+
+# When people log in, an extra "remember me" cookie is created
+# The cookie contains the username and two random numbers (a series token and a random token)
+# These values are also stored in the database
+# When someone visits the site who isn't logged in, if the cookie is present it's checked against the database.  The token is updated and sent back to the user
+# If the username matches but the tokens do not, the user is sent a warning and all sessions are removed
+# Else the cookie is ignored
+
+This scheme is designed to protect against cookie theft, and is described by Barry Jaspan in "Improved Persistent Login Cookie Best Practice":http://jaspan.com/improved_persistent_login_cookie_best_practice.
+
+h3. Building Remember Me
+
+In the models.js file I've added a <code>LoginToken</code> model:
+
+{% highlight javascript %}
+mongoose.model('LoginToken', {
+  properties: ['email', 'series', 'token'],
+
+  indexes: [
+    'email',
+    'series',
+    'token'
+  ],
+
+  methods: {
+    randomToken: function() {
+      return Math.round((new Date().valueOf() * Math.random())) + '';
+    },
+
+    save: function() {
+      // Automatically create the tokens
+      this.token = this.randomToken();
+      this.series = this.randomToken();
+      this.__super__();
+    }
+  },
+
+  getters: {
+    id: function() {
+      return this._id.toHexString();
+    }
+  }
+});
+
+exports.LoginToken = function(db) {
+  return db.model('LoginToken');
+};
+
+// Load from app.js like this:
+// app.LoginToken = LoginToken = require('./models.js').LoginToken(db);
+{% endhighlight %}
+
+This is basic Mongoose stuff.  It will automatically create the tokens when the model is saved.
+
+h3. Views
+
+Now let's add a simple bit of Jade to views/sessions/new.jade:
+
+{% highlight javascript %}
+div
+  label(for='remember_me') Remember me:
+  input#remember_me(type='checkbox', name='remember_me')
+{% endhighlight %}
+
+h3. Controller
+
+The session POST method should be updated to create a <code>LoginToken</code> if required:
+
+{% highlight javascript %}
+app.post('/sessions', function(req, res) {
+  User.find({ email: req.body.user.email }).first(function(user) {
+    if (user && user.authenticate(req.body.user.password)) {
+      req.session.user_id = user.id;
+
+      // Remember me
+      if (req.body.remember_me) {
+        var loginToken = new LoginToken({ email: user.email });
+        loginToken.save(function() {
+          res.cookie('logintoken', loginToken.cookieValue, { expires: new Date(Date.now() + 2 * 604800000), path: '/' });
+        });
+      }
+
+      res.redirect('/documents');
+    } else {
+      req.flash('error', 'Incorrect credentials');
+      res.redirect('/sessions/new');
+    }
+  }); 
+});
+{% endhighlight %}
+
+And the tokens should be removed when logging out:
+
+{% highlight javascript %}
+app.del('/sessions', loadUser, function(req, res) {
+  if (req.session) {
+    LoginToken.remove({ email: req.currentUser.email }, function() {});
+    res.clearCookie('logintoken');
+    req.session.destroy(function() {});
+  }
+  res.redirect('/sessions/new');
+});
+{% endhighlight %}
+
+h3. Express Cookie Tips
+
+The basic Express cookie API works like this:
+
+{% highlight javascript %}
+// Create a cookie:
+res.cookie('key', 'value');
+
+// Read a cookie:
+req.cookies.key;
+
+// Delete a cookie:
+res.clearCookie('key');
+{% endhighlight %}
+
+The cookie names will always be lowercase.  Notice that any write operations are performed on the result being sent back to the browser (<code>res</code>), and read operations are through an object on the request, <code>req</code>
+
+h3. Updating the loadUser Middleware
+
+Now we need to make <code>loadUser</code> check if a <code>LoginToken</code> is present:
+
+{% highlight javascript %}
+function authenticateFromLoginToken(req, res, next) {
+  var cookie = JSON.parse(req.cookies.logintoken);
+
+  LoginToken.find({ email: cookie.email,
+                    series: cookie.series,
+                    token: cookie.token })
+            .first(function(token) {
+    if (!token) {
+      res.redirect('/sessions/new');
+      return;
+    }
+
+    User.find({ email: token.email }).first(function(user) {
+      if (user) {
+        req.session.user_id = user.id;
+        req.currentUser = user;
+
+        token.token = token.randomToken();
+        token.save(function() {
+          res.cookie('logintoken', token.cookieValue, { expires: new Date(Date.now() + 2 * 604800000), path: '/' });
+          next();
+        });
+      } else {
+        res.redirect('/sessions/new');
+      }
+    });
+  });
+}
+
+function loadUser(req, res, next) {
+  if (req.session.user_id) {
+    User.findById(req.session.user_id, function(user) {
+      if (user) {
+        req.currentUser = user;
+        next();
+      } else {
+        res.redirect('/sessions/new');
+      }
+    });
+  } else if (req.cookies.logintoken) {
+    authenticateFromLoginToken(req, res, next);
+  } else {
+    res.redirect('/sessions/new');
+  }
+}
+{% endhighlight %}
+
+Notice that I've put the <code>LoginToken</code> code in its own function.  That helps keep <code>loadUser</code> readable.
+
+h3. Conclusion
+
+This is a slightly simplified version of the method suggested by Barry Jaspan, but it's fairly easy to follow and demonstrates fairly advanced Express cookie handling.
+
+The version of the code I've checked in for part 9 is "commit 1904c6b":https://github.com/alexyoung/nodepad/tree/1904c6b7f95d708474a5d42e8cdfd40e96243a7a.
+
+h3. References
+
+* "Express Guide":http://expressjs.com/guide.html
+* "Improved Persistent Login Cookie Best Practice":http://jaspan.com/improved_persistent_login_cookie_best_practice
+
