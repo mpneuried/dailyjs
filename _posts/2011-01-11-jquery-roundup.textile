@@ -1,0 +1,51 @@
+---
+layout: post
+title: "jQuery Roundup: Fullscreen Events, Plugin Skeleton, Wijmo"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+- graphics
+---
+
+Welcome to the jQuery roundup. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery Fullscreen
+
+"jquery.fullscreen.js":https://github.com/ruidlopes/jquery-fullscreen by Rui Lopes provides event detection when people switch their browser to fullscreen mode:
+
+{% highlight javascript %}
+$(window).bind('fullscreen-on', function(e) {
+  // Do things that depend on fullscreen
+});
+{% endhighlight %}
+
+This might be useful for building interfaces that adapt to the extra space in fullscreen mode.
+
+The author says it's only been tested in Chrome and Firefox, and there's no cross-browser way to trigger fullscreen, but it's a fairly new plugin so it'll get updates for more major browsers soon.
+
+h3. jQuery-Plugin-Skeleton
+
+"jQuery-Plugin-Skeleton":https://github.com/OscarGodson/jQuery-Plugin-Skeleton by Oscar Godson is a plugin skeleton.  His skeleton includes a license in the plugin's source, but there aren't any unit test stubs.  I talked to him through GitHub's messaging system and he seemed to think sample tests might be useful.
+
+My ideal skeleton would look like this:
+
+* README.txt - This should contain fields for things like author name, contact, web site, links to more documentation, license name, contribution submission guidelines
+* MIT_LICENSE
+* GPL_LICENSE
+* unit_test.js - Simple QUnit test stub
+* jquery.plugin.js - Similar to Oscar's example
+
+I imagine readers of this blog wouldn't usually use a skeleton because they probably know exactly how they want to package their plugins, but it would be nice to get new plugin authors off to a good start.
+
+h3. Wijmo
+
+!/images/posts/wijmo_logo.png!
+
+"Wijmo":http://wijmo.com/ from ComponentOne LLC is an open source (dual MIT, GPL) _and_ commercial kit of jQuery UI widgets.  There are a lot of widgets available, including a very modern-looking chart library and "cool calendar":http://wijmo.com/widgets/wijmo-open/calendar/.
+
+The "commercial license":http://wijmo.com/purchase/ is per-developer, at $499, and it's royalty free.  Although I appreciate the massive amount of open source jQuery plugins out there, I think it's interesting that a developer has built a business model around their plugins (a bit like "Sencha":http://www.sencha.com/).
+
+Wijmo is on GitHub at "github.com/wijmo":https://github.com/wijmo/.
+
