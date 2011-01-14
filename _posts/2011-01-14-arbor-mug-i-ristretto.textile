@@ -49,7 +49,7 @@ The library comes with some Ruby tools to read source and generate dependency fi
 
 h3. Ristretto
 
-"Ristretto":https://github.com/afriggeri/ristretto by Adrien Friggeri is another dependency management tool with concatenation.  It can be used with JavaScript or Coffee.  What made this interesting to me is it allows developers to use CommonJS modules and then write out a browser-friendly file.
+"Ristretto":https://github.com/afriggeri/ristretto by Adrien Friggeri is another dependency management tool with concatenation which can be installed with npm.  It can be used with JavaScript or Coffee.  What made this interesting to me is it allows developers to use CommonJS modules and then write out a browser-friendly file.
 
 If you've been following our _Let's Make a Framework Series_ you'll know I made a simplified CommonJS module-based testing system, but getting modules to behave in a browser was tricky to say the least.  Adding support for CommonJS modules to Ristretto seems like a smart move.
 
