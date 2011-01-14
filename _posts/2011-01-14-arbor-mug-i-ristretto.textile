@@ -1,0 +1,56 @@
+---
+layout: post
+title: "Arbor, Mug, I, Ristretto"
+author: Alex Young
+categories: 
+- graphics
+- visualization
+- jvm
+- dependency
+---
+
+h3. Arbor
+
+!/images/posts/arbor.png!
+
+"Arbor":http://arborjs.org/ (GitHub: "samizdatco / arbor":https://github.com/samizdatco/arbor) by Christian Swinehart is a graph visualisation library that uses jQuery and web workers.  It provides a layout algorithm and graph organisation for building things like this: "Atlas demo":http://arborjs.org/atlas/.
+
+Arbor has a particle system which manages the state of the simulation:
+
+{% highlight javascript %}
+sys = arbor.ParticleSystem();
+node = sys.addNode('mynode', { mass:2, myColor:'goldenrod' });
+{% endhighlight %}
+
+"Arbor's API":http://arborjs.org/reference seems pretty easy to learn, so if you'd like to present data in a novel way or create some kind of simulation it's worth checking out. 
+
+h3. Mug
+
+"Mug":http://timcameronryan.com/post/2684769192/mug-javascript-compiler-for-the-jvm (GitHub: "timcameronryan / mug":https://github.com/timcameronryan/mug) by Tim Cameron Ryan is a JavaScript compiler for the JVM.  The benefits according to the author are: 
+
+* Mug is faster than Rhino, favoring static compilation rather than a runtime interpreter.
+* Minimal overhead. Standard library mug-js.jar is ~150kb.
+* Mug's goal is that compiled code be as similar to Java as possible, and easily debuggable.
+* Mug uses CommonJS modules as its compilation units, allowing your code to be shared between Mug, node.js, RingoJS, and other implementations.
+
+He also says the Mug compiler is written in Clojure, a language which I enjoy getting time to use.  Take a look at "compiler.clj":https://github.com/timcameronryan/mug/blob/master/src/compiler/mug/compiler.clj if you're interested in what that might look like.
+
+h3. Emphasis
+
+Michael Donohoe at the New York Times has released their open source "Emphasis":http://open.blogs.nytimes.com/2011/01/11/emphasis-update-and-source/ library (GitHub: "NYTimes / Emphasis":https://github.com/NYTimes/Emphasis).  This library makes it possible to "deep link" to specific article text -- double tapping the shift key displays paragraph icons which can be clicked to highlight a paragraph.  Selecting a paragraph or a sentence within it updates the URL hash with parameters that can be used to share the highlight.
+
+This library requires Prototype.  To see more open source code from New York Times, take a look at the "New York Times GitHub account":https://github.com/NYTimes.
+
+h3. I
+
+"I by Rob Robbins":https://github.com/robrobbins/I is a dependency manager with defer and async support.  The name leads to some memorable API method names: <code>I.amDefined</code>, <code>I.require</code>, etc.
+
+The library comes with some Ruby tools to read source and generate dependency files.
+
+h3. Ristretto
+
+"Ristretto":https://github.com/afriggeri/ristretto by Adrien Friggeri is another dependency management tool with concatenation.  It can be used with JavaScript or Coffee.  What made this interesting to me is it allows developers to use CommonJS modules and then write out a browser-friendly file.
+
+If you've been following our _Let's Make a Framework Series_ you'll know I made a simplified CommonJS module-based testing system, but getting modules to behave in a browser was tricky to say the least.  Adding support for CommonJS modules to Ristretto seems like a smart move.
+
+
