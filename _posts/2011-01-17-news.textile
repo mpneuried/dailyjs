@@ -1,0 +1,53 @@
+---
+layout: post
+title: "Gestures, Scopeleaks, Wink, JLS, JavaScript Blogs"
+author: Alex Young
+categories:
+- touch
+- android
+- iOS
+- libraries
+- frameworks
+---
+
+The Node tutorials will continue next week, in the meantime I have a backlog of news from our Twitter friends to catch up with.
+
+h3. Gestures
+
+!/images/posts/gestures.png!
+
+When I was writing gesture event support for the _Let's Make a Framework_ series, quite a few readers got in touch to say gesture recognition had been a sticking point for them during development of web-based iOS or Android apps.  Tait Brown, who made my favourite jQuery UI theme "Aristo":https://github.com/taitems/Aristo-jQuery-UI-Theme, has now made "Gestures":https://github.com/taitems/Mobile-Web-based-Gesture-Recognition which is a proof-of-concept library for gesture recognition.
+
+"The Gesture demo":http://taitems.github.com/Mobile-Web-based-Gesture-Recognition/ shows how the library works -- gestures are recognised as shapes.  At the moment this is based on the "$1 Unistroke Recognizer in JavaScript":http://depts.washington.edu/aimgroup/proj/dollar/.
+
+I'm hoping Tait can add a simple multitouch API and release Gestures as a library soon.
+
+h3. scopeleaks.js
+
+"scopeleaks.js":https://github.com/ruidlopes/scopeleaks by Rui Lopes is a browser and CommonJS module for detecting global variable leaks.  Once loaded with a script tag or through a <code>require</code>, the global variable state can be recorded and analysed:
+
+{% highlight javascript %}
+var snapshot = scopeleaks.snapshot();
+scopeleaks.leaks(snapshot);
+{% endhighlight %}
+
+It's a simple library but might be useful for giving scripts a once-over before release.
+
+A similar project is "detect-global":https://github.com/kangax/detect-global by Juriy Zaytsev (kangax).
+
+h3. Wink 1.2.3
+
+Jérôme Giraud sent me a note that "Wink 1.2.3":http://www.winktoolkit.org/ has been released, which adds support for Android (2.2, 2.3) devices.  Jérôme wrote a "Wink tutorial":http://dailyjs.com/2010/09/17/wink-tutorial/ for DailyJS back in September.
+
+h3. JavaLikeScript
+
+"JavaLikeScript":http://javalikescript.free.fr/, or jls, is an interesting framework based on Prototype that runs on NSPR and SpiderMonkey for Windows and Linux.  It includes a GUI library, CommonJS modules, file system access, a unit testing framework, and a network library.
+
+The author hasn't yet released the native source code yet, but it looks like he's just preparing the build chain and documentation before releasing it.  The "API documentation":http://javalikescript.free.fr/jsdoc/wb/ gives an overview of the APIs if you'd like to dig a little deeper.
+
+h3. ecmazing JavaScript Blogs
+
+!/images/posts/amazingjs.png!
+
+Šime Vidas wrote in to let us know about "ecmazing JavaScript Blogs":http://www.ecmazing.com/blogs/, a JavaScript blog viewer.  It feels very fast and makes it easy to quickly switch between blogs.  Of course, most of those blogs are in my news reader, but I thought the fact it's all client-side might interest readers who are front-end developers.
+
