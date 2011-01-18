@@ -1,0 +1,68 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery 1.5, BigText, View, jKey, Jail"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- design
+- keyboard
+- templating
+---
+
+Welcome to the jQuery roundup. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery 1.5 Beta 1
+
+"jQuery 1.5 Beta 1":http://blog.jquery.com/2011/01/14/jquery-1-5-beta-1-released/ has been released.  The changes mainly centre around "the Ajax module":http://blog.jquery.com/2010/12/28/jquery-community-updates-for-december-2010/ because it has been rewritten, but I also thought "jQuery.subclass":https://github.com/deadlyicon/jquery/commit/4024e67d0f352e4a095f93456bc8e6da63e10759 was worth mentioning.
+
+h3. BigText
+
+!/images/posts/bigtext.png!
+
+"BigText":http://www.zachleat.com/web/2011/01/11/bigtext-makes-text-big/ (GitHub: "zachleat / BigText":https://github.com/zachleat/BigText) by Zach Leatherman calculates the font size and word spacing required to fit text to a given width.  It's easier to understand the features by checking out the "BigText demo":http://www.zachleat.com/bigtext/demo/.
+
+It works like this:
+
+bq. For each line, it increments first by 16em until it detects a line break, backs off an interval then increments by 8em. It continues with 4em, 2em, 1em, 0.1em, until it finds the correct font-size to the nearest hundredth of an em.
+
+h3. jQuery View
+
+"jQuery View":http://viewjs.com/ (GitHub: "syntacticx / viewjs":https://github.com/syntacticx/viewjs, MIT and GPL) by Ryan Johnson is a class and inheritance plugin for templates.  This can result in some interesting opportunities for code reuse when combined with something like Backbone.js: the Backbone to-do app example by Jérôme Gravel-Niquet has been ported as a "jQuery View demo":http://viewjs.com/examples/todos/index.html with annotated source.
+
+The "View guide":http://viewjs.com/#guide is probably the best way to get started with the library.
+
+h3. jKey
+
+"jKey":https://github.com/OscarGodson/jKey by Oscar Godson makes keyboard shortcut handling much easier, for example:
+
+{% highlight javascript %}
+$(window).jkey('alt+d', function() {
+  // Callback
+});
+
+$(window).jkey('w, up',function() {
+  // w OR up
+});
+{% endhighlight %}
+
+There's an interactive example in the "jKey documentation":http://oscargodson.com/labs/jkey/.
+
+h3. Jail
+
+"Jail":http://www.sebastianoarmelibattana.com/projects/jail (GitHub: "sebarmeli / JAIL":https://github.com/sebarmeli/JAIL, MIT) by Sebastiano Armeli-Battana is an asynchronous image loader:
+
+bq. Selected images will be downloaded after the document is ready not blocking the page to render elements in your page. Images can be loaded after an event is triggered (like clicking on a link, mouseovering on some elements, scrolling up/down) or after some delay.
+
+The author's recommendation is to use an <code>img</code> tag with small images in combination with a <code>noscript</code> tag like this:
+
+{% highlight javascript %}
+<img class="lazy" src="/img/blank.gif" name="/img/image1.jpg">
+<noscript>
+    <img src="/img/image1.jpg">
+<noscript>
+{% endhighlight %}
+
+This approach can be seen in the "Jail demos":http://www.sebastianoarmelibattana.com/projects/jail/example1.
+
+I'm not sure if using the <code>name</code> attribute this way constitutes an unacceptable abuse to enthusiastic spec zealots, but the plugin source is readable so it could be modified to suit other requirements.
