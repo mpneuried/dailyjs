@@ -21,6 +21,10 @@ Last week I reviewed various approaches to JavaScript documentation, and I decid
 npm install dox
 {% endhighlight %}
 
+By the end of this tutorial, you'll be able to make something like this:
+
+!/images/posts/turing_documentation.png!
+
 Although dox produces readable documentation -- which is incidentally perfect for writing tutorials because the code is inline -- it can't parse everything JSDoc offers.  It's a simple tool designed to suit the author's requirements, but I like it and would like to see it grow in the future.
 
 Despite not supporting everything outlined by "jsdoc-toolkit":http://code.google.com/p/jsdoc-toolkit/, I'm going to use dox and write JSDoc comments as if it fully supports them.
