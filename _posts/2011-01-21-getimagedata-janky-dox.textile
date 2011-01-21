@@ -1,0 +1,45 @@
+---
+layout: post
+title: "getImageData, janky.post, dox"
+author: Alex Young
+categories: 
+- jsonp
+- network
+- documentation
+---
+
+h3. $.getImageData
+
+!/images/posts/closewithcanvas.png!
+
+"$.getImageData":https://github.com/betamax/getImageData by Max Novakovic provides pixel level access to images from any domain.  It uses a server-side component with JSONP requests that base64 encodes the images and returns them to the client for further Canvas processing.
+
+There are PHP, Python, and Node examples in the "getImageData/server-examples":https://github.com/betamax/getImageData/tree/master/server-examples directory
+
+Max told me that David Desandro has written a plugin based on this project called "Close Pixelate":http://desandro.com/resources/close-pixelate/ (which we've featured previously on DailyJS).
+
+h3. janky.post
+
+"janky.post":https://github.com/pyronicide/janky.post by Thomas Rampelberg is a library that aims to get around cross-domain request limitations, as well as JSONP limitations.  For example:
+
+{% highlight javascript %}
+janky({ url: "http://example.com:8080/api", 
+        data: { foo: 'bar', baz: [1,2,3] }, 
+        success: function(resp) {
+          console.log('server responded with: ' + resp);
+        }, 
+        error: function() {
+          console.log('error =(');
+        }
+});
+{% endhighlight %}
+
+bq. That example basically replicates a JSONP result (but you'll notice that there's actually errors that occur, no firing requests into the ether)
+
+There's a "janky.post demo":http://saunter.org/janky.post/demo and "janky.post documentation":http://saunter.org/janky.post/.  There are currently Tornado and Google App Engine servers.
+
+h3. Dox Updates
+
+TJ Holowaychuk updated "dox":https://github.com/visionmedia/dox to 0.0.4, which includes a few fixes and a small patch I put in there so an introduction markdown file can be included instead of using the <code>--desc</code> option.
+
+I think dox is a cool little project, so I encourage you to try it out and submit your own tweaks and improvements.  GitHub makes open source collaboration easy (fork, clone, push, pull request), so you've got no excuses not to help out!
