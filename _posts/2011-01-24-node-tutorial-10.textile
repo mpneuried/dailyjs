@@ -1,0 +1,129 @@
+---
+layout: post
+title: "Node Tutorial Part 10"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+- express
+---
+
+Welcome to part 10 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+* "Part 7: Node Library Versions, Jade Tricks, Error Pages":http://dailyjs.com/2010/12/27/node-tutorial-7/, source code commit: "929f5":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892
+* "Part 8: Flash Messages and Helpers":http://dailyjs.com/2011/01/03/node-tutorial-8/, source code commit: "841a49":https://github.com/alexyoung/nodepad/tree/841a493c03f0421dd1a2279fccac3fbcf1e17b1f
+* "Part 9: Remember Me":http://dailyjs.com/2011/01/10/node-tutorial-9/, source code commit: "1904c":https://github.com/alexyoung/nodepad/tree/1904c6b7f95d708474a5d42e8cdfd40e96243a7a
+
+h3. Markdown
+
+It would be nice if our notepad app allowed some form of markup.  There are a few markdown libraries available through npm, but "markdown":https://github.com/evilstreak/markdown-js seems to be quite popular.
+
+Install it like this:
+
+{% highlight sh %}
+npm install markdown
+{% endhighlight %}
+
+It's easy to use:
+
+{% highlight javascript %}
+var markdown = require('markdown').markdown;
+markdown.toHTML('# Welcome\n\nThis is markdown');
+
+// => '<h1>Welcome</h1>\n\n<p>This is markdown</p>'
+{% endhighlight %}
+
+I updated Nodepad's dependencies to include this in the "package.json":https://github.com/alexyoung/nodepad/blob/11d33e19066e76c8559857fb780ac9fd1ecf68ac/package.json file:
+
+{% highlight javascript %}
+// ...
+"dependencies": {
+  "express": "1.0.0",
+  "mongoose": "0.0.4",
+  "connect-mongodb": "0.1.1",
+  "jade": "0.6.0",
+  "markdown": "0.2.0"
+}
+{% endhighlight %}
+
+Then near the top of "app.js":https://github.com/alexyoung/nodepad/blob/11d33e19066e76c8559857fb780ac9fd1ecf68ac/app.js I added the <code>require</code>:
+
+{% highlight javascript %}
+var express = require('express@1.0.0'),
+    app = module.exports = express.createServer(),
+    mongoose = require('mongoose@0.0.4').Mongoose,
+    mongoStore = require('connect-mongodb@0.1.1'),
+    markdown = require('markdown').markdown,
+// ...
+{% endhighlight %}
+
+I've added a <code>html</code> format option for <code>GET /documents/:id.html</code> which contains the markdown renderer:
+
+{% highlight javascript %}
+// Read document
+app.get('/documents/:id.:format?', loadUser, function(req, res, next) {
+  Document.findById(req.params.id, function(d) {
+    if (!d) return next(new NotFound('Document not found'));
+
+    switch (req.params.format) {
+      case 'json':
+        res.send(d.__doc);
+      break;
+
+      case 'html':
+        res.send(markdown.toHTML(d.data));
+      break;
+
+      default:
+        res.render('documents/show.jade', {
+          locals: { d: d, currentUser: req.currentUser }
+        });
+    }
+  });
+});
+{% endhighlight %}
+
+Visiting a valid document ID with '.html' will now render HTML using markdown.  This is easy to access using a quick <code>$.get</code> call.  I've added another link next to the <code>Save</code> button (<code>#html-button</code>) which toggles the rendered markdown view in a div:
+
+{% highlight javascript %}
+$('#html-button').click(function() {
+  var container = $('#html-container');
+  if (container.is(':visible')) {
+    container.html('').hide();
+    $('#html-button').removeClass('active');
+  } else {
+    $('#save-button').click();
+    $('#html-button').addClass('active');
+    var id = $('#document-list .selected').itemID();
+    $.get('/documents/' + id + '.html', function(data) {
+      // Saved, will return JSON
+      container.html(data).show();
+    });
+  }
+});
+{% endhighlight %}
+
+This uses jQuery's <code>is()</code> to detect if the markdown container is visible, and adds a class name to the button which can be styled to indicate that the markdown display can be toggled.  It looks like this:
+
+!/images/posts/nodepad-markdown.png!
+
+h3. Delete Button
+
+The layout has changed since early on in this series, so I've changed the delete code to work with the new layout.  It just uses the same jQuery with an updated URL for the <code>$.post</code>.
+
+h3. Conclusion
+
+Adding markdown or textile support to Node apps is pretty easy now there are a few easily installable modules through npm.  If you want to check the commit for this part of the project, it's available at "11d33e1":https://github.com/alexyoung/nodepad/tree/11d33e19066e76c8559857fb780ac9fd1ecf68ac.
+
