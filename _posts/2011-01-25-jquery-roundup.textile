@@ -1,0 +1,33 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery UI 1.8.9, Zepto 0.4, Toast Message"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- jqueryui
+- zepto
+---
+
+Welcome to the jQuery roundup. You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. jQuery UI 1.8.9
+
+"jQuery UI 1.8.9":http://blog.jqueryui.com/2011/01/jquery-ui-1-8-9/ has been released.  This is a maintenance release that includes bug fixes and localisations, see the "1.8.9 changelog":http://jqueryui.com/docs/Changelog/1.8.9 for more.
+
+h3. Zepto 0.4
+
+Zepto 0.4 was released a few days ago, which introduces JSONP and improved iterators.  I also noticed Thomas Fuchs has made Zepto a lot more jQuery compatible.  The "Zepto GitHub":https://github.com/madrobby/zepto repository has detailed examples and there's a website now too at "zeptojs.com":http://zeptojs.com/.
+
+Thomas wrote a post about it here: "Zepto.js v0.4 - JSONP &amp; more DOM goodness":http://mir.aculo.us/2011/01/21/zepto-js-v0-4-%E2%80%93-jsonp-more-dom-goodness/.
+
+I wrote about Zepto last year in "A Look Inside Zepto.js":http://dailyjs.com/2010/10/04/zepto/.
+
+h3. jquery-toastmessage-plugin
+
+!/images/posts/jquery-toast.png!
+
+"jquery-toastmessage-plugin":https://github.com/akquinet/jquery-toastmessage-plugin (Apache License 2.0) by Daniel Bremer-Tonn at akquinet A.G is another handy little Growl-style messaging system.  The "Toast demo":http://akquinet.github.com/jquery-toastmessage-plugin/demo/demo.html shows various message types in action.
+
+I tried forcing it to display lots of messages and it handles that situation fairly well -- the messages appear as others fade, rather than causing a scrollbar to appear.  This seems like something that would work well in a Backbone.js/jQuery UI app.
+
