@@ -1,0 +1,112 @@
+---
+layout: post
+title: "Node Roundup: Express Form, streamline.js, long-stack-traces"
+author: Alex Young
+categories: 
+- node
+- server
+- express
+- async
+---
+
+Welcome to the Node Roundup. Send in your apps and libraries using our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+
+h3. Express Form
+
+"Express Form":https://github.com/dandean/express-form by Dan Dean is a middleware data filtering and validation library for Express.  It looks like this:
+
+{% highlight javascript %}
+app.post(
+  // Route
+  '/user',
+
+  // Form filter and validation middleware
+  form(
+    filter("username").trim(),
+    validate("username").required().is(/^[a-z]+$/),
+    filter("password").trim(),
+    validate("password").required().is(/^[0-9]+$/)
+  ),
+
+  // Express request-handler now receives filtered and validated data
+  function(req, res){
+    if (!req.form.isValid) {
+      // Handle errors
+      console.log(req.form.errors);
+
+    } else {
+      // Or, use filtered form data from the form object:
+      console.log("Username:", req.form.username);
+      console.log("Password:", req.form.password);
+    }
+  }
+);
+{% endhighlight %}
+
+The <code>form</code> method is the middleware which will add <code>req.form.errors</code> and <code>req.form.isValid</code>.  I haven't actually used this yet but validation at the middleware layer is very intriguing.
+
+h3. streamline.js
+
+"streamline.js":https://github.com/Sage/streamlinejs released by "Sage":http://www.sage.com/ is a kind of pre-processing library for Node that makes asynchronous code look synchronous.
+
+The example given in the documentation of asynchronous API usage is asynchronous Node file system code (which could of course be written with the synchronous methods anyway):
+
+{% highlight javascript %}
+function fileLength(path, callback) {
+  fs.stat(path, function(err, stat) {
+    if (err) { callback(err); return; }
+    if (stat.isFile()) {
+      fs.readFile(path, function(err, data) {
+        if (err) { callback(err); return; }
+        callback(null, data.length);
+      });
+    } else {
+      callback(new Error(path + " is not a file"));
+    }
+  });
+}
+{% endhighlight %}
+
+The streamline.js version uses the underscore symbol as a _plug_ for values that will be available later, so the previous example could be written like this:
+
+{% highlight javascript %}
+function fileLength(_, path) {
+  if (fs.stat(path, _).isFile())
+    return fs.readFile(path, _).length;
+  else
+    throw new Error(path + " is not a file");
+}
+{% endhighlight %}
+
+If you're lost in callbacks and find promises and futures unsatisfactory you might want to try this library.  It's got a lot of examples and more features for parallelizing streamlined code.
+
+h3. long-stack-traces
+
+"long-stack-traces":https://github.com/tlrobinson/long-stack-traces by Tom Robinson uses the "V8 stack track API":http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi to generate long stack traces in Node or a Chromium-based browser.  It's available through npm as <code>long-stack-traces</code>.
+
+Just loading the library will make it work in Node, so this "long-stack-trace example":https://github.com/tlrobinson/long-stack-traces/blob/master/examples.js will produce:
+
+{% highlight sh %}
+Uncaught Error: readFile
+    at Timer.secondTimeout (/Users/alex/example.js:6:15)
+    at node.js:772:9
+    ----------------------------------------
+    at Object.setTimeout
+    at initSecondTimeout (/Users/alex/example.js:5:5)
+    at /Users/alex/example.js:23:7
+    at fs:82:13
+    at node.js:772:9
+{% endhighlight %}
+
+Rather than:
+
+{% highlight sh %}
+/Users/alex/example.js:5
+        throw new Error(tag);
+              ^
+Error: readFile
+    at Timer.secondTimeout [as callback] (/Users/alex/example.js:5:15)
+    at node.js:772:9
+{% endhighlight %}
+
+
