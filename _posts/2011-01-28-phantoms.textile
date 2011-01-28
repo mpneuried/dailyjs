@@ -1,0 +1,83 @@
+---
+layout: post
+title: "PhantomJS, load.js, Phantom Limb, OpenOdyssey"
+author: Alex Young
+categories: 
+- games
+- webkit
+- server
+- dependencies
+- loading
+---
+
+h3. PhantomJS
+
+"PhantomJS":https://github.com/ariya/phantomjs by Ariya Hidayat is a WebKit-based JavaScript tool for exploiting the power of WebKit.  Let's say you want to generate a PNG from an SVG file:
+
+{% highlight javascript %}
+if (phantom.state.length === 0) {
+  if (phantom.args.length !== 2) {
+    console.log('Usage: rasterize.js URL filename');
+    phantom.exit();
+  } else {
+    var address = phantom.args[0];
+    phantom.state = 'rasterize';
+    phantom.viewportSize = { width: 600, height: 600 };
+    phantom.open(address);
+  }
+} else {
+  var output = phantom.args[1];
+  phantom.sleep(200);
+  phantom.render(output);
+  phantom.exit();
+}
+{% endhighlight %}
+
+This will produce a PNG when run through <code>phantomjs</code> on the command line:
+
+{% highlight sh %}
+phantomjs rasterize.js http://ariya.github.com/svg/tiger.svg tiger.png
+{% endhighlight %}
+
+This example is from the "PhantomJS QuickStart":http://code.google.com/p/phantomjs/wiki/QuickStart.
+
+What really interests me about this project is generating nice PDFs from HTML.  WebKit has been ported to quite a few platforms, and PhantomJS should run on Linux, Windows, and Mac OS X, so it could be a great tool to have on your server.
+
+h3. load.js
+
+"load.js":https://github.com/chriso/load.js by Chris O'Hara is a small lazy-loading and dependency management library:
+
+{% highlight javascript %}
+load('jquery.js').then('jquery-ui.js', 'jquery-ui-theme.js')
+  .then('myscript.js')
+  .thenRun(function () {
+    alert('Loaded.');
+  });
+
+load('underscore.js');
+{% endhighlight %}
+
+I like the chained API, which just so happens to be created with "chain.js":https://github.com/chriso/chain.js by the same author.
+
+h3. Phantom Limb
+
+"Phantom Limb":http://www.vodori.com/blog/phantom-limb.html by Brian Carstensen makes desktop browsers to simulate touchscreen device events:
+
+bq. A <code>mousedown</code> fires a <code>touchstart</code>. A <code>mousemove</code> fires a <code>touchmove</code> if the mouse is down, and a <code>mouseup</code> fires a <code>touchend</code>. These custom events are also assigned a <code>touches</code> array containing a reference to the event, just like a real touch event in a mobile browser.
+
+Brian pointed out that this makes debugging mobile apps easier, because you're not limited to Mobile Safari's limited debugging tools.  There's also a bookmarklet for activating Phantom Limb, which means you could use it on any page.
+
+h3. WebGL Model Viewer
+
+!/images/posts/webgl-model-view.png!
+
+Christopher Chedeau sent us a link to "jDataView":https://github.com/vjeux/jsDataView/, a library for reading binary files in browsers.  His blog post, "Javascript - jDataView: Read Binary File":http://blog.vjeux.com/2011/javascript/jdataview-read-binary-file.html includes some background on the project and a great demo: a "World of Warcraft Model Viewer":http://fooo.fr/~vjeux/github/jsWoWModelViewer/modelviewer.html.  You'll need a WebGL-enabled browser to view this demo.
+
+Dealing with binary data is inherent to games development, so it's worth taking a look at jDataView if you're working in that area.
+
+h3. OpenOdyssey
+
+!/images/posts/openodd.png!
+
+"OpenOdyssey":http://openodyssey.mibbu.eu/ by "Michal Budzynski":http://michalbe.blogspot.com/ for the "Mozilla GameOn Competition":https://gaming.mozillalabs.com/ is a simple browser-based game that uses the "Mibbu":http://mibbu.eu/ game framework.  The basic gameplay mechanics are fairly solid, so it'll be interesting to see what Mibbu is like when Michal releases it.
+
