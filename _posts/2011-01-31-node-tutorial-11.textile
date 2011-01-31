@@ -1,0 +1,300 @@
+---
+layout: post
+title: "Node Tutorial Part 11"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+- express
+- testing
+---
+
+Welcome to part 11 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+* "Part 7: Node Library Versions, Jade Tricks, Error Pages":http://dailyjs.com/2010/12/27/node-tutorial-7/, source code commit: "929f5":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892
+* "Part 8: Flash Messages and Helpers":http://dailyjs.com/2011/01/03/node-tutorial-8/, source code commit: "841a49":https://github.com/alexyoung/nodepad/tree/841a493c03f0421dd1a2279fccac3fbcf1e17b1f
+* "Part 9: Remember Me":http://dailyjs.com/2011/01/10/node-tutorial-9/, source code commit: "1904c":https://github.com/alexyoung/nodepad/tree/1904c6b7f95d708474a5d42e8cdfd40e96243a7a
+* "Part 10: Markdown":http://dailyjs.com/2011/01/24/node-tutorial-10/, source code commit: "11d33":https://github.com/alexyoung/nodepad/tree/11d33e19066e76c8559857fb780ac9fd1ecf68ac
+
+h3. Checking Out Each Commit
+
+You might have noticed I include a fragment of the SHA1 of each source code commit, so each part of the tutorial can be downloaded.  A reader got in touch with us to ask how to actually do this.  It's this simple:
+
+{% highlight sh %}
+git clone git://github.com/alexyoung/nodepad.git
+git checkout -b tutorial_8 841a49
+{% endhighlight %}
+
+This will create a new local branch with the commit at 841a49.  The part that says <code>-b tutorial_8</code> just gives the branch a name, so you could check out each commit (or any that you're interested in) and easily switch between them.
+
+h3. Bugs and Improvements
+
+Over the weekend, "Matthias Lübken":https://github.com/luebken helped me figure out some odd behaviour in Nodepad.  We had quite a lengthy discussion through GitHub and Twitter, and found that Nodepad doesn't run too well on Node 0.3.x, so I recommend using 0.2.4 if possible.
+
+On DailyJS we recently featured "n":https://github.com/visionmedia/n which is a Node version manager -- you could use it to switch between 0.2.4 and the 0.3 series.  Another tool that can do this is "nvm":https://github.com/creationix/nvm.
+
+In addition, Matthias found that Jade's latest version had a slight change in behaviour that caused Nodepad's templates to generate escaped HTML from flash messages by mistake, so "that's now fixed as well":https://github.com/alexyoung/nodepad/commit/afc1eba719182fba4ed4aaaed87e60bbbfd9c0e2.
+
+Matthias also suggested that the app "should use a session secret":https://github.com/alexyoung/nodepad/commit/719afcfe97ac227eb7708d6f29a4cd2132b17c2d for added security.  You should use the <code>secret</code> option for <code>express.session</code> for added security if possible.
+
+h3. Tests with Expresso and Zombie.js
+
+The original basic tests I wrote no-longer work, which is partially my fault and partially due to a lack of good resources on testing with Expresso.  Like most of our readers, I'm comfortable with server-side JavaScript and client-side tools, which made me wonder if it would be easier to write tests in a style that reflects that.  Therefore, I decided to combine Expresso with "Zombie.js":http://zombie.labnotes.org/.
+
+So I went on a quest to write idiomatic Node test code with Expresso, Zombie.js, and Mongoose.  The initial skeleton I created looks like this:
+
+{% highlight javascript %}
+// Force test environment
+process.env.NODE_ENV = 'test';
+
+var app = require('../app'),
+    path = require('path'),
+    fs = require('fs'),
+    assert = require('assert'),
+    zombie = require('zombie'),
+    events = require('events'),
+    testRunner = require('./runner'),
+    models;
+
+// Mongoose models defined in the app -- I actually export them as app.User, etc.
+models = ['User'];
+
+function removeTestData(models, next) {
+  // Clear test data
+}
+
+(function() {
+  // The app needs to run for Zombie to test it
+  app.listen(3001);
+
+  // Clear tests on each run
+  removeTestData(models, function() {
+    // Fixtures
+    var user = new app.User({'email' : 'alex@example.com', 'password' : 'test' });
+    user.save(start);
+  });
+})();
+
+function teardown() {
+  removeTestData(models, function() {
+    process.exit();
+  });
+}
+
+function start() {
+  exports['test login'] = function() {
+    // The Zombie code goes here
+  };
+}
+{% endhighlight %}
+
+A self-executing anonymous function starts everything off.  It runs the app on a different port to the development app, clears the test data, then creates a user.  This is asynchronous, so if we had more fixtures, the very last <code>save</code> should call the <code>start()</code> function.  Expresso will wait around for tests to be exported, so this allows us to use Mongoose's asynchronous API and run tests when we're ready.
+
+If you understand that then take a look at the full test code:
+
+{% highlight javascript %}
+// Force test environment
+process.env.NODE_ENV = 'test';
+
+var app = require('../app'),
+    path = require('path'),
+    fs = require('fs'),
+    assert = require('assert'),
+    zombie = require('zombie'),
+    events = require('events'),
+    testRunner = require('./runner'),
+    models;
+
+models = ['User'];
+
+function removeTestData(models, next) {
+  var modelCount = models.length;
+  models.forEach(function(modelName) {
+    modelCount--;
+    app[modelName].find().all(function(records) {
+      var count = records.length;
+      records.forEach(function(result) {
+        result.remove();
+        count--;
+      });
+      if (count === 0 && modelCount === 0) next();
+    });
+  });
+}
+
+(function() {
+  // The app needs to run for Zombie to test it
+  app.listen(3001);
+
+  // Clear tests on each run
+  removeTestData(models, function() {
+    // Fixtures
+    var user = new app.User({'email' : 'alex@example.com', 'password' : 'test' });
+    user.save(start);
+  });
+})();
+
+function teardown() {
+  removeTestData(models, function() {
+    process.exit();
+  });
+}
+
+function start() {
+  exports['test login'] = function() {
+    zombie.visit('http://localhost:3001/', function(err, browser, status) {
+      // Fill email, password and submit form
+      browser.
+        fill('user[email]', 'alex@example.com').
+        fill('user[password]', 'test').
+        pressButton('Log In', function(err, browser, status) {
+          // Form submitted, new page loaded.
+          assert.equal(browser.text('#header a.destroy'), 'Log Out');
+          teardown();
+        });
+    });
+  };
+}
+{% endhighlight %}
+
+The Zombie.js code visits the URL (notice it's port 3001), then uses the <code>browser</code> object to fill out the login form, submit it, then use a standard <code>assert.equal</code> assertion to compare the text node to the string <code>'Log Out'</code>.
+
+h3. Making it Generic
+
+If we want to separate Nodepad's tests into multiple files, repeating all of that Mongo fixture code would be poor form, so I've tried to make it more generic.  This is my "test/helper.js":https://github.com/alexyoung/nodepad/blob/889d60b0701a14de80c16519f6c924eb84f85506/test/helper.js file:
+
+{% highlight javascript %}
+// Force test environment
+process.env.NODE_ENV = 'test';
+var state = {
+  models: []
+};
+
+function prepare(models, next) {
+  var modelCount = models.length;
+  models.forEach(function(model) {
+    modelCount--;
+    model.find().all(function(records) {
+      var count = records.length;
+      records.forEach(function(result) {
+        result.remove();
+        count--;
+      });
+      if (count === 0 && modelCount === 0) next();
+    });
+  });
+};
+
+module.exports = {
+  run: function(e) {
+    for (var test in state.tests) {
+      e[test] = state.tests[test];
+    }
+  },
+
+  setup: function(next) {
+    prepare(state.models, next);
+  },
+
+  end: function() {
+    prepare(state.models, process.exit);
+  },
+
+  set models(models) {
+    state.models = models;
+  },
+
+  set tests(tests) {
+    state.tests = tests;
+  }
+};
+{% endhighlight %}
+
+The environment is set to <code>test</code> because my default Nodepad settings have a test database defined which means it should be safe to trash data each time a set of tests is run.  The <code>prepare</code> function just loops through each Mongoose model and removes associated data (this is reused from the previous example).
+
+Now the tests are a little bit more concise:
+
+{% highlight javascript %}
+var app = require('../app'),
+    assert = require('assert'),
+    zombie = require('zombie'),
+    events = require('events'),
+    testHelper = require('./helper');
+
+app.listen(3001);
+
+testHelper.models = [app.User];
+
+testHelper.setup(function() {
+  // Fixtures
+  var user = new app.User({'email' : 'alex@example.com', 'password' : 'test' });
+  user.save(testHelper.run(exports));
+});
+
+testHelper.tests = {
+  'test login': function() {
+    zombie.visit('http://localhost:3001/', function(err, browser, status) {
+      // Fill email, password and submit form
+      browser.
+        fill('user[email]', 'alex@example.com').
+        fill('user[password]', 'test').
+        pressButton('Log In', function(err, browser, status) {
+          // Form submitted, new page loaded.
+          assert.equal(browser.text('#header a.destroy'), 'Log Out');
+          testHelper.end();
+        });
+    });
+  }
+};
+{% endhighlight %}
+
+Did you notice I used a setter for setting tests and models?  I thought that was an interesting trick so I left it in there.
+
+h3. Conclusion
+
+When writing Expresso tests it's important to remember that it's possible to delay the running of tests by deferring setting them in <code>module.exports</code>.  TJ's example in the "Expresso documentation":http://visionmedia.github.com/expresso/ uses <code>setTimeout</code>, but keeping a callback floating also works.
+
+If you run my code (remember to use <code>expresso</code>), you should see this:
+
+{% highlight sh %}
+alex@mog ~/Code/nodepad[git:master]$ expresso test/app.test.js 
+GET / 2 ms
+GET /sessions/new 10 ms
+GET /javascripts/application.js 1 ms
+GET /javascripts/json.js 1 ms
+POST /sessions 2 ms
+GET /documents 8 ms
+GET /javascripts/application.js 1 ms
+GET /javascripts/json.js 1 ms
+GET /documents/4d21d96f2410f20000000037.json 5 ms
+
+   100% 1 tests
+{% endhighlight %}
+
+Zombie.js (or "Tobi":https://github.com/LearnBoost/tobi) is a very JavaScript developer friendly way to test, but you still need some kind of test runner.  A lot of people are using "Vows":http://vowsjs.org/, and I'm sure nodeunit would work well too.
+
+I found it disappointing that there aren't many open source Express apps with solid tests.  Also, writing tests without a convenient way of handling setup, teardown, and fixtures seems awkward to me. 
+
+You should now be able to at least run the Nodepad tests.  Hopefully next week I'll be able to write more detailed Zombie.js tests so we can really push what we've created so far.
+
+This version is "commit 6a269ce":https://github.com/alexyoung/nodepad/tree/6a269ce4ddb6c7dc78598b488c93b38828fb5763.
+
+h3. References
+
+* "Zombie.js":http://zombie.labnotes.org/
+* "Tobi":https://github.com/LearnBoost/tobi
+* "Vows":http://vowsjs.org/
+* "Expresso":http://visionmedia.github.com/expresso/
+
