@@ -173,7 +173,7 @@ The Zombie.js code visits the URL (notice it's port 3001), then uses the <code>b
 
 h3. Making it Generic
 
-If we want to separate Nodepad's tests into multiple files, repeating all of that Mongo fixture code would be poor form, so I've tried to make it more generic.  This is my "test/helper.js":https://github.com/alexyoung/nodepad/blob/889d60b0701a14de80c16519f6c924eb84f85506/test/helper.js file:
+If we want to separate Nodepad's tests into multiple files, repeating all of that Mongo fixture code would be poor form, so I've tried to make it more generic.  This is my "test/helper.js":https://github.com/alexyoung/nodepad/blob/6a269ce4ddb6c7dc78598b488c93b38828fb5763/test/helper.js file:
 
 {% highlight javascript %}
 // Force test environment
