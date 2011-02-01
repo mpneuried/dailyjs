@@ -1,0 +1,37 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery 1.5"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- videos
+---
+
+h3. jQuery 1.5
+
+"jQuery 1.5":http://blog.jquery.com/2011/01/31/jquery-15-released/ has been released.  The biggest changes are an Ajax rewrite, "jQuery.sub":http://api.jquery.com/jQuery.sub/, and traversal method performance improvements.
+
+h3. 11 More Things I Learned from the jQuery Source
+
+!/images/posts/11jquery.png!
+
+"11 More Things I Learned from the jQuery Source":http://paulirish.com/2011/11-more-things-i-learned-from-the-jquery-source/ by Paul Irish is a 29 minute screencast that covers:
+
+* pseudo-module patterns with self-executing anonymous functions (apparently some people prefer the term "IIFE":http://benalman.com/news/2010/11/immediately-invoked-function-expression/)
+* <code>data()</code>'s new HTML5 features
+* Operator precedence
+* Live and static nodelists
+* cssHooks and other CSS stuff
+* How <code>$.fn</code> works
+
+If you follow our _LMAF_ series you'll know digging into jQuery is interesting, so I think you'll enjoy this too.
+
+h3. jQuery Deconstructed
+
+!/images/posts/jquerydeconstruct.png!
+
+On a similar note, "jQuery Deconstructed":http://www.keyframesandcode.com/resources/javascript/deconstructed/jquery/ is an interesting visual tour of jQuery's innards:
+
+bq. The Deconstructed series is designed to visually and interactively deconstruct the internal code of JavaScript libraries, including jQuery, Prototype and MooTools.  It breaks the physical JavaScript into visual blocks that you can easiliy navigate. Each block opens to reveal its internal code. Clickable hyperlinks allow you to follow program flow.
+
