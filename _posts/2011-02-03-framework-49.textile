@@ -1,0 +1,213 @@
+---
+layout: post
+title: "Let's Make a Framework: JSON and Ajax Tests"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- testing
+- ajax
+- json
+---
+
+Welcome to part 49 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.
+
+h3. JSON Content-Type Support
+
+In this part I'm going to show you how to use server-side JavaScript to write some Ajax tests for Turing's net module.
+
+The net module should support form encoded data and JSON.  I created a little Node app to work as a test harness (in "test/functional":https://github.com/alexyoung/turing.js/tree/8f75ed7244ae24ab8f81ebdf11f8d1dd729d268f/test/functional) and wrote these client-side tests in "ajax-test.js":https://github.com/alexyoung/turing.js/blob/8f75ed7244ae24ab8f81ebdf11f8d1dd729d268f/test/functional/public/ajax-test.js:
+
+{% highlight javascript %}
+exports.testAjax = {
+  'test ajax get': function() {
+    $t.get('/get-test', {
+      success: function(r) {
+        assert.equal('{"key":"value"}', r.responseText);
+      }
+    });
+  },
+
+  'test ajax post': function() {
+    $t.post('/post-test', {
+      postBody: 'key=value&anotherKey=anotherValue',
+      success: function(r) {
+        assert.equal('value', r.responseText);
+      }
+    });
+  },
+
+  'test json post object': function() {
+    $t.post('/post-test', {
+      postBody: { key: 'value' },
+      success: function(r) {
+        assert.equal('value', r.responseText);
+      },
+      error: function() {
+        assert.ok(false);
+      }
+    });
+  },
+
+  'test json post object with application/json': function() {
+    $t.post('/post-test', {
+      postBody: '{"key":"value"}',
+      contentType: 'application/json', 
+      success: function(r) {
+        assert.equal('value', r.responseText);
+      },
+      error: function() {
+        assert.ok(false);
+      }
+    });
+  },
+
+  'test json post array with application/json': function() {
+    $t.post('/post-array', {
+      postBody: '["value"]',
+      contentType: 'application/json', 
+      success: function(r) {
+        assert.equal('value', r.responseText);
+      },
+      error: function() {
+        assert.ok(false);
+      }
+    });
+  },
+
+  'test json parsing': function() {
+    $t.post('/give-me-json', {
+      contentType: 'application/json', 
+      success: function(r) {
+        assert.equal('value', r.responseJSON.key);
+      }
+    });
+  }
+};
+{% endhighlight %}
+
+I actually wrote the tests first and tried to run them to see what happened.  The first problem I found was it didn't convert those JavaScript objects to strings and encode them for the HTTP request.
+
+I wrote this to serialize them:
+
+{% highlight javascript %}
+/**
+  * Serialize JavaScript for HTTP requests.
+  *
+  * @param {Object} object An Array or Object
+  * @returns {String} A string suitable for a GET or POST request
+  */
+net.serialize = function(object) {
+  if (!object) return;
+
+  var results = [];
+  for (var key in object) {
+    results.push(encodeURIComponent(key) + '=' + encodeURIComponent(object[key]));
+  }
+  return results.join('&');
+};
+{% endhighlight %}
+
+Then in the <code>ajax</code> function I check the parameter's type:
+
+{% highlight javascript %}
+if (typeof options.postBody !== 'string') {
+  // Serialize JavaScript
+  options.postBody = net.serialize(options.postBody);
+}
+{% endhighlight %}
+
+JSON responses from the server weren't being parsed into <code>responseJSON</code> either.  I wrote this very simple JSON parser based on jQuery's implementation:
+
+{% highlight javascript %}
+/**
+  * Parses JSON represented as a string.
+  *
+  * @param {String} string The original string
+  * @returns {Object} A JavaScript object
+  */
+net.parseJSON = function(string) {
+  if (typeof string !== 'string' || !string) return null;
+  string = string.trim();
+  return turing.detect('JSON.parse') ?
+    window.JSON.parse(string) :
+    (new Function('return ' + string))();
+};
+{% endhighlight %}
+
+Notice this uses the capability detection code we added a few months ago.  JSON parsing is detected using <code>turing.detect('JSON.parse')</code>:
+
+{% highlight javascript %}
+/**
+  * JSON.parse support can be inferred using `turing.detect('JSON.parse')`.
+  */
+turing.addDetectionTest('JSON.parse', function() {
+  return window.JSON && window.JSON.parse;
+});
+{% endhighlight %}
+
+The core <code>ajax</code> function can now use <code>net.parseJSON</code>:
+
+{% highlight javascript %}
+function ajax(url, options) {
+  var request = xhr();
+
+  function respondToReadyState(readyState) {
+    if (request.readyState == 4) {
+      // Here:
+      if (request.getResponseHeader('content-type') === 'application/json')
+        request.responseJSON = net.parseJSON(request.responseText);
+
+      if (successfulRequest(request)) {
+        if (options.success) options.success(request);
+      } else {
+        if (options.error) options.error(request);
+      }
+    }
+  }
+
+  // etc.
+{% endhighlight %}
+
+h3. The Node Ajax Test App
+
+The Node test app is written with Express.  It just serves some static files straight from the Turing distribution, and has some methods that respond to the client-side test script:
+
+{% highlight javascript %}
+app.get('/get-test', function(req, res) {
+  res.send({ key: 'value' });
+});
+
+app.post('/post-test', function(req, res) {
+  res.send(req.body.key);
+});
+
+app.post('/post-array', function(req, res) {
+  res.send(req.body[0]);
+});
+
+app.post('/give-me-json', function(req, res) {
+  res.send({ key: 'value' });
+});
+{% endhighlight %}
+
+Take a look at the full thing in "test/functional":https://github.com/alexyoung/turing.js/tree/8f75ed7244ae24ab8f81ebdf11f8d1dd729d268f/test/functional.
+
+h3. Conclusion
+
+Now the <code>turing.net</code> module has support for sending and receiving JSON, it's a little bit more useful.  Parsing JSON isn't that difficult, but encoding JavaScript objects as JSON for sending over HTTP as strings is more work.  I still use "json2.js":https://github.com/douglascrockford/JSON-js to do this, but maybe we should include it in Turing?  Exploring the code in json2.js would certainly make for an interesting tutorial.
+
+I think the fact our server-side tests have been written in JavaScript using Node is pretty cool -- we don't need any PHP or Ruby support to get Turing thoroughly tested.
+
+This week's code can be found in "commit 8f75ed7":https://github.com/alexyoung/turing.js/tree/8f75ed7244ae24ab8f81ebdf11f8d1dd729d268f.
+
+h3. References
+
+* "Douglas Crockford's JSON-js":https://github.com/douglascrockford/JSON-js
+* "jQuery's ajax.js and JSON parsing":https://github.com/jquery/jquery/
+
+
