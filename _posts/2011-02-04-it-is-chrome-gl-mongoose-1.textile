@@ -1,0 +1,66 @@
+---
+layout: post
+title: "Mongoose 1.0, Chrome WebGL, it-is"
+author: Alex Young
+categories: 
+- testing
+- mongo
+- chrome
+- webgl
+---
+
+h3. Mongoose 1.0
+
+!/images/posts/mongoose-1.png!
+
+"Mongoose 1.0":https://github.com/LearnBoost/mongoose has been finally released by Guillermo Rauch, Nathan White, and Brian Noguchi.  I've been watching their 1.0 branch for a while because the API looks improved over the older versions.  Incidentally, the older API is what we've used for my Nodepad tutorials, so at some point I'll update Nodepad to Mongoose 1.0.
+
+There's now a generic <code>Schema</code> class:
+
+{% highlight javascript %}
+var Comments = new Schema({
+    title     : String
+  , body      : String
+  , date      : Date
+});
+{% endhighlight %}
+
+They've also added middleware, which is a very interesting feature for reducing nested callbacks.  Middleware is defined on the <code>Schema</code> objects like this:
+
+{% highlight javascript %}
+schema.pre('save', function (next) {
+    // something goes wrong
+    next(new Error('something went wrong'));
+});
+
+// later...
+
+myModel.save(function (err) {
+  // err can come from a middleware
+});
+{% endhighlight %}
+
+If you want to read more, there's some nice documentation available for Mongoose on "mongoosejs.com":http://mongoosejs.com/.
+
+h3. Chrome WebGL
+
+!/images/posts/chrome-9-webgl.png!
+
+Until now, Chrome had nascent support for WebGL which was enabled with a command line flag.  Version 9 now includes it by default, and "Google's blog post":http://chrome.blogspot.com/2011/02/dash-of-speed-3d-and-apps.html about the update includes a link to some "interesting WebGL demos":http://www.chromeexperiments.com/webgl.
+
+h3. it-is
+
+Dominic Tarr said he got tired of typing _should_ all the time, so he made "it-is":http://github.com/dominictarr/it-is.  It's a very terse assertion library, which supports expressions like these:
+
+{% highlight javascript %}
+it(actual).equal(10)
+
+it({a:1, b: 3})
+  .has({
+    a: it.typeof('number').notEqual(3)
+  , b: it.equal(3)
+  })
+{% endhighlight %}
+
+It looks like Dominic is aiming to support Node with this library, so it might currently be more useful for server-side testing rather than client side.  You should be able to get it with: <code>npm install it-is</code>.
+
