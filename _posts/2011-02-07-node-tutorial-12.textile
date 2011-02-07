@@ -1,0 +1,182 @@
+---
+layout: post
+title: "Node Tutorial Part 12"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+- express
+---
+
+Welcome to part 12 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+* "Part 7: Node Library Versions, Jade Tricks, Error Pages":http://dailyjs.com/2010/12/27/node-tutorial-7/, source code commit: "929f5":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892
+* "Part 8: Flash Messages and Helpers":http://dailyjs.com/2011/01/03/node-tutorial-8/, source code commit: "841a49":https://github.com/alexyoung/nodepad/tree/841a493c03f0421dd1a2279fccac3fbcf1e17b1f
+* "Part 9: Remember Me":http://dailyjs.com/2011/01/10/node-tutorial-9/, source code commit: "1904c":https://github.com/alexyoung/nodepad/tree/1904c6b7f95d708474a5d42e8cdfd40e96243a7a
+* "Part 10: Markdown":http://dailyjs.com/2011/01/24/node-tutorial-10/, source code commit: "11d33":https://github.com/alexyoung/nodepad/tree/11d33e19066e76c8559857fb780ac9fd1ecf68ac
+* "Part 11: Markdown":http://dailyjs.com/2011/01/31/node-tutorial-11/, source code commit: "commit 6a269ce":https://github.com/alexyoung/nodepad/tree/6a269ce4ddb6c7dc78598b488c93b38828fb5763
+
+h3. Updating Mongoose
+
+Mongoose 1.0.0 has been released, which changes the API quite significantly.  In particular, model definitions are very different to the version we were using.  I've updated the app to use Mongoose 1.0.7 so you'll be able to learn how to use the new API.
+
+Because we've locked all of our packages to versions using npm's <code>@version</code> syntax, it's easy to switch between versions of a package.  The new version of Mongoose can be installed like this:
+
+{% highlight sh %}
+npm install mongoose@1.0.7
+{% endhighlight %}
+
+I then went through and updated the requires:
+
+{% highlight javascript %}
+mongoose = require('mongoose@1.0.7')
+{% endhighlight %}
+
+The file that needs the most changes is "models.js":https://github.com/alexyoung/nodepad/blob/master/models.js.  Let's look at the <code>Document</code> model to see how it can be defined with the new API.
+
+h3. Document Model
+
+Mongoose 1.0 models are defined using <code>Schema</code> objects.  Once they've been defined it's possible to decorate them with virtual attributes and middleware.  Virtual attributes are getters and setters, and middleware is a convenient way of injecting functions into key lifecycle events.
+
+The schema just defines attributes and their associated properties -- validations can even be defined.  Nodepad's <code>Document</code> model is actually very simple:
+
+{% highlight javascript %}
+var Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
+
+Document = new Schema({
+  'title': { type: String, index: true },
+  'data': String,
+  'tags': [String],
+  'user_id': ObjectId
+});
+{% endhighlight %}
+
+I've defined an index on the title attribute, and told Mongoose what types I want to use.  Notice that the tag array (which is currently unused) is defined using <code>[String]</code> rather than <code>Array</code> or some other collection type.
+
+Once a schema has been defined it's important to tell Mongoose about it:
+
+{% highlight javascript %}
+mongoose.model('Document', Document);
+{% endhighlight %}
+
+Now the <code>Document</code> model can be used like this:
+
+{% highlight javascript %}
+mongoose.model('Document');
+{% endhighlight %}
+
+All of these commands will be queued if there isn't a database connection yet.
+
+h3. User Model
+
+The <code>User</code> schema is a bit more complicated.  We need to validate the presence of an email address and password.  It's easy for email addresses:
+
+{% highlight javascript %}
+function validatePresenceOf(value) {
+  return value && value.length;
+}
+
+User = new Schema({
+  'email': { type: String, validate: [validatePresenceOf, 'an email is required'], index: { unique: true } },
+  'hashed_password': String,
+  'salt': String
+});
+{% endhighlight %}
+
+Mongoose lets us define functions for validators.  It'll also accept a regular expression.
+
+I haven't defined a password attribute because we don't want to store the plaintext password.  Previously this was defined as a 'getter'; now it needs to be a _virtual attribute_:
+
+{% highlight javascript %}
+User.virtual('password')
+  .set(function(password) {
+    this._password = password;
+    this.salt = this.makeSalt();
+    this.hashed_password = this.encryptPassword(password);
+  })
+  .get(function() { return this._password; });
+{% endhighlight %}
+
+There are a few interesting points here:
+
+* The syntax for getters and setters requires a call to <code>virtual</code> first
+* The getter and setters are defined with <code>get</code> and <code>set</code>
+* These definitions can be chained
+
+The next thing we need to do is make sure this password is validated.  We can't do it with the schema definition because it's a virtual attribute, so let's use the new middleware feature instead:
+
+{% highlight javascript %}
+User.pre('save', function(next) {
+  if (!validatePresenceOf(this.password)) {
+    next(new Error('Invalid password'));
+  } else {
+    next();
+  }
+});
+{% endhighlight %}
+
+I've reused the function from the email validation.  This function will run before <code>save</code> is called.  Calling <code>next()</code> will move to the next middleware or <code>save</code> itself, but passing an <code>Error</code> will cause the error to be returned to the function passed to <code>save</code> from Nodepad's app code:
+
+{% highlight javascript %}
+user.save(function(err) {
+  if (err) return userSaveFailed();
+  // ...
+{% endhighlight %}
+
+The old API wasn't as flexible as this, so I hope middleware makes switching to the new API worth the effort.
+
+h3. Instance Methods
+
+One thing I couldn't find in the "Mongoose documentation":http://mongoosejs.com/ was how to define instance methods.  I tried calling <code>Schema.method</code> and it just happened to work, so for reference it looks like this:
+
+{% highlight javascript %}
+User.method('authenticate', function(plainText) {
+  return this.encryptPassword(plainText) === this.hashed_password;
+});
+
+User.method('makeSalt', function() {
+  return Math.round((new Date().valueOf() * Math.random())) + '';
+});
+
+User.method('encryptPassword', function(password) {
+  return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+});
+{% endhighlight %}
+
+These are the methods we use to make dealing with passwords easier.
+
+The other model in the project, <code>LoginToken</code>, just uses the same techniques discussed here.
+
+h3. Query Signature Changes
+
+For a start, <code>Model.find().first()</code> no-longer works.  We now need to use <code>findOne</code>:
+
+{% highlight javascript %}
+app.post('/sessions', function(req, res) {
+  User.findOne({ email: req.body.user.email }, function(err, user) {
+    if (user && user.authenticate(req.body.user.password)) {
+      req.session.user_id = user.id;
+      // ...
+{% endhighlight %}
+
+Secondly, the query callback signature has changed to <code>function(err, user)</code>.  This makes error handling more convenient but meant I had to change every single finder in the entire project.
+
+h3. Conclusion
+
+It took me about 3 hours to learn Mongoose 1.0 and port Nodepad to it.  However, Nodepad is a pretty small project, so keep this in mind if you'd like to move your own projects to the newer API.
+
+This week's code is "commit 2a8725":https://github.com/alexyoung/nodepad/tree/2a8725f089ef052ec8b4ccfed8f6fbece70a606a.
+
