@@ -1,0 +1,38 @@
+---
+layout: post
+title: "jQuery Roundup: Isotope, Query, 1.5 Changes, File Upload"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- cli
+- layout
+---
+
+h3. Isotope
+
+!/images/posts/isotope.png!
+
+"Isotope":http://isotope.metafizzy.co/ (GitHub: "desandro / isotope":https://github.com/desandro/isotope) by David DeSandro and Metafizzy is a layout plugin with lots of options and elegant animations.  The "basic Isotope demo":http://isotope.metafizzy.co/demos/basic.html repositions elements (literally) when the browser is resized.  Elements can also be filtered, and it can cope with resized elements using "the reLayout method":http://isotope.metafizzy.co/demos/relayout.html.
+
+h3. Query
+
+"Query":https://github.com/visionmedia/query by TJ Holowaychuk is jQuery for the command-line.  It uses Node and "jsdom":http://jsdom.org/ to provide nifty shell access to jQuery selectors and DOM traversal features:
+
+{% highlight sh %}
+curl http://twitter.com | query 'a#logo' | query img attr alt
+# Returns 'Twitter'
+{% endhighlight %}
+
+Node is required, and Query can be installed using "npm":https://github.com/isaacs/npm with <code>npm install query</code>.
+
+h3. jQuery 1.5 Changes
+
+"jQuery 1.5 Changes Part I":http://developers.redventures.com/2011/01/jquery-1-5-changes-part-i/ by Garrett from Red Ventures discusses the new Ajax module in jQuery 1.5 with some details on <code>$.Deferred()</code>, which while incredibly useful, may seem confusing at first.
+
+h3. jQuery File Upload
+
+"jQuery File Upload":http://aquantum-demo.appspot.com/file-upload (GitHub: "blueimp / jQuery-File-Upload":https://github.com/blueimp/jQuery-File-Upload) by Sebastian Tschan is a jQuery file upload plugin that handles multiple files, drag and drop, progress bars, cancelled uploads, and a lot more features.
+
+This plugin also optionally uses jQuery UI for additional interface features.
+
