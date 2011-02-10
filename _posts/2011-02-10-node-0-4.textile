@@ -1,0 +1,21 @@
+---
+layout: post
+title: "Node 0.4"
+author: Alex Young
+categories: 
+- node
+- server
+---
+
+The second stable branch of Node, 0.4, has been announced.  The "0.4 announcement":http://nodejs.org/v0.4_announcement.html has an overview of the changes, and there's a "GitHub Node wiki page about migrating from 0.2 to 0.4":https://github.com/ry/node/wiki/Migrating-from-v0.2-to-v0.3.
+
+A lot of the changes are relatively low-level.  However, libraries and frameworks like "Express may require updating":http://twitter.com/#!/tjholowaychuk/status/34753417272492032.  From what I've learned by watching the 0.3 changes on the "nodejs Google Group":http://groups.google.com/group/nodejs, it sounds like the 0.4 changes are positive -- a cleaner HTTP client API, better HTTPS support, and a more efficient <code>Buffer</code>.
+
+It's also interesting to see npm mentioned in the release announcement:
+
+bq. In particular, NPM was forced to resort to deep symlinks and "shim" modules to work around missing features in <code>require()</code>.
+
+These changes include <code>require()</code> awareness of <code>package.json</code>, and the relative path <code>node_modules/</code> being searched for modules.  This will make it very easy to bundle modules with apps, potentially simplifying deployment and distribution.
+
+You may also be interested in reading the pertinent "V8 change log":https://github.com/ry/node/blob/583f2e599962f2664dbaafa0ae98a8d6c1242441/deps/v8/ChangeLog.
+
