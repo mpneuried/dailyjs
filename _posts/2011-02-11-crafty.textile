@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Making games with JavaScript and Crafty"
+title: "Making Games with JavaScript and Crafty"
 author: Louis Stowasser
 categories: 
 - tutorials
