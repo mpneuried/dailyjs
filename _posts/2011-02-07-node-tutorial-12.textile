@@ -26,7 +26,7 @@ Previous tutorials:
 * "Part 8: Flash Messages and Helpers":http://dailyjs.com/2011/01/03/node-tutorial-8/, source code commit: "841a49":https://github.com/alexyoung/nodepad/tree/841a493c03f0421dd1a2279fccac3fbcf1e17b1f
 * "Part 9: Remember Me":http://dailyjs.com/2011/01/10/node-tutorial-9/, source code commit: "1904c":https://github.com/alexyoung/nodepad/tree/1904c6b7f95d708474a5d42e8cdfd40e96243a7a
 * "Part 10: Markdown":http://dailyjs.com/2011/01/24/node-tutorial-10/, source code commit: "11d33":https://github.com/alexyoung/nodepad/tree/11d33e19066e76c8559857fb780ac9fd1ecf68ac
-* "Part 11: Markdown":http://dailyjs.com/2011/01/31/node-tutorial-11/, source code commit: "commit 6a269ce":https://github.com/alexyoung/nodepad/tree/6a269ce4ddb6c7dc78598b488c93b38828fb5763
+* "Part 11: Better Testing":http://dailyjs.com/2011/01/31/node-tutorial-11/, source code commit: "6a269ce":https://github.com/alexyoung/nodepad/tree/6a269ce4ddb6c7dc78598b488c93b38828fb5763
 
 h3. Updating Mongoose
 
