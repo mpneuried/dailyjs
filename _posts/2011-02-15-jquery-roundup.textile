@@ -1,0 +1,68 @@
+---
+layout: post
+title: "jQuery Roundup: jquery-mobile-960, Easy WebSocket, mapKey, bValidator"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- keyboard
+- design
+- websockets
+---
+
+h3. jquery-mobile-960
+
+!/images/posts/960jquerymobile.png!
+
+"jquery-mobile-960":http://jeromeetienne.github.com/jquery-mobile-960/ (GitHub: "jeromeetienne / jquery-mobile-960":https://github.com/jeromeetienne/jquery-mobile-960) by Jerome Etienne is a port of 960 grid to jQuery Mobile.  By combining "960.gs":http://960.gs/ with "jQuery Mobile":http://jquerymobile.com/ the author aims to offer more flexible layout options, which makes supporting tablets easier:
+
+bq. jQuery mobile layout is currently rather raw. They only split the width in even parts, providing little controls to the designer. It uses an custom API with names ending with a, b, c or d, ui-block-a for example. Not the classic grid-4 or span-3, so it feel awkward.  [...] 960 grids are flexible and well known. So i used ported 960 grids to see if it helps.
+
+h3. Easy WebSocket
+
+"Easy WebSocket":http://easywebsocket.org/ (GitHub: "jeromeetienne / EasyWebsocket":https://github.com/jeromeetienne/EasyWebsocket, MIT License) also by Jerome Etienne is an effort to remove servers from the WebSocket equation.  It appears to use iframes and a small Python App Engine script to make accessing resources as easy as this:
+
+{% highlight javascript %}
+<script src="http://EasyWebsocket.org/easyWebSocket.min.js"></script>   
+<script>
+  var socket = new EasyWebSocket('ws://example.com/resource');
+
+  socket.onopen = function() {
+    socket.send('hello world.')
+  }
+
+  socket.onmessage = function(event) {
+    alert('received: ' + event.data);
+  }
+</script>
+{% endhighlight %}
+
+So technically it still depends on a server, but it could make the lives of front-end developers simpler who aren't used to messing around with server-side code.
+
+h3. mapKey
+
+"mapKey":http://pixelmatrixdesign.com/weblog/comments/introducing_mapkey/ (GitHub: "pixelmatrix / mapkey":https://github.com/pixelmatrix/mapkey, MIT License) by Josh Pyles is a jQuery keyboard shortcut plugin that has aliases for a lot of keys.  Rather than working out the key codes for arrow keys, <code>left</code> and <code>up</code> can be used instead:
+
+{% highlight javascript %}
+$.mapKey('down', function() {
+  // Keyboard shortcut event support goes here
+});
+{% endhighlight %}
+
+I always try to add keyboard shortcuts to my apps, so rather than my hokey homebrew keyboard code I might give this a try.  One thing to remember when supporting hotkeys is to be specific -- if a letter key is pressed should this still trigger when the shift or metakeys are held down?
+
+h3. bValidator
+
+!/images/posts/bvalidator.png!
+
+"bValidator":http://code.google.com/p/bvalidator/ is a client-side validation library with extensive form control support and configuration options.  Custom attributes can be used to define the required validations on a field:
+
+{% highlight html %}
+<input type="text" data-bvalidator="alpha,minlength[10],required">
+{% endhighlight %}
+
+This can be changed when setting up the plugin:
+
+{% highlight javascript %}
+('#form').bValidator({ validateActionsAttr: 'class' })
+{% endhighlight %}
