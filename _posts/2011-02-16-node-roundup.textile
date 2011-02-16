@@ -1,0 +1,52 @@
+---
+layout: post
+title: "Node Roundup: bigint, mingy, kyoto-client, Blagovest's NPM Search"
+author: Alex Young
+categories: 
+- node
+- server
+- maths
+- cli
+- database
+---
+
+h3. bigint
+
+"bigint":https://github.com/substack/node-bigint by James Halliday is an arbitrary precision arithmetic library for Node.  Large integers can be defined with strings, then manipulated with the library's methods:
+
+{% highlight javascript %}
+var bigint = require('bigint');
+
+var b = bigint('782910138827292261791972728324982')
+    .sub('182373273283402171237474774728373')
+    .div(8);
+{% endhighlight %}
+
+
+Note that there's also a <code>destroy</code> method:
+
+bq. Destroy a bigint. This module is using node-ffi so I can't hook onto the GC easily. You only need to call this if you're creating bigints in a loop.
+
+Other methods include <code>rand</code>, <code>pow</code>, and more.  This library can be installed with <code>npm install bigint</code>.
+
+I actually have some experience in working with arbitrary precision arithmetic from back in my university days -- I wrote a distributed fractal generator with various numerical libraries.  In Ada...  This sounds like a lot more fun!
+
+h3. Mingy
+
+I like writing CLI stuff, so I thought "Mingy":https://github.com/mcantelon/node-mingy by Mike Cantelon sounded pretty cool.  He describes it as a "cheap and cheerful command parser/server for node.js", perfect for creating command-line tools, text adventure games, and even MUDs.
+
+It can run as a server (hence the MUD reference), copes with multiple users, includes validation support, and even has Expresso tests.
+
+h3. kyoto-client
+
+"kyoto-client":http://kyoto-client.org/ (GitHub: "wezm / kyoto-client":https://github.com/wezm/kyoto-client, BSD License) by Wesley Moore is a "Kyoto Tycoon":http://fallabs.com/kyototycoon/ client library.  Kyoto Tycoon is a lightweight database server, from FAL Labs, who also created the older Tokyo Cabinet key value database.
+
+The kyoto-client module has some good documentation on the site and seems straightforward to use.  It can be installed with <code>npm install kyoto-client</code>.
+
+h3. Blagovest's NPM Search
+
+!/images/posts/npm_search.png!
+
+"Blagovest's NPM Search":http://blago.dachev.com/modules by Blagovest Dachev is a convenient (and fast) way to browse npm.  In fact, it's exactly the kind of thing I need to find things to write about for DailyJS.  Thanks Blagovest!
+
+
