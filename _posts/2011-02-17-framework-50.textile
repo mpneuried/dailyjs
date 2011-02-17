@@ -1,0 +1,125 @@
+---
+layout: post
+title: "Let's Make a Framework: Plugins"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- plugins
+---
+
+Welcome to part 50 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.
+
+h3. Plugins
+
+Why directly support plugins?  Why not just distribute libraries that are compatible with particular frameworks?
+
+It turns out it can be incredibly useful to directly extend frameworks to provide new features that work with their familiar APIs.  I think the best example of this is jQuery, but other frameworks also have some form of plugin support.  It actually varies -- some have particular components designed with plugin APIs, and others just have community supported plugin repositories.
+
+I started thinking about this back when we were adding the DOM selector engine.  There's special handling for the DOM module to allow other parts of the framework to work with chained calls off selector results.  So for example, the following is possible:
+
+{% highlight javascript %}
+turing('p')
+  .fadeIn(2000)
+  .animate(1000, { color: '#ff0000' })
+  .click(function() { alert('clicked'); });
+{% endhighlight %}
+
+The first method returns an object that has aliases to the animation and events modules.  These modules are mostly self-contained, and their methods accept an element as the first parameter.  The chaining is facilitated simply by wrapping the original calls.  This is a little bit like jQuery.
+
+h3. jQuery Plugins
+
+A jQuery plugin is just a function:
+
+{% highlight javascript %}
+jQuery.fn.myPlugin = function(options) {
+  var settings = {
+    defaultValue: true
+  };
+
+  if (options) { 
+    jQuery.extend(settings, options);
+  }
+};
+{% endhighlight %}
+
+Inside the <code>myPlugin</code> function, <code>this</code> refers to the jQuery object the function was called from.  And depending on the type of plugin, jQuery objects can be returned so the results can be chained.  Settings can be handled with <code>jQuery.extend</code>.
+
+The "jQuery Plugin Authoring":http://docs.jquery.com/Plugins/Authoring documentation has examples of namespacing events, data, and some best practice guidelines.
+
+The important question, however, is what is <code>jQuery.fn</code>?  Take a look at this code from core.js:
+
+{% highlight javascript %}
+var jQuery = function( selector, context ) {
+    // The jQuery object is actually just the init constructor 'enhanced'
+    return new jQuery.fn.init( selector, context, rootjQuery );
+  },
+
+// ... Snip ...
+
+jQuery.fn = jQuery.prototype = {
+  constructor: jQuery,
+  init: function( selector, context, rootjQuery ) {
+    var match, elem, ret, doc; 
+
+    // Handle $(""), $(null), or $(undefined)
+    if ( !selector ) {
+      return this;
+    }
+    
+    // etc.
+{% endhighlight %}
+
+It's jQuery's prototype object -- the code that gets instantiated with your selector and the results of a query.  That's how plugins can appear potentially anywhere in the chain: <code>$('selector').myPlugin</code>.
+
+h3. Middleware
+
+The idea of _middleware_ seems to be catching on in the Node community.  We've seen this on DailyJS in "Express' Connect middleware":http://expressjs.com/guide.html#Middleware.  Some of the library's functions accept a parameter that is a user-supplied function.  This function has two or three parameters -- the last one is a method (<code>next()</code>) that can be called to pass execution on to the next piece of middleware.
+
+This approach means user-supplied functions can be injected into key areas of the library.  It also works well with asynchronous code.
+
+h3. Dependencies and Namespacing
+
+jQuery doesn't specifically prevent plugins from overriding each other.  I've tried to keep Turing's modules self-contained, so it might be useful to be able to express and manage dependencies.  A simple format like "NPM's package.json":https://github.com/isaacs/npm/blob/master/doc/json.md could be used to express a plugin's requirements:
+
+{% highlight javascript %}
+{
+  "name": "My Plugin",
+  "version": "1.0.0",
+  "description": "A useful plugin",
+  "author": "Name <email>",
+  "cdn": [
+    "https://ajax.googleapis.com/ajax/libs/..."
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://..."
+  },
+  "engines": {
+    "node": ">= 0.2.4",
+    "browsers": [
+      // Does this make sense?
+    ]
+  },
+  "bugs": {
+    "url": "http://..."
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://..."
+    }
+  ]
+}
+{% endhighlight %}
+
+As you might have seen on DailyJS, I often get annoyed at the amount of jQuery plugins that come without licensing information, tests, and documentation.  Encouraging plugin authors to include this kind of metadata from the start is a good idea.
+
+h3. Turing's Implementation
+
+jQuery's simple plugin approach will play nicely with the chaining API that we've been building for Turing.  The idea of middleware interests me as well -- it might be useful in areas where the framework needs to be extended internally.  As a bonus, I think we'll be able to use the plugin system to fix some of the chaining code I've written internally in Turing.
+
