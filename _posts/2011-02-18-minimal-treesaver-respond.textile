@@ -1,0 +1,70 @@
+---
+layout: post
+title: "Minimal.js, Treesaver, Respond"
+author: Alex Young
+categories: 
+- design
+- templating
+- ui
+---
+
+h3. minimal.js
+
+"minimal.js":https://github.com/ruidlopes/minimal.js by Rui Lopes is a HTML/JSON template engine, for use with client-side JavaScript or Node.  In minimal.js there's no new template language to learn -- the templates are HTML and the data is JSON.  It doesn't depend on frameworks like jQuery, but can work alongside them. 
+
+{% highlight html %}
+<h1></h1>
+<p></p>
+<p id="footer"></p>
+{% endhighlight %}
+
+Which gets populated by using minimal.js like this:
+
+{% highlight javascript %}
+$m({
+  h1: "this is a title",
+  p: "this is a paragraph",
+  footer: "this is a footer"
+});
+{% endhighlight %}
+
+Iteration can be used, there's a good example of this using unordered lists:
+
+{% highlight html %}
+<ul>
+    <li></li>
+</ul>
+{% endhighlight %}
+
+And:
+
+{% highlight javascript %}
+$m({
+  ul: ["foo", "bar", "baz"]
+});
+{% endhighlight %}
+
+Results in:
+
+{% highlight javascript %}
+<ul>
+  <li>foo</li>
+  <li>bar</li>
+  <li>baz</li>
+</ul>
+{% endhighlight %}
+
+This library has a lot more features, but the simple idea of cleanly separating templates from data got me wondering about combining it with "Backbone.js":http://documentcloud.github.com/backbone/.
+
+h3. Treesaver
+
+!/images/posts/treesaver.png!
+
+"Treesaver":http://treesaverjs.com/ (GitHub: "Treesaver / treesaver":https://github.com/Treesaver/treesaver, MIT and GPLv2) by Filipe Fortes and Bram Stein is a framework for creating magazine-style layouts.  There's a "Treesaver tutorial":https://github.com/Treesaver/treesaver/wiki/Walkthrough which demonstrates creating the above example.
+
+h3. Respond
+
+"Respond":https://github.com/scottjehl/Respond (MIT or GPL Version 2) by Scott Jehl helps with creating "responsive web designs":http://www.alistapart.com/articles/responsive-web-design/ -- essentially CSS3 media query support for Internet Explorer 8 and under.  Scott has worked at making the script fast and lightweight.
+
+JavaScript is typically my ultimate solution for fixing IE6+ behaviour, so I don't have a problem with Respond sitting in my toolkit next to "Modernizr":http://www.modernizr.com/.
+
