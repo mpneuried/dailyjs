@@ -14,7 +14,7 @@ categories:
 - css
 ---
 
-Welcome to part 12 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+Welcome to part 13 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
 
 Previous tutorials:
 
