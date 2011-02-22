@@ -1,0 +1,44 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery 1.5.1 RC 1, betterflow.js, domsearch.s"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+h3. jQuery 1.5.1 RC 1 Released
+
+"jQuery 1.5.1 RC 1 is out":http://blog.jquery.com/2011/02/18/jquery-1-5-1-rc-1-released/, with over 30 bug fixes and improvements.
+
+One fix that caught my eye was "#8245: Ajax now ensures header names are capitalized so that non-compliant xhr implementations don’t override them":http://bugs.jquery.com/ticket/8245 -- when writing the DailyJS _framework_ tutorials I noticed that jQuery had these headers in lowercase, but other implementations capitalised them.
+
+h3. betterflow.js
+
+!/images/posts/betterflow.png!
+
+"betterflow.js":https://github.com/ruidlopes/betterflow.js (MIT License) by Rui Lopes is a coverflow-inspired plugin.  The "betterflow.js demo":http://ruidlopes.github.com/betterflow.js/ works pretty well with the mouse and keyboard shortcuts.  It even works with horizontal mousewheel movements, which surprised me because this is what I instinctively tried to do when I loaded the page.
+
+It expects some simple markup (Rui's example uses an unordered list with divs and images), and then just a call to <code>$("#example").betterflow();</code>.
+
+h3. domsearch.js
+
+!/images/posts/domsearch.png!
+
+"domsearch.js":http://juliocesar.github.com/jquery-domsearch/ (GitHub: "juliocesar / jquery-domsearch":https://github.com/juliocesar/jquery-domsearch, MIT License) by Julio Cesar Ody makes searching elements like tables very simple.
+
+I've written things like this before, but with pretty basic search/sort algorithms.  This plugin uses "LiquidMetal":https://github.com/rmm5t/liquidmetal/:
+
+bq. Applications like Quicksilver, LaunchBar, and Launchy have made this method of keyboard entry a popular one. It's time to bring this same functionality to web controls. LiquidMetal makes scoring long strings against abbreviations easy.
+
+Given a set of elements, domsearch can be invoked like this:
+
+{% highlight javascript %}
+$('#search').domsearch('table#fruits', {criteria: ['td.price', 'td.weight']});
+{% endhighlight %}
+
+This searches on two columns in the table.
+
+There's a lot of places where I could use this plugin, and it looks like the LiquidMetal author (Ryan McGeary) put some effort into performance.
+
+
