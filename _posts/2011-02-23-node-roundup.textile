@@ -1,0 +1,72 @@
+---
+layout: post
+title: "Node Roundup: Node 0.4.1, Weld, Cluster"
+author: Alex Young
+categories: 
+- node
+- server
+- templates
+---
+
+h3. Node 0.4.1
+
+"Node 0.4.1":https://groups.google.com/d/msg/nodejs/lyJOuUHF-04/nPO4IAmi1G0J has been released.  This version updates V8 to 3.1.5, and includes fixes for HTTPS, Cygwin, and more.  
+
+"Download Node 0.4.1 here":http://nodejs.org/dist/node-v0.4.1.tar.gz, or read the "documentation":http://nodejs.org/docs/v0.4.1/api.
+
+If you ever want to view older API documentation and can't find it locally, you can view a list at "nodejs.org/docs":http://nodejs.org/docs/.
+
+h3. Weld
+
+"Weld":https://github.com/hij1nx/weld by Elijah Insua and hij1nx is a library for turning data into markup.  It works with both Node and browsers.
+
+To get your head around how it works, consider this HTML:
+
+{% highlight html %}
+<ul class="contacts">
+  <li class="contact">
+    <span class="name">Hello my name is <span class="firstAndLast">My Name</span></span>
+    <p class="title">Leet Developer</p>
+  </li>
+</ul>
+{% endhighlight %}
+
+We want to add values to the elements represented by the <code>.name</code> and <code>.firstAndLast</code> selectors.  The data we have looks like this:
+
+{% highlight javascript %}
+var data = [{ name: 'hij1nx',  title: 'code exploder' },
+            { name: 'tmpvar', title: 'code pimp' }];
+{% endhighlight %}
+
+Weld can map this data to the HTML like this:
+
+{% highlight javascript %}
+weld('.contact', data, { bind: { 'name': '.firstAndLast', 'title': '.title' } });
+{% endhighlight %}
+
+The first parameter is the container selector, and the third parameter helps Weld map the data to the HTML.
+
+h3. Cluster
+
+In the comments for "Node Tutorial 13":http://dailyjs.com/2011/02/14/node-tutorial-13/, Johan Steenkamp had loads of tips for deploying Node apps to Amazon EC2.  I've also been playing with this lately, and I thought I'd try "Cluster":https://github.com/learnboost/cluster (MIT License) by TJ Holowaychuk.  Cluster is a multi-core server manager.  It'll work with Node 0.2.x, but it's a bit more convenient to use it with 0.4.x.  
+
+If you've used "Spark":https://github.com/senchalabs/spark before, then you should be fairly comfortable with Cluster.  If not, Cluster is a tool for managing Node servers and utilizing multi-core systems.  It provides features that make managing your servers more seamless -- reload workers when files change, zero-downtime reload, and even a repl for real-time administration.
+
+All you need to do is call Cluster where you'd usually set up a server to listen on a port.
+
+This is an Express app set up to use Cluster:
+
+{% highlight javascript %}
+var app = require('express').createServer(),
+    cluster = require('cluster');
+
+app.get('/', function(req, res){
+  res.send('hello world');
+});
+
+cluster(app)
+  .use(cluster.repl(8888))
+  .listen(3000);
+{% endhighlight %}
+
+More examples can be found in the "Cluster documentation":http://learnboost.github.com/cluster/.
