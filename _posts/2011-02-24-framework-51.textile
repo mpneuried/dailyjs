@@ -1,0 +1,177 @@
+---
+layout: post
+title: "Let's Make a Framework: Plugins Part 2"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- plugins
+---
+
+Welcome to part 51 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+h3. Implementing Plugins
+
+For the basic jQuery-style plugin support we need to be able to insert a function so it can access Turing's chained API.  Remember that this is all DOM-oriented, so we can use <code>domChain</code>.  Here's a quick example:
+
+{% highlight javascript %}
+turing.domChain.turnRed = function() {
+  this[0].style.backgroundColor = '#ff0000';
+};
+
+turing('#element').turnRed();
+{% endhighlight %}
+
+This would actually work given the correct markup.  The <code>turnRed</code> method _should_ work anywhere in a chain off <code>turing()</code>, just like jQuery!
+
+h3. A Public API
+
+I don't believe relying on <code>domChain</code> is a good idea -- for a start it's only named that way to make it clear for the tutorial series.  It may change in the future.  I'd prefer a plugin API that supports some metadata, like we looked at last week.  This would enable us to do things like reflect on plugins, perhaps facilitating a lazy-loading dependency system.
+
+So how about something like this?
+
+{% highlight javascript %}
+turing.plugins.register('turnRed', {
+  name: 'Turn Things Red',
+  version: '1.0.0',
+  description: 'Turns the background red',
+  author: 'Alex Young <alex@example.com>',
+  licenses: [ { type: 'MIT' } ],
+
+  turnRed: function() {
+    this[0].style.backgroundColor = '#ff0000';
+    return this;
+  }
+});
+{% endhighlight %}
+
+Returning <code>this</code> will allow subsequent chained calls, but this might not always be desired so it isn't enforced.
+
+h3. Testing the Plugin API
+
+Before getting into a mess with code, let's write some plugin API tests.  We know we need a <code>register</code> function, so given a function called <code>registerExamplePlugin</code> that creates a simple test plugin, this should pass:
+
+{% highlight javascript %}
+exports.testPlugins = {
+  'test plugin registration and removal': function() {
+    registerExamplePlugin();
+    assert.ok(turing('#example').turnRed());
+  }
+};
+{% endhighlight %}
+
+In this example, <code>assert.ok</code> should pass because I intend to return <code>this</code> from the example plugin.
+
+What about removing plugins?  Let's test for that too:
+
+{% highlight javascript %}
+exports.testPlugins = {
+  'test plugin registration and removal': function() {
+    registerExamplePlugin();
+
+    assert.ok(turing('#example').turnRed());
+
+    turing.plugins.remove('turnRed');
+    assert.ok(!turing.plugins.hasOwnProperty('turnRed'));
+  }
+};
+{% endhighlight %}
+
+How about namespace collisions and removal of non-existent plugins?  It would be nice if there were some exceptions for these, <code>plugins.AlreadyRegistered</code> and <code>plugins.NotFound</code> would make sense:
+
+{% highlight javascript %}
+exports.testPlugins = {
+  'test plugin registration and removal': function() {
+    registerExamplePlugin();
+
+    assert.ok(turing('#example').turnRed());
+
+    turing.plugins.remove('turnRed');
+    assert.ok(!turing.plugins.hasOwnProperty('turnRed'));
+  },
+
+  'test AlreadyRegistered': function() {
+    registerExamplePlugin();
+
+    assert.throws(function() {
+      registerExamplePlugin();
+    }, turing.plugins.AlreadyRegistered);
+  },
+
+  'test removing a non-existent plugin': function() {
+    assert.throws(function() {
+      turing.plugins.remove('turnBlue');
+    }, turing.plugins.NotFound);
+  }
+};
+{% endhighlight %}
+
+h3. The Implementation
+
+With full comments, this is what I came up with to make the tests pass:
+
+{% highlight javascript %}
+/*!
+ * Turing Plugins
+ * Copyright (C) 2011 Alex R. Young
+ * MIT Licensed
+ */
+
+/**
+ * The Turing plugin module.
+ */
+(function() {
+  var plugins = {};
+  plugins.registered = {};
+  plugins.AlreadyRegistered = Error;
+  plugins.NotFound = Error;
+
+  /**
+   * Registers a plugin, making it available for
+   * chained DOM calls.
+   * 
+   * Throws turing.plugins.AlreadyRegistered if a
+   * plugin with the same name has been registered.
+   *
+   * @param {String} The name of your plugin method 
+   * @param {Object} Your plugin
+   */
+  plugins.register = function(methodName, metadata) {
+    if (plugins.registered[methodName]) {
+      throw new plugins.AlreadyRegistered('Already registered a plugin called: ' + methodName);
+    }
+
+    plugins.registered[methodName] = metadata;
+    turing.domChain[methodName] = metadata[methodName];
+  };
+
+  /**
+   * Removes a plugin.  Throws turing.plugins.NotFound if
+   * the plugin could not be found.
+   *
+   * @param {String} The name of the plugin
+   */
+  plugins.remove = function(methodName) {
+    if (!plugins.registered.hasOwnProperty(methodName)) {
+      throw new plugins.NotFound('Plugin not found: ' + methodName);
+    } else {
+      delete plugins.registered[methodName]
+      delete turing.domChain[methodName];
+    }
+  };
+
+  turing.plugins = plugins;
+})();
+{% endhighlight %}
+
+This implementation doesn't force too much structure on people -- you can build plugins with whatever tools you want, as long as a single function can invoke it.  This was inspired by jQuery.  What's slightly different to jQuery is you're forced to include _some_ machine-readable metadata.  I might even force inclusion of properties like <code>licenses</code> and <code>author</code> because it drives me nuts when people email me jQuery plugins to review on DailyJS with little more than a crappy bit of code hanging off <code>jQuery.fn</code>.
+
+h3. Conclusion
+
+The metadata I mocked up last week included properties like <code>engines</code> (for determining if a plugin can be run in a browser or server-side interpreter), and <code>cdn</code>.  I'm hinting at a dependency loading system here, which I'd like to go over in a future tutorial.
+
+The commit for this week was "d5de1c0":https://github.com/alexyoung/turing.js/tree/d5de1c0bbee04ec0d735784ffbc6879413a1b65d.
