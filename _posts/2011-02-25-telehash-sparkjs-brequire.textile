@@ -1,0 +1,41 @@
+---
+layout: post
+title: "TeleHash, Spark, brequire"
+author: Alex Young
+categories: 
+- libraries
+- protocols
+- browser
+---
+
+h3. TeleHash
+
+!/images/posts/telehash.png!
+
+TeleHash is a new wire protocol for real time, distributed communication with JSON and UDP.  Running this from a shell prompt:
+
+{% highlight sh %}
+echo '{"+end":"3b6a6..."}' | nc -u telehash.org 42424
+{% endhighlight %}
+
+will return a response using TeleHash.  There's a "TeleHash specification":http://www.telehash.org/proto.html, and possibly more interesting to our readers is the "TeleHash Node example":https://github.com/quartzjer/TeleHash/tree/master/node.js.
+
+The combination of JSON and UDP is very interesting and should enable JavaScript developers to make amazingly efficient low-level network applications.
+
+h3. Spark
+
+"Spark":http://sparkjs.co.uk/ (GitHub: "Wolfy87 / Spark":https://github.com/Wolfy87/Spark, MIT License) by Oliver Caldwell is a client-side framework that provides DOM querying, HTML/CSS manipulation methods, Ajax, JSON encoding/decoding, animations, and possibly almost everything else jQuery does.  The syntax will be familiar to jQuery users:
+
+{% highlight javascript %}
+Spark('p').css({ color: '#ff0000'})
+          .animate({ opacity: 0.5 }, 2000);
+{% endhighlight %}
+
+Some of the internals remind me of jQuery a little bit, but it's much simpler.  If you've been following our _framework_ series and find this type of project interesting, you'll probably enjoying looking through the source.
+
+h3. Client/Server Code Sharing with brequire
+
+"Sharing JavaScript between client and server":http://boodigital.com/post/3424290434/sharing-javascript-between-client-and-server by Jonah Fox is a tutorial about his "brequire":https://github.com/weepy/brequire library.  It shows how code can be shared between Node and browsers.
+
+The tutorial demonstrates what happens to your code after it's run through the brequire command-line tool.  This includes an example of making Node automatically filter files through brequire's API.
+
