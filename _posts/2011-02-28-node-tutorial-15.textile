@@ -1,0 +1,124 @@
+---
+layout: post
+title: "Node Tutorial Part 15: Node Versions, npm Publishing"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+---
+
+Welcome to part 14 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+Previous tutorials:
+
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+* "Part 7: Node Library Versions, Jade Tricks, Error Pages":http://dailyjs.com/2010/12/27/node-tutorial-7/, source code commit: "929f5":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892
+* "Part 8: Flash Messages and Helpers":http://dailyjs.com/2011/01/03/node-tutorial-8/, source code commit: "841a49":https://github.com/alexyoung/nodepad/tree/841a493c03f0421dd1a2279fccac3fbcf1e17b1f
+* "Part 9: Remember Me":http://dailyjs.com/2011/01/10/node-tutorial-9/, source code commit: "1904c":https://github.com/alexyoung/nodepad/tree/1904c6b7f95d708474a5d42e8cdfd40e96243a7a
+* "Part 10: Markdown":http://dailyjs.com/2011/01/24/node-tutorial-10/, source code commit: "11d33":https://github.com/alexyoung/nodepad/tree/11d33e19066e76c8559857fb780ac9fd1ecf68ac
+* "Part 11: Better Testing":http://dailyjs.com/2011/01/31/node-tutorial-11/, source code commit: "6a269ce":https://github.com/alexyoung/nodepad/tree/6a269ce4ddb6c7dc78598b488c93b38828fb5763
+* "Part 12: Updating Mongoose":http://dailyjs.com/2011/02/07/node-tutorial-12/, source code commit: "2a8725":https://github.com/alexyoung/nodepad/tree/2a8725f089ef052ec8b4ccfed8f6fbece70a606a
+* "Part 13: Stylus":http://dailyjs.com/2011/02/14/node-tutorial-13/, source code commit: "0a70e40":https://github.com/alexyoung/nodepad/tree/0a70e40cafd982c1f2421ecf16caa887fc49ae39
+* "Part 14: Email":http://dailyjs.com/2011/02/21/node-tutorial-14/, source code commit: "2e81a7b":https://github.com/alexyoung/nodepad/tree/2e81a7b8a1863db75485e4c49af5753a21266178
+
+h3. Switching Node Versions
+
+People are starting to send in error reports when they try to run Nodepad with Node 0.4.x.  I'll migrate it to support that version soon, but before that we have a few loose ends to tie up.  However, I realise that waiting a few weeks for me to catch up is annoying, so in the meantime I'll demonstrate how to easily switch between versions of Node.
+
+I'm going to use "n":https://github.com/visionmedia/n to do this.  It can be installed with:
+
+{% highlight sh %}
+npm install n
+{% endhighlight %}
+
+I still have Node 0.2.4 on my desktop where I write DailyJS articles.  That version is pretty old now.  Let's switch to 0.2.6 using n:
+
+{% highlight sh %}
+n 0.2.6
+{% endhighlight %}
+
+It might take a while to build Node on your system, just about long enough to make a coffee.
+
+Now <code>node -v</code> should show <code>v0.2.6</code>.
+
+h3. Publishing Packages with npm
+
+_jamesm-sitegen_ asked us if we could publish Nodepad to npm.  It's actually very easy to do this, so easy it isn't even worth a full tutorial.
+
+The key thing to know is npm comes with lots of man pages.  If you'd like to work with npm and publish packages, <code>npm-developers</code> is like a getting started guide.  Type:
+
+{% highlight sh %}
+man npm-developers
+{% endhighlight %}
+
+to read it.  Another useful man page is <code>npm-adduser</code> which tells you how to register yourself with <code>npm</code>.  The <code>npm adduser</code> command can be used to create a new account to publish packages, or to simply use existing credentials to add another computer.  Just type:
+
+{% highlight sh %}
+npm adduser
+{% endhighlight %}
+
+and follow the prompts.  The email address and other details will be stored in <code>~/.npmrc</code>.
+
+Next you need to write a <code>package.json</code> which fortunately isn't too hard.  You could copy an existing one from another project like Nodepad, but make sure you type <code>npm-json</code> and learn the basics for yourself first.
+
+Once you've got a file you're happy with you can do a local dry-run before publishing the package:
+
+{% highlight sh %}
+npm install .
+{% endhighlight %}
+
+Publishing for real is easy. Run this from your project:
+
+{% highlight sh %}
+npm publish
+{% endhighlight %}
+
+To confirm it was published, I typed this:
+
+{% highlight sh %}
+npm ls nodepad
+{% endhighlight %}
+
+And I saw the following (notice the <code>remote</code> flag):
+
+{% highlight sh %}
+nodepad@0.0.1   A notepad written with Node    =alexyoung installed latest remote
+{% endhighlight %}
+
+h3. Making Binaries
+
+Even better, we can make a little wrapper to allow people to launch Nodepad.  I've added this to <code>bin/nodepad.js</code>:
+
+{% highlight javascript %}
+#!/usr/bin/env node
+var app = require('../app.js');
+app.listen(3000);
+{% endhighlight %}
+
+And then in <code>package.json</code> I've got this:
+
+{% highlight javascript %}
+"bin": {
+  "nodepad": "bin/nodepad.js"
+}
+{% endhighlight %}
+
+The launcher script just requires our Express app -- npm will wrap everything so the paths make sense.  When writing binaries, use paths relative to <code>bin/</code>.
+
+h3. Conclusion
+
+When following random tutorials written by gnarly old programmers on the Internet, it's a good idea to pay attention to the version of everything in your environment.  If your scripting language isn't the same version, the tutorial probably won't make sense.  Tools like _n_ make it easy for us Node programmers to switch between versions of Node without any fuss.
+
+And publishing with npm is easy, you don't even need to leave your shell.
+
+The latest commit is "89abea1":https://github.com/alexyoung/nodepad/tree/89abea12171de333159ef2be89890e9c56eb86af
+
