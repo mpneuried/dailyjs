@@ -1,0 +1,32 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery 1.5.1, jQuery Conference, Screencasts"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- events
+- screencasts
+---
+
+h3. jQuery 1.5.1 Released
+
+"jQuery 1.5.1 has been released":http://blog.jquery.com/2011/02/24/jquery-151-released/.  This version supports IE9 as a "top level" browser, fixes a lot of bugs, and adds new options to <code>jQuery.ajax()</code> (<code>isLocal</code>, <code>mimeType</code>, and <code>xhrFields</code>).
+
+There will be a meeting about 1.6 on noon EST, March 7th in #jquery-meeting on irc.freenode.net.
+
+h3. jQuery Conference 2011
+
+!/images/posts/jquery_conf.png!
+
+"jQuery Conference 2011":http://events.jquery.org/2011/sf-bay-area/ will be held at the Microsoft Silicon Valley Research Center in Mountain View, California on April 16th and 17th, 2011.
+
+The jQuery blog has more details: "San Francisco Bay Area Conference Announced":http://blog.jquery.com/2011/02/24/jquery-conference-2011-san-francisco-bay-area-conference-announced/.
+
+h3. jQuery Screencasts
+
+!/images/posts/jquery_screencast.png!
+
+Josh Timonen sent me these very professional jQuery screencasts: "Introduction to jQuery":http://screencasts.org/episodes/introduction-to-jquery and "Using AJAX with jQuery":http://screencasts.org/episodes/ajax-with-jquery.
+
+The Introduction to jQuery video starts from the basics, even explaining the reasoning behind unobtrusive JavaScript.
