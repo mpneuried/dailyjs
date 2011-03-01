@@ -68,7 +68,7 @@ npm adduser
 
 and follow the prompts.  The email address and other details will be stored in <code>~/.npmrc</code>.
 
-Next you need to write a <code>package.json</code> which fortunately isn't too hard.  You could copy an existing one from another project like Nodepad, but make sure you type <code>npm-json</code> and learn the basics for yourself first.
+Next you need to write a <code>package.json</code> which fortunately isn't too hard.  You could copy an existing one from another project like Nodepad, but make sure you type <code>man npm-json</code> and learn the basics for yourself first.
 
 Once you've got a file you're happy with you can do a local dry-run before publishing the package:
 
