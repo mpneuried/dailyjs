@@ -1,0 +1,35 @@
+---
+layout: post
+title: "Node Roundup: How To Module, Node Event Loops, The Node Ahead, Connect 1.0"
+author: Alex Young
+categories: 
+- node
+- middleware
+- modules
+- hyperbole
+---
+
+Prepare your favourite Instapaper/Read It Later client for a whole bunch of Node articles!
+
+h3. How To Module
+
+"How To Module":http://howtonode.org/how-to-module by Isaac Z. Schlueter (the npm guy!) is a detailed article about writing a Node module.  It includes advice on npm, README, version control, testing, bindings, libraries, and a lot more.  It covers the entire project lifecycle, so if you're itching to release something but are fairly new to Node I recommending reading it.
+
+h3. Understanding the Node.js Event Loop
+
+"Understanding the node.js event loop":http://blog.mixu.net/2011/02/01/understanding-the-node-js-event-loop/ by Mixu is an introduction to Node's event loop.  It's the kind of thing that I like to bookmark the next time a potential client or boss asks, "why Node?"
+
+bq. Having asynchronous I/O is good, because I/O is more expensive than most code and we should be doing something better than just waiting for I/O.
+
+h3. The Node Ahead
+
+In "The Node Ahead: JavaScript leaps from browser into future":http://www.theregister.co.uk/2011/03/01/the_rise_and_rise_of_node_dot_js/, _The Register_ author Cade Metz discusses the history of Node, from its inception to subsequent success.
+
+bq. The overarching point, however, is that Node is optimal for the new breed of real-time web apps. Yes, there are other means of building real-time tools, but Node lets you build real-time tools on the same platform that runs the rest of your site.
+
+The article cites open source favourites LearnBoost, and Joyent's upcoming cloud services. 
+
+h3. Connect 1.0
+
+Meanwhile in the last week, TJ Holowaychuk released "Connect 1.0":http://senchalabs.github.com/connect/ which works with Node 0.4.x.
+
