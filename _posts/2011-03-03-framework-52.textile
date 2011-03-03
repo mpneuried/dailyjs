@@ -1,0 +1,132 @@
+---
+layout: post
+title: "Let's Make a Framework: Plugins Part 3"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- plugins
+---
+
+Welcome to part 52 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+h3. The <code>init</code> Method
+
+In "part 1":http://dailyjs.com/2011/02/17/framework-50/ of the plugins section of this tutorial, I mentioned the concept of middleware.  Middleware in libraries like "Express":http://expressjs.com/ is used to bridge client code with library code, and control flow (there's usually a <code>next()</code> method passed in which you can call to propagate a value or continue execution).
+
+In an Express app, it's possible to provide a function to a route which will determine if the route is accessible.  This is commonly used to load users from the session or forward them to a sign in page.
+
+I've deliberately looked for a case in Turing that would benefit from a simplified middleware-inspired approach, and I decided to take a look at <code>turing.init</code>.
+
+h3. Less DOM Reliance
+
+Right now, we can chain DOM-related code:
+
+{% highlight javascript %}
+turing('.selector').click(function() { alert('clicked!'); });
+{% endhighlight %}
+
+And enumerable methods:
+
+{% highlight javascript %}
+turing([1, 2, 3]).map(function(n) { return n * 10; });
+{% endhighlight %}
+
+But this is possible thanks to a slightly ugly hack residing in the DOM module:
+
+{% highlight javascript %}
+// Chained calls
+turing.init = function(arg) {
+  if (typeof arg === 'string' || typeof arg === 'undefined') {
+    // CSS selector
+    return new turing.domChain.init(arg);
+  } else if (arg && arg.length && turing.enumerable) {
+    // A list of some kind
+    return turing.enumerable.chain(arg);
+  }
+};
+{% endhighlight %}
+
+I've never liked the way it checks if <code>turing.enumerable</code> is available, and how everything centres around the DOM module.
+
+h3. Function Registration
+
+Instead, we can do this in turing.core.js:
+
+{% highlight javascript %}
+var middleware = [];
+
+function turing() {
+  if (arguments.length > 0) {
+    var result;
+    for (var i = 0; i < middleware.length; i++) {
+      result = middleware[i].apply(turing, arguments);
+      // If a value is returned, stop and return it, else keep looping
+      if (result) return result;
+    }
+  }
+}
+
+// This can be overriden by libraries that extend turing(...)
+turing.init = function(fn) {
+  middleware.unshift(fn);
+};
+{% endhighlight %}
+
+If a "middleware" function returns something, then execution will stop and this value will be returned from <code>turing()</code>.
+
+Because I'm using <code>unshift</code> to add the registered functions in reverse order, your own application code could extend <code>turing()</code> in some amusing ways:
+
+{% highlight javascript %}
+turing.init(function(a) { if (a === 'hello') return 'world'; });
+
+turing('hello');
+
+// => "world"
+{% endhighlight %}
+
+The usefulness of this is highly debatable, however.
+
+h3. Built-in Module Extensions
+
+Now each module can do this:
+
+{% highlight javascript %}
+// DOM, which provides turing('.selector')
+turing.init(function(arg) {
+  if (typeof arg === 'string' || typeof arg === 'undefined') {
+    // CSS selector
+    return turing.domChain.init(arg);
+  }
+});
+
+// DOM ready in the events module, which provides turing(function() {} );
+turing.init(function(arg) {
+  if (arguments.length === 1
+      && typeof arguments[0] === 'function') {
+    turing.events.ready(arguments[0]);
+  }
+});
+
+// Enumerable module, which provides turing([1, 2, 3]).map(function() {});
+turing.init(function(arg) {
+  if (arg.hasOwnProperty.length && typeof arg !== 'string') {
+    return turing.enumerable.chain(arg);
+  }
+});
+{% endhighlight %}
+
+Granted, this isn't as sophisticated as the middleware provided by Connect and Express, but it does give us a neater way of extending <code>turing()</code> dynamically, and plugins or other code could also extend it.
+
+h3. Conclusion
+
+Each module is now responsible for how it extends <code>turing()</code> by allowing it to look at the arguments.  This has allowed me to tidy up Turing's internal code, but I'm not convinced it's useful outside of this.  It did allow me to make an amusing _Hello, World_ example, though.
+
+h3. References
+
+* "Connect":http://senchalabs.github.com/connect/
+* "Express":http://expressjs.com/
