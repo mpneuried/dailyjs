@@ -1,0 +1,48 @@
+---
+layout: post
+title: "Worzone, Yepnope, JSHint"
+author: Alex Young
+categories: 
+- libraries
+- games
+- graphics
+---
+
+h3. Worzone
+
+!/images/posts/worzone.png!
+
+"Worzone":http://juhajasatu.com/worzone/ (GitHub: "raimohanska / worzone":https://github.com/raimohanska/worzone) by Juha Paananen is a game written using Microsoft's "Reactive Extensions for JavaScript":http://msdn.microsoft.com/en-us/devlabs/ee794896.  There's also a blog post about "game programming with Microsoft's RX library":http://nullzzz.blogspot.com/2011/02/game-programming-with-rx-js.html in which Juha explains some of the concepts behind reactive programming in JavaScript.
+
+h3. Yepnope
+
+!/images/posts/yepnope.png!
+
+"Yepnope":http://yepnopejs.com/ (GitHub: "SlexAxton / yepnope.js":https://github.com/SlexAxton/yepnope.js) by Alex Sexton is a script loader.  I realise there's a million script loaders, but this one caught my eye because it's got a great site and documentation.
+
+It can be used to load JavaScript or CSS.  The example on the site looks like this:
+
+{% highlight javascript %}
+yepnope({
+  test : Modernizr.geolocation,
+  yep  : 'normal.js',
+  nope : ['polyfill.js', 'wrapper.js']
+});
+{% endhighlight %}
+
+The <code>test</code> property is used to determine if the <code>yep</code> scripts should load, else the <code>nope</code> scripts will be loaded instead.
+
+The library ships with a test suite, and the author notes it works very well with Modernizr:
+
+bq. Currently yepnope is being included in special builds of Modernizr, because it's such a good companion to a feature testing library. The output of Modernizr is a fantastic input to yepnope.
+
+It also supports plugins:
+
+bq. Yepnope was designed to be customizable. There are a few simple hooks throughout the loading process that allow you to inject code and change settings around on the fly. There are two main ways to do this: Prefixes and Filters.
+
+h3. JSHint
+
+"JSHint":http://jshint.com/ (GitHub: "jshint / jshint":https://github.com/jshint/jshint/ is a fork of Crockford's "JSLint":http://www.jslint.com/.  The website allows you to test it out, but I recommend that you download "jshint.js":http://jshint.com/jshint.js and use it locally.
+
+It currently supports browsers, Node, and Rhino, so you should be able to integrate it with your existing projects.
+
