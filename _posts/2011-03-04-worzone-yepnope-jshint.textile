@@ -18,7 +18,7 @@ h3. Yepnope
 
 !/images/posts/yepnope.png!
 
-"Yepnope":http://yepnopejs.com/ (GitHub: "SlexAxton / yepnope.js":https://github.com/SlexAxton/yepnope.js) by Alex Sexton is a script loader.  I realise there's a million script loaders, but this one caught my eye because it's got a great site and documentation.
+"Yepnope":http://yepnopejs.com/ (GitHub: "SlexAxton / yepnope.js":https://github.com/SlexAxton/yepnope.js) by Alex Sexton and Ralph Holzmann is a script loader.  I realise there's a million script loaders, but this one caught my eye because it's got a great site and documentation.
 
 It can be used to load JavaScript or CSS.  The example on the site looks like this:
 
