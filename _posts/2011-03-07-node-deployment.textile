@@ -1,0 +1,118 @@
+---
+layout: post
+title: "Node Deployment Recipes"
+author: Alex Young
+categories: 
+- node
+- servers
+- hosting
+- ec2
+- amazon
+---
+
+During the publication of our "Let's Make a Web App":http://dailyjs.com/tags.html#lmawa tutorial series, people have been posting comments about hosting Node apps.  In particular, the comments on "Node Tutorial 13":http://dailyjs.com/2011/02/14/node-tutorial-13/ are quite detailed.  In this article I've summarised Node hosting approaches so you can pick the approach that suits you.
+
+In the wider web development community there are some amazing plug-and-play solutions for hosting web apps.  Hosting Node apps isn't quite as easy, yet, but there are some excellent solutions that are both fast and easy to understand.
+
+h3. Upstart
+
+"Upstart":http://upstart.ubuntu.com/ is a replacement for the <code>/sbin/init</code> daemon.  You can use it to start, stop, and restart Node processes.  If you're using Ubuntu you should already have it, if you're using Debian or another Linux distribution it's fairly easy to install.  It actually comes with replacements for the <code>sysvinit</code> scripts that come with Debian.  The "Upstart Getting Started":http://upstart.ubuntu.com/getting-started.html guide has more details.
+
+This is an upstart script in <code>/etc/init/myapp.conf</code> that I knocked up to manage a Node app on EC2:
+
+{% highlight sh %}
+#!upstart
+description "MyApp"
+author      "alex"
+
+env PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+respawn
+start on runlevel [23]
+
+script
+    export NODE_ENV=production
+    exec /usr/local/bin/node /data/apps/MyApp/app.js 2>&1 >> /var/log/node.log
+end script
+{% endhighlight %}
+
+The "respawn":http://upstart.ubuntu.com/wiki/Stanzas#respawn instruction will restart my app if it dies for some reason.  There's also a "respawn limit":http://upstart.ubuntu.com/wiki/Stanzas#respawn%20limit flag which can limit respawning based on a timeout.
+
+On a Debian/Ubuntu server I'd typically use the <code>start</code>, <code>stop</code>, and <code>status</code> commands to manage this process:
+
+{% highlight sh %}
+$ sudo status myapp
+myapp start/running, process 9717
+{% endhighlight %}
+
+h3. Alternative: Monit
+
+!/images/posts/hosting-monit.png!
+
+I've also used "Monit":http://mmonit.com/monit/ with great success.  Monit can monitor processes and restart them when required.  It's possible to restart a process based on CPU usage or memory.
+
+Monit relies on a PID file, so you may need to write a wrapper script around your Node app.  There's an example in "Monit's FAQ":http://mmonit.com/wiki/Monit/FAQ.  Cluster can write out PID files.
+
+In addition to many other features, Monit can be managed with a web interface and send out email alerts.
+
+h3. Cluster
+
+To ease the management of your application further, and potentially better support multi-core servers, "Cluster":http://learnboost.github.com/cluster/ can be used.  Apps have to be set up to use Cluster, but it's very straightforward.  
+
+This is an Express example I've used before on DailyJS:
+
+{% highlight javascript %}
+var app = require('express').createServer(),
+    cluster = require('cluster');
+
+app.get('/', function(req, res){
+  res.send('hello world');
+});
+
+cluster(app)
+  .use(cluster.repl(8888))
+  .listen(3000);
+{% endhighlight %}
+
+Cluster has many interesting features, from zero-downtime reloading to a commnad-line console for real-time administration.
+
+I asked TJ Holowaychuk how he manages production Node apps, and apparently "he's using Cluster":http://twitter.com/#!/tjholowaychuk/status/44117191536279553.  Cluster evolved from an older project called Spark, so it seems like it's got some pedigree.
+
+h3. Authbind
+
+The age old problem of hosting web software is port 80: binding to this port requires root.  There are ways around this: some firewalls can redirect traffic from port 80 to a non-privileged port.  An alternative to this is authbind, which can be easily installed in many distributions.  In Debian it's just a case of <code>apt-get install authbind</code>.
+
+Once it's installed, create a file in <code>/etc/authbind/byport/80</code> and <code>chown</code> it to the user you want to run your Node app as.  Then, if you're using Monit or Upstart, make sure your Node process is launched with <code>authbind</code> and run it as that user.
+
+The previous Upstart example would have to be adapted to work with authbind:
+
+{% highlight sh %}
+#!upstart
+description "MyApp"
+author      "alex"
+
+env PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+respawn
+start on runlevel [23]
+
+script
+    export NODE_ENV=production
+    su -c 'authbind /usr/local/bin/node /data/apps/myapp/app.js 2>&1 >> /var/log/node.log' www-data
+end script
+{% endhighlight %}
+
+h3. Nginx
+
+Almost a year ago I wrote a tutorial on using "nginx":http://dailyjs.com/2010/03/15/hosting-nodejs-apps/ to host Node apps.  Servers like Apache and nginx can sit in front of your app and the web.  This means you don't need to run on a privileged port, and the web server can do jobs it's good at like serving static files.
+
+This may fit in better with your current hosting set up.  You could still use a service monitor with Cluster to manage the Node processes.
+
+h3. EC2
+
+!/images/posts/ec2-node.png!
+
+I deployed my Upstart/Authbind/Cluster combo to EC2 without any trouble at all.  I used the "AWS Console":http://aws.amazon.com/console/ to create EBS storage devices to keep my Mongo database, application, and static assets.  After that it's basic Linux sysadmin.
+
+Just remember to add your IP address and port 22 to the security policy, else you won't be able to connect!
+
