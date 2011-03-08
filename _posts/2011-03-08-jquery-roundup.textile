@@ -1,0 +1,38 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery UI APIs, jQuery Smart AutoComplete, jFormer"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- forms
+- validation
+---
+
+h3. jQuery API Redesigns
+
+In "API Redesigns: The Past, Present and Future":http://blog.jqueryui.com/ on the jQuery UI Blog, Scott González talks about the origins, current state, and future of the jQuery UI APIs:
+
+bq. Over time, this led to what we have today, where something as simple as a draggable element has almost 30 options.  On one hand, it's impressive that so many various use cases can be handled, often with the use of just one or two of these options. On the other hand, finding the right one or two options to use can be a daunting task, especially for new users.
+
+The goal of the 2.0 release is to have simpler APIs with increased stability and full test suites.  This will require some backwards-incompatible changes, however:
+
+bq. We know that no one looks forward to refactoring existing code to work with API changes, and we're working to make sure the transition process will be clear and simple.  We hope that you, our users, understand that we need take this opportunity to refine jQuery UI to make it more robust, extensible, and maintainable in the long term.
+
+h3. jQuery Smart AutoComplete
+
+!/images/posts/smart-auto.png!
+
+"jQuery-Smart-Auto-Complete":https://github.com/laktek/jQuery-Smart-Auto-Complete (MIT License) by Lakshan Perera is an AutoComplete plugin that's easy to install and comes with sensible default options.  It works with keyboard controls, and supports custom filtering algorithms.
+
+There's a "Smart AutoComplete demo":http://laktek.github.com/jQuery-Smart-Auto-Complete/demo/index.html which has plenty of examples, and Lakshan wrote a blog post "introducing jQuery Smart AutoComplete":http://laktek.com/2011/03/03/introducing-jquery-smart-autocomplete/.
+
+h3. jFormer
+
+!/images/posts/jformer.png!
+
+"jFormer":http://www.jformer.com/ (MIT/GPL, "demos":http://www.jformer.com/demos/login/, "documentation":http://www.jformer.com/documentation/) is a form framework written with jQuery and PHP.  A PHP object, <code>JFormer</code> is used alongside some appropriate client-side JavaScript to take a lot of the drudgery out of form development.
+
+This made me wonder if there's anything similar that would work in Node or Ringo, and I found "forms":https://github.com/caolan/forms for Node which I'll talk about tomorrow.
+
+
