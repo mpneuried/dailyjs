@@ -21,4 +21,16 @@ document.observe('dom:loaded', function() {
   }
 
   fix_ie_overflow();
+
+  $$('input[name="q"]').first().observe('focus', function(e) {
+    var element = Event.element(e);
+    if (element.value === 'Search')
+      element.value = '';
+  });
+
+  $$('input[name="q"]').first().observe('blur', function(e) {
+    var element = Event.element(e);
+    if (element.value.length === 0)
+      element.value = 'Search';
+  });
 });
