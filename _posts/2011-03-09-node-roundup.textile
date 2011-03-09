@@ -1,0 +1,92 @@
+---
+layout: post
+title: "Node Roundup: forms, ngen, UglifyJS"
+author: Alex Young
+categories: 
+- node
+- server
+- minified
+- forms
+---
+
+h3. Forms
+
+bq. Constructing a good form by hand is a lot of work. Popular frameworks like Ruby on Rails and Django contain code to make this process less painful. This module is an attempt to provide the same sort of helpers for node.js.
+
+"Forms":https://github.com/caolan/forms by Caolan McMahon (with contributions from Ludwig Pettersson, Jed Parsons, and Rob Burns) is a library for generating and validating forms.  It'll generate markup, and can help process requests on the server as well.
+
+There's even an "Express example":https://github.com/caolan/forms/blob/master/example/simple-express.js for those of you working with that framework.
+
+The API combines field definitions with validations, and handles things like confirmation and required fields:
+
+{% highlight javascript %}
+reg_form = forms.create({
+  username: fields.string({required: true}),
+  password: fields.password({required: true}),
+  confirm:  fields.password({
+    required: true,
+    validators: [validators.matchField('password')]
+  }),
+  email: fields.email()
+});
+{% endhighlight %}
+
+Forms can be installed with npm:
+
+{% highlight sh %}
+npm install forms
+{% endhighlight %}
+
+h3. ngen
+
+"ngen":https://github.com/visionmedia/ngen (MIT license) by TJ Holowaychuk is a Node package generator.  If you're looking to create your first Node package but don't know where to start, this could be a great way to kick things off.  Especially since TJ has released his fair share of Node packages already!
+
+It's probably best if you use this library with Node 0.4.x rather than 0.2.x.
+
+Running it looks like this:
+
+{% highlight text %}
+$ ngen ./project-1
+
+  Project name: project-1
+  Enter your name: Alex R. Young Esquire The First
+  Enter your email: alex@example.com
+  Project description: An example project
+
+  create : project-1/.npmignore
+  create : project-1/History.md
+  create : project-1/index.js
+  create : project-1/lib
+  create : project-1/lib/project-1.js
+  create : project-1/Makefile
+  create : project-1/package.json
+  create : project-1/Readme.md
+  create : project-1/support
+  create : project-1/test
+  create : project-1/test/project-1.test.js
+
+$ ls project-1/
+History.md   Makefile     Readme.md    index.js     lib          package.json support      test
+{% endhighlight %}
+
+h3. UglifyJS
+
+I recently used "UglifyJS":http://marijnhaverbeke.nl/uglifyjs (GitHub: "mishoo / UglifyJS":https://github.com/mishoo/UglifyJS, BSD license) as part of an open source project to generate minified code.  I was very impressed with it, particularly with how well it worked alongside "JSHint":http://jshint.com/ and "node-jake":https://github.com/mde/node-jake.
+
+To install it, use <code>npm install uglify-js</code>.  That provides the <code>uglifyjs</code> commnad-line tool, as well as the Node library.
+
+The API looks like this:
+
+{% highlight javascript %}
+var uglify = require('uglify-js'),
+    jsp = uglify.parser,
+    pro = uglify.uglify,
+    ast = jsp.parse(fs.readFileSync('original.js').toString()),
+    outFile = fs.openSync('out-min.js', 'w+');
+ast = pro.ast_mangle(ast);
+ast = pro.ast_squeeze(ast);
+fs.writeSync(outFile, pro.gen_code(ast));
+{% endhighlight %}
+
+That's basically what my Jakefile uses to generate a minified version of my library.
+
