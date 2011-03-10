@@ -1,0 +1,240 @@
+---
+layout: post
+title: "Let's Make a Framework: DOM Manipulation"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+---
+
+Welcome to part 53 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+h3. The Style and innerHTML Properties
+
+After years of blindly manipulating the <code>style</code> and <code>innerHTML</code> properties, I noticed more modern frameworks advocate against this.  If you think back to when I wrote about our animation module, you'll remember that working with style attributes can be less than user friendly -- it required a decent amount of helper methods just to do things like work with colours.  That's partially why frameworks like jQuery provide a <code>.css()</code> method -- to provide a consistent interface.
+
+It's slightly harder to appreciate why working with <code>innerHTML</code> is bad.  It's fast, cross-browser, and easy to use.  What's not to like?  Well, it's a proprietary property.  When XHTML was all the rage, using <code>innerHTML</code> caused problems when documents were served with an XML mime-type.  It's also inconsistently implemented; IE can treat it as read-only on tables, and there are other IE-related problems too.
+
+Hopefully I've convinced you why methods like jQuery's <code>.css</code> and <code>.html</code> are a good idea.  But how do they work?
+
+h3. jQuery's <code>.html()</code> Implementation
+
+You're probably wondering how exactly <code>.html()</code> works.  After all, isn't it just going to defer to <code>innerHTML</code> at some point?
+
+The basic usage is with a string that contains HTML:
+
+{% highlight javascript %}
+$('div.demo-container')
+  .html('<p>All new content.</p>');
+{% endhighlight %}
+
+It can also accept a function, but let's just consider the string case to keep things focused.
+
+The implementation is in "manipulation.js":https://github.com/jquery/jquery/blob/master/src/manipulation.js.  Basically, <code>html</code> will use <code>innerHTML</code> if possible:
+
+{% highlight javascript %}
+if ( typeof value === "string" && !rnocache.test( value ) &&
+    ( jQuery.support.leadingWhitespace || !rleadingWhitespace.test( value )) &&
+      !wrapMap[ (rtagName.exec( value ) || ["", ""])[1].toLowerCase() ] ) {
+
+value = value.replace(rxhtmlTag, "<$1></$2>");
+
+try {
+  for ( var i = 0, l = this.length; i < l; i++ ) {
+    // Remove element nodes and prevent memory leaks
+    if ( this[i].nodeType === 1 ) {
+      jQuery.cleanData( this[i].getElementsByTagName("*") );
+      this[i].innerHTML = value;
+    }
+  }
+} catch(e) {
+  // If using innerHTML throws an exception, use the fallback method
+  this.empty().append( value );
+}
+{% endhighlight %}
+
+The first two lines are the most confusing part of this code.  Let's look at each part in sequence:
+
+* <code>jQuery.support.leadingWhitespace</code> is set to true in browsers that preserve whitespace when inserting content with <code>innerHTML</code>
+* <code>rleadingWhitespace.test(value)</code> checks to see if the HTML fragment has leading whitespace
+* <code>wrapMap</code> is an object that in this case helps look for tags that can't be inserted normally
+* <code>rxhtmlTag</code> is a regex that expands self-closing tags
+* A loop removes each existing Node to prevent memory leaks
+* If <code>innerHTML</code> raises an exception, fall back to <code>append</code>
+
+If the value is a string, and the whitespace/<code>wrapMap</code> expressions return <code>true</code>, then inserting with <code>innerHTML</code> might be possible.  Else use <code>append</code>. 
+
+h3. <code>wrapMap</code>
+
+I'll need to explain <code>append</code> separately, but first let's look at <code>wrapMap</code>:
+
+{% highlight javascript %}
+wrapMap = {
+  option: [ 1, "<select multiple='multiple'>", "</select>" ],
+  legend: [ 1, "<fieldset>", "</fieldset>" ],
+  thead: [ 1, "<table>", "</table>" ],
+  tr: [ 2, "<table><tbody>", "</tbody></table>" ],
+  td: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
+  col: [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ],
+  area: [ 1, "<map>", "</map>" ],
+  _default: [ 0, "", "" ]
+};
+
+wrapMap.optgroup = wrapMap.option;
+wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
+wrapMap.th = wrapMap.td;
+
+// IE can't serialize <link> and <script> tags normally
+if ( !jQuery.support.htmlSerialize ) {
+  wrapMap._default = [ 1, "div<div>", "</div>" ];
+}
+{% endhighlight %}
+
+Running it returns responses like this:
+
+{% highlight javascript %}
+'<tr><td>Example</td></tr>'
+> !wrapMap[ (rtagName.exec( value ) || ["", ""])[1].toLowerCase() ] 
+false
+
+'<div><p>Example content</p></div>'
+> !wrapMap[ (rtagName.exec( value ) || ["", ""])[1].toLowerCase() ] 
+true
+{% endhighlight %}
+
+h3. <code>append</code>
+
+In jQuery, <code>append</code> and many other methods rely on <code>domManip</code>.  This method accepts a list of elements to create and insert, a confusing <code>table</code> argument, and a callback.  The callback is used to actually manipulate the DOM.  In the case of <code>append</code> it looks like this:
+
+{% highlight javascript %}
+function( elem ) {
+  if (this.nodeType === 1) {
+    this.appendChild(elem);
+  }
+}
+{% endhighlight %}
+
+The "nodeType":https://developer.mozilla.org/en/nodeType is checked to ensure it's an element node, then "appendChild":https://developer.mozilla.org/En/DOM/Node.appendChild is used to insert the content.
+
+h3. <code>domManip</code>
+
+The <code>append</code> method is simple because <code>domManip</code> does the real work.  Let's take a high-level look (I've added some extra comments):
+
+{% highlight javascript %}
+domManip: function( args, table, callback ) {
+  var results, first, fragment, parent,
+    value = args[0],
+    scripts = [];
+
+  // We can't cloneNode fragments that contain checked, in WebKit
+  if ( !jQuery.support.checkClone && arguments.length === 3 && typeof value === "string" && rchecked.test( value ) ) {
+    // run domManip on each element, but parse the element with jQuery() first
+  }
+
+  // If there's already an element
+  if ( this[0] ) {
+    parent = value && value.parentNode;
+
+    // If we're in a fragment, just use that instead of building a new one
+    if ( jQuery.support.parentNode && parent && parent.nodeType === 11 && parent.childNodes.length === this.length ) {
+      results = { fragment: parent };
+
+    } else {
+      results = jQuery.buildFragment( args, this, scripts );
+    }
+
+    fragment = results.fragment;
+
+    if ( fragment.childNodes.length === 1 ) {
+      first = fragment = fragment.firstChild;
+    } else {
+      first = fragment.firstChild;
+    }
+
+    if ( first ) {
+      table = table && jQuery.nodeName( first, "tr" );
+
+      // Call the callback with each element
+      for ( var i = 0, l = this.length, lastIndex = l - 1; i < l; i++ ) {
+        callback.call(
+          table ?
+            root(this[i], first) :
+            this[i],
+          // Make sure that we do not leak memory by inadvertently discarding
+          // the original fragment (which might have attached data) instead of
+          // using it; in addition, use the original fragment object for the last
+          // item instead of first because it can end up being emptied incorrectly
+          // in certain situations (Bug #8070).
+          // Fragments from the fragment cache must always be cloned and never used
+          // in place.
+          results.cacheable || (l > 1 && i < lastIndex) ?
+            jQuery.clone( fragment, true, true ) :
+            fragment
+        );
+      }
+    }
+
+    if ( scripts.length ) {
+      jQuery.each( scripts, evalScript );
+    }
+  }
+
+  return this;
+}
+{% endhighlight %}
+
+As you might have noticed, <code>jQuery.buildFragment</code> seems to be doing something important here.  The reality is that <code>buildFragment</code> manages caching and hands off the real work to <code>jQuery.clean</code>.
+
+h3. <code>jQuery.clean</code>
+
+Bored yet?  We're nearly at the best part!
+
+The middle of <code>jQuery.clean</code> has the magic we've been searching for:
+
+{% highlight javascript %}
+if ( typeof elem === "string" && !rhtml.test( elem ) ) {
+  elem = context.createTextNode( elem );
+
+} else if ( typeof elem === "string" ) {
+  // Fix "XHTML"-style tags in all browsers
+  elem = elem.replace(rxhtmlTag, "<$1></$2>");
+
+  // Trim whitespace, otherwise indexOf won't work as expected
+  var tag = (rtagName.exec( elem ) || ["", ""])[1].toLowerCase(),
+    wrap = wrapMap[ tag ] || wrapMap._default,
+    depth = wrap[0],
+    div = context.createElement("div");
+
+  // Go to html and back, then peel off extra wrappers
+  div.innerHTML = wrap[1] + elem + wrap[2];
+
+  // Move to the right depth
+  while ( depth-- ) {
+    div = div.lastChild;
+  }
+
+  // Remove IE's autoinserted <tbody> from table fragments
+  if ( !jQuery.support.tbody ) {
+{% endhighlight %}
+
+If the element is a string and doesn't have any tags, it's a text node.  Otherwise, expand self-closing tags, trim whitespace, create a shim div to extract some delicious DOM nodes, then handle IE's table weirdness.
+
+h3. Conclusion
+
+Explaining how jQuery implements <code>html</code> demonstrates just how much work is required to provide a consistent API for accessing <code>innerHTML</code>.  However, implementing this stack of functionality makes many interesting DOM manipulation possible, beyond <code>append</code>.
+
+Incidentally, if you want to see code that does this without dealing with as many browser headaches, try looking at "Zepto's source":http://zeptojs.com/.  Zepto only targets WebKit, which means it's a great way to learn the fundamental techniques without worrying about legacy IE issues.
+
+Next week I'll explain how <code>css</code> works.
+
+h3. References
+
+* "jQuery manipulation.js":https://github.com/jquery/jquery/blob/master/src/manipulation.js
+* "Node.nodeType":https://developer.mozilla.org/en/nodeType
+* "Node.appendChild":https://developer.mozilla.org/En/DOM/Node.appendChild
+* "Zepto":http://zeptojs.com/
