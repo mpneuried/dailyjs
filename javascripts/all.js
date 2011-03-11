@@ -24,16 +24,16 @@ $(function() {
 
   fix_ie_overflow();
 
-  $('input[name="q"]').first().focus(function() {
+  $('input[name="q"]').focus(function() {
     var element = $(this);
-    if (element.value === 'Search')
-      element.value = '';
+    if (element.val() === 'Search')
+      element.val('');
   });
 
-  $('input[name="q"]').first().blur(function() {
+  $('input[name="q"]').blur(function() {
     var element = $(this);
-    if (element.value.length === 0)
-      element.value = 'Search';
+    if (element.val().length === 0)
+      element.val('Search');
   });
 
   var offset = $('#sidebar').offset();

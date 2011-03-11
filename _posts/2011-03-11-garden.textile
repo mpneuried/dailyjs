@@ -1,0 +1,36 @@
+---
+layout: post
+title: "JavaScript Garden, Made by Many's SXSW Node App, JavaScript Loader Comparison"
+author: Alex Young
+categories: 
+- language
+- node
+- documentation
+---
+
+h3. JavaScript Garden
+
+!/images/posts/jsgarden.png!
+
+"JavaScript Garden":http://bonsaiden.github.com/JavaScript-Garden/ (GitHub: "BonsaiDen / JavaScript-Garden":https://github.com/BonsaiDen/JavaScript-Garden) by Ivo Wetzel and Zhang Yi Jiang is a collection of interesting and quirky JavaScript example code.
+
+I spend a good part of every day reading and writing about JavaScript, and I've found things in there that are new to me.  It's definite weekend reading material!
+
+h3. Made by Many's SXSW Node App
+
+!/images/posts/madebymany.jpeg!
+
+Paul Battley blogged about "Made by Many's SXSW Node App":http://madebymany.com/blog/sxsw-takeover-2011, which is an Express app using Mongo and Socket.IO (a combination I've had a lot of success with, too).  The app uses the Instagram API to publish real-time images posted by Paul's colleagues at SXSW.  You can check out the app here: "sxsw.madebymany.com":http://sxsw.madebymany.com/.
+
+It's simple but inventive.  If you're working at an agency and looking to get some Node into your day job, why not try something like this too?
+
+h3. JavaScript Loader Comparison
+
+!/images/posts/loader_comp.png!
+
+I've reviewed my share of JavaScript loaders on DailyJS, but I found this "Hacker News JavaScript loader comparison post":http://news.ycombinator.org/item?id=2300423 fascinating. 21 libraries are compared in quite some detail "in the linked Google Docs spreadsheet":https://spreadsheets.google.com/ccc?key=0Aqln2akPWiMIdERkY3J2OXdOUVJDTkNSQ2ZsV3hoWVE#gid=0.
+
+The credit goes to Éric D and Webperf France:
+
+bq. Contact & info : "http://eric.daspet.name/":http://eric.daspet.name/, "@edasfr":http://twitter.com/edasfr or "@webperf_fr":http://twitter.com/webperf_fr Authors of js loaders and webperf experts are more than welcome to request write access to the grid. Please ask, we are waiting for you.
+
