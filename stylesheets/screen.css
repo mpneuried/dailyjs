@@ -7,7 +7,7 @@ blockquote { font-style: italic; color: #666 }
 
 p.clean { margin: 0; padding: 0 }
 #container { margin: 0 auto; width: 870px }
-#sidebar { color: #666 }
+#sidebar { color: #666; font-size: 90% }
 #sidebar { width: 200px; float: right; margin: 1em 0 0 0 }
 #sidebar ul { list-style-type: none; margin: 0; padding: 0; }
 #sidebar li { padding: 0 0 1em 0 }
