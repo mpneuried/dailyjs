@@ -1,0 +1,85 @@
+---
+layout: post
+title: "Node Tutorial Part 16: Updating to Node 0.4.2 and Express 2"
+author: Alex Young
+categories: 
+- server
+- node
+- tutorials
+- lmawa
+- nodepad
+- npm
+---
+
+Welcome to part 16 of _Let's Make a Web App_, a tutorial series about building a web app with "Node":http://nodejs.org/.  This series will walk you through the major areas you'll need to face when building your own applications.  These tutorials are tagged with "lmawa":/tags.html#lmawa.
+
+<a href="#" class="showPrevious">Click to show previous tutorials</a>.
+
+<div class="previous" style="display: none">
+* "Part 1: Introduction":http://dailyjs.com/2010/11/01/node-tutorial/ 
+* "Part 2: Installation and Skeleton App":http://dailyjs.com/2010/11/08/node-tutorial-2/, source code commit: "4ea936b":https://github.com/alexyoung/nodepad/commit/4ea936b4b426012528fc722c7576391b48d5a0b7
+* "Part 3: RESTful Methods and Testing":http://dailyjs.com/2010/11/15/node-tutorial-3/, source code commit: "39e66cb":https://github.com/alexyoung/nodepad/commit/39e66cb9d11a67044495beb0de1934ac4d9c4786
+* "Part 4: Templates, Partials, Creating and Editing Documents":http://dailyjs.com/2010/11/22/node-tutorial-4/, source code commit: "f66fdb":https://github.com/alexyoung/nodepad/commit/f66fdb5c3bebdf693f62884ffc06a40b93328bb5
+* "Part 5: Authentication, Sessions, Access Control Middleware":http://dailyjs.com/2010/12/06/node-tutorial-5/, source code commit: "03fe9b":https://github.com/alexyoung/nodepad/tree/03fe9b272fea1beb98ffefcf5f7ed226c81c49fd
+* "Part 6: Interface Basics":http://dailyjs.com/2010/12/20/node-tutorial-6/, source code commit: "f2261c":https://github.com/alexyoung/nodepad/tree/f2261c510c987b35df1e6e000be6e1e591cd9d6d
+* "Part 7: Node Library Versions, Jade Tricks, Error Pages":http://dailyjs.com/2010/12/27/node-tutorial-7/, source code commit: "929f5":https://github.com/alexyoung/nodepad/tree/929f5642ca1b2fa664df517457e056c92490d892
+* "Part 8: Flash Messages and Helpers":http://dailyjs.com/2011/01/03/node-tutorial-8/, source code commit: "841a49":https://github.com/alexyoung/nodepad/tree/841a493c03f0421dd1a2279fccac3fbcf1e17b1f
+* "Part 9: Remember Me":http://dailyjs.com/2011/01/10/node-tutorial-9/, source code commit: "1904c":https://github.com/alexyoung/nodepad/tree/1904c6b7f95d708474a5d42e8cdfd40e96243a7a
+* "Part 10: Markdown":http://dailyjs.com/2011/01/24/node-tutorial-10/, source code commit: "11d33":https://github.com/alexyoung/nodepad/tree/11d33e19066e76c8559857fb780ac9fd1ecf68ac
+* "Part 11: Better Testing":http://dailyjs.com/2011/01/31/node-tutorial-11/, source code commit: "6a269ce":https://github.com/alexyoung/nodepad/tree/6a269ce4ddb6c7dc78598b488c93b38828fb5763
+* "Part 12: Updating Mongoose":http://dailyjs.com/2011/02/07/node-tutorial-12/, source code commit: "2a8725":https://github.com/alexyoung/nodepad/tree/2a8725f089ef052ec8b4ccfed8f6fbece70a606a
+* "Part 13: Stylus":http://dailyjs.com/2011/02/14/node-tutorial-13/, source code commit: "0a70e40":https://github.com/alexyoung/nodepad/tree/0a70e40cafd982c1f2421ecf16caa887fc49ae39
+* "Part 14: Email":http://dailyjs.com/2011/02/21/node-tutorial-14/, source code commit: "2e81a7b":https://github.com/alexyoung/nodepad/tree/2e81a7b8a1863db75485e4c49af5753a21266178
+* "Part 15: Node Versions, npm Publishing":http://dailyjs.com/2011/02/28/node-tutorial-15/, source code commit: "89abea1":https://github.com/alexyoung/nodepad/tree/89abea12171de333159ef2be89890e9c56eb86af
+</div>
+
+h3. Switching to Node 0.4.2
+
+I can tell you're all desperate to get Nodepad on Node 0.4.x, so let's do it!  Node and even libraries like Express are still volatile, so _expect things to break_.  If you're running production Node apps, you'll need to factor in some time to update Node and your dependencies as part of your project management.  It's just a fact of life at the moment. 
+
+Back in "tutorial 15":http://dailyjs.com/2011/02/28/node-tutorial-15/ I demonstrated how to switch between Node versions using "n":https://github.com/visionmedia/n.  Make sure you've got _n_ installed:
+
+{% highlight sh %}
+npm install n
+{% endhighlight %}
+
+Then switch to 0.4.2:
+
+{% highlight sh %}
+n 0.4.2
+{% endhighlight %}
+
+h3. Express 2
+
+I haven't seen TJ say too much about Express 2 yet, but I've noticed he's added some interesting new projects "to his visionmedia GitHub account":https://github.com/visionmedia ("express-resource":https://github.com/visionmedia/express-resource and "express-namespace":https://github.com/visionmedia/express-namespace look interesting).
+
+So it seems like although Express 2 is fairly similar to Express 1, the project will get new supporting modules that you can use if you want.  It's almost like an anti-Rails or Django.  So let's take a look at the API changes that affect our app.
+
+To install the Express 2 I've got, just type <code>npm install express@2.0.0beta3</code>.  I've updated app.js and package.json with the other library versions I'm using.
+
+h3. Express 2 API Changes
+
+Some of the middleware has been renamed.  So <code>cookieDecoder</code> and <code>bodyDecoder</code> are now <code>cookieParser</code> and <code>bodyParser</code>.  The <code>staticProvider</code> middleware has been changed to <code>static</code>.  I've made these changes in our app.
+
+The view partial rendering is also slightly different.  Before a <code>views/partials</code> directory was the default location for partials, but now it's relative to the current template's directory.  That means using <code>partial('fields')</code> in <code>views/users/new.jade</code> will look for <code>views/users/fields.jade</code>.  This seems more consistent to me so I didn't mind the change.
+
+From the documentation:
+
+bq. View lookup is performed relative to the parent view, for example if we had a page view named views/user/list.jade, and within that view we did partial('edit') it would attempt to load views/user/edit.jade, whereas partial('../messages') would load views/messages.jade.
+
+Header modification is also now stricter.  I made a mistake where an asynchronous Mongoose call could happen after a redirect was sent.  In such cases an exception will now be raised:
+
+{% highlight text %}
+http.js:521
+    throw new Error("Can't use mutable header APIs after sent.");
+{% endhighlight %}
+
+If you see something like that in your own apps, try looking at the order of things are happening given that you're likely to be using a lot of asynchronous calls.
+
+And it looks like "expressjs.com/guide.html":http://expressjs.com/guide.html refers to the latest version, so have a read of that to get up to speed.
+
+h3. Conclusion
+
+Upgrading major versions of your platform and dependencies is probably almost always difficult.  TJ has written a "migration guide for Express 1.x to 2.x developers":http://expressjs.com/migrate.html, so you should be OK migrating your own projects.  Just remember it's likely that many dependencies will need to be updated at once: obviously upgrading Express implies a Connect update.
+
+The latest commit is "19fbb2":https://github.com/alexyoung/nodepad/tree/19fbb2e15dd2e247397e9d9d1caea3a4800a865e.

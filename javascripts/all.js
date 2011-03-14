@@ -49,4 +49,9 @@ $(function() {
       });
     };
   });
+
+  $('.showPrevious').click(function(e) {
+    $(this).parent().next('div.previous').toggle();
+    e.preventDefault();
+  });
 });
