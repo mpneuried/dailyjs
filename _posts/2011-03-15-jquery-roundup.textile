@@ -1,0 +1,27 @@
+---
+layout: post
+title: "jQuery Roundup: Screencasts, $.data() Tutorial, Rails Switching to jQuery"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- screencasts
+---
+
+h3. More jQuery Screencasts
+
+!/images/posts/jquery-delicious.png!
+
+I've previously mentioned Josh Timonen's awesome screencasts, and he sent us two more jQuery-focused tutorials:
+
+* "Improving the Delicious Bookmark Button with jQuery":http://screencasts.org/episodes/delicious-bookmark-jquery
+* "Building a Simple AJAX Website with Sinatra & jQuery":http://screencasts.org/episodes/ajax-website-with-sinatra-jquery
+
+h3. Linking JavaScript Objects to HTML Elements
+
+In "Linking JavaScript Objects to HTML Elements":http://taitems.tumblr.com/post/3756275144/linking-javascript-objects-to-html-elements, Tait Brown discusses using the <code>$.data()</code> function to maintain relationships between markup and server-side data.  It's written from a designer's perspective, which was interesting to me (as a predominantly server-side developer).
+
+h3. Rails 3.1 Shipping with jQuery
+
+David Heinemeier Hansson announced that "Rails 3.1 is moving to jQuery":http://twitter.com/#!/dhh/status/45923430608023552 as the built-in JavaScript library.  Rails had previously bundled Prototype and had tight integration with "script.aculo.us":http://script.aculo.us/.
+
