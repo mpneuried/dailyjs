@@ -39,9 +39,10 @@ $(function() {
   var offset = $('#sidebar').offset();
   var topPadding = 25;
   $(window).scroll(function() {
-    if ($(window).scrollTop() > offset.top) {
+    var element = $(this);
+    if (element.scrollTop() > offset.top) {
       $('#sidebar').stop().animate({
-        marginTop: $(window).scrollTop() - offset.top + topPadding
+        marginTop: element.scrollTop() - offset.top + topPadding
       });
     } else {
       $('#sidebar').stop().animate({

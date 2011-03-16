@@ -1,0 +1,107 @@
+---
+layout: post
+title: "Node Roundup: Express 2 Blowout"
+author: Alex Young
+categories: 
+- node
+- server
+- frameworks
+- express
+---
+
+h3. Express 2 and New Express Modules
+
+As noted in "Monday's Node tutorial":http://dailyjs.com/2011/03/14/node-tutorial-16/, Express 2 is getting close to release.  The current version in npm is <code>express@2.0.0rc</code>, so get ready!
+
+There's an "Express 1.x to 2.x migration guide":http://expressjs.com/migrate.html to help you update your apps.  I don't think the changes are too drastic, but it's worth being aware of them before migrating.  To summarise:
+
+* The HTTP referrer can be accessed with <code>req.header('Referrer')</code>
+* Local variables can be exposed to views using <code>res.local('name', variable)</code>, rather than just with <code>res.render</code>
+* <code>req.param</code> now takes an additional default value parameter to avoid having to do this: <code>var id = req.param('id') || req.user.id</code>
+* <code>app.locals()</code> is now an alias of <code>app.helpers()</code>
+* Cookies now take a <code>maxAge</code> parameter which is relative to the current date
+* Static file handling has been ported to Connect from Express, and <code>res.download</code>'s callback method gets an error parameter
+* <code>res.render</code> will treat unrecognised parameters as local variables for templates
+* <code>res.partial</code> has been added, which is useful for Ajax response methods
+* View partial lookup is now relative to the current template's path
+* Express and Connect now use the <code>mime</code> module (available from npm)
+
+h3. Express Resource
+
+TJ is also working on several new modules that make working with Express potentially more convenient.  If you want to work with REST resources, take a look at "express-resource":https://github.com/visionmedia/express-resource.
+
+{% highlight javascript %}
+exports.index = function(req, res){
+  res.send('forum index');
+};
+
+exports.new = function(req, res){
+  res.send('new forum');
+};
+
+exports.create = function(req, res){
+  res.send('create forum');
+};
+
+exports.show = function(req, res){
+  res.send('show forum ' + req.params.id);
+};
+
+exports.edit = function(req, res){
+  res.send('edit forum ' + req.params.id);
+};
+
+exports.update = function(req, res){
+  res.send('update forum ' + req.params.id);
+};
+
+exports.destroy = function(req, res){
+  res.send('destroy forum ' + req.params.id);
+};
+{% endhighlight %}
+
+h3. Express Namespace
+
+Sometimes it's useful to hang routes or resources off a prefix -- imagine a blog or CMS with an administration area.  A neat way of handling this is through "express-namespace":https://github.com/visionmedia/express-namespace, which looks like this:
+
+{% highlight javascript %}
+app.namespace('/forum/:id', function(){
+  app.get('/(view)?', function(req, res){
+    res.send('GET forum ' + req.params.id);
+  });
+
+  app.get('/edit', function(req, res){
+    res.send('GET forum ' + req.params.id + ' edit page');
+  });
+
+  app.namespace('/thread', function(){
+    app.get('/:tid', function(req, res){
+      res.send('GET forum ' + req.params.id + ' thread ' + req.params.tid);
+    });
+  });
+
+  app.del('/', function(req, res){
+    res.send('DELETE forum ' + req.params.id);
+  });
+});
+{% endhighlight %}
+
+h3. Express Messages
+
+Every web app I've ever worked on has had flash messages, so why not use "express-messages":https://github.com/visionmedia/express-messages to do it?  It's loaded as a dynamic helper, and just needs a call to <code>messages()</code> in a view.
+
+h3. Express Configuration
+
+"Express Configuration":https://github.com/visionmedia/express-configuration is an asynchronous configuration module for Express.  That means you could use a database to store your app's configuration:
+
+{% highlight javascript %}
+app.configure(function(done){
+  redis.hmget('settings', function(err, obj){
+    for (var key in obj) app.set(key, obj[key]);
+    done();
+  });
+});
+
+app.listen(3000);
+{% endhighlight %}
+
