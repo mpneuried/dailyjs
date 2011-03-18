@@ -1,0 +1,143 @@
+---
+layout: post
+title: "Let's Make a Framework: CSS Manipulation"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+- css
+---
+
+Welcome to part 54 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+Last week I took a look at how jQuery manipulates the DOM using <code>$.html()</code>.  This week I'm going to discuss how jQuery lets us get and set CSS properties with <code>.css</code>.
+
+h3. jQuery's <code>.css()</code> Method
+
+The <code>.css()</code> method can both get and set CSS values on attributes.  The reason why this is useful is -- you've guessed it -- browser incompatibilities.  Standards-compliant browsers provide the "getComputedStyle()":https://developer.mozilla.org/en/DOM:window.getComputedStyle method, while Internet Explorer uses <code>currentStyle</code> and <code>runtimeStyle</code>.
+
+jQuery also returns the correct value for both CSS and DOM naming schemes: <code>.css('background-color')</code> will return the same value as <code>.css('backgroundColor')</code>.
+
+Even though accessing an element's <code>style</code> property, jQuery's API provides a more consistent and less error-prone way of programming.
+
+h3. Internals
+
+jQuery groups this functionality into "css.js":https://github.com/jquery/jquery/blob/master/src/css.js.  Getting values uses <code>jQuery.css(elem, name)</code>, while setting uses <code>jQuery.style(elem, name, value)</code>.
+
+h3. <code>jQuery.css</code>
+
+The first thing to note is the <code>camelCase</code> method, which is used quite early on:
+
+{% highlight javascript %}
+css: function( elem, name, extra ) {
+  // Make sure that we're working with the right name
+  var ret, origName = jQuery.camelCase( name ),
+    hooks = jQuery.cssHooks[ origName ];
+{% endhighlight %}
+
+This is a very simple method that uses a regular expression to transform dashed strings to DOM properties:
+
+{% highlight javascript %}
+// rdashAlpha = /-([a-z])/ig
+// fcamelCase = function( all, letter ) {
+//   return letter.toUpperCase();
+// };
+
+camelCase: function( string ) {
+  return string.replace( rdashAlpha, fcamelCase );
+}
+{% endhighlight %}
+
+Which works like this:
+
+{% highlight javascript %}
+'background-color'.replace(/-([a-z])/ig, function(all, letter) { return letter.toUpperCase(); })
+
+>> 'backgroundColor'
+{% endhighlight %}
+
+This value is kept and referred to as originName.  This is then used with <code>cssProps</code> which helps deal with special cases.  The "hooks" refer to CSS hooks, which is jQuery's way of making CSS getting and setting more extensible.
+
+{% highlight javascript %}
+// cssProps: {
+//  "float": jQuery.support.cssFloat ? "cssFloat" : "styleFloat"
+// },
+
+// Back in the CSS function:
+name = jQuery.cssProps[ origName ] || origName;
+
+// If a hook was provided get the computed value from there
+if ( hooks && "get" in hooks && (ret = hooks.get( elem, true, extra )) !== undefined ) {
+  return ret;
+
+// Otherwise, if a way to get the computed value exists, use that
+} else if ( curCSS ) {
+  return curCSS( elem, name, origName );
+}
+{% endhighlight %}
+
+If none of the hooks match, <code>curCSS</code> is called.  This is actually a reference to the <code>getComputedStyle</code> or <code>currentStyle</code> method used to extract CSS values.  jQuery wraps these methods with its own functions to make them behave more consistently.  For example, the <code>currentStyle</code> function converts sizes to pixels based on a hack "written by Dean Edwards in 2007":http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291.
+
+Both of the calculated names are passed to <code>getComputedStyle</code> and used to extracted the value from a query against <code>document.defaultView.getComputedStyle</code> (or IE's equivalent).
+
+h3. <code>jQuery.style</code>
+
+The <code>.style</code> method sets style properties, and works with various signatures:
+
+{% highlight javascript %}
+$('selector').css({ 'background-color': 'blue' });
+$('selector').css('background-color', 'blue');
+{% endhighlight %}
+
+The first thing it does is checks the element is valid for this type of operation:
+
+{% highlight javascript %}
+// Don't set styles on text and comment nodes
+if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
+  return;
+}
+{% endhighlight %}
+
+We've seen "nodeType":https://developer.mozilla.org/en/nodeType used like this frequently in this series.  The next part looks a lot like <code>.css()</code>:
+
+{% highlight javascript %}
+// Make sure that we're working with the right name
+var ret, origName = jQuery.camelCase( name ),
+  style = elem.style, hooks = jQuery.cssHooks[ origName ];
+
+name = jQuery.cssProps[ origName ] || origName;
+{% endhighlight %}
+
+When a value to set is present, some interesting checks are performed:
+
+{% highlight javascript %}
+// Make sure that NaN and null values aren't set. See: #7116
+if ( typeof value === "number" && isNaN( value ) || value == null ) {
+  return;
+}
+
+// If a number was passed in, add 'px' to the (except for certain CSS properties)
+if ( typeof value === "number" && !jQuery.cssNumber[ origName ] ) {
+  value += "px";
+}
+
+// If a hook was provided, use that value, otherwise just set the specified value
+if ( !hooks || !("set" in hooks) || (value = hooks.set( elem, value )) !== undefined ) {
+  // Wrapped to prevent IE from throwing errors when 'invalid' values are provided
+  // Fixes bug #5509
+  try {
+    style[ name ] = value;
+  } catch(e) {}
+}
+{% endhighlight %}
+
+Other than the weird bugs worked around with the <code>if</code> statements, writing styles simply boils down to mapping to a camel case name then writing the element's property.
+
+h3. Conclusion
+
+jQuery, and frameworks like it, give us a seamless way of getting and setting style properties.  It would be a fairly simple task if it wasn't for those pesky browser bugs and incompatibilities.

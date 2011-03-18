@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Jade Browser, iScroll, VM Form Validator"
+author: Alex Young
+categories: 
+- libraries
+- templating
+- forms
+- webkit
+- design
+---
+
+h3. Jade Browser
+
+"Jade Browser":https://github.com/weepy/jade-browser by Jonah Fox is an attempt to get "Jade":http://jade-lang.com/ templates to work in browsers.  The same author wrote "brequire":https://github.com/weepy/brequire which helps load CommonJS modules in browsers, so it seems like Jade Browser wraps around the standard Jade library rather than reimplementing it.
+
+h3. iScroll
+
+!/images/posts/iscroll.png!
+
+Hugh Fraser sent us a link to "iScroll":http://cubiq.org/iscroll-4 by Matteo Spinelli, which is a WebKit library for creating iOS native styled tables with correct scrolling behaviour.  It has quite a lot of features, including pinch to zoom gesture support, custom scrollbars, pull to refresh, and a paginated carousel.
+
+It doesn't depend on jQuery, so you could use it with your favourite mobile framework.
+
+Given a few divs and an unordered list, it can be used like this:
+
+{% highlight javascript %}
+myScroll = new iScroll('wrapper');
+{% endhighlight %}
+
+h3. VM Form Validator
+
+!/images/posts/vmform.jpeg!
+
+"VM Form Validator":http://www.virtuosimedia.com/dev/javascript/mootools-plugins/vm-form-validator/ by Benjamin Kuker is a new form validation library for MooTools 1.3.  All of the "VM Form Validator demos":http://www.virtuosimedia.com/dev/javascript/mootools-plugins/vm-form-validator/vm-form-validator-demos are created with jsFiddle, so it's easy to see how it works.
+
+Basic usage is like many form libraries out there:
+
+{% highlight javascript %}
+var form1 = new VMFormValidator('register');
+form1.required('username', 'You must enter a username');
+form1.minLength('username', 5);
+form1.required('email');
+form1.email('email');
+form1.noMatches('password', 'username');
+form1.required('confirmPassword');
+form1.matches('confirmPassword', 'password');        
+{% endhighlight %}
+
+We don't usually feature many non-jQuery libraries here, but I am interested in them so please share your stuff!
+
