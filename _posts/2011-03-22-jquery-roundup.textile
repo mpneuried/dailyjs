@@ -1,0 +1,48 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery UI 1.8.11, jCheck, TufteGraph, Firefox 4"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- graphics
+- validation
+---
+
+
+h3. jQuery UI 1.8.11
+
+"jQuery UI 1.8.11":http://blog.jqueryui.com/2011/03/jquery-ui-1-8-11/ is out, and it's a maintenance release.  There are fixes for Accordion, Autocomplete, Button, Datepicker, Draggable, Droppable, Mouse, Sortable, and Effects.
+
+Read the "1.8.11 summary":http://jqueryui.com/docs/Changelog/1.8.11.
+
+h3. jCheck
+
+"jCheck":http://jcheck.net (GitHub: "wilkerlucio / jcheck":https://github.com/wilkerlucio/jcheck, Apache 2.0 License) by Wilker Lúcio is a jQuery validation library that is modelled on the standard Rails validators: <code>validates_acceptance_of</code>, <code>validates_confirmation_of</code>, <code>validates_presence_of</code> and others are available.  The author has also created "jcheck_rails":https://github.com/wilkerlucio/jcheck_rails which adds support to Rails 3.
+
+The client-side API looks like this:
+
+{% highlight javascript %}
+$(function() {
+  var v = $('#contact-form').jcheck();
+  v.validates('name', 'message', { presence: true });
+  v.validates('email', { format: { 'with': 'email', message: 'is not a valid email address' }});
+  v.validates('message', { length: { minimum: 20, maximum: 255 }});
+});
+{% endhighlight %}
+
+Even if you're not using Rails I think the API is friendly and worth trying.
+
+h3. TufteGraph
+
+!/images/posts/tuftegraph.png!
+
+"TufteGraph":http://xaviershay.github.com/tufte-graph/ (GitHub: "xaviershay / tufte-graph":https://github.com/xaviershay/tufte-graph, MIT License) by Xavier Shay is a great charting library which uses functions for configuration options and CSS for styling.
+
+It requires the jQuery enumerable plugin and Raphael.  There are some "integration tests":http://xaviershay.github.com/tufte-graph/test/integration.html which demonstrate the library's potential.
+
+h3. Firefox 4
+
+!/images/posts/firefox4.gif!
+
+Meanwhile, "Firefox 4 is out today":http://www.mozilla.com/en-US/firefox/new/, which has a more refined interface, better JavaScript performance with JägerMonkey, and hardware acceleration.  Mozilla also posted "Glow":http://glow.mozilla.org/, a visualistion of Firefox 4's downloads.
