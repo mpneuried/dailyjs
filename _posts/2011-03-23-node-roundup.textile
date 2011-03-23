@@ -1,0 +1,71 @@
+---
+layout: post
+title: "Node Roundup: Node 0.4.3, npm 1.0, Geo, MicroEvent"
+author: Alex Young
+categories: 
+- node
+- server
+- frameworks
+- geocoding
+- npm
+---
+
+h3. Node 0.4.3
+
+"Node 0.4.3 is out":http://blog.nodejs.org/2011/03/18/node-v0-4-3/, which has some interesting changes:
+
+* Start up memory footprint improvement
+* HTTP Agent bugs
+* Upgrade V8 to 3.1.8.3 
+
+h3. npm 1.0
+
+Isaac Schlueter has been working on npm 1.0, and I noticed he's written an interesting about about 1.0's <code>ls</code> command for the Node blog: "npm 1.0: The New ls":http://blog.nodejs.org/2011/03/17/npm-1-0-the-new-ls/.  It's now at release candidate stage, and there's a lot of activity going on over at "isaacs/npm":https://github.com/isaacs/npm/commits/master/ on GitHub.
+
+h3. Geo
+
+"Geo for Node.js":http://geeks.aretotally.in/projects/geonode (GitHub: "feliperazeek/geonode":https://github.com/feliperazeek/geonode) by Felipe Oliveira is a geocoding library that uses Google's Geocode API for geocoding, and GeoHash for GeoSpatial support.
+
+{% highlight javascript %}
+var geo = require('geo'),
+    sensor = false,
+    address = '221B Baker Street, London, UK';
+
+geo.geocoder(geo.google, address, sensor, function(formattedAddress, latitude, longitude) {
+  console.log("Formatted Address: " + formattedAddress);
+  console.log("Latitude: " + latitude);
+  console.log("Longitude: " + longitude);
+});
+
+// Output:
+// Formatted Address: 221 Baker St, Paddington, Greater London NW1 5, UK
+// Latitude: 51.5231225
+// Longitude: -0.1580078
+{% endhighlight %}
+
+Seems incredibly useful to me, assuming Google's terms let us use this for something interesting!
+
+h3. MicroEvent.js
+
+"MicroEvent.js":http://notes.jetienne.com/2011/03/22/microeventjs.html by Jerome Etienne (GitHub: "jeromeetienne / microevent.js":https://github.com/jeromeetienne/microevent.js) is a tiny event emitter library for client-side code and Node.  It uses the observer pattern, like this:
+
+{% highlight javascript %}
+var Ticker = function() {
+  var self = this;
+  setInterval(function() {
+    // 'trigger' is provided by MicroEvent
+    self.trigger('tick', new Date());
+  }, 1000);
+};
+
+// You have to use this method to make your class MicroEvent-enabled:
+MicroEvent.mixin(Ticker);
+
+var ticker = new Ticker();
+
+// Now we can observe when the event fires
+ticker.bind('tick', function(date) {
+  console.log('notified date', date);
+});
+{% endhighlight %}
+
