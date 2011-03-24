@@ -1,0 +1,133 @@
+---
+layout: post
+title: "Let's Make a Framework: DOM Manipulation"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+- css
+---
+
+Welcome to part 55 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+The previous tutorials have looked at how jQuery implements <code>.html()</code> and <code>.css()</code> for cross-browser HTML and CSS manipulation.  In this week's post I'll start implementing <code>.html()</code> for our framework.
+
+h3. API and Tests
+
+The method <code>turing.dom.html(element, html)</code> should be available, along with the chained version, <code>turing(selector).html(html)</code>.
+
+A test like this should pass with the new method:
+
+{% highlight javascript %}
+'test HTML can be written': function() {
+  var element = turing.dom.get('#dom-html-tests')[0];
+  turing.dom.html(element, '<p><a href="#">This is a link</a>');
+  assert.equal(turing.dom.get('#dom-html-tests p').length, 1);
+  assert.equal(turing.dom.get('#dom-html-tests a').length, 1);
+}
+{% endhighlight %}
+
+And this should pass, too:
+
+{% highlight javascript %}
+'test chained HTML works on multiple elements': function() {
+  turing('#dom-html-chain-test p').html('<a href="#">Link</a>');
+  assert.equal(turing.dom.get('#dom-html-chain-test p a').length, 4);
+}
+{% endhighlight %}
+
+The quickest route to implementing this is to use <code>innerHTML</code>:
+
+{% highlight javascript %}
+/**
+ * DOM manipulation
+ *
+ * @param {Object} element A DOM element
+ * @param {String} html A string containing HTML
+ */
+dom.html = function(element, html) {
+  element.innerHTML = html;
+};
+
+// ...
+
+turing.domChain = {
+  init: function(selector) {
+
+// ...
+
+  /**
+   * Chained DOM manipulation.  Applied to every element.
+   *
+   * @param {String} html A string containing HTML
+   * @returns {Object} `this`
+   */
+  html: function(html) {
+    for (var i = 0; i < this.elements.length; i++) {
+      dom.html(this[i], html);
+    }
+    return this;
+  },
+{% endhighlight %}
+
+h3. Browser Support
+
+This will work with simple tests in IE, Firefox, Chrome, etc.  It'll fail on the edge cases supported by jQuery.  In particular, this won't work:
+
+{% highlight javascript %}
+// Given a simple table (in test/dom_test.html):
+'test manipulating table rows': function() {
+  turing('#dom-html-table-test').html('<tr><td>1</td></tr><tr><td>2</td></tr>');
+  assert.equal(turing.dom.get('#dom-html-table-test tr').length, 2);
+}
+{% endhighlight %}
+
+To make this work we need to trick IE into writing to what it considers "read only" elements.  "Microsoft's innerHTML documentation":http://msdn.microsoft.com/en-us/library/ms533897%28VS.85%29.aspx says the following:
+
+bq. The property is read/write for all objects except the following, for which it is read-only: COL, COLGROUP, FRAMESET, HEAD, HTML, STYLE, TABLE, TBODY, TFOOT, THEAD, TITLE, TR.
+
+I've written a basic way around this. It works by creating a temporary div which is populated with a table, and then the <code>lastChild</code> is extracted, and the contents of the original table replaced.
+
+{% highlight javascript %}
+  /**
+   * Replaces the content of an element.
+   *
+   * @param {Object} element A DOM element
+   * @param {String} html A string containing HTML
+   */
+  dom.replace = function(element, html) {
+    var context = document,
+        isTable = element.nodeName === 'TABLE',
+        insert,
+        div;
+
+    div = context.createElement('div');
+    div.innerHTML = '<' + element.nodeName + '>' + html + '</' + element.nodeName + '>';
+    insert = isTable ? div.lastChild.lastChild : div.lastChild;
+
+    element.replaceChild(insert, element.firstChild);
+    div = null;
+  };
+{% endhighlight %}
+
+IE automatically inserts <code>tbody</code> tags so I've tried to deal with that.  Dealing with this is actually quite complicated, and I'll expand on this more next week.
+
+This gets triggered based on an exception handler:
+
+{% highlight javascript %}
+dom.html = function(element, html) {
+  try {
+    element.innerHTML = html;
+  } catch (e) {
+    dom.replace(element, html);
+  }
+};
+{% endhighlight %}
+
+The latest commit was "73a3fac":https://github.com/alexyoung/turing.js/tree/73a3fac202150fdd2a828826e0f60c1d0cb01ee4.
+
