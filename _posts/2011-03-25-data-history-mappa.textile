@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Data.js, context-blender, JavaScript Timeline, JSBeautify for Chrome, Mappa"
+author: Alex Young
+categories: 
+- databases
+- graphics
+- chrome
+---
+
+h3. Data.js
+
+"Data.js":http://substance.io/#michael/data-js (GitHub: "michael / data":https://github.com/michael/data, "License":https://github.com/michael/data/blob/master/LICENSE) by Michael Aufreiter is a data manipulation and persistence framework for JavaScript that works in the browser and Node.
+
+It comes with <code>Data.CouchAdapter</code> for saving data to CouchDB, and uses Underscore so the enumeration-based API should be immediately familiar to you if you're already using Underscore.  For example:
+
+{% highlight javascript %}
+var selectedItems = items.select(function(value, key, index) {
+  return value >= 10000000;
+}).toJSON();
+{% endhighlight %}
+
+Everything in Data.js is based on these generic data formats:
+
+* <code>Data.Hash</code>: A sortable hash data structure
+* <code>Data.Graph</code>: A data abstraction for linked data
+* <code>Data.Collection</code>: Tabular data (uses a Data.Graph internally)
+
+What interests me about this project is the API really suits JavaScript, and it works in both browsers and server-side code.  The fact the persistence layer is configurable makes me hope other databases will be supported.
+
+h3. context-blender
+
+"context-blender":https://github.com/Phrogz/context-blender ("License":https://github.com/Phrogz/context-blender/blob/master/LICENSE) by Gavin Kistner attempts to implement Photoshop's RGBA compositing blend modes in JavaScript using Canvas.  It's been put in use by GitHub for their Difference image view mode, which you can read more about in "Behold: Image view modes":https://github.com/blog/817-behold-image-view-modes.
+
+h3. JavaScript Timeline
+
+!/images/posts/js_history.png!
+
+"This JavaScript timeline":http://timeglider.com/jquery/ by Michael Richardson presents an interactive view of the main events in JavaScript's history.  You can read more about this subject in my "History of JavaScript":http://dailyjs.com/tags.html#hoj series.
+
+h3. JSBeautify for Chrome
+
+"JSBeautify for Chrome":https://github.com/rixth/jsbeautify-for-chrome by Tom R makes it easy to reformat minified JavaScript in Chrome.  Install it:
+
+* "JSBeautify with Clippy":https://github.com/downloads/rixth/jsbeautify-for-chrome/jsbeautify-for-chrome-with-clippy.crx
+* "JSBeautify without Clippy":https://github.com/downloads/rixth/jsbeautify-for-chrome/jsbeautify-for-chrome-without-clippy.crx
+
+Then view something like "jquery.min.js":https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js.  It'll display a message saying "This looks like a JavaScript file. Click this bar to format it."  Handy!
+
+h3. Mappa
+
+"Mappa":https://github.com/Wolfy87/Mappa by Oliver Caldwell is a little library for creating aliases to functions, making it easy to map function names and create customised APIs.  The example given by the author is with the <code>JSON</code> object:
+
+{% highlight javascript %}
+Mappa.addMap('encodeJSON', JSON.stringify);
+{% endhighlight %}
+
+This will work in Node as well as browsers.
+
+
