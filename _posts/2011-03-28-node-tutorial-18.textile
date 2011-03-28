@@ -214,3 +214,4 @@ h3. Conclusion
 Full text search with Mongo is fairly easy, but this implementation is far from perfect.  The keyword extraction algorithm could do with stemming, and the interface isn't as intuitive as I'd like.
 
 This week's code was "commit ceb9b32":https://github.com/alexyoung/nodepad/tree/ceb9b32a09dec3a52956bc9c631b68487b34bf23.
+
