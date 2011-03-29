@@ -1,0 +1,37 @@
+---
+layout: post
+title: "jQuery Roundup: 1.5.2, Kern.js, Zoomooz, Amplify"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- graphics
+- ajax
+- typography
+---
+
+h3. jQuery 1.5.2 RC 1
+
+"jQuery 1.5.2 RC 1":http://blog.jquery.com/2011/03/24/jquery-1-5-2-rc-1-released/ has been released, and the final version of 1.5.2 should be out on March 31st.
+
+h3. Kern.js
+
+!/images/posts/kern.png!
+
+"Kern.js":http://www.kernjs.com/ (GitHub: "bstrom87 / kern.js":https://github.com/bstrom87/kern.js, WTFPL) by Brendan Stromberger helps generate styles for more refined kerning using "Lettering.js":http://letteringjs.com/.
+
+Lettering.js has recently added a gallery of sites that use their styles; it's worth checking out, too.
+
+h3. Zoomooz
+
+!/images/posts/zoomooz.png!
+
+"Zoomooz":http://janne.aukia.com/zoomooz/ (GitHub: "jaukia / zoomooz":https://github.com/jaukia/zoomooz/) by Janne Aukia makes elements on a page "zoomable" -- the page apparently zooms into a smaller slice of content.  The example on the project's homepage consists of small tiles which zoom in when clicked.
+
+h3. Amplify
+
+!/images/posts/amplify.png!
+
+"Amplify":http://amplifyjs.com/ (GitHub: "appendto / amplify":https://github.com/appendto/amplify, MIT/GPL) provides a unified API for data sources.  A set of components are provided for managing data-related tasks: the store component manages client-side data, a request component provides enhancements to jQuery's Ajax library, and there's also a pub/sub system.  It's like a Swiss Army knife for data.
+
+The author has already written up full "documentation for Amplify":http://amplifyjs.com/api/request/.

@@ -9,7 +9,6 @@ categories:
 - validation
 ---
 
-
 h3. jQuery UI 1.8.11
 
 "jQuery UI 1.8.11":http://blog.jqueryui.com/2011/03/jquery-ui-1-8-11/ is out, and it's a maintenance release.  There are fixes for Accordion, Autocomplete, Button, Datepicker, Draggable, Droppable, Mouse, Sortable, and Effects.
