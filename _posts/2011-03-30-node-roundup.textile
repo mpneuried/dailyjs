@@ -1,0 +1,56 @@
+---
+layout: post
+title: "Node Roundup: Browserify, NowJS, Vogue"
+author: Alex Young
+categories: 
+- node
+- modules
+- realtime
+- css
+---
+
+h3. Browserify
+
+!/images/posts/browserify.png!
+
+"Browserify":http://substack.net/posts/24ab8c (GitHub: "substack / node-browserify":https://github.com/substack/node-browserify) by James Halliday makes CommonJS packages work in browsers by bundling up modules into a monolithic file.  I know we've had a lot of script loaders on DailyJS, and detailed discussions about monolithic files vs. loading scripts on demand, but I assume James has structured Browserify this way to make the <code>require</code> syntax easy to support.
+
+The package includes Connect middleware:
+
+{% highlight javascript %}
+var connect = require('connect');
+var server = connect.createServer();
+server.use(connect.static(__dirname));
+server.use(require('browserify')(__dirname + '/js'));
+
+server.listen(9797);
+{% endhighlight %}
+
+The dependency support is interesting as well:
+
+bq. If the npm modules have dependencies, those dependencies will get bundled along recursively!
+
+It's also possible to run modules through minifiers, using post-filters.
+
+I think this must be the most convenient way to share code between Node and browsers that I've seen so far.
+
+I also seem to remember writing about "Nodules":http://github.com/kriszyp/nodules which is similar to this project, and "brequire":https://github.com/weepy/brequire.
+
+h3. NowJS
+
+"NowJS":http://nowjs.com/ (GitHub: "Flotype / now":http://github.com/flotype/now) aims to make real-time applications easier to develop by synchronising functions and variables in a namespace between clients and a server.
+
+It can be set up with an Express app like this:
+
+{% highlight javascript %}
+var app = express.createServer();
+app.listen(3000);
+var everyone = require("now").initialize(app);
+{% endhighlight %}
+
+The authors have already written a "NowJS Coding Patterns and Best Practices":http://nowjs.com/bestpractices guide, which explains how to filter messages at the client-side (for creating rooms in a chat application), and tips for keeping things efficient.
+
+h3. Vogue
+
+"Vogue":http://aboutcode.net/vogue/ (GitHub: "andrewdavey / vogue":https://github.com/andrewdavey/vogue, "License":https://github.com/andrewdavey/vogue/blob/master/license.txt) by Andrew Davey automatically reloads stylesheets whenever they're saved.  It uses "Socket.IO":http://socket.io/ so it feels pretty responsive.  It's a great idea for use during development, and I imagine it would blow your design team's collective minds.
+
