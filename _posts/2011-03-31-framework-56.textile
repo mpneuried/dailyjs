@@ -1,0 +1,178 @@
+---
+layout: post
+title: "Let's Make a Framework: DOM Manipulation Part 2"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+- css
+---
+
+Welcome to part 56 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+Last week I looked at how to build a cross-browser <code>innerHTML</code> API.  In this week's post I'll continue looking at DOM manipulation.
+
+h3. Reading HTML
+
+I want to read HTML like this:
+
+{% highlight javascript %}
+'test HTML can be read': function() {
+  assert.ok(turing('#dom-html-read-test').html().match(/<p>Example/));
+}
+{% endhighlight %}
+
+Given this HTML:
+
+{% highlight html %}
+<div id="dom-html-read-test">
+  <p>Example</p>
+</div>
+{% endhighlight %}
+
+This won't work right now.  The <code>dom</code> module <code>html</code> methods need to determine if we're reading or writing, and return a suitable result when accessed through the chained API.  This can be done based on <code>arguments</code>:
+
+{% highlight javascript %}
+/**
+ * Set or get innerHTML.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} html A string containing HTML
+ */
+dom.html = function(element, html) {
+  if (arguments.length === 1)
+    return element.innerHTML;
+
+  try {
+    element.innerHTML = html;
+  } catch (e) {
+    dom.replace(element, html);
+  }
+};
+
+// Elsewhere...
+
+turing.domChain = {
+  // ...
+
+  /**
+   * Chained DOM manipulation.  Applied to every element.
+   *
+   * @param {String} html A string containing HTML
+   * @returns {Object} `this`
+   */
+  html: function(html) {
+    if (arguments.length === 0) {
+      return this.elements.length === 0 ? null : dom.html(this[0]);
+    } else {
+      for (var i = 0; i < this.elements.length; i++) {
+        dom.html(this[i], html);
+      }
+    }
+    return this;
+  },
+{% endhighlight %}
+
+In the case of a chain, it returns the first element's <code>innerHTML</code>.
+
+The results may be slightly different in each browser (IE will make node names uppercase), but this should pass:
+
+{% highlight javascript %}
+'test HTML can be read': function() {
+  assert.ok(turing('#dom-html-read-test').html().match(/<p>Example/i));
+}
+{% endhighlight %}
+
+h3. Implementing <code>append()</code>
+
+To support appending HTML, I decided to refactor the <code>dom.replace</code> function to make it generic.  Previously it looked like this:
+
+{% highlight javascript %}
+/**
+ * Replaces the content of an element.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} html A string containing HTML
+ */
+dom.replace = function(element, html) {
+  var context = document,
+      isTable = element.nodeName === 'TABLE',
+      insert,
+      div;
+
+  div = context.createElement('div');
+  div.innerHTML = '<' + element.nodeName + '>' + html + '</' + element.nodeName + '>';
+  insert = isTable ? div.lastChild.lastChild : div.lastChild;
+
+  element.replaceChild(insert, element.firstChild);
+  div = null;
+};
+{% endhighlight %}
+
+The line that uses <code>replaceChild</code> can be replaced with a callback to make this code reusable:
+
+{% highlight javascript %}
+manipulateDOM = function(element, html, callback) {
+  var context = document,
+      isTable = element.nodeName === 'TABLE',
+      shim,
+      div;
+
+  div = context.createElement('div');
+  div.innerHTML = '<' + element.nodeName + '>' + html + '</' + element.nodeName + '>';
+  shim = isTable ? div.lastChild.lastChild : div.lastChild;
+  callback(isTable ? element.lastChild : element, shim);
+  div = null;
+};
+{% endhighlight %}
+
+Now <code>append</code> can be implemented using <code>appendChild</code> in the callback:
+
+{% highlight javascript %}
+dom.append = function(element, html) {
+  manipulateDOM(element, html, function(insertTo, shim) {
+    insertTo.appendChild(shim.firstChild);
+  });
+};
+{% endhighlight %}
+
+I wrote some tests for this during development to see if it actually worked:
+
+{% highlight javascript %}
+'test HTML can be appended': function() {
+  turing('#dom-html-append').append('<p>Example 2</p>');
+  assert.ok(turing('#dom-html-append').html().match(/Example[^E]*Example 2/));
+},
+
+'test HTML can be appended to tables': function() {
+  turing('#dom-table-append').append('<tr><td>X2</td></tr>');
+  assert.ok(turing('#dom-table-append').html().match(/X1[^X]*X2/));
+}
+{% endhighlight %}
+
+This is the corresponding HTML:
+
+{% highlight html %}
+<table id="dom-table-append">
+  <tr>
+    <td>X1</td>
+  </tr>
+</table>
+<div id="dom-html-append">
+  <p>Example</p>
+</div>
+{% endhighlight %}
+
+I use case-insensitive regular expressions to test the results in <code>innerHTML</code>.
+
+h3. Conclusion
+
+This pattern of DOM manipulation is based on jQuery, which I explored back in "part 53":http://dailyjs.com/2011/03/10/framework-53/.  The main reason <code>manipulateDOM</code> exists is just to turn text into HTML, but it also has to manage hidden insertion of <code>tbody</code> which can make IE behave confusingly.
+
+There's a lot of things left to look at in this area, in particular CSS and attribute manipulation APIs.  I've tested what I've done so far in IE6, just for kicks!
+
