@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Sammy: RESTful Evented Javascript"
+title: "Sammy: RESTful Evented JavaScript"
 author: Ric Roberts 
 categories: 
 - libraries

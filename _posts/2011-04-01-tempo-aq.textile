@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Minecraft and JavaScript, Tempo, Janpu"
+author: Alex Young
+categories: 
+- webgl
+- graphics
+- games
+- templating
+- games
+---
+
+!/images/posts/minecraftjs.png!
+
+There's not a doubt in my mind that a version of "Minecraft":http://www.minecraft.net/ in JavaScript is possible.  Imagine it... WebGL graphics and a fast Node server!
+
+"AlteredQualia":http://alteredqualia.com/ has some impressive WebGL demos that use "three.js":https://github.com/mrdoob/three.js.  I seem to remember covering three.js on this blog before, but the author has really been pushing it to new heights lately.  The "Minecraft demo":http://alteredqualia.com/three/examples/geometry_minecraft_ao.html really caught my imagination.
+
+There's also "Minecraft-JS":https://github.com/louisstow/Minecraft-JS ("demo":http://neuralmesh.com/minecraft/?minecraft) which is a 2D version of the game.
+
+As far as the server is concerned there's "Nodecraft":https://github.com/nornagon/nodecraft by Jeremy Apthorp.  Development appears to have stalled, but Jeremy made an interesting stab at building something.
+
+Node-backed WebGL games will be huge -- please send us your games and demos!
+
+h3. Tempo
+
+"Tempo":http://twigkit.github.com/tempo/ (GitHub: "twigkit / tempo":https://github.com/twigkit/tempo) by Stefan Olafsson and Tyler Tate is a client-side JSON rendering engine that works without a framework like jQuery.  By passing <code>Tempo</code> an element ID and some data, it can generate suitable HTML from a fragment like this:
+
+{% highlight html %}
+<ol id="tweets">
+    <li data-template>
+        <img src="{{profile_image_url}}" />
+        <h3>{{from_user}}</h3>
+        <p>{{text}}</p>
+    </li>
+    <li data-template-fallback>Sorry, JavaScript required!</li>
+</ol>
+{% endhighlight %}
+
+The authors suggest that this makes Ajax content easier to work with, which makes a lot of sense to me.  There's nothing worse than dealing with plain JavaScript string handling when you really want convenient interpolation.  I also like the fact it degrades appropriately, as seen in the example above. 
+
+h3. Janpu
+
+"Janpu":https://developer.mozilla.org/en-US/demos/detail/janpu by Michal Budzynski and Krystian Siemiatkowski is a little JavaScript game with a great big UNICEF donation link to help the relief efforts in Japan.
