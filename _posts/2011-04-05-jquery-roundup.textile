@@ -1,0 +1,48 @@
+---
+layout: post
+title: "jQuery Roundup: 1.5.2, Waypoints, Sausage"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+h3. jQuery 1.5.2 Released
+
+"jQuery 1.5.2 was released":http://blog.jquery.com/2011/03/31/jquery-152-released/ on March 31st, just as planned.  Who says IT projects are late and over-budget?!  This release includes 18 bug fixes.
+
+h3. jQuery Waypoints
+
+!/images/posts/waypoints.png!
+
+"jQuery Waypoints":http://imakewebthings.github.com/jquery-waypoints/ (GitHub: "imakewebthings / jquery-waypoints":https://github.com/imakewebthings/jquery-waypoints, MIT/GPL) by Caleb Troughton triggers a function when scrolling reaches an element.  This could be used to create "infinite scrolling":http://imakewebthings.github.com/jquery-waypoints/infinite-scroll/, "sticky elements":http://imakewebthings.github.com/jquery-waypoints/sticky-elements/, and even "scrolling analytics":http://imakewebthings.github.com/jquery-waypoints/scroll-analytics/).
+
+Waypoints works by applying a callback to an element:
+
+{% highlight javascript %}
+$('.entry').waypoint(function() {
+  alert('You have scrolled to an entry.');
+});
+{% endhighlight %}
+
+h3. Sausage
+
+!/images/posts/sausage.png!
+
+"Sausage":http://christophercliff.github.com/sausage/ (GitHub: "christophercliff / sausage":https://github.com/christophercliff/sausage/) by Christopher Cliff is a jQuery UI widget for presenting context alongside infinite scrolling pages.  There's a nice example of "Sausage showing CouchDB documentation":http://christophercliff.github.com/sausage/examples/couchdb.html, with section annotations along the right-hand-side.  
+
+That example uses this JavaScript:
+
+{% highlight javascript %}
+$(window)
+    .sausage({
+        content: function (i, $page) {
+            return '<span class="sausage-span">'
+                + $page.find('.anchor').first().text()
+                + '</span>';
+        }
+    });
+{% endhighlight %}
+
+Each section of text in the CouchDB documentation is wrapped with an element with a class of <code>page</code>, so the <code>$page</code> part would really look like this: <code>$('.page').find('.anchor').first().text()</code>.  That lets Sausage find the title of each section to use for its navigation.
+

@@ -36,21 +36,6 @@ $(function() {
       element.val('Search');
   });
 
-  var offset = $('#sidebar').offset();
-  var topPadding = 25;
-  $(window).scroll(function() {
-    var element = $(this);
-    if (element.scrollTop() > offset.top) {
-      $('#sidebar').stop().animate({
-        marginTop: element.scrollTop() - offset.top + topPadding
-      });
-    } else {
-      $('#sidebar').stop().animate({
-        marginTop: topPadding
-      });
-    };
-  });
-
   $('.showPrevious').click(function(e) {
     $(this).parent().next('div.previous').toggle();
     e.preventDefault();
