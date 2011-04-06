@@ -1,0 +1,40 @@
+---
+layout: post
+title: "Node Roundup: 0.4.5, Asset, Haraka"
+author: Alex Young
+categories: 
+- node
+- modules
+- email
+---
+
+h3. Node 0.4.5
+
+"Node 0.4.5":http://blog.nodejs.org/2011/04/02/node-v0-4-5/ has been released, which has yet more TLS improvements, bug fixes, and it now uses V8 3.1.8.8.  One of the comments on the Node Blog reads:
+
+bq. Big thanks for yet another awesome Nodejs release. The TLS performance improvements are staggering!
+
+- Superstructor
+
+Sounds worth checking out to me!
+
+h3. Asset
+
+"Asset":https://github.com/visionmedia/asset by TJ Holowaychuk is a client-side script downloader.  This would download jQuery and Raphael to <code>./public</code>:
+
+{% highlight sh %}
+asset raphael jquery@1.4.3
+{% endhighlight %}
+
+The GitHub page at "visionmedia / asset":https://github.com/visionmedia/asset has full usage details, and it can be installed with <code>npm install asset</code>.  The list of available assets are in "assets.json":https://github.com/visionmedia/asset/blob/813f69fc0b382995146b183fcda35db11345201d/assets.json -- these can be searched with <code>search [query]</code>.
+
+TJ also posted a screencast about "three.js and Cluster visualisation":http://www.screenr.com/yFP.  He hasn't actually released the code, but it's inspirational material if you're looking for WebGL ideas.
+
+h3. Haraka
+
+I'm often surprised by the lack of interesting non-web software built with Node, considering how potentially easy it is to create extremely fast socket-based servers.  So I was happy to find "Haraka":https://github.com/baudehlo/Haraka by baudehlo which is a Node email server.  The author suggests that it shouldn't be used to replace existing SMTP servers, but instead sit in front of them and extend them with new features.  Haraka has a plugin system to attempt to make this easier than working with a typical SMTPd.
+
+The "Haraka plugin documentation":https://github.com/baudehlo/Haraka/blob/master/docs/Plugins.md demonstrates how to create a plugin.  Plugins are based around event hooks and callbacks, so they should be fairly easy to write.
+
+If you're creating interesting servers with Node I'd love to hear about it!
+
