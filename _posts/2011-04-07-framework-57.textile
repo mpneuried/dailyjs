@@ -1,0 +1,240 @@
+---
+layout: post
+title: "Let's Make a Framework: DOM Manipulation Part 3"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+- css
+---
+
+Welcome to part 57 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+Last week I implemented some DOM methods, like <code>append</code> and <code>html</code> for reading <code>innerHTML</code>.  There are still yet more DOM manipulation methods that we can build on the work we've done so far.
+
+h3. <code>text</code>
+
+The <code>text</code> method should work like <code>html</code>, in that it either returns the text contents of an element or sets them.  Given this test:
+
+{% highlight javascript %}
+'test text nodes can be read': function() {
+  assert.ok(turing('#dom-html-read-test').text().match(/Example/));
+}
+{% endhighlight %}
+
+And this HTML:
+
+{% highlight html %}
+<div id="dom-html-read-test">
+  <p>Example</p>
+</div>
+{% endhighlight %}
+
+Then it should be fairly easy to write something that extracts the text nodes.
+
+h3. jQuery's Implementation
+
+Let's look at how jQuery does it:
+
+{% highlight javascript %}
+Sizzle.getText = function( elems ) {
+	var ret = "", elem;
+
+	for ( var i = 0; elems[i]; i++ ) {
+		elem = elems[i];
+
+		// Get the text from text nodes and CDATA nodes
+		if ( elem.nodeType === 3 || elem.nodeType === 4 ) {
+			ret += elem.nodeValue;
+
+		// Traverse everything else, except comment nodes
+		} else if ( elem.nodeType !== 8 ) {
+			ret += Sizzle.getText( elem.childNodes );
+		}
+	}
+
+	return ret;
+};
+{% endhighlight %}
+
+This is from Sizzle.  It will get the text node of all the descendants recursively.
+
+The comments help follow what happens based on each type of node (else the <code>nodeType</code> integer values would be confusing).  This could actually be expressed using <code>Node</code>:
+
+{% highlight javascript %}
+  if (elem.nodeType === Node.TEXT_NODE
+      || elem.nodeType === Node.CDATA_SECTION_NODE) {
+};
+{% endhighlight %}
+
+Unfortunately, not all browsers support this.  I thought it might be more friendly for readers if we set up an object to store node types:
+
+{% highlight javascript %}
+nodeTypes = {
+  ELEMENT_NODE:                  1,
+  ATTRIBUTE_NODE:                2,
+  TEXT_NODE:                     3,
+  CDATA_SECTION_NODE:            4,
+  ENTITY_REFERENCE_NODE:         5,
+  ENTITY_NODE:                   6,
+  PROCESSING_INSTRUCTION_NODE:   7,
+  COMMENT_NODE:                  8,
+  DOCUMENT_NODE:                 9,
+  DOCUMENT_TYPE_NODE:            10,
+  DOCUMENT_FRAGMENT_NODE:        11,
+  NOTATION_NODE:                 12
+};
+{% endhighlight %}
+
+So I ended up implementing a similar function to jQuery:
+
+{% highlight javascript %}
+function getText(elements) {
+  var results = '', element, i;
+
+  for (i = 0; elements[i]; i++) {
+    element = elements[i];
+    if (element.nodeType === nodeTypes.TEXT_NODE 
+        || element.nodeType === nodeTypes.CDATA_SECTION_NODE) {
+      results += element.nodeValue;
+    } else if (element.nodeType !== nodeTypes.COMMENT_NODE) {
+      results += getText(element.childNodes);
+    }
+  }
+
+  return results;
+};
+{% endhighlight %}
+
+I also set up some short functions for <code>turing.dom</code> and the chained API:
+
+{% highlight javascript %}
+/**
+ * Set or get text nodes.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} text A string containing text
+ */
+dom.text = function(element, text) {
+  if (arguments.length === 1) {
+    return getText(element);
+  }
+};
+
+// ...
+
+turing.domChain = {
+  // ...
+
+  /**
+   * Get or set text nodes.  Applied to every element.
+   *
+   * @param {String} text A string containing text to set
+   * @returns {Object} `this` or the text content
+   */
+  text: function(text) {
+    if (arguments.length === 0) {
+      return this.elements.length === 0 ? null : getText(this.elements);
+    } else {
+      for (var i = 0; i < this.elements.length; i++) {
+      }
+    }
+    return this;
+  }
+{% endhighlight %}
+
+Like _reading_ <code>innerHTML</code>, working with text nodes is fairly straightforward.
+
+h3. Writing Text
+
+jQuery writes to text nodes like this:
+
+{% highlight javascript %}
+return this.empty().append( (this[0] && this[0].ownerDocument || document).createTextNode( text ) );
+{% endhighlight %}
+
+The key thing here is it uses <code>empty</code> to clear the node first.
+
+jQuery has a lot of features like caching that it has to handle, which makes <code>empty</code> more complex than our simple case.  Given this test:
+
+{% highlight javascript %}
+'test nodes can be emptied': function() {
+  turing.dom.empty(turing.dom.get('#dom-html-empty-test')[0]);
+  assert.equal(turing.dom.get('#dom-html-empty-test')[0].innerHTML, '');
+}
+{% endhighlight %}
+
+The bare minimum required to implement the equivalent functionality is quite simple:
+
+{% highlight javascript %}
+/**
+ * Empty nodes.
+ *
+ * @param {Object} element A DOM element
+ */
+dom.empty = function(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+};
+{% endhighlight %}
+
+A test for writing text might look like this:
+
+{% highlight javascript %}
+'test chained text nodes can be written': function() {
+  turing('#dom-text-write-test p').text('Written again');
+  assert.ok(turing.dom.get('#dom-text-write-test p')[0].innerHTML.match(/Written again/));
+}
+{% endhighlight %}
+
+And an implementation is fairly basic DOM stuff, with <code>appendChild</code> and <cdoe>createTextNode</code>, combined with <code>dom.empty</code>:
+
+{% highlight javascript %}
+/**
+ * Set or get text nodes.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} text A string containing text
+ */
+dom.text = function(element, text) {
+  if (arguments.length === 1) {
+    return getText(element);
+  } else {
+    dom.empty(element);
+    element.appendChild(document.createTextNode(text));
+  }
+};
+
+// Chained:
+
+/**
+ * Get or set text nodes.  Applied to every element.
+ *
+ * @param {String} text A string containing text to set
+ * @returns {Object} `this` or the text content
+ */
+text: function(text) {
+  if (arguments.length === 0) {
+    return this.elements.length === 0 ? null : getText(this.elements);
+  } else {
+    for (var i = 0; i < this.elements.length; i++) {
+      dom.text(this.elements[i], text);
+    }
+  }
+  return this;
+}
+{% endhighlight %}
+
+I tested this in WebKit, IE 6, and Firefox.
+
+h3. Conclusion
+
+Dealing with text nodes is simpler than HTML, but it requires a little bit of care to make it feel as straightforward as it should be.  jQuery's implementation is more complicated than my tutorial because it does a lot of housekeeping in the background, but the basic principles are outlined here.
+
+This week's code is in "commit 2c7ca":https://github.com/alexyoung/turing.js/tree/2c7ca2cef7d6a178037a744b3e9ab5a7e9b0b669.
