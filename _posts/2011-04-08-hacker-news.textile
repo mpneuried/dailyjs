@@ -1,0 +1,33 @@
+---
+layout: post
+title: "Win A Hacker Monthly Subscription"
+author: Alex Young
+categories: 
+- magazines
+- security
+---
+
+!/images/posts/hn-monthly.png!
+
+"Hacker Monthly":http://hackermonthly.com/ is a printed and digital magazine that collects the best posts from "Hacker News":http://news.ycombinator.com/.  Issue 11 has this on the cover:
+
+{% highlight javascript %}
+($=[$=[]][(__=!$+$)[_=-~-~-~$]+({}+$)[_/_]+ ($$=($_=!''+$)[_/_]+$_[+$])])()[__[_/_]+__ [_+~$]+$_[_]+$$](_/_)
+{% endhighlight %}
+
+You may have seen this obtuse piece of JavaScript before -- it will display an alert and pop up the browser cookie.  Adam Cecchetti reverse engineers this code and explains exactly how it works.  I'm fascinated by security, so I enjoyed reading this rare and detailed JavaScript security-related post.
+
+If you'd like to read more from Hacker Monthly, we've got 5 digital subscriptions to give away -- worth $29 each!  <strong>Just post a comment with your favourite JavaScript one-liner</strong>, and I'll select 5 winners.  Make sure your comment has a way for us to get in touch (a link to a contact form or Twitter account would suffice).
+
+h3. Francois Laberge's WebGL Examples
+
+!/images/posts/webglracer.png!
+
+"Francois Laberge":http://endergen.com/ sent me some cool WebGL examples:
+
+* "3D racer":http://endergen.com/labs/racer/
+* "Normal mapping":http://endergen.com/labs/normal_mapping/me/
+* "Audio/visual example":http://endergen.com/labs/audvis/
+
+I want more!
+
