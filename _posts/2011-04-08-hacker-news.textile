@@ -19,15 +19,57 @@ You may have seen this obtuse piece of JavaScript before -- it will display an a
 
 If you'd like to read more from Hacker Monthly, we've got 5 digital subscriptions to give away -- worth $29 each!  <strong>Just post a comment with your favourite JavaScript one-liner</strong>, and I'll select 5 winners.  Make sure your comment has a way for us to get in touch (a link to a contact form or Twitter account would suffice).
 
+h3. Winners
+
+The response to this was overwhelming, there were some great examples of JavaScript's strengths, weaknesses, and obscure features.
+
+If you're a winner, I've followed you on Twitter/Facebook, so please follow back and direct message me with an email address that I can send the Hacker Monthly folks.
+
+These are the winners:
+
+{% highlight javascript %}
+א=-~-~[],ב=-~א,ג=({})+[],ד=[].א+[],ה=![]+[],ו=!![]+[],ד[א]+ה[ב-א]+ד[ב+א]+ה[א]+([][ג[א+ב]+ג[ב-א]+ד[ב-א]+ה[ב]+ג[ב+ב]+ו[ב-א]+ו[א]+ג[א+ב]+ג[ב+ב]+ג[ב-א]+ו[ב - א]]+[])[(א<<א)+א+ב]+ג[ב]+ה[ב]
+{% endhighlight %}
+
+- "Golmote":https://twitter.com/#!/Golmote
+
+{% highlight javascript %}
+(function ___(__){return function(_){return _!='?' && ___(__+_) || __+'!';};})('d')('a')('i')('l')('y')('j')('s')(' ')('r')('o')('c')('k')('s')('?')
+{% endhighlight %}
+
+- "Florian Cargoet":https://twitter.com/#!/floriancargoet
+
+{% highlight javascript %}
+// From jQuery's $.each():
+for ( var value = object[0]; i < length && callback.call( value, i, value ) !== false; value = object[++i] ) {}
+{% endhighlight %}
+
+- "tkazec":https://twitter.com/#!/tkazec
+
+bq. Quite a simple one, posted by John Resig, but it felt like a real epiphany when I first saw it:
+
+{% highlight javascript %}
+Array.max = function() { return Math.max.apply(Math, arguments); };
+Array.min = function() { return Math.min.apply(Math, arguments); };
+{% endhighlight %}
+
+- "Gary Chambers":http://www.facebook.com/gschambers
+
+{% highlight javascript %}
+// Remove local scope access from eval:
+;(function(){var oldEval=eval;eval=function eval() {oldEval.apply(this,arguments)}})();
+{% endhighlight %}
+
+- "Bradley":https://twitter.com/#!/bradleymeck
+
 h3. Francois Laberge's WebGL Examples
 
 !/images/posts/webglracer.png!
 
-"Francois Laberge":http://endergen.com/ sent me some cool WebGL examples:
+"Francois Laberge":http://endergen.com/ sent me some cool 3D examples:
 
 * "3D racer":http://endergen.com/labs/racer/
 * "Normal mapping":http://endergen.com/labs/normal_mapping/me/
 * "Audio/visual example":http://endergen.com/labs/audvis/
 
-I want more!
-
+He's working on some interesting WebGL related projects and posts about them on "endergen.com":http://endergen.com.
