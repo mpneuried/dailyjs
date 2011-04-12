@@ -1,0 +1,59 @@
+---
+layout: post
+title: "jQuery Roundup: Easie, jquery-qrcode, tmpload"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- templating
+- animations
+---
+
+h3. Easie
+
+!/images/posts/easie.png!
+
+"jquery.easie.js":http://janne.aukia.com/easie/ (GitHub: "jaukia / easie":https://github.com/jaukia/easie) by Janne Aukia provides CSS3-compatible cubic-Bézier easings for jQuery:
+
+{% highlight javascript %}
+$('selector').animate({ top: 100 }, $.easie(0.25,0.1,0.25,1.0));
+{% endhighlight %}
+
+There are also predefined easings, with names like _easieEaseIn_.  The "easie project page":http://janne.aukia.com/easie/ has animated examples of these, with an interactive graphical Bézier curve for changing the parameters.
+
+h3. jquery-qrcode
+
+!/images/posts/jquery-qrcode.png!
+
+"jquery-qrcode":http://jeromeetienne.github.com/jquery-qrcode/ (GitHub: "jeromeetienne / jquery-qrcode":https://github.com/jeromeetienne/jquery-qrcode) by Jerome Etienne generates HTML-based qrcodes, which means they should show up on practically any browser without depending on any server-side image generation.
+
+Like all good jQuery plugins, it's extremely easy to use:
+
+{% highlight javascript %}
+jquery('#qrcode').qrcode('this plugin is great');
+{% endhighlight %}
+
+h3. tmpload
+
+!/images/posts/tmpload.png!
+
+"tmpload":http://markdalgleish.com/projects/tmpload/ (GitHub: "markdalgleish / tmpload":https://github.com/markdalgleish/tmpload) by Mark Dalgleish can load and cache templates intelligently.  
+
+Downloading a remote template looks like this:
+
+{% highlight javascript %}
+$.tmpload('search', 'path/to/search.tmpl');
+{% endhighlight %}
+
+And I thought this "deferred example":http://api.jquery.com/jQuery.when/ was neat:
+
+{% highlight javascript %}
+$.when(
+  $.tmpload('search'),
+  $.getJSON('path/to/data.json')
+).then(function(tmpl, data){
+  $.tmpl(tmpl, data).appendTo('#target');
+});
+{% endhighlight %}
+
+
