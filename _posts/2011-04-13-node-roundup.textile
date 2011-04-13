@@ -1,0 +1,41 @@
+---
+layout: post
+title: "Node Roundup: npm link, mongoq, EventEmitter"
+author: Alex Young
+categories: 
+- node
+- modules
+- mongo
+- npm
+---
+
+h3. npm link
+
+Isaac Schlueter posted about "npm link on the Node blog":http://blog.nodejs.org/2011/04/06/npm-1-0-link/.  This is an npm command for use during development -- _link installing_ a package will install it using its package.json file, without having to continually rebuild it as you work on it.
+
+The <code>link</code> command has been refactored in npm 1.0, and Isaac explains the thinking behind the new implementation.
+
+h3. mongoq
+
+MongoDB client libraries always seem to be too complicated.  Defining schemas might be nice for application code that requires validation and other architectural features, but most of the time I just want to quickly dump or fetch data without thinking about the schema or model classes.  I thought that was kind of what NoSQL document-based databases were all about?
+
+So the next time I'm feeling lazy I'm going to try "mongoq":https://github.com/zzdhidden/mongoq by zzdhidden.  It's a small MongoDB client library based on "node-mongodb-native":https://github.com/christkv/node-mongodb-native, and the syntax seems simple enough:
+
+{% highlight javascript %}
+var db = require('mongoq'),
+    testdb = db('mongodb://fred:foobar@localhost/testdb');
+
+testdb.collection('people').insert({ name: 'Alex', occupation: 'Wizard' }, function(err, doc) {
+  // etc...
+});
+{% endhighlight %}
+
+Notice that it uses the standard connection string, which means you can stick database authentication details in there.
+
+h3. EventEmitter
+
+"EventEmitter":https://github.com/Wolfy87/EventEmitter (MIT/GPL) by Oliver Caldwell is a version of Node's <code>EventEmitter</code> for browsers.  Oliver has written a fair bit of open source client-side JavaScript, including the "Spark":http://sparkjs.co.uk/ framework.
+
+If you look at "events.js":https://github.com/joyent/node/blob/master/lib/events.js in Node and compare it to "EventEmitter.js":https://github.com/Wolfy87/EventEmitter/blob/master/EventEmitter.js you can see that they're similar but Oliver's version has been somewhat simplified.
+
+
