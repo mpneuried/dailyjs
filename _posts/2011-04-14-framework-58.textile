@@ -1,0 +1,166 @@
+---
+layout: post
+title: "Let's Make a Framework: DOM Manipulation Part 4"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+- css
+---
+
+Welcome to part 58 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+If you haven't been following along, these articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+Last week I implemented read and write functionality for text nodes.  Along the way I had to build an <code>empty</code> method to clean out nodes before changing them.
+
+I don't know about you, but I find researching the implementations of these DOM methods fascinating.  It might not be as glamorous as animations, but it underpins everything we do in client-side JavaScript.
+
+This week I want to look at reading style values.
+
+h3. Reading Style Values
+
+A few weeks ago I researched how jQuery implements its <code>css()</code> method, in "Part 54, CSS Manipulation":http://dailyjs.com/2011/03/17/framework-54/.  Most frameworks implement something similar in some form, Prototype for example has <code>setStyle</code> and <code>getStyle</code>.
+
+The essence of reading styles is to use <code>currentStyle</code> or <code>getComputedStyle</code> based on browser support.  The <code>getComputedStyle</code> method "was introduced in DOM level 2":http://www.w3.org/TR/DOM-Level-2-Style/css, and is intended to provide read access to "computed style values":http://www.w3.org/TR/1998/REC-CSS2-19980512/cascade.html#computed-value.  jQuery makes this a bit more friendly by allowing for both camelcase names and the hyphenated ones most of us are used to.
+
+h3. camelCase
+
+The easiest way to do this in JavaScript is:
+
+{% highlight javascript %}
+'backgroundColor'.replace(/-([a-z])/ig, function(all, letter) { return letter.toUpperCase(); })
+{% endhighlight %}
+
+... which is what jQuery does.  
+
+{% highlight javascript %}
+/**
+ * Converts property names with hyphens to camelCase.
+ *
+ * @param {String} text A property name
+ * @returns {String} text A camelCase property name
+ */
+function camelCase(text) {
+  if (typeof text !== 'string') return;
+  return text.replace(/-([a-z])/ig, function(all, letter) { return letter.toUpperCase(); });
+};
+{% endhighlight %}
+
+We also need to go the other way.  IE's properties are not in camelCase!
+
+{% highlight javascript %}
+/**
+ * Converts property names in camelCase to ones with hyphens.
+ *
+ * @param {String} text A property name
+ * @returns {String} text A camelCase property name
+ */
+function uncamel(text) {
+  if (typeof text !== 'string') return;
+  return text.replace(/([A-Z])/g, '-$1').toLowerCase();
+};
+{% endhighlight %}
+
+h3. Getting Style Values
+
+I want this test to pass:
+
+{% highlight javascript %}
+'test reading style properties': function() {
+  var element = turing.dom.get('#dom-test')[0];
+  assert.equal(turing.dom.css(element, 'background-color'), 'rgb(240, 240, 240)');
+}
+{% endhighlight %}
+
+The <code>turing.dom.css(element, propertyName)</code> signature will be used to read CSS properties directly.  I'll also add a chained version with the more succinct syntax:
+
+{% highlight javascript %}
+'test chained reading style properties': function() {
+  assert.equal(turing('#dom-test').css('background-color'), 'rgb(240, 240, 240)');
+}
+{% endhighlight %}
+
+But there's a catch.  IE will return <code>#f0f0f0</code> instead, so the revised tests look like this (with camelCase assertions added as well):
+
+{% highlight javascript %}
+'test reading style properties': function() {
+  var element = turing.dom.get('#dom-test')[0],
+      expected = element.currentStyle ? '#f0f0f0' : 'rgb(240, 240, 240)';
+  assert.equal(turing.dom.css(element, 'background-color'), expected);
+  assert.equal(turing.dom.css(element, 'backgroundColor'), expected);
+},
+
+'test chained reading style properties': function() {
+  var element = turing.dom.get('#dom-test')[0],
+      expected = element.currentStyle ? '#f0f0f0' : 'rgb(240, 240, 240)';
+  assert.equal(turing('#dom-test').css('background-color'), expected);
+  assert.equal(turing('#dom-test').css('backgroundColor'), expected);
+}
+{% endhighlight %}
+
+Ideally our CSS API would return the same values.  Maybe this could be something for a future iteration?
+
+The way I've implemented this is to set up a <code>getStyle</code> functional internal to the <code>turing.dom</code> module.  One is IE-friendly and the other is for W3C browsers:
+
+{% highlight javascript %}
+if (document.documentElement.currentStyle) {
+  getStyle = function(element, property) {
+    return element.currentStyle[camelCase(property)];
+  };
+} else if (window.getComputedStyle) {
+  getStyle = function(element, property) {
+    return document.defaultView.getComputedStyle(element, null).getPropertyValue(uncamel(property));
+  };
+}
+
+/**
+ * Gets or sets style values.
+ *
+ * @param {Object} element A DOM element 
+ * @returns {Object} The style value
+ */
+dom.css = function(element, options) {
+  if (typeof options === 'string') {
+    return getStyle(element, options);
+  }
+};
+{% endhighlight %}
+
+Set isn't implemented yet of course.  The chained hooks look like this:
+
+{% highlight javascript %}
+turing.domChain = {
+  /**
+   * Get or set styles.
+   *
+   * @param {Objects} options Either options for a style to set or a property name
+   * @returns {Object} `this` or the style property
+   */
+  css: function(options) {
+    if (typeof options === 'string') {
+      return this.elements.length > 0 ? getStyle(this.elements[0], options) : null;
+    } else {
+      for (var i = 0; i < this.elements.length; i++) {
+        dom.css(this[i], options);
+      }
+    }
+    return this;
+  },
+{% endhighlight %}
+
+h3. Conclusion
+
+On the surface reading CSS properties looks easy, but it takes some effort to create a consistent API across browsers.  A production framework would go deeper than this implementation -- take a look at "jQuery's CSS module":https://github.com/jquery/jquery/blob/master/src/css.js for more details.
+
+This week's code was "commit 9dc312f":https://github.com/alexyoung/turing.js/tree/9dc312f778dd2562d9460bed92a2242642113854.
+
+h3. References
+
+* "Document Object Model CSS":http://www.w3.org/TR/DOM-Level-2-Style/css
+* "QuirksMode Get Styles":http://www.quirksmode.org/dom/getstyles.html
+* "MDC examples for getComputedStyle":https://developer.mozilla.org/en/Gecko_DOM_Reference/Examples
+* "currentStyle Object":http://msdn.microsoft.com/en-us/library/ms535231(v=vs.85).aspx
