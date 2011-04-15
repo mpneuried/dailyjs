@@ -1,0 +1,48 @@
+---
+layout: post
+title: "PhiloGL, GLGE"
+author: Alex Young
+categories: 
+- webgl
+- graphics
+- animation
+---
+
+h3. PhiloGL
+
+!/images/posts/philogl.png!
+
+"PhiloGL":http://senchalabs.github.com/philogl/ (GitHub: "senchalabs / philogl":https://github.com/senchalabs/philogl, "License":https://github.com/senchalabs/philogl/blob/master/LICENSE) by "Nicolas Garcia Belmonte":https://github.com/philogb is a WebGL framework for data visualisation, game development, and making cool stuff.  
+
+The modules include support for shaders, scene building, events, effects and tweening, and even web workers.  Nicolas has pushed the idea of idiomatic JavaScript, so the API feels like popular JavaScript frameworks:
+
+{% highlight javascript %}
+PhiloGL('name', {
+  textures: {
+    src: ['texture.gif'],
+    parameters: [{
+      name: 'TEXTURE_MAG_FILTER',
+      value: 'LINEAR'
+    }, {
+      name: 'TEXTURE_MIN_FILTER',
+      value: 'LINEAR_MIPMAP_NEAREST',
+      generateMipmap: true
+    }]
+  },
+  events: {
+    // Keyboard events would go here
+    // ...
+{% endhighlight %}
+
+I've adapted this PhiloGL snippet from "lesson10-canvas":http://senchalabs.github.com/philogl/PhiloGL/examples/lessons/10/ which is based on a tutorial from "Learning WebGL":http://learningwebgl.com/.
+
+If you're interested in using this for presenting data, there's an example called "Surface Explorer":http://senchalabs.github.com/philogl/PhiloGL/examples/explorer/ which can plot parametric equations in 3D.
+
+h3. GLGE
+
+!/images/posts/glge.png!
+
+"GLGE":http://www.glge.org/ (GitHub: "supereggbert / GLGE":https://github.com/supereggbert/GLGE) by Paul Brunt attempts to make WebGL more accessible.  It has some advanced features, like skeletal animations, LOD, culling, 2D filters, normal mapping, materials -- take a look through the "API documentation":http://www.glge.org/api-docs/ to see more.
+
+There's a great "Sky Fog Demo":http://www.glge.org/demos/skydemo/ which showcases some of these features.  The API reminds me more of a Java API, which may actually suit game developers looking to work with WebGL.
+
