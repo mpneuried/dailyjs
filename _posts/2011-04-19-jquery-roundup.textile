@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Roundup: 1.6, customSelect, bubbleBox"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+---
+
+h3. jQuery 1.6 Beta 1
+
+"jQuery 1.6 beta 1":http://blog.jquery.com/2011/04/15/jquery-16-beta-1-released/ has been released.  In this version, <code>.attr()</code> has been rewritten, and there are a lot of fixes across the framework which are covered in the announcement.
+
+The jQuery blog also featured a post clarifying "official plugins": "A Change in the Roadmap":http://blog.jquery.com/2011/04/16/official-plugins-a-change-in-the-roadmap/.
+
+bq. Because of your concerns and ours, we've decided to eliminate the notion of Official Plugins altogether.
+
+bq. The jQuery UI project will take ownership over plugins on which it has a current or future dependency: Templating, Globalization, and bgiframe.
+
+h3. customSelect
+
+!/images/posts/custom_select.png!
+
+"customSelect":http://rixth.github.com/customSelect/ (GitHub: "rixth/customSelect":https://github.com/rixth/customSelect, MIT) by Tom Rix is a jQuery UI widget that makes select elements prettier.  It'll change them to a drop-down list of radio buttons, or checkboxes for multiple selects.  It's the exact kind of thing I'm always being asked to add by my clients (I already intend on using it for a project).
+
+Usage:
+
+{% highlight javascript %}
+$('selector').customSelect();
+{% endhighlight %}
+
+Tom posted some extra info about this to his Forrst account: "Introducing jQuery customSelect":http://forrst.com/posts/Introducing_jQuery_customSelect-L20.
+
+h3. bubbleBox
+
+!/images/posts/bubble_box.png!
+
+"bubbleBox":http://rixth.github.com/bubbleBox/ (GitHub: "rixth/bubbleBox":https://github.com/rixth/bubbleBox, MIT) also by Tom Rix is a jQuery UI widget for managing lists.  He's even written some "Jasmine unit tests":http://rixth.github.com/bubbleBox/tests.html for it!
+
+He wrote a post on Forrst for this too: "Introducing jQuery bubbleBox":http://forrst.com/posts/Introducing_jQuery_bubbleBox-LYv
+
