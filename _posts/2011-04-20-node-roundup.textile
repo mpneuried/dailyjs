@@ -1,0 +1,57 @@
+---
+layout: post
+title: "Node Roundup: Nedis, Redisify, Node on iOS"
+author: Alex Young
+categories: 
+- node
+- modules
+- redis
+- v8
+- iOS
+---
+
+h3. Node v0.4.6
+
+"Node v0.4.6 was released":http://blog.nodejs.org/2011/04/14/node-v0-4-6/ last week.  v8 has been updated to 3.1.8.10, which reminded me -- you can track v8 releases at "Google Code's v8 repository":http://code.google.com/p/v8/source/browse/tags/.  Amongst other things there's a "full v8 changelog":http://code.google.com/p/v8/source/browse/tags/1.3.18.10/ChangeLog which may be of interest.
+
+h3. Nedis
+
+"Nedis":https://github.com/visionmedia/nedis (MIT License, npm: _nedis_) by TJ Holowaychuk is a Redis server implemented with Node.  TJ has posted some benchmarks of it:
+
+{% highlight text %}
+SET
+nedis: ops 25048, per second 5009.6
+redis: ops 54850, per second 10970
+
+GET
+nedis: ops 32729, per second 6545.8
+redis: ops 54714, per second 10942.8
+{% endhighlight %}
+
+... although he says he built this for fun.  He's written a blog post with more details: "Redis Implemented With Node":http://tjholowaychuk.com/post/4595959353/redis-implemented-with-node and mentions the background of the project:
+
+bq. [...] however as our team grows larger, and as we add more non-technical team members over at LearnBoost I figured it would be nice help prevent the need for compiling development dependencies.
+
+h3. Redisify
+
+"Redisify":https://github.com/weepy/redisify (MIT License, npm: _redisify_) by Jonah Fox adds Redis capaibilites to objects:
+
+{% highlight javascript %}
+var User = {
+  key: "Users"
+};
+
+User.redis = redisify(client);
+
+User.redis('get', 'xx', function(val) {
+  // redis "get Users:xx"
+  // User == this
+});
+{% endhighlight %}
+
+This method could actually be named anything -- one of Jonah's examples refers to it as _db_ which reads well.  He's written a blog post about the library: "Redisfy your objects":http://boodigital.com/post/4519869341/redisify-your-objects.
+
+h3. Node on iOS
+
+I saw this blog post by Nathan Rajlich called "NodeJS on iOS":https://tootallnate.net/nodejs-on-ios.  He's started "node-iOS":https://github.com/TooTallNate/node-iOS which is an effort to bring native iOS bindings to Node.  You'll require a jailbroken iPhone to use this, but as someone who does a fair bit of Objective-C I find this very interesting.
+
