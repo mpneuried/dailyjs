@@ -1,0 +1,156 @@
+---
+layout: post
+title: "Let's Make a Framework: Writing CSS Properties"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+- css
+---
+
+Welcome to part 59 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+I had some feedback on last week's commit from "John-David Dalton":http://www.allyoucanleet.com/ which can be viewed here: "commit 9dc312":https://github.com/alexyoung/turing.js/commit/9dc312f778dd2562d9460bed92a2242642113854.  The changes he suggested help keep behaviour relative to the element's document rather than the global one.  I tested both suggestions in IE/Firefox/WebKit.
+
+h3. Writing CSS
+
+Last week we were doing this sort of thing:
+
+{% highlight javascript %}
+turing('#dom-test').css('background-color');
+{% endhighlight %}
+
+Now CSS properties can be read, how about writing them?  I discussed how jQuery implements writing styles back in "part 54":http://dailyjs.com/2011/03/17/framework-54/.  The algorithm works like this:
+
+# Check the element has the right <code>nodeType</code>
+# Get the CSS property name, correcting case
+# Make sure that <code>NaN</code> and <code>null</code> values aren't set
+# If a number was passed in, add <code>px</code> to the value (except for certain CSS properties)
+# Write the value using the element's <code>style</code> property
+
+This process is actually fairly simple.  Even the cases where <code>px</code> shouldn't be added are properties that aren't usually manipulated:
+
+{% highlight javascript %}
+// Exclude the following css properties to add px
+cssNumber: {
+  "zIndex": true,
+  "fontWeight": true,
+  "opacity": true,
+  "zoom": true,
+  "lineHeight": true
+}
+{% endhighlight %}
+
+It's easier to pass numbers rather than remembering to use '10px'.  The reason this is an object with properties set to <code>true</code> is to make it easy to use: <code>jQuery.cssNumber[property]</code> is nice and succinct.
+
+h3. Tests
+
+These are the tests I want to pass:
+
+{% highlight javascript %}
+'test writing style properties': function() {
+  var element = turing.dom.get('#dom-test')[0],
+      expected = element.currentStyle ? '#f5f5f5' : 'rgb(245, 245, 245)';
+
+  turing.dom.css(element, { 'background-color': expected, 'width': 1000 });
+
+  assert.equal(turing.dom.css(element, 'background-color'), expected);
+  assert.equal(turing.dom.css(element, 'backgroundColor'), expected);
+  assert.equal(turing.dom.css(element, 'width'), '1000px');
+},
+
+'test chained writing style properties': function() {
+  var element = turing.dom.get('#dom-test')[0],
+      expected = element.currentStyle ? '#f1f1f1' : 'rgb(241, 241, 241)';
+
+  turing('#dom-test').css({ 'background-color': expected });
+
+  assert.equal(turing('#dom-test').css('background-color'), expected);
+  assert.equal(turing('#dom-test').css('backgroundColor'), expected);
+}
+{% endhighlight %}
+
+As usual I'm testing both the "modular" API and chained API.  The first test includes a numerical value that should automatically get <code>px</code> set.  I haven't tested all the edge cases because I don't think it would help you learn anything about DOM programming.
+
+h3. Implementation
+
+The original <code>dom.css</code> method I defined already detected cases where styles should be written, so I've added a loop to iterate over an object with a list of styles:
+
+{% highlight javascript %}
+/**
+ * Gets or sets style values.
+ *
+ * @param {Object} element A DOM element 
+ * @returns {Object} The style value
+ */
+dom.css = function(element, options) {
+  if (typeof options === 'string') {
+    return getStyle(element, options);
+  } else {
+    for (var property in options) {
+      if (options.hasOwnProperty(property)) {
+        setStyle(element, property, options[property]);
+      }
+    }
+  }
+};
+{% endhighlight %}
+
+Next, <code>setStyle</code>'s implementation is dependent on browser:
+
+{% highlight javascript %}
+if (document.documentElement.currentStyle) {
+  getStyle = function(element, property) {
+    return element.currentStyle[camelCase(property)];
+  };
+
+  setStyle = function(element, property, value) {
+    return setStyleProperty(element, camelCase(property), value);
+  };
+} else if (document.defaultView.getComputedStyle) {
+  getStyle = function(element, property) {
+    return element.ownerDocument.defaultView.getComputedStyle(element, null).getPropertyValue(uncamel(property));
+  };
+
+  setStyle = function(element, property, value) {
+    return setStyleProperty(element, uncamel(property), value);
+  };
+}
+{% endhighlight %}
+
+The <code>currentStyle</code> detection lets us determine if we should always camelCase properties or not.  Next, <Code>setStyleProperty</code> does the real work:
+
+{% highlight javascript %}
+function setStyleProperty(element, property, value) {
+  if (invalidCSSNode(element)) {
+    return;
+  }
+
+  if (typeof value === 'number' && !cssNumericalProperty[property]) {
+    value += 'px';
+  }
+
+  element.style[property] = value;
+}
+{% endhighlight %}
+
+This uses <code>cssNumericalProperty</code> which is the same as jQuery's <code>cssNumber</code> object.  I also created <code>invalidCSSNode</code> to detect if the element's style can be written to:
+
+{% highlight javascript %}
+function invalidCSSNode(element) {
+  return !element || element.nodeType === nodeTypes.TEXT_NODE || element.nodeType === nodeTypes.COMMENT_NODE || !element.style;
+}
+{% endhighlight %}
+
+I've used the <code>nodeTypes</code> object again to make this more readable.
+
+h3. Conclusion
+
+The tests pass in IE, Firefox, and Chrome/Safari, so I'm happy.  It would be possible to take reading and writing CSS properties a lot further than I have here -- colour values could be unified across browsers, and maybe even the document's stylesheets could be manipulated.
+
+This week's code is "commit c6a2ee8":https://github.com/alexyoung/turing.js/tree/c6a2ee8b8616f0d8116c61dee29e4dc767f69df8.
