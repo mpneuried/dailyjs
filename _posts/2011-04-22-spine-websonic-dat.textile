@@ -1,0 +1,48 @@
+---
+layout: post
+title: "Spine, dat.gui, WebSonic"
+author: Alex Young
+categories: 
+- graphics
+- libraries
+- mvc
+- webgl
+---
+
+h3. Spine
+
+"Spine":http://maccman.github.com/spine/ (GitHub: "maccman / spine":https://github.com/maccman/spine, "License":https://github.com/maccman/spine/blob/master/LICENSE) by Alex MacCaw is an MVC library that's a lot like "Backbone.js":http://documentcloud.github.com/backbone/.  The controller API is based on Backbone, so if you're familiar with that it shouldn't take too much work to get going with Spine.
+
+Spine models have validations, persistence, serialization, and an event API.  It's a small library, throwing away some of Backbone's functionality (it's designed not to require collections for example).  I'm not sure how flexible or extensible it is, but the models and controllers have events that can be bound to for everything I could think of.
+
+Models look like this:
+
+{% highlight javascript %}
+var User = Spine.Class.create({
+  name: 'Tonje',
+
+  init: function(name) {
+    this.name = name;
+  }
+});
+
+var user = User.inst();
+{% endhighlight %}
+
+The <code>inst</code> method is used to instantiate models.  I kept thinking I should call <code>init</code>, but <code>inst</code> calls it instead and does all the <code>Object.create</code> stuff to maintain the prototype inheritance chain.
+
+h3. dat.gui
+
+!/images/posts/datgui.png!
+
+"dat.gui":http://dataarts.github.com/dat.gui/ (GitHub: "dataarts / dat.gui":https://github.com/dataarts/dat.gui from the Data Arts Team is a controller library.  It creates and manages <code>DAT.GUI</code> panels which contain UI controls.  The controls can be observed and manipulated.  This makes a lot more sense when looking at the example of "dat.gui's homepage":http://dataarts.github.com/dat.gui/!
+
+It seems like something that would work well with data visualisation or "Processing":http://processing.org/ inspired graphical projects.
+
+h3. WebSonic
+
+!/images/posts/sonic.png!
+
+"WebSonic":http://achene.co/WebSonic/ (GitHub: "Coreh / WebSonic":https://github.com/Coreh/WebSonic) by Marco Aurélio is a WebGL game engine example that features Sonic the Hedgehog.  It's not exactly a fully-playable game, but it's extremely interesting.  The project's README on GitHub includes some technical details, with comments from Marco about what he thinks could be improved or requires extra browser support for (like joystick support).
+
+
