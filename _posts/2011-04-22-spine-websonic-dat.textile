@@ -31,6 +31,12 @@ var user = User.inst();
 
 The <code>inst</code> method is used to instantiate models.  I kept thinking I should call <code>init</code>, but <code>inst</code> calls it instead and does all the <code>Object.create</code> stuff to maintain the prototype inheritance chain.
 
+*Update*:
+
+bq. @alex_young good point about the API - I've changed it to .init() rather than inst(). It's backwards compatible with the previous version.
+
+- "@maccman":https://twitter.com/maccman/status/61572262943404032
+
 h3. dat.gui
 
 !/images/posts/datgui.png!
