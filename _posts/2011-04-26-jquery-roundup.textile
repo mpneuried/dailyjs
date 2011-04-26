@@ -1,0 +1,37 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery UI 1.8.12, IndexedDB, Apprise"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+- database
+- indexeddb
+---
+
+h3. jQuery UI 1.8.12
+
+"jQuery UI 1.8.12 is out":http://blog.jqueryui.com/2011/04/jquery-ui-1-8-12/.  Upgrading should be fairly simple as the "upgrade guide":http://jqueryui.com/docs/Upgrade_Guide/1.8.12 says there are now backwards incompatible changes.  This version includes bug fixes for Resizable, Autocomplete, Datepicker, Dialog, Progressbar, Slider, and Tabs.
+
+h3. IndexedDB
+
+"IndexedDB":https://github.com/axemclion/IndexedDB/tree/gh-pages/jquery by Parashuram provides a simple chained API for the "Indexed Database API":http://www.w3.org/TR/IndexedDB/.  This specification is still a working draft, but Firefox 4, Chrome, and potentially IE support it.
+
+Indexed Database API is a client-side database for simple values and hierarchical objects.  It supersedes "Web SQL Database":http://www.w3.org/TR/webdatabase/ which is considered deprecated.  Parashuram's jQuery plugin makes a flatter API, which looks like this:
+
+{% highlight javascript %}
+$.indexeddb('BookShop-1').objectStore('BookList').openCursor().each(write);
+{% endhighlight %}
+
+The alternative is nested callbacks for each operation, which makes this seem pretty slick by comparison.  I have a feeling we could even lose <code>openCursor</code>, because it seems implicit to me, but that's up to the author.
+
+h3. Apprise
+
+!/images/posts/apprise.png!
+
+"Apprise":http://thrivingkings.com/apprise/ ("License":http://creativecommons.org/licenses/by-sa/2.5/) is an alternative to <code>alert()</code>.  Basic usage is just like <code>alert</code>, but it can also prompt for values or act like <code>confirm()</code>.  It looks a bit like Firefox 4's alert boxes.
+
+It doesn't depend on jQuery UI, which means you don't need to add a full UI library just to get prettier popup boxes.
+
+
