@@ -1,0 +1,62 @@
+---
+layout: post
+title: "Node Roundup: Cluster Live, Nib, Capsule"
+author: Alex Young
+categories: 
+- node
+- modules
+- css
+---
+
+h3. Node v0.4.7
+
+"Node v0.4.7 is out":http://blog.nodejs.org/2011/04/23/node-v0-4-7/.  This release includes bug fixes and documentation improvements.  If you're interested in reading more on the bug fixes, the numbers in the release notes refer to the GitHub issue tracker, for example: "#897":https://github.com/joyent/node/pull/897.  Because the comments in the release notes are short it can be illuminating to read more.
+
+h3. Cluster Live
+
+!/images/posts/cluster_live.png!
+
+TJ Holowaychuk released "Cluster Live":http://tjholowaychuk.com/post/4712080732/cluster-live-0-0-1 (GitHub: "visionmedia / cluster-live":https://github.com/visionmedia/cluster-live, MIT License), which is a realtime administration and statistics plugin for Cluster.  If you've been holding off on Cluster, this is probably the sort of usage TJ envisioned for it and may convince you to use it.
+
+It needs a bit of configuration to get it going:
+
+{% highlight javascript %}
+var live = require('cluster-live');
+
+cluster(server)
+  .set('workers', 6)
+  .use(cluster.debug())
+  .use(cluster.stats({ connections: true, lightRequests: true }))
+  .use(live())
+  .listen(3000);
+{% endhighlight %}
+
+I really like the simplified design TJ has used for the interface, and if you look at "cluster-live's Stylus templates":https://github.com/visionmedia/cluster-live/tree/master/lib/public/stylesheets you can see how he's split them up into separate files, using <code>@import</code> to load each one.  More useful lessons for those of you who are interested in Stylus can be found in these files.
+
+h3. Extend Sylus with a Nib
+
+<iframe src="http://www.screenr.com/embed/M6a" width="500" height="396" frameborder="0"></iframe>
+
+Speaking of Stylus... TJ wrote "Extend Sylus with a Nib":http://tjholowaychuk.com/post/4625229013/extend-sylus-with-a-nib which is a post about "Nib":https://github.com/visionmedia/nib (MIT License), a library of Stylus extensions.  Nib comes with lots of useful shortcuts for dealing with CSS gradients and even buttons -- these buttons can be generated very quickly with Nib:
+
+!/images/posts/nib-buttons.png!
+
+You've probably seen these in some of TJ's recent projects and examples.  Rather than writing a bunch of CSS or Stylus, these buttons can be created with Nib using functions:
+
+{% highlight text %}
+.bold
+  bold-button()
+
+.bold-alternate
+  bold-button(glow: #00ABFA)
+{% endhighlight %}
+
+An optional dependency is "node-canvas":https://github.com/learnboost/node-canvas which Nib will use to generate data URIs containing smooth linear gradients.
+
+h3. Capsule
+
+"Capsule":https://github.com/andyet/capsule (MIT License) by Henrik Joreteg is a Node framework that uses Socket.io and Backbone.js to synchronise models between the client and server.  He's written some documentation for "Capsule.models.js":http://andyet.github.com/Capsule/docs/capsule.models.html and "Capsule.views.js":http://andyet.github.com/Capsule/docs/capsule.views.html, and the README includes a detailed example of how to set things up for the server and browser.
+
+It's hard to see how useful this framework is without an application example, but Henrik suggests reading "Re-using Backbone.js Models on the server with Node.js and Socket.io to build real-time apps":http://andyet.net/blog/2011/feb/15/re-using-backbonejs-models-on-the-server-with-node/ which covers some of the concepts behind Capsule.
+
+He also mentions an unreleased library called Thoonk.js which aims to improve the scalability of this approach by using Redis's clustering and pub/sub capabilities.
