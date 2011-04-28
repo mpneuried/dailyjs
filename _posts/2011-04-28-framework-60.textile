@@ -1,0 +1,202 @@
+---
+layout: post
+title: "Let's Make a Framework: CSS Classes"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+- css
+---
+
+Welcome to part 60 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+h3. CSS Classes
+
+I like to be able to easily change CSS classes on an element.  Most JavaScript frameworks that I've encountered have an easy way of doing this.  jQuery provides <code>.addClass()</code>, <code>.removeClass()</code>, <code>.toggleClass()</code> and <code>.hasClass()</code>.  It's a very simple API that's easy to remember.  Other frameworks work in a similar way.
+
+h3. Class Name Manipulation
+
+Class names are manipulated using the DOM Level 2 <code>className</code> property: "The HTMLElement interface: className attribute":http://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-95362176.  This property is a string, so getting and setting individual class names requires a bit of string manipulation to implement a friendly API.
+
+However... there's also a new API called "classList":http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist.  This API looks a lot more like what web frameworks provide:
+
+{% highlight javascript %}
+element.classList.add('className');
+element.classList.remove('className');
+element.classList.toggle('className');
+element.classList.contains('className');
+{% endhighlight %}
+
+It might be working checking if the browser supports <code>classList</code> and using the native functions if available.
+
+h3. Implementing Adding Classes
+
+I'd like this test to pass:
+
+{% highlight javascript %}
+'test adding CSS classes': function() {
+  var element = turing.dom.get('#dom-test')[0];
+
+  // Invalid values should be ignored
+  turing.dom.addClass(element, null);
+  turing.dom.addClass(element, 10);
+
+  // This should change the className
+  turing.dom.addClass(element, 'newClass');
+  assert.equal(element.className, 'newClass');
+
+  turing.dom.addClass(element, 'class2');
+  assert.equal(element.className, 'newClass class2');
+
+  // Adding the same one twice should be ignored
+  turing.dom.addClass(element, 'class2');
+  assert.equal(element.className, 'newClass class2');
+
+  // Reset the value
+  element.className = '';
+}
+{% endhighlight %}
+
+Adding classes should work like this:
+
+# Ensure the value passed in is a string
+# Ensure the element is a valid node (<code>ELEMENT_NODE</code>)
+# Use <code>classList</code> if available
+# If not, set the <code>className</code> equal to the passed in value
+# If the <code>className</code> has already been set, append the value with a space
+# Make sure class names aren't duplicated
+
+What I came up with should do all of this with fairly easy to follow code:
+
+{% highlight javascript %}
+/**
+ * Append CSS classes.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} className The class name
+ */
+dom.addClass = function(element, className) {
+  if (!className || typeof className !== 'string') return;
+  if (element.nodeType !== nodeTypes.ELEMENT_NODE) return;
+  if (element.classList) return element.classList.add(className);
+
+  if (element.className && element.className.length) {
+    if (!element.className.match('\\b' + className + '\\b')) {
+      element.className += ' ' + className;
+    }
+  } else {
+    element.className = className;
+  }
+};
+{% endhighlight %}
+
+The regular expression uses word boundaries to check if a class name has already been set -- this will match spaces and the end of the string.
+
+h3. Removing Classes
+
+Removing classes is pretty much the same.  The tests are a bit more involved to make sure white space is handled correctly:
+
+{% highlight javascript %}
+'test removing CSS classes': function() {
+  var element = turing.dom.get('#dom-test')[0],
+      testClasses = 'class1 class2 class3 class4';
+
+  // Invalid values should be ignored
+  turing.dom.removeClass(element, null);
+  turing.dom.removeClass(element, 10);
+
+  // Test a single class
+  turing.dom.addClass(element, 'newClass');
+  assert.equal(element.className, 'newClass');
+  turing.dom.removeClass(element, 'newClass');
+  assert.equal(element.className, '');
+
+  // Test multiple, making sure white space is as it should be
+  element.className = testClasses;
+  turing.dom.removeClass(element, 'class2');
+  assert.equal(element.className, 'class1 class3 class4');
+
+  element.className = testClasses;
+  turing.dom.removeClass(element, 'class1');
+  assert.equal(element.className, 'class2 class3 class4');
+
+  element.className = testClasses;
+  turing.dom.removeClass(element, 'class4');
+  assert.equal(element.className, 'class1 class2 class3');
+
+  // Reset the value
+  element.className = '';
+}
+{% endhighlight %}
+
+I tried to use regular expressions again, replacing the old value then correcting white space.  The second <code>replace</code> removes spaces that might get left at the start of the string:
+
+{% highlight javascript %}
+/**
+ * Remove CSS classes.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} className The class name
+ */
+dom.removeClass = function(element, className) {
+  if (!className || typeof className !== 'string') return;
+  if (element.nodeType !== nodeTypes.ELEMENT_NODE) return;
+  if (element.classList) return element.classList.remove(className);
+
+  if (element.className) {
+    element.className = element.className.
+      replace(new RegExp('\\s?\\b' + className + '\\b'), '').
+      replace(/^\s+/, '');
+  }
+};
+{% endhighlight %}
+
+h3. Chained API
+
+I also added <code>addClass</code> and <code>removeClass</code> to the DOM chained API:
+
+{% highlight javascript %}
+'test chained class manipulation API': function() {
+  turing('p').addClass('x1');
+  assert.ok(turing('p')[0].className.match(/\bx1\b/));
+  turing('p').removeClass('x1');
+  assert.ok(!turing('p')[0].className.match(/\bx1\b/));
+}
+{% endhighlight %}
+
+These methods just loop through each element:
+
+{% highlight javascript %}
+/**
+ * Add class names.
+ *
+ * @param {String} className A class name
+ * @returns {Object} `this`
+ */
+addClass: function(className) {
+  for (var i = 0; i < this.elements.length; i++) {
+    dom.addClass(this[i], className);
+  }
+  return this;
+}
+{% endhighlight %}
+
+h3. Conclusion
+
+The fact that <code>classList</code> has appeared in some browsers makes this whole problem go away.  I haven't noticed any frameworks using <code>classList</code> -- I'm not sure if there are any caveats to it.  Also, my methods don't cope with a list of class names in one string, which jQuery does (which is why jQuery's implementation is more complicated than mine, see "attributes.js":https://github.com/jquery/jquery/blob/master/src/attributes.js).
+
+This week's code was "commit e50328e":https://github.com/alexyoung/turing.js/tree/e50328ea22db4105fda2161f601f6138498551ac.
+
+h3. References
+
+* "jQuery's attributes.js":https://github.com/jquery/jquery/blob/master/src/attributes.js
+* "element.className on MDC":https://developer.mozilla.org/en/DOM/element.classname
+* "WHATWG's classList documentation":http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#dom-classlist
+* "element.classList on MDC":https://developer.mozilla.org/en/DOM/element.classList
+* "className in DOM Level 2":http://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-95362176
+
