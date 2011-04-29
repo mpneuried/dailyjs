@@ -1,0 +1,28 @@
+---
+layout: post
+title: "J3D, GL64K, node-webgl"
+author: Alex Young
+categories: 
+- webgl
+- graphics
+- competitions
+- desktop
+---
+
+h3. J3D
+
+!/images/posts/j3d.png!
+
+"J3D":https://github.com/drojdjou/J3D is a 3D library for WebGL that has a "Unity3d":http://unity3d.com/ object/scene exporter.  The author wrote a blog post about it entitled "Taming WebGL":http://www.everyday3d.com/blog/index.php/2011/04/17/j3d-taming-webgl/ with some background on the library:
+
+bq. J3D is a very simple engine that can load 3D models and textures, has a scene with a hierarchy of objects and can render everything using basic lights. Somewhere on the way I added the feature to export models from Unity3d which I thought would make the job of preparing assets much easier.
+
+h3. GL64K
+
+"GL64K":http://gl64k.com/ is a competition to create a WebGL demo in 64k.  If you're not familiar with what they're expecting, there's an example called "Glass":http://possan.se/2011/01/28/webglass/.  The first prize is $2000 and a copy of the OpenGL ES 2.0 Programming Guide, and entries must use "skeleton.html":http://gl64k.com/skeleton.html.  There's only 7 days left to enter the competition!
+
+h3. node-webgl
+
+I keep asking myself, "how can I write desktop-based OpenGL with Node?" It seems like Brian McKenna is working on a solution with "node-webgl":https://github.com/pufuwozu/node-webgl.  It looks like the project is in early stages yet, but there's a blog post with a screenshot to prove it works: "node.js WebGL":http://brianmckenna.org/blog/nodejs_webgl.
+
+I hope to see more Node desktop integration.
