@@ -1,0 +1,59 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery 1.6, JsBloat, jQuery-URL-Parser, jQuery-Retina-Plugin"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+- iOS
+---
+
+h3. jQuery 1.6 Released
+
+"jQuery 1.6 is out":http://blog.jquery.com/2011/05/03/jquery-16-released/ and they're already "accepting proposals for 1.7":https://spreadsheets.google.com/viewform?hl=en&authkey=CPmgicsO&formkey=dG0yTEs2ZTFWQUhDRUp5dzRyc3NwV2c6MA#gid=0.
+
+The jQuery documentation includes a section showing changes relevant to 1.6: "new or changed in 1.6":http://api.jquery.com/category/version/1.6/.  There are some interesting additions:
+
+* <code>.prop()</code> and <code>.removeProp()</code> can be used to manipulate _properties_, which makes <code>.attr()</code>'s behaviour more consistent
+* <code>deferred.always()</code> adds a handler to a <code>Deferred</code> object, whatever the outcome
+* <code>.promise()</code> returns a <code>Promise</code> object, which helps create a richer syntax for asynchronous operations (the animation examples illustrate it well)
+
+h3. JsBloat and jQuery
+
+In "jquery.com uses only 34% of jQuery":http://blog.bolinfest.com/2011/04/jquerycom-uses-only-34-of-jquery.html by Michael Bolin, the author explains how he used "JsBloat":https://addons.mozilla.org/en-US/firefox/addon/jsbloat/ to track how much of jQuery is actually used on jquery.com.  An ironic example, but it's interesting to read the thinking behind it and Michael's arguments for using "the Closure compiler":http://code.google.com/closure/compiler/.
+
+h3. jQuery-URL-Parser
+
+"jQuery-URL-Parser":https://github.com/allmarkedup/jQuery-URL-Parser ("License":http://unlicense.org/) by Mark Perkins is a URI parser:
+
+{% highlight javascript %}
+var url = $.url('http://allmarkedup.com/folder/dir/index.html?item=value');
+url.attr('protocol'); // returns 'http'
+url.attr('path'); // returns '/folder/dir/index.html'
+{% endhighlight %}
+
+It can also provide quick access to string parameters:
+
+{% highlight javascript %}
+$.url('http://allmarkedup.com?sky=blue&grass=green').param('sky'); // returns 'blue'
+{% endhighlight %}
+
+I have a feeling people might want to use this for their own hash fragment routing, which the plugin makes easy:
+
+{% highlight javascript %}
+$.url('http://test.com/#sky=blue&grass=green').fparam('grass'); // returns 'green'
+{% endhighlight %}
+
+h3. jQuery-Retina-Plugin
+
+"jQuery-Retina-Plugin":https://github.com/baotuo/jQuery-Retina-Plugin automatically loads high resolution images if a device has Apple's retina display.
+
+{% highlight javascript %}
+$(function() {
+  $('.retina').retina({'retina-suffix': '@2x'});
+});
+{% endhighlight %}
+
+It determines this based on <code>window.devicePixelRatio</code>, so it should work with other high density displays (if the device and browser sets <code>devicePixelRatio</code>).
+
