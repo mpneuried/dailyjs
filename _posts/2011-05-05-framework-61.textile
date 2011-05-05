@@ -1,0 +1,130 @@
+---
+layout: post
+title: "Let's Make a Framework: Element Attributes"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+---
+
+Welcome to part 61 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+h3. Element Attributes
+
+This DOM stuff really takes a lot of work, doesn't it?  In the last few parts we've been mucking around with CSS classes, so I thought it would be pertinent to address element attributes.  The jQuery API allows attributes to be accessed with the <code>.attr()</code> method.  jQuery actually distinguishes between attributes and _properties_:
+
+bq. As of jQuery 1.6, the .prop() method provides a way to explicitly retrieve property values, while .attr() only retrieves attributes.
+
+I'm fairly sure most frameworks either treat these the same or have a generic 'get attribute/property/whatever value and interpret the parameter' -- consider "MooTools' Element.get":http://mootools.net/docs/core/Element/Element (it also has "getProperty":http://mootools.net/docs/core/Element/Element#Element:getProperty).
+
+jQuery is quite good at being explicit where it makes sense, so I'd like to look at element attribute manipulation without confusing it with DOM properties.
+
+h3. Getting Attributes
+
+"Element.getAttribute":https://developer.mozilla.org/en/DOM/element.getAttribute returns an attribute like this:
+
+{% highlight javascript %}
+document.querySelector('#content-main article').getAttribute('role');
+// "main"
+{% endhighlight %}
+
+What about when an attribute is not present? That's actually an interesting point, which is mentioned in MDC's documentation:
+
+bq. Essentially all web browsers return null when the specified attribute does not exist on the specified element.  The DOM specification says that the correct return value in this case is actually the empty string, and some DOM implementations implement this behavior.
+
+bq. Consequently, you should use <code>hasAttribute</code> to check for an attribute's existence prior to calling <code>getAttribute()</code> if it is possible that the requested attribute does not exist on the specified element.
+
+Some frameworks don't do this, but it's probably a good idea -- there's a comment in jQuery mentioning the BlackBerry browser returning an empty string.
+
+h3. Browser Support
+
+IE does something very strange with attributes that return URLs.  Rather than leaving the URL alone it'll normalize it.  To force it to return the value we actually want we need to pass a second parameter to <code>getAttribute</code>:
+
+{% highlight javascript %}
+element.getAttribute('href', 2);
+{% endhighlight %}
+
+The documentation for this is at the "getAttribute Method page on MSDN":http://msdn.microsoft.com/en-us/library/ms536429(v=vs.85).aspx.
+
+Therefore, jQuery sets up hooks to handle this for every attribute that returns a URL:
+
+{% highlight javascript %}
+jQuery.each([ "href", "src", "width", "height" ], function( i, name ) {
+  jQuery.attrHooks[ name ] = jQuery.extend( jQuery.attrHooks[ name ], {
+    get: function( elem ) {
+      var ret = elem.getAttribute( name, 2 );
+      return ret === null ? undefined : ret;
+    }
+  });
+});
+{% endhighlight %}
+
+IE6/7 also cause problems when working with attributes on form elements.  To get around this, <code>getAttributeNode</code> is used (except for buttons):
+
+{% highlight javascript %}
+formHook = jQuery.attrHooks.name = jQuery.attrHooks.value = jQuery.valHooks.button = {
+  get: function( elem, name ) {
+    var ret;
+    if ( name === "value" && !jQuery.nodeName( elem, "button" ) ) {
+      return elem.getAttribute( name );
+    }
+    ret = elem.getAttributeNode( name );
+    // Return undefined if not specified instead of empty string
+    return ret && ret.specified ?
+      ret.nodeValue :
+      undefined;
+  }
+{% endhighlight %}
+
+h3. XML
+
+If the document is not XML then the attribute name needs to be capitalised correctly for IE:
+
+{% highlight javascript %}
+propFix: {
+  tabindex: "tabIndex",
+  readonly: "readOnly",
+  "for": "htmlFor",
+  "class": "className",
+  maxlength: "maxLength",
+  cellspacing: "cellSpacing",
+  cellpadding: "cellPadding",
+  rowspan: "rowSpan",
+  colspan: "colSpan",
+  usemap: "useMap",
+  frameborder: "frameBorder",
+  contenteditable: "contentEditable"
+}
+
+// Elsewhere:
+jQuery.attrFix = propFix;
+{% endhighlight %}
+
+It seems like <code>tabIndex</code> behaves strangely in most browsers:
+
+{% highlight javascript %}
+attrFix: {
+  // Always normalize to ensure hook usage
+  tabindex: "tabIndex"
+}
+{% endhighlight %}
+
+jQuery's comments include a reference to more details on handling this: "Getting, setting, and removing tabindex values with JavaScript":http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/.
+
+h3. Conclusion
+
+When I started writing this article I thought getting attributes would just be a case of using <code>getAttribute</code>, but thanks to browser inconsistencies it becomes a lot more work.  jQuery's use of _hooks_ keeps most of this out of the core framework code, so it's easy to see what has been added to support browser behaviour.  I really like the way jQuery does this.
+
+Next week I'll look at actually building this thing.
+
+h3. References
+
+* "Element.getAttribute":https://developer.mozilla.org/en/DOM/element.getAttribute at MDC
+* "getAttribute Method at MSDN":http://msdn.microsoft.com/en-us/library/ms536429(v=vs.85).aspx
+* "jQuery attributes.js":https://github.com/jquery/jquery/blob/cccf9ad91d8b6626e1e20bd267c9cd0b6223f15c/src/attributes.js
+* "Getting, setting, and removing tabindex values with JavaScript":http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
