@@ -1,0 +1,88 @@
+---
+layout: post
+title: "Mibbu, LibCanvas, Zeon"
+author: Alex Young
+categories: 
+- webgl
+- graphics
+- games
+---
+
+h3. Mibbu
+
+!/images/posts/mibbu.png!
+
+"Mibbu":http://mibbu.eu/ (GitHub: "michalbe / mibbu":https://github.com/michalbe/mibbu, MIT License) by Michal Budzynski is a small games development framework that supports:
+
+* Canvas or DOM rendering
+* Sprites
+* Collision detection
+
+Michal has written an "example Mibbu game":https://github.com/michalbe/mibbu/blob/master/example/index.html which demonstrates the API.  Here's an extract:
+
+{% highlight javascript %}
+var Game = new mibbu(500, 500);
+
+Game.init();
+
+var sprite = new Game.spr('img/reptile.png', 200, 200, 7, 0),
+    sprite2 = new Game.spr('img/reptile.png', 200, 200, 7, 0),
+    background = new Game.bg('img/bg.jpg', 6, "S", {x:0,y:0});
+{% endhighlight %}
+
+If you want to read more details, "mibbu.eu":http://mibbu.eu/ is a good place to start.  He's also written a post about it: "Mibbu - javascript html5 game framework":http://michalbe.blogspot.com/2011/05/mibbu-javascript-microframework-for.html.
+
+If Mibbu sounds familiar, then you may have read about it when we covered "OpenOdyssey":http://dailyjs.com/2011/01/28/phantoms/ which is a game implemented in an early version of Mibbu.
+
+h3. LibCanvas
+
+"LibCanvas":http://libcanvas.com/ (GitHub: "theshock / libcanvas":https://github.com/theshock/libcanvas, LGPL) by Pavel Ponomarenko is a Canvas library which includes APIs for:
+
+* Animation
+* Mouse events
+* Drag and drop
+* Image preloading
+
+There are a lot of examples on "libcanvas.github.com":http://libcanvas.github.com/ that show off these features.  A simple "LibCanvas looped animation":http://libcanvas.github.com/animating/looped.html can be implemented fairly painlessly:
+
+{% highlight javascript %}
+var libcanvas = new LibCanvas('canvas').start();
+
+var shaper = libcanvas
+  .createShaper({
+    shape : new LibCanvas.Shapes.Circle(150, 75, 60),
+    fill  : '#900',
+    stroke: 'red',
+    lineWidth: 7
+  });
+
+// Changing size and color
+shaper.animate({
+  props: {
+    radius: 15,
+    fill  : '#2d2d2d',
+    stroke: '#4c4c4c',
+    lineWidth: 1
+  },
+  time : 1200,
+  onFinish: function (prevAnim, prevProps) {
+    shaper.animate({
+      props: prevProps,
+      fn : 'bounce-out',
+      time : 800,
+      onFinish: prevAnim.repeat
+    });
+  }
+});
+{% endhighlight %}
+
+This library is built on "Atom":https://github.com/theshock/atomjs by the same authors:
+
+bq. Atom is compact JavaScript framework oriented on modern browsers, which allows to support quite broad list of features without keeping a lot of cruft necessary to implement them in old browsers.
+
+h3. Zeon
+
+!/images/posts/zeon.png!
+
+"Zeon.js":http://zeonjs.com/ by Peter van der Zee is a tool for analysing JavaScript.  It has a custom parser, and an interesting interface for exploring possible problems.  It seems like the project is still at an early stage, but I'm looking forward to seeing what Peter does with it.
+
