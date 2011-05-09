@@ -1,0 +1,54 @@
+---
+layout: post
+title: "JavaScript.next, Front-end Guidelines, Crossroads.js"
+author: Alex Young
+categories: 
+- html
+- css
+- routing
+- harmony
+---
+
+h3. JavaScript.next
+
+Brendan Eich gave a last-minute talk at "JSConf 2011":http://2011.jsconf.us/ about the future of JavaScript, spurred on by a CoffeeScript talk.  There's good coverage by Ian Elliot in "JavaScript creator talks about the future":http://www.i-programmer.info/news/98-languages/2395-javascript-creator-talks-about-the-future.html which contains some interesting quotes from Brendan:
+
+bq. I advocated strongly for standardizing prototypal inheritance a la CoffeeScript’s class, super, and @ syntactic sugar.
+
+We've seen all this before and what it did to the community during ECMAScript 4's planning (which I covered on DailyJS in "The History of JavaScript":http://dailyjs.com/2010/06/07/history-of-javascript-3/).  I don't know if this time anything will change, but there's an undeniably growing movement that wants to push JavaScript's syntax in new directions.
+
+I've already seen some harsh commentary from JavaScript developers that I have a lot of respect for -- but if we learned anything from ECMAScript it's that progress should come in small steps rather than too much at once.
+
+I've collected some other resources related to this talk:
+
+* "JS.next and You":http://trevmex.com/post/5177432956/js-next-and-you -- notes by trevmex
+* "Hacker News coverage of JS.next":http://news.ycombinator.com/item?id=1997113
+* "Traceur":http://code.google.com/p/traceur-compiler/ -- Google's "JavaScript.next-to-JavaScript-of-today" compiler
+
+And I'm still not sure if I should be writing JavaScript.next, JS.next, JS.Next, JS/Next, JS-Next, or "Harmony"!
+
+h3. Front-end Guidelines
+
+"Front End Development Guidelines":http://taitems.github.com/Front-End-Development-Guidelines/ (GitHub: "taitems / Front-End-Development-Guidelines":https://github.com/taitems/Front-End-Development-Guidelines/) is a document written by Tait Brown that attempts to collate useful HTML, CSS and JavaScript best practises that he's learned along the years.  The document is easy to read and contains a lot of things that I've found myself teaching junior developers and designers before.
+
+h3. Crossroads.js
+
+"Crossroads.js":http://millermedeiros.github.com/crossroads.js/ ("millermedeiros / crossroads.js":https://github.com/millermedeiros/crossroads.js, MIT License) by Miller Medeiros is a routing library:
+
+bq. I consider the main target to be single page applications with complex navigation paths and also large websites that shares the same JS files across multiple pages or would benefit from this kind of approach. It is also very useful for server-side and RESTful applications.
+
+The API supports "string rules" and regular expressions:
+
+{% highlight javascript %}
+var route1 = crossroads.addRoute('/news/{id}', function(id){
+  console.log(id);
+});
+
+var route2 = crossroads.addRoute(/^\/lorem\/([a-z]+)$/, function(id){
+  console.log(id);
+});
+{% endhighlight %}
+
+Routes can be removed, parsed, and validated.
+
+
