@@ -1,0 +1,43 @@
+---
+layout: post
+title: "jQuery Roundup: Instagram jQuery Plugin, jQuery.handleStorage, Morse.js"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- iOS
+- graphics
+- storage
+- encryption
+---
+
+h3. Instagram jQuery Plugin
+
+!/images/posts/instagram-logo.png!
+
+"Instagram jQuery plugin":http://potomak.github.com/jquery-instagram/ (GitHub: "potomak / jquery-instagram":https://github.com/potomak/jquery-instagram) by Giovanni Cappellotto uses the "instagr.am":http://instagr.am/ API to show a list of photos.  
+
+You'll need to provide a client ID to use it, but the "Instagram API documentation":http://instagram.com/developer/auth/ explains how to do this.
+
+h3. jQuery.handleStorage
+
+"jQuery.handleStorage":https://github.com/jas-/jQuery.handleStorage (GPL) by Jason Gerfen provides a local storage database with AES support.  Jason's example encrypts the data in a form:
+
+{% highlight javascript %}
+$('#myForm').handleStorage({ storage:'cookie', aes:true });
+{% endhighlight %}
+
+This uses the "Gibberish AES":https://github.com/mdp/gibberish-aes library.  It could be used without AES, however, and the plugin will use local storage (if available), a session, or cookies.
+
+A related commercial product is "1Password":http://agilebits.com/onepassword which includes a HTML/CSS/JavaScript viewer for encrypted passwords.  The 1Password application itself is for Windows, Mac OS, iOS or Android, but interestingly their database files include a HTML viewer that can decrypt saved passwords.
+
+h3. Ampersand
+
+"Ampersand":https://github.com/goldfidget/ampersand by Nicholas Johnson is a small jQuery plugin for using "Open Source Ampersands":http://opensourceampersands.com/.  This is a project to provide high-quality single-character fonts.
+
+h3. Morse.js
+
+!/images/posts/morse.png!
+
+"Morse.js":http://mattt.github.com/Morse.js/ (GitHub: "mattt / Morse.js":https://github.com/mattt/morse.js/, MIT License) by Mattt Thompson transcribes morse code: <code>$('p').morseCode({ bpm:12 });</code>.
+
