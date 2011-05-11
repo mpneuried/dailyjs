@@ -1,0 +1,69 @@
+---
+layout: post
+title: "Node Roundup: NodeConf Slides, Kanso, Whiskey, Redback"
+author: Alex Young
+categories: 
+- node
+- modules
+- couchdb
+- redis
+- testing
+- events
+---
+
+h3. NodeConf Slides
+
+"Ryan Dahl's NodeConf slides":http://nodejs.org/nodeconf.pdf includes some background on "liboio":https://github.com/joyent/liboio with a focus on Windows support.
+
+bq. Today Node runs on Windows via Cygwin. This is an unacceptable port. Cygwin is slow, old, buggy. Users hate it
+
+I've never really worked with Windows, so this was all new to me:
+
+bq. IOCP supports Sockets, Pipes, and Regular Files. That is, Windows has true async kernel ﬁle I/O.  (In Unix we have to fake it with a userspace thread pool.)
+
+The work on liboio certainly sounds fascinating -- it seems like it won't just be Windows users who benefit from the work going into the next generations (0.5, 0.6) of Node.
+
+"Isaac Schlueter's slides":http://dl.dropbox.com/u/3685/presentations/nodeconf-npm/index.html are about npm 1.0, which covers global and local modules (in case you're _still_ confused).  He also mentions an initiative called _npat_:
+
+bq. To get on the bandwagon: <code>npm set npat true</code>
+
+This is a kind of distributed continuous integration testing system, based on the "CPAN Testing Service":http://cpants.perl.org/.
+
+h3. Kanso
+
+!/images/posts/kanso.png!
+
+"Kanso":http://kansojs.org/ (GitHub: "caolan / kanso":https://github.com/caolan/kanso, npm: _kanso_, Apache 2.0 License) by Caolan McMahon is a Node module that makes writing "CouchApps":http://couchapp.org/ easier, with added focus on the client-side:
+
+bq. What's needed is a harmonious environment which shares code between the browser and server, without 'breaking the web'. Search engines and other users should still have access to key content, even if we accept a less featureful experience. This is the problem Kanso was designed to solve, by implementing CouchDB's design doc API in the browser.
+
+CouchApps are JavaScript and HTML5 applications served by CouchDB:
+
+bq. If you can fit your application into those constraints, then you get CouchDB's scalability and flexibility "for free" (and deploying your app is as simple as replicating it to the production server).
+
+Kanso provides command-line and libraries tools to make this whole process easier.  If you're still not sold, try following the "Kanso tutorial":http://kansojs.org/tutorial.html which will walk you through the entire process of setting up Kanso and building a blog application.
+
+h3. Whiskey
+
+"Whiskey":https://github.com/cloudkick/whiskey (Apache 2.0 License) is a test runner that runs each test file in a separate file, complete with timeouts, setup/teardown, test file initialization, friendly output, test coverage, and scope leak reporting.
+
+It works in a similar way to "Expresso":http://visionmedia.github.com/expresso/ in that tests are run with the <code>whiskey</code> command-line script.
+
+h3. Redback
+
+"Redback":http://redbackjs.com/ (GitHub: "chriso / redback":https://github.com/chriso/redback, npm: _redback_, MIT License) by Chris O'Hara is a high-level Redis library.  It provides an interface to Redis data types, including: List, Set, SortedSet, Hash, Channel, and Cache.
+
+Redback even has pub/sub provider support:
+
+{% highlight javascript %}
+var channel = redback.createChannel('chat').subscribe();
+
+// To received messages
+channel.on('message', function(msg) {
+  console.log(msg);
+});
+
+// To send messages
+channel.publish(msg);
+{% endhighlight %}
+
