@@ -1,0 +1,187 @@
+---
+layout: post
+title: "Let's Make a Framework: Element Attributes Part 2"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+---
+
+Welcome to part 62 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+"Last week":http://dailyjs.com/2011/05/05/framework-61/ I discussed retrieving element attributes, which should just involve calling <code>getAttribute</code> but ends up with added complexity to support every browser.  This week I'll look at building a cross browser implementation.
+
+h3. Tests
+
+This test should cover the basics for getting attributes:
+
+{% highlight javascript %}
+'test getting attributes': function() {
+  var element = turing.dom.get('#attr-test')[0],
+      link = turing.dom.get('#attr-test a')[0];
+
+  assert.equal(turing.dom.attr(element, 'id'), 'attr-test');
+  assert.equal(turing.dom.attr(element, 'class'), 'example');
+  assert.equal(turing.dom.attr(element, 'tabindex'), 9);
+  assert.equal(turing.dom.attr(link, 'href'), '/example');
+}
+{% endhighlight %}
+
+It includes some examples that I know will break in IE: <code>class</code> will have to be mapped to <code>className</code>, <code>href</code> won't return what we expect, and <code>tabindex</code> requires capitalisation.
+
+h3. Basic Implementation
+
+This will work in WebKit and Firefox:
+
+{% highlight javascript %}
+/**
+ * Get or set attributes.
+ *
+ * @param {Object} element A DOM element
+ * @param {String|Object} options The attribute name or a list of attributes to set
+ */
+dom.attr = function(element, options) {
+  if (typeof options === 'string') {
+    return element.getAttribute(options);
+  }
+};
+{% endhighlight %}
+
+It fails in IE:
+
+{% highlight text %}
+AssertionError In "==": Expected: example Found: null
+{% endhighlight %}
+
+Which is fine, we just need to account for the way <code>class</code> is accessed:
+
+{% highlight javascript %}
+var propertyFix = {
+  'class': 'className'
+};
+
+function getAttribute(element, name) {
+  if (propertyFix[name]) {
+    name = propertyFix[name];
+  }
+
+  return element.getAttribute(name);
+}
+{% endhighlight %}
+
+This is only good for browsers that need it (IE).  Let's use Turing's capability detection:
+
+{% highlight javascript %}
+turing.addDetectionTest('getAttribute', function() {
+  var div = document.createElement('div');
+  div.innerHTML = '<a href="/example"></a>';
+
+  if (div.childNodes[0].getAttribute('href') === '/example') {
+    return true;
+  }
+
+  // Helps IE release memory associated with the div
+  div = null;
+  return false;
+});
+{% endhighlight %}
+
+This checks the unusual case of the extra parameter required to correct what <code>href</code> represents in IE.  Then the main <code>dom.attr</code> method needs to be updated to take this into account:
+
+{% highlight javascript %}
+/**
+ * Get or set attributes.
+ *
+ * @param {Object} element A DOM element
+ * @param {String|Object} options The attribute name or a list of attributes to set
+ */
+dom.attr = function(element, options) {
+  if (typeof options === 'string') {
+    return turing.detect('getAttribute') ?
+      element.getAttribute(options) : getAttribute(element, options);
+  }
+};
+
+{% endhighlight %}
+
+h3. Extra Parameters
+
+As I mentioned last week, IE requires an extra parameter to make <code>href</code> return the value we expect.  I've created a list of attributes that require this extra parameter:
+
+{% highlight javascript %}
+getAttributeParamFix = {
+  width: true,
+  height: true,
+  src: true,
+  href: true
+};
+{% endhighlight %}
+
+Then if the capability test fails, this will run:
+
+{% highlight javascript %}
+function getAttribute(element, name) {
+  if (propertyFix[name]) {
+    name = propertyFix[name];
+  }
+
+  if (getAttributeParamFix[name]) {
+    return element.getAttribute(name, 2);
+  }
+
+  return element.getAttribute(name);
+}
+{% endhighlight %}
+
+The part that reads <code>element.getAttribute(name, 2)</code> makes IE behave like other browsers.  Using an object that contains a list of true values is a convenient way of doing this, I instinctively thought of <code>['width', 'height', 'src', 'href'].indexOf(name) !== -1)</code> but then I remembered that IE doesn't have <code>indexOf</code>.
+
+h3. Forms
+
+Dealing with button attributes can have strange results in IE.  In particular, accessing <code>value</code> can return the inner HTML.  I'm still testing this to figure out what versions it affects, and what other attributes are involved, but so far I've done this:
+
+{% highlight javascript %}
+if (name === 'value' && element.nodeName === 'BUTTON') {
+  return element.getAttributeNode(name).nodeValue;
+}
+{% endhighlight %}
+
+These are the tests I'm using:
+
+{% highlight javascript %}
+assert.equal(turing.dom.attr(input, 'value'), 'example');
+assert.equal(turing.dom.attr(input, 'name'), 'e');
+assert.equal(turing.dom.attr(button, 'name'), 'b');
+assert.equal(turing.dom.attr(button, 'value'), 'example');
+{% endhighlight %}
+
+h3. Chains
+
+Supporting the chained API is a case of a quick stub:
+
+{% highlight javascript %}
+/**
+ * Get or set attributes.
+ *
+ * @param {String|Object} options The attribute name or a list of attributes to set
+ * @returns {String} The attribute value
+ */
+attr: function(options) {
+  if (this.elements.length > 0) {
+    return dom.attr(this[0], options);
+  }
+}
+{% endhighlight %}
+
+This is one of those interesting cases where it makes sense to access the first element in the current chain's stack, and return a value rather than <code>this</code>.
+
+h3. Conclusion
+
+More than anything else, getting attributes is a task in browser support.  There are some subtleties to fully supporting IE (and I'm still not convinced this is 100%).
+
+The last commit for this week was "commit b16c498":https://github.com/alexyoung/turing.js/tree/b16c498aff6b4233052d9dfec808b056c8c2170c.
+
