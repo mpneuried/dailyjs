@@ -1,0 +1,82 @@
+---
+layout: post
+title: "Leaflet, Augment.js, Anatomy of a Mashup, 3 Dreams of Black, WebGL Security"
+author: Alex Young
+categories:
+- webgl
+- graphics
+- css3
+- maps
+- security
+---
+
+h3. Leaflet
+
+!/images/posts/leaflet.png!
+
+"Leaflet":http://leaflet.cloudmade.com/ (GitHub: "CloudMade / Leaflet":https://github.com/CloudMade/Leaflet, License: BSD) from CloudMade and maintained by Vladimir Agafonkin is a JavaScript library for building tile-based maps that work with desktop and mobile browsers.
+
+It's extremely easy to use, and includes most of the user interface elements required to work with maps:
+
+{% highlight javascript %}
+// initialize the map on the "map" div with a given center and zoom 
+var map = new L.Map('map', {
+    center: new L.LatLng(51.505, -0.09), 
+    zoom: 13
+});
+
+// create a CloudMade tile layer
+var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/YOUR-API-KEY/997/256/{z}/{x}/{y}.png',
+    cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18});
+
+// add the CloudMade layer to the map
+map.addLayer(cloudmade);
+{% endhighlight %}
+
+CloudMade are pushing "OpenStreetMap":http://www.openstreetmap.org/ as their data source: 
+
+bq. CloudMade are here to make using OpenStreetMap data easier and more accessible. We support OpenStreetMap by sponsoring mapping parties, providing public relations and legal support, hosting developer events and contributing to the OSM code base.
+
+h3. Augment.js
+
+"Augment.js":http://olivernn.github.com/augment.js/ (GitHub: "olivernn / augment.js":https://github.com/olivernn/augment.js, License: MIT) by olivernn brings features from JavaScript 1.8.5 to other browsers.  It does this by patching missing functionality but leaving native methods alone.
+
+If you've ever got annoyed at the lack of <code>Array.prototype.indexOf</code> or <code>Array.prototype.reduce</code> in IE then this is the library for you!
+
+h3. Anatomy of a Mashup
+
+!/images/posts/daftpunk-mashup.png!
+
+"Anatomy of a Mashup":http://daftpunk.themaninblue.com/ by Cameron Adams breaks down a "six minute mix of Daft Punk tracks":http://www.themaninblue.com/writing/perspective/2010/12/16/ using a novel HTML5/CSS3 interface.
+
+Cameron has written a post about it, "Anatomy of a Mashup: Definitive Daft Punk visualised":http://themaninblue.com/writing/perspective/2011/05/12/ in which he says:
+
+bq. Hopefully it gives you a new insight into the artform of the mashup, otherwise you can just stare at the pretty shapes.
+
+I definitely enjoyed staring at the pretty shapes...
+
+h3. 3 Dreams of Black
+
+!/images/posts/3black.png!
+
+"3 Dreams of Black":http://www.ro.me/ is a WebGL music video, developed by "developers at Google":http://googleblog.blogspot.com/2011/05/3d-dreams-in-modern-browser.html:
+
+bq. "3 Dreams of Black" is our newest music experience for the web browser, written and directed by Chris Milk and developed with a few folks here at Google
+
+The mouse can be used to explore the scenes, and there's even a hidden Mega Man and Reddit alien.  Once the video has played out it's possible to "explore the last scene":http://www.ro.me/explore, flying behind some birds in a manner reminiscent of "fl0wer":http://db.tigsource.com/games/fl0wer.
+
+This video also includes heavy use of shaders -- it works well as a WebGL showcase.  I'm actually quite jealous of whoever got to work on this!
+
+h3. WebGL as a Security Problem
+
+In "WebGL - A New Dimension for Browser Exploitation":http://www.contextis.com/resources/blog/webgl/ James Forshaw explores security issues relating to WebGL, including denial of service and cross-domain image theft.
+
+bq. While there is certainly a demand for high-performance 3D content to be made available over the web, the way in which WebGL has been specified insufficiently takes into account the infrastructure required to support it securely.
+
+It's interesting that there's already a history of low-level problems with WebGL:
+
+bq. During the development of WebGL it seems that all the browser vendors supporting it have encountered issues with certain drivers being unstable or crashing completely. 
+
+This research got a lot of attention this week, so at least it will get more eyeballs on WebGL security issues.  If ever there's been a way to break out of a sandbox and exploit a machine, I'd imagine the low-level access WebGL potentially provides is a rich target.
+
+
