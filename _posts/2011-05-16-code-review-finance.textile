@@ -1,0 +1,137 @@
+---
+layout: post
+title: "Code Review: Finance"
+author: Alex Young
+categories:
+- node
+- express
+- code-review
+---
+
+_Code Review_ is a new series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+
+The purpose of these code reviews is not to nitpick; it is simply to learn and hopefully educate.  I intend to cover all aspects of JavaScript -- the various server-side interpreters, browser-based code, jQuery plugins -- anything I find with something to teach us.
+
+This week's code review is on "Finance":https://github.com/visionmedia/finance by TJ Holowaychuk.
+
+h3. Finance
+
+Finance is a little accounting web app.  It seems like something useful for logging things like business expenses (I always forget to do that!), but it could be used for any kind of payment.
+
+h3. Installation
+
+You'll need Node and npm to use Finance.
+
+Check the code out with Git, then set up the packages with npm:
+
+{% highlight javascript %}
+git clone https://github.com/visionmedia/finance.git
+cd finance
+npm install
+{% endhighlight %}
+
+h3. Usage
+
+!/images/posts/finance_code_review.png!
+
+Running <code>node app.js</code> should bring up an instance of Finance.  No database setup or authentication is necessary.  Try filling in a few payments to get a feel for the app.
+
+h3. App Structure
+
+I was looking for a database library, but I found something interesting!  TJ has opted to use a built-in database library, "db.js":https://github.com/visionmedia/finance/blob/834de995eadc6ce56a358b1ad481d304e728367c/lib/db.js, which writes JSON to a file.  The default data is saved to <code>/tmp/finance.db</code> which is worth changing if you actually want to use the app.
+
+Saving data just writes out <code>JSON.stringify(this)</code>, and loading it involves reading the file and iterating over each value:
+
+{% highlight javascript %}
+/**
+ * Load data.
+ *
+ * @param {Function} fn
+ * @api public
+ */
+
+Database.prototype.load = function(fn){
+  var self = this
+    , fn = fn || noop;
+
+  fs.readFile(this.path, 'utf8', function(err, json){
+    if (err) return fn(err);
+
+    var data = JSON.parse(json)
+      , keys = Object.keys(data)
+      , len = keys.length;
+
+    for (var i = 0; i < len; ++i) {
+      self[keys[i]] = data[keys[i]];
+    }
+
+    fn();
+  });
+
+  return this;
+};
+{% endhighlight %}
+
+I like how he writes to <code>this</code> rather than an object inside <code>Database</code>.
+
+Of course, this app is built with "Express":http://expressjs.com/.  TJ has structured his main <code>app.js</code> file in an interesting way -- it loads the libraries, does the configuration, then loads controllers from separate files:
+
+{% highlight javascript %}
+var month = app.resource('month', require('./controllers/month'));
+var items = app.resource('items', require('./controllers/item'));
+month.add(items);
+{% endhighlight %}
+
+This works by using the "express-resource":https://github.com/visionmedia/express-resource module.  This patches Express, which is why the <code>var Resource = require('express-resource')</code> line looks slightly suspicious given that <code>Resource</code> doesn't appear anywhere else.
+
+I have a feeling we might see this practise become popular in Express app development.  Even though it's tempting to keep adding routes to <code>app.js</code>, keeping a slim main file makes managing code easier as a project grows over time (as I found with Nodepad).
+
+h3. Controller Methods
+
+TJ uses <code>res.end()</code> in methods that don't need to return anything:
+
+{% highlight javascript %}
+exports.update = function(req, res, next){
+  var month = req.params.month
+    , id = req.params.item
+    , data = req.body.item[id]
+    , item = db.months[month].items[id];
+
+  try {
+    validate(data, 'entity');
+    validate(data, 'date', 'date');
+    validate(data, 'category');
+    validate(data, 'amount', 'number');
+    for (var key in data) item[key] = data[key];
+    item.tags = parseTags(item.tags);
+    db.save();
+    res.end();
+  } catch (err) {
+    res.send({ error: err.message });
+  }
+};
+{% endhighlight %}
+
+I know that <code>res.send()</code> sends a HTTP 204 _No Content_ response in Express, so presumably this ends the HTTP connection without returning any headers.
+
+The controllers are written using RESTful methods: <code>index</code>, <code>create</code>, <code>update</code>, <code>destroy</code>.  There's also a validation method which throws exceptions when a validation fails.  The controller method catches this and sends an error back using JSON: <code>res.send({ error: err.message })</code>.
+
+h3. Views
+
+The views are written with "Jade":http://jade-lang.com/, naturally, and they're very straightforward.  Most of the interface is generated by client-side JavaScript, so the views are mostly placeholders.  The items for the <code>index</code> action are rendered by the server rather than putting everything in the client.  TJ uses the <code>collection</code> option for <code>partial</code> to do this:
+
+{% highlight javascript %}
+!= partial('item', { collection: items })
+!= partial('item', { object: {}})
+{% endhighlight %}
+
+h3. Client-Side JavaScript
+
+The client-side code is a fairly typical jQuery brain dump.  I noticed that TJ aliased jQuery's function with <code>var j = $;</code> because he hates typing <code>$</code> (I think he bemoaned this on Twitter).
+
+h3. Conclusions
+
+This is a small project that showcases some of TJ's new Express modules, and isn't intended to be used as a multi-user web app.  The cunning use of JSON as the database is notable, purely because it makes installation and backup a breeze.  Rather than forcing users to install modules for a database (and perhaps even the database itself), they can stick Finance on their laptops and potentially even leave the JSON file in something like Dropbox.
+
+In fact, the entire project has a strangely self-contained yet efficient feel about it, which appeals to me as a way to build nifty little open source web apps.
+
