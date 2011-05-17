@@ -1,0 +1,48 @@
+---
+layout: post
+title: "jQuery Roundup: 1.6.1, Davis.js, diagonalFade"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- effects
+- routing
+- html5
+---
+
+h3. jQuery 1.6.1 Released
+
+"jQuery 1.6.1 was released last week":http://blog.jquery.com/2011/05/12/jquery-1-6-1-released/ which is the version with the new <code>.prop()</code> method and changes to <code>.attr()</code>.  I've been talking about this in the "Let's Make a Framework":http://dailyjs.com/2011/05/05/framework-61/ posts covering element attribute reader implementations.
+
+h3. Davis.js
+
+"Davis.js":http://davisjs.com/ (GitHub: "olivernn / davis.js":https://github.com/olivernn/davis.js) by olivernn uses <code>history.pushState</code> to create an Sinatra/Express-like API for client-side apps:
+
+{% highlight javascript %}
+var app = Davis(function () {
+  this.get('/welcome/:name', function (req) {
+    alert("Hello " + req.params['name'])
+  })
+})
+
+app.start()
+{% endhighlight %}
+
+One interesting thing about this library is it has a "plugin API":http://davisjs.com/plugins which can be used to share routes between applications.  It also has an event API, which includes an _unsupported_ event for falling back in browsers that don't support <code>pushState</code>.
+
+h3. diagonalFade
+
+!/images/posts/diagonalfade.png!
+
+"diagonalFade":http://jonobr1.github.com/diagonalFade/ (GitHub: "jonobr1 / diagonalFade":https://github.com/jonobr1/diagonalFade, License: Apache 2.0) by Jono Brandel is a diagonal matrix fade effect for jQuery.  It's got quite a few options for configuring the effect:
+
+{% highlight javascript %}
+$('#container').diagonalFade({
+  time: 100,
+  fadeDirection_x: 'left-right', // "left-right" || "right-left"
+  fadeDirection_y: 'top-bottom', // "top-bottom" || "bottom-top"
+  fade: 'out',                   // "in" || "out"
+  complete: null                 // callback function
+});
+{% endhighlight %}
+
