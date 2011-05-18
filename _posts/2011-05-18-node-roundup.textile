@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Node Roundup: TermKit, service.js, Writing Node Extensions"
+author: Alex Young
+categories: 
+- node
+- modules
+- extensions
+- mac
+---
+
+h3. TermKit
+
+!/images/posts/termkit.png!
+
+"TermKit":https://github.com/unconed/TermKit ("License":https://github.com/unconed/TermKit/blob/master/License.txt) by Steven Wittens is a "next gen" command-line interface.  It currently runs on Mac OS X, and is written using Node and Objective-C.  I feel like it's closer to something like "Quicksilver":http://www.blacktree.com/ than a typical terminal client -- but it may shape up to be something pretty compelling for general use.
+
+When I first saw TermKit I thought Steven had used some kind of incredible Node/Cocoa library, but it's actually a clever mix of Node and WebKit.  This seems like a good way to build native-feeling Mac apps with Node, in a similar way to how WebKit Inspector is built.
+
+The most interesting thing about this project is it attempts to build on some of the conventions of terminal emulators, but explores embedding GUI concepts into the terminal -- code is displayed with syntax highlighting, and images are previewed automatically.  Although it's early stages for this project there are some extremely encouraging ideas on display.
+
+h3. service.js
+
+"service.js":https://github.com/iamcal/service.js by Cal Henderson builds on "daemon.node":https://github.com/Slashed/daemon.node to provide an easy way of turning Node scripts into init.d daemons:
+
+{% highlight javascript %}
+#!/usr/local/bin/node
+
+require('service').run({
+    lockFile: '/var/run/my_app.pid',
+    logFile : '/var/log/my_app.log',
+});
+{% endhighlight %}
+
+This preamble sets up the necessary requirements for the script to function as an init script.
+
+h3. Writing Node Extensions
+
+In "How to write your own native Node.js extension":http://syskall.com/how-to-write-your-own-native-nodejs-extension, Olivier Lalonde explains the steps necessary to use <code>libnotifymm.h</code> from Node.
+
+bq. Writing a native Node extension can be cumbersome and verbose at times but it is well worth the hard earned bragging rights!
+
+It'll take a bit of C++ and "waf":http://code.google.com/p/waf/ knowledge to really appreciate what's going on, but it does demonstrate that writing extensions for native libraries is within the reaches of mere mortals (rather than wizards).
+
