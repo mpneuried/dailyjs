@@ -21,7 +21,7 @@ The most interesting thing about this project is it attempts to build on some of
 
 h3. service.js
 
-"service.js":https://github.com/iamcal/service.js by Cal Henderson builds on "daemon.node":https://github.com/Slashed/daemon.node to provide an easy way of turning Node scripts into init.d daemons:
+"service.js":https://github.com/iamcal/service.js by Cal Henderson builds on "daemon.node":https://github.com/indexzero/daemon.node (npm: _daemon_) to provide an easy way of turning Node scripts into init.d daemons:
 
 {% highlight javascript %}
 #!/usr/local/bin/node
