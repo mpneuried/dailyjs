@@ -1,0 +1,160 @@
+---
+layout: post
+title: "Let's Make a Framework: Element Attributes Part 3"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+---
+
+Welcome to part 63 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+For the past two weeks I've been looking at accessing element attributes.  This week I'll demonstrate how to write element attributes.
+
+* "Element Attributes":http://dailyjs.com/2011/05/05/framework-61/
+* "Element Attributes Part 2":http://dailyjs.com/2011/05/12/framework-62/
+
+h3. API Design
+
+I like the idea of using the same method for both getting and setting element attributes:
+
+{% highlight javascript %}
+// Get
+turing('selector').attr('name');
+
+// Set
+turing('selector').attr('name', 'value');
+{% endhighlight %}
+
+It's fairly easy to remember this and easy to implement.
+
+h3. <code>setAttribute</code>
+
+Remember <code>element.getAttribute</code>?  Well, there's also <code>setAttribute</code>.  It was introduced in "DOM Level 1":http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#method-setAttribute, so browser support isn't terrible.
+
+Most of the cross-browser issues relating to <code>getAttribute</code> should apply to writing attributes because they were almost all related to correcting IE's interpretation of the attribute's capitalisation.  That means we can use <code>setAttribute</code> in a very similar way.
+
+h3. Null Values
+
+According to MDC:
+
+bq. Even though <code>getAttribute()</code> returns null for missing attributes, you should use <code>removeAttribute()</code> instead of <code>elt.setAttribute(attr, null)</code> to remove the attribute.
+
+This is present in jQuery's "attributes.js":https://github.com/jquery/jquery/blob/master/src/attributes.js implementation:
+
+{% highlight javascript %}
+if ( value === null ) {
+  jQuery.removeAttr( elem, name );
+  return undefined;
+{% endhighlight %}
+
+Note that we must distinguish between <code>null</code> and <code>undefined</code> -- because we're using <code>attr</code> to read and write values, <code>undefined</code> is an absence of a value which implies reading the attribute.
+
+That means we need to use <code>element.removeAttribute</code> when <code>null</code> is passed.  However, this method has poor browser support.  When I tried jQuery's implementation in IE6 I seemed to get an empty string instead of <code>undefined</code>, so I think a true cross-browser remove attribute method might be out of scope here.
+
+To my knowledge, this is the closest I can get in IE:
+
+{% highlight javascript %}
+function removeAttribute(element, name) {
+  if (element.nodeType !== nodeTypes.ELEMENT_NODE) return;
+  if (propertyFix[name]) name = propertyFix[name];
+  setAttribute(element, name, '');
+  element.removeAttributeNode(element.getAttributeNode(name));
+}
+{% endhighlight %}
+
+h3. Tests
+
+I wrote this test to help me implement the core functionality for writing attributes:
+
+{% highlight javascript %}
+'test setting attributes': function() {
+  var element = turing.dom.get('#attr-write')[0],
+      link = turing.dom.get('#attr-write a')[0],
+      input = turing.dom.get('#attr-write form input')[0],
+      button = turing.dom.get('#attr-write form button')[0];
+
+  turing.dom.attr(element, 'id', 'attr-test2');
+  assert.equal(turing.dom.attr(element, 'id'), 'attr-test2');
+
+  turing.dom.attr(element, 'class', 'example2');
+  assert.equal(turing.dom.attr(element, 'class'), 'example2');
+  
+  turing.dom.attr(element, 'tabindex', 1);
+  assert.equal(turing.dom.attr(element, 'tabindex'), 1);
+
+  turing.dom.attr(link, 'href', '/somewhere');
+  assert.equal(turing.dom.attr(link, 'href'), '/somewhere');
+
+  // Forms
+  turing.dom.attr(input, 'value', 'changed-value');
+  assert.equal(turing.dom.attr(input, 'value'), 'changed-value');
+
+  turing.dom.attr(input, 'name', 'changed-name');
+  assert.equal(turing.dom.attr(input, 'name'), 'changed-name');
+  
+  turing.dom.attr(button, 'name', 'changed-button-name');
+  assert.equal(turing.dom.attr(button, 'name'), 'changed-button-name');
+  
+  turing.dom.attr(button, 'value', 'changed-button-value');
+  assert.equal(turing.dom.attr(button, 'value'), 'changed-button-value');
+}
+{% endhighlight %}
+
+h3. Implementation
+
+Building on last week's code, I added a check to see if the attribute value is <code>null</code> or <code>undefined</code>:
+
+{% highlight javascript %}
+/**
+ * Get or set attributes.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} attribute The attribute name
+ * @param {String} value The attribute value
+ */
+dom.attr = function(element, attribute, value) {
+  if (typeof value === 'undefined') {
+    return turing.detect('getAttribute') ?
+      element.getAttribute(attribute) : getAttribute(element, attribute);
+  } else {
+    if (value === null) {
+      return dom.removeAttr(element, attribute);
+    } else {
+      return turing.detect('getAttribute') ?
+        element.setAttribute(attribute, value) : setAttribute(element, attribute, value);
+    }
+  }
+};
+{% endhighlight %}
+
+I reused the <code>getAttribute</code> capability test for writing attributes.  I started off with a simple attribute setter for IE:
+
+{% highlight javascript %}
+function setAttribute(element, name, value) {
+  if (propertyFix[name]) {
+    name = propertyFix[name];
+  }
+
+  return element.setAttribute(name, value);
+}
+{% endhighlight %}
+
+But the button test failed so I had to add similar code from <code>getAttribute</code>:
+
+{% highlight javascript %}
+if (name === 'value' && element.nodeName === 'BUTTON') {
+  return element.getAttributeNode(name).nodeValue = value;
+}
+{% endhighlight %}
+
+h3. Conclusion
+
+Getting and setting attributes is extremely similar, and it just goes to show how frustratingly similar browser implementations have been.  The strange case of IE's <code>removeAttribute</code> behaviour still baffles me, but if I find a good solution I'll write an update.
+
+This week's code is in "commit c5625f8":https://github.com/alexyoung/turing.js/tree/c5625f82ccd6f18df5be70f7f5c102de9fc908cb.
