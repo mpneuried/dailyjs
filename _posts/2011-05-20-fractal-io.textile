@@ -1,0 +1,50 @@
+
+---
+layout: post
+title: "Fractal Lab, Disabling WebGL, Bitcoin Miner"
+author: Alex Young
+categories:
+- webgl
+- graphics
+- bitcoin
+---
+
+h3. Fractal Lab
+
+!/images/posts/fractal1.png!
+
+"Fractal Lab":http://fractal.io/ by Tom Beddard is a WebGL fractal explorer.  It has great quality rendering of all kinds of strange 2D and 3D fractals, with tonnes of options and a great interface.
+
+If you want to get started with the really cool stuff, click _Fractal library_ then select something that looks interesting.  There are tabs on the right-hand-side of the rendering with further options.  Be careful with the number of iterations and max steps, else you might redline your CPU for a bit!
+
+!/images/posts/fractal2.png!
+
+There are keyboard shortcuts which control the position of the camera (WASD + QE and ZX for speed); the controls make it feel like walking around strange 3D landscapes.
+
+This is no mere WebGL demo, it's fully-featured.  In fact, it's probably one of the best fractal apps that I've played with for some time (and I'm a "Processing":http://processing.org/ nerd!)
+
+!/images/posts/fractal3.png!
+
+The author also wrote a blog post about Fractal Lab here: "Fractal Lab - A WebGL based web application for rendering 2D and 3D fractals in real-time":http://www.subblue.com/blog/2011/3/5/fractal_lab.
+
+h3. Disabling WebGL
+
+In "How To Disable WebGL":http://securehomenetwork.blogspot.com/2011/05/how-to-disable-webgl.html, James McQuaid talks about how to disable WebGL in Chrome and Firefox for Windows 7.  This is in response to the WebGL security issues reported last week.
+
+James says:
+
+bq. Once WebGL is effectively sandboxed by Google and Mozilla, I will be happy to turn it back on.  Until then, the eye candy will have to wait.
+
+If you're using a Mac or other unix you should be able to run Chrome/Chromium with <code>--disable-webgl</code> or edit Firefox's settings with <code>about:config</code>.
+
+h3. JavaScript Bitcoin Miner
+
+"bitp.it":http://bitp.it/ is a JavaScript "bitcoin":http://www.bitcoin.org/ miner.  The author announced it in a post on the "Bitcoin Forum":http://forum.bitcoin.org/index.php?topic=9042.0.
+
+He says:
+
+bq. We are hoping this will be viewed as an exciting new alternative to banner advertisement that actually has the potential of not being annoying to website visitor and actually generating bitcoins for the website operator.
+
+That sounds pretty optimistic, but it's extremely intesresting nonetheless.
+
+Note that if you visit bitp.it you'll actually be contributing to the generation of bitcoins in a shared pool.
