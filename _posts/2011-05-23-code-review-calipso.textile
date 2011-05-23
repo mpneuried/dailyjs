@@ -1,0 +1,177 @@
+---
+layout: post
+title: "Code Review: Calipso"
+author: Alex Young
+categories:
+- node
+- express
+- code-review
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+This week's code review is on "Calipso":http://calip.so/ by Clifton Cunningham.  I only found out about Calipso today, but so many people seemed to want to learn more about Express apps that I thought it would be worth checking it out.
+
+h3. About Calipso
+
+"Calipso":http://calip.so/ (GitHub: "cliftonc / calipso":https://github.com/cliftonc/calipso, License: _MIT_) is a content management system, inspired by popular tools like WordPress and Drupal.  It already has some cool features:
+
+* Create themes with the Express-compatible view rendering engines and Stylus
+* Background scheduler for importing content from feeds
+* Modular structure
+* Internationalisation
+
+h3. Installation
+
+You'll need Node, npm, and MongoDB to use Calipso.
+
+Check the code out with Git, then set up the packages with npm:
+
+{% highlight sh %}
+$ git clone git@github.com:cliftonc/calipso.git
+$ cd calipso
+$ npm install
+$ node app
+{% endhighlight %}
+
+Then visit "http://localhost:3000/":http://localhost:3000/ to see a suspiciously empty site.
+
+h3. Usage
+
+!/images/posts/calipso1.png!
+
+A fresh Calipso install makes a lot more sense when logged in, so log in with admin/password first.  There's a settings section under _Admin_ which allows modules to be turned on.  Content can be created using the navigation under _Content_, and the _Content Type_ section is used to manage the types of pages a site will use.
+
+h3. App Structure
+
+Calipso has a structure that is deceptively similar to most Express apps.  The <code>app.js</code> file is fairly light -- it just deals with booting the application.  The configuration files can be found in <code>conf/</code> which are split into environments (development, production, test).  There's also a file for managing settings which saves them to the database.
+
+There aren't view or controller directories because this part of the app is split into themes and modules. 
+
+h3. Loading Settings
+
+Settings are loaded from a similar pattern to something I use to separate out potentially lengthy Express settings:
+
+{% highlight javascript %}
+module.exports = function(app,express) {
+  // Database connection
+  app.set('db-uri', 'mongodb://localhost/calipso-dev');
+
+  // ...
+}
+{% endhighlight %}
+
+The environment configuration files are then loaded by the configuration manager:
+
+{% highlight javascript %}
+var NODE_ENV = global.process.env.NODE_ENV || 'development';
+app.configure(NODE_ENV, function() {
+  require("./"+NODE_ENV+".js")(app, express);
+  loadConfig(app, defaultConfig, function(err, config) {
+    app.set('config', config);
+    next(err);
+  });
+});
+{% endhighlight %}
+
+h3. Database
+
+"Mongoose":http://mongoosejs.com/ is the database library, so there are a lot of schemas kicking around:
+
+* <code>AppConfigSchema</code>: Stores the site's various settings
+* <code>AppModule</code>: Module status, embedded within <code>AppConfigSchema</code>
+* <code>User</code> and <code>Role</code>: Used by the user module for managing users
+* <code>Tag</code>: Used to create tag clouds
+* <code>TaxonomyMenu</code>: Used by the taxonomy module for creating menus
+* <code>ScheduledJob</code>: Stores background tasks that are run by cron
+* <code>Media</code> and <code>MediaGallery</code>: Used to manage uploads
+* <code>Content</code> and <code>ContentType</code>: Generic content management
+
+The Mongoose library is passed around inside modules:
+
+{% highlight javascript %}
+var MediaGallery = new calipso.lib.mongoose.Schema({
+  name: {type: String, required: true},
+  description: {type: String, required: true},
+  author: {type: String, required: true},
+  ispublic: {type: Boolean, required: true, default: false},
+  created: {type: Date, default: Date.now},
+  updated: {type: Date, default: Date.now}
+});
+{% endhighlight %}
+
+This is true for other shared libraries as well.  The <code>calipso</code> module is passed around everywhere so modules don't need to keep loading the same libraries.
+
+From what I can tell, the author has used sensible data types and embedded documents where they make sense.
+
+h3. Calipso Modules
+
+Calipso abstracts Express away from modules, and makes heavy use of "Step":https://github.com/creationix/step to get parallel execution for some boot time and reloading speed improvements.
+
+Modules are defined like this:
+
+{% highlight javascript %}
+exports = module.exports = {
+  init: init,
+  route: route,
+  install: install,
+  reload: reload,
+  disable: disable,
+  about: {
+    description: 'Sample content to test themes.',
+    author: 'cliftonc',
+    version: '0.2.0',
+    home: 'http://github.com/cliftonc/calipso'
+  }
+};
+{% endhighlight %}
+
+Every property except <code>about</code> is a function.  Some have signatures with <code>req, res</code> like Express actions, others have extra values from Calipso, and <code>init</code> takes <code>module, app, next</code>.
+
+h3. Routing
+
+Calipso's routing is Express middleware, which has allowed the author to distance Calipso's concept of modules from Express's API.  
+
+h3. Logging
+
+Calipso logs a lot of stuff, so the author has decided to use "winston":https://github.com/indexzero/winston which is an asynchronous logging library.  This is actually a very flexible library -- it can log to the console, files, "Loggly":http://loggly.com/, or potentially anywhere.
+
+h3. Forms
+
+Forms are generated using <code>CalipsoForm</code>, which takes readable JSON input and produces HTML.  This is used inside modules, and there's a good example in <code>modules/community/sample-content/</code>:
+
+{% highlight javascript %}
+function renderSampleContentPage(req, res, template, block, next) {
+  calipso.form.process(req, function(incomingForm) {
+    var sampleForm = {
+      id: 'sample-content-form',
+      cls: 'sample-content-form',
+      title: 'Sample Content Form',
+    // ...
+
+    calipso.form.render(sampleForm, incomingForm, req, function(form) {
+      calipso.theme.renderItem(req, res, template, block, {
+        form: form
+      });
+      next();
+    });
+{% endhighlight %}
+
+h3. Internationalisation
+
+I was extremely pleased to see some effort towards internationalisation in Calipso.  It has its own translation code which is exposed as Connect middleware.  That means the translation module can access the session to determine what language is selected.
+
+The translation module keeps a cache around for lookups, which are just a case of looking up the string based on the English string, then replacing any embedded values.  Curly braces are used for interpolation: <code>"{name} Profile":"{name} Profile"</code>.
+
+There are a few modules that provide similar functionality, available through npm.  I've been looking at "node-jus-i18n":https://github.com/naholyr/node-jus-i18n and "Polyglot":https://github.com/ricardobeat/node-polyglot.
+
+h3. Conclusion
+
+Calipso builds on Express, but it feels very different to a typical Express app because of the module loading system.  Many apps would benefit from using the settings loading approach, and I'm definitely going to look at using <code>winston</code> in my next project.
+
+Passing around the shared <code>calipso</code> object is interesting as well, it reduces the need to keep loading key libraries.
+
+There's a lot of Mongoose code here as well, so if you're looking to learn more about that it might be worth digging in.  And, if you're interested in learning how to write Calipso modules, Clifton writes extremely detailed code comments so it shouldn't be too hard to get started with his "template":https://github.com/cliftonc/calipso/tree/master/modules/community/template module.
+
