@@ -1,0 +1,55 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery UI Tabs Redesign, jquery-floating-widget, Ninja UI"
+author: Alex Young
+categories: 
+- jquery
+- jqueryui
+- plugins
+- ui
+---
+
+h3. jQuery UI 1.9 Milestone 5 – Tabs Redesign
+
+The jQuery UI blog covered the most recent milestone release in "jQuery UI 1.9 Milestone 5 – Tabs Redesign":http://blog.jqueryui.com/2011/05/jquery-ui-1-9-milestone-5-tabs-redesign/.  This version updates the "Tabs API":http://wiki.jqueryui.com/w/page/12138085/Tabs to make it more consistent with other jQuery UI widgets.
+
+Details of the changes are available in this post: "Tabs API Redesign":http://forum.jquery.com/topic/tabs-api-redesign.
+
+h3. jquery-floating-widget
+
+I was trying to vertically float an advert using CSS so it was always visible on the page, but only scrolled up to a certain point.  It was hard to get it to behave properly with the particular layout I was using, so I ended up writing some JavaScript to do it.
+
+If only I had "jquery-floating-widget":https://github.com/terkel/jquery-floating-widget!  This plugin, by Takeru Suzuki, does exactly what I needed.  Just drop it in a page with <code>$('.floating-widget').floatingWidget();</code> and some suitable CSS (detailed "in this blog post":http://terkel.jp/archives/2011/05/jquery-floating-widget-plugin/) and you should get something like this: "jquery-floating-widget demo":http://terkel.jp/demo/jquery-floating-widget-plugin.html.
+
+h3. Ninja UI
+
+!/images/posts/ninjaui.png!
+
+"Ninja UI":http://ninjaui.com/ (GitHub: "ninja / ui":https://github.com/ninja/ui, License: _Apache 2.0_) by Jamie Hoover and Faisal Jawdat is a plugin that includes lots of UI widgets and icons.
+
+The API looks a bit like jQuery UI:
+
+{% highlight javascript %}
+/* Tabs */
+var $tabs = $.ninja().tabs({
+  choices: [{
+    html: 'One',
+    select: function () {
+      console.log('Local tab function called.');
+    }
+  },
+  {
+    html: 'Two',
+  },
+  {
+    html: 'Three',
+  }],
+  choice: 2
+}).select(function (event) {
+  console.log('Global tab function called returning: ' + event.html);
+});
+$examplesBody.append($title.clone().text('Tabs'), $tabs);
+{% endhighlight %}
+
+I pulled this from the "examples.js":http://ninjaui.com/javascripts/examples.js file on the project's site.
+
