@@ -1,0 +1,80 @@
+---
+layout: post
+title: "Node Roundup: Internationalisation"
+author: Alex Young
+categories: 
+- node
+- modules
+- i18n
+---
+
+h3. Dialect
+
+"Dialect":https://github.com/masylum/dialect/ (License: _MIT_, npm: _dialect_) by Pau Ramon Revilla is an internationalisation API for Node that stores translations in memory.  The translations are periodically synced to MongoDB, so it's fast and easy to serve multiple clients with.
+
+The author's example demonstrates this:
+
+{% highlight javascript %}
+var dialect = require('dialect').dialect({current_locale: 'es', store: {mongodb: {}}});
+
+// connects to the store
+dialect.connect(function () {
+
+  // syncs the memory dictionaries with the store
+  dialect.sync({interval:3600}, function (err, foo) {
+    d.get('Hello World!'); // => Hola mundo
+  });
+});
+{% endhighlight %}
+
+The <code>mongodb</code> property expects an object with <code>database</code>, <code>host</code>, and other connection options.  I'd prefer to see a connection URI here, but it's fairly easy to get going with MongoDB or SQLite.
+
+The API has a lot of features that I've come to expect from a good i18n library -- plurals, contexts, and interpolation are all supported.
+
+!/images/posts/dialecthttp.png!
+
+The best thing about Dialect, however, is "dialect-http":https://github.com/masylum/dialect-http (License: _MIT_, npm: _dialect-http_).  This is a nice little web app that translators can use to find missing translations and fill them in.  It's one of the better open source examples of this type of tool that I've seen.
+
+I'm having some trouble running dialect-http; I think the author might need to try running it on a fresh npm install with a blank database.
+
+h3. node-jus-i18n
+
+"node-jus-i18n":https://github.com/naholyr/node-jus-i18n (npm: _jus-i18n_) by Nicolas Chambrier also supports plurals, context, and interpolation.  It comes with support for various data stores: module, file, gettext, and he's also working on various databases.  The documentation is still a little bit confusing, but he's written a lot of examples and future plans.
+
+There's integration with Express, which means <code>req</code> objects get an <code>i18n</code> object:
+
+{% highlight javascript %}
+app.configure(function() {
+  i18n.enableForApp(app, { // options (all are optional, you can pass {} or undefined
+    "locale": "en",          // default locale
+    "catalogue": "messages", // catalogue to load
+    "locales": undefined,    // locales to load
+  }, function(err) { // called when i18n has loaded messages
+    ...
+  });
+});
+
+req.i18n.translate(...)
+{% endhighlight %}
+
+And there are helpers for use in templates:
+
+{% highlight javascript %}
+_('Hello, {name}', {name: userName});
+plural('You have {n} messages', nbMessages);
+{% endhighlight %}
+
+h3. Polyglot
+
+"Polyglot":https://github.com/ricardobeat/node-polyglot (npm: _polyglot_) by Ricardo Tomasi is aimed squarely at Express apps.  Ricardo suggests some helper aliases in the README:
+
+{% highlight javascript %}
+app.helpers({
+    __: i18n.translate
+  , languages: i18n.languages
+  , n: i18n.plural // optional
+})
+{% endhighlight %}
+
+As you can see, it does basic translation lookups and plurals.  I'm not sure what's going on with the README, because it refers to <code>express-</code> and <code>express-voyage</code> as package names, but I installed it with <code>polyglot</code> as suggested by the "package.json":https://github.com/ricardobeat/node-polyglot/blob/master/package.json file.
+
