@@ -1,0 +1,167 @@
+---
+layout: post
+title: "Let's Make a Framework: Element Properties"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- dom
+---
+
+Welcome to part 64 of _Let's Make a Framework_, the ongoing series about building a JavaScript framework.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+
+For the past three weeks I've been looking at accessing element attributes:
+
+* "Element Attributes":http://dailyjs.com/2011/05/05/framework-61/
+* "Element Attributes Part 2":http://dailyjs.com/2011/05/12/framework-62/
+* "Element Attributes Part 3":http://dailyjs.com/2011/05/19/framework-63/
+
+When we talk about attributes we're referring to the actual HTML attributes.  These values can differ from the DOM element's _properties_.  The distinction is somewhat confusing, and many frameworks attempt to iron out the differences behind the scenes.  jQuery ended up providing access to both attributes and properties.
+
+h3. Properties vs. Attributes
+
+The most obvious case that demonstrates the difference between properties and values is checkboxes.  Accessing a checkbox's <code>checked</code> attribute should return <code>'checked'</code>, whereas the property will return <code>true</code>.
+
+Perhaps that isn't completely obvious, but if you play around with this you'll see what I mean:
+
+{% highlight html %}
+<input id="check" type="checkbox" checked="checked" />
+{% endhighlight %}
+
+h3. Tests
+
+To test if these checkboxes really behaved this way, I wrote these tests for the <code>prop</code> method:
+
+{% highlight javascript %}
+'test getting properties': function() {
+  var checkbox = turing.dom.get('#checkbox')[0];
+
+  assert.equal(turing.dom.prop(checkbox, 'checked'), true);
+  assert.equal(turing('#checkbox').prop('checked'), true);
+},
+
+'test setting properties': function() {
+  var checkbox = turing.dom.get('#checkbox')[0];
+  
+  turing.dom.prop(checkbox, 'checked', false);
+  assert.equal(turing.dom.prop(checkbox, 'checked'), false);
+},
+
+'test removing properties': function() {
+  var checkbox = turing.dom.get('#checkbox')[0];
+
+  turing.dom.removeProp(checkbox, 'checked');
+  assert.eqyal(turing.dom.prop(checkbox, 'checked'), undefined);
+}
+
+{% endhighlight %}
+
+h3. Implementation
+
+This is a basic implementation that just access an element's properties, applying <code>propertyFix</code> from the previous tutorials when required:
+
+{% highlight javascript %}
+/**
+ * Get or set properties.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} attribute The property name
+ * @param {String|Number|Boolean} value The property value
+ */
+dom.prop = function(element, property, value) {
+  if (propertyFix[property])
+    property = propertyFix[property];
+  if (typeof value === 'undefined') {
+    return element[property];
+  } else {
+    if (value === null) {
+      return dom.removeProperty(element, property);
+    } else {
+      return element[property] = value;
+    }
+  }
+};
+{% endhighlight %}
+
+And this is the corresponding DOM chain method:
+
+{% highlight javascript %}
+/**
+ * Get or set a property.
+ *
+ * @param {String} property The property name
+ * @param {String} value The property value
+ * @returns {String} The property value
+ */
+prop: function(property, value) {
+  if (this.elements.length > 0) {
+    return dom.prop(this[0], property, value);
+  }
+},
+{% endhighlight %}
+
+It accesses the first element, if one has been found.
+
+h3. Attribute Implementation
+
+This will actually fail in IE:
+
+{% highlight javascript %}
+assert.equal(turing.dom.attr(checkbox, 'checked'), 'checked');
+{% endhighlight %}
+
+To get around this, we need to test to see if an attribute is a _boolean attribute_.  A boolean attribute should return its own name when it's set, which means IE's <code>getAttribute</code> code should test for this and return the expected value:
+
+{% highlight javascript %}
+booleanAttributes = {
+  'selected': true,
+  'readonly': true,
+  'checked':  true
+};
+
+function getAttribute(element, name) {
+  if (propertyFix[name]) {
+    name = propertyFix[name];
+  }
+
+  if (getAttributeParamFix[name]) {
+    return element.getAttribute(name, 2);
+  }
+
+  if (name === 'value' && element.nodeName === 'BUTTON') {
+    return element.getAttributeNode(name).nodeValue;
+  } else if (booleanAttributes[name]) {
+    return element[name] ? name : undefined;
+  }
+
+  return element.getAttribute(name);
+}
+{% endhighlight %}
+
+I'll have to add more <code>booleanAttributes</code> later on.
+
+h3. Removing Properties
+
+When I tried to remove the <code>checked</code> attribute in IE it raised an exception which said _Object doesn't support this action_.  I decided to give up and catch the exception:
+
+{% highlight javascript %}
+dom.removeProp = function(element, property) {
+  if (propertyFix[property])
+    property = propertyFix[property];
+  try {
+    element[property] = undefined;
+    delete element[property];
+  } catch (e) {
+  }
+};
+{% endhighlight %}
+
+h3. Conclusion
+
+Property manipulation built on what we'd already achieved with attributes, but has a few browser quirks of its own to deal with.  A naive implementation can be built easily, but supporting a wide range of browsers is where the real effort comes in.
+
+This week's code is "commit f385e09":https://github.com/alexyoung/turing.js/tree/f385e09abf087fad9a50efd83ff2f484c0ebe773.
