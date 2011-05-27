@@ -1,0 +1,37 @@
+---
+layout: post
+title: "London WebGL, JSONSelect"
+author: Alex Young
+categories: 
+- json
+- webgl
+- events
+---
+
+h3. London WebGL
+
+Mozilla Labs has a good post up about the "London WebGL Meetup":http://londonwebgl.eventbrite.com/ in a post entitled "London WebGL Meetup Yesterday":https://mozillalabs.com/blog/2011/05/london-webgl-meetup-yesterday.  The event was organised by "Giles Thomas":https://twitter.com/#!/gpjt who writes "Learning WebGL":http://learningwebgl.com/blog/ (featured previously on DailyJS here: "JavaScript 3D":http://dailyjs.com/2010/01/14/javascript-3D/).
+
+bq. When asked for "How many of you know what the Demoscene is?" 90% raised their hands. Record!
+
+"Mr. Doob":http://mrdoob.com/ was there too, it sounded like a great event.  I'd love to attend the next one!
+
+h3. JSONSelect
+
+!/images/posts/jsonselect.png!
+
+"JSONSelect":http://jsonselect.org/ (GitHub: "lloyd / JSONSelect":https://github.com/lloyd/JSONSelect, "License":https://github.com/lloyd/JSONSelect/blob/master/LICENSE, npm: _JSONSelect_) by Lloyd Hilaiel is a selector language for JSON.  There's an "interactive demo":http://jsonselect.org/#tryit on the project's site which shows the supported selectors.
+
+The author writes about JSONSelect more like a language than a convenient Node parser -- in fact he calls the JavaScript code a reference implementation.
+
+Here's an example of the npm package in action:
+
+{% highlight javascript %}
+var jsonselect = require('jsonselect');
+
+jsonselect.match('.name', { people: [ { name: 'Alex' }, { name: 'Jones' } ] });
+// [ 'Alex', 'Jones' ]
+{% endhighlight %}
+
+Do you remember when I reviewed TJ Holowaychuk's "finance":https://github.com/visionmedia/finance app in the "Finance Code Review":http://dailyjs.com/2011/05/16/code-review-finance/?  Well, TJ included a little file-based database using JSON.  JSONSelect could be the perfect partner for that approach, particularly for small open source Express web apps.
+
