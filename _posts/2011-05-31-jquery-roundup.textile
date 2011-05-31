@@ -1,0 +1,45 @@
+---
+layout: post
+title: "jQuery Roundup: Path to Hybrid, Formly, WormHole"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+h3. Path to Hybrid
+
+Alex Kessinger has posted a video of his "Path to Hybrid":http://alexkessinger.net/2011/05/30/a-screen-cast-of-my-jquerycon11-talk-path-to-hybrid/ talk originally given at "jQuery Conference 2011":http://events.jquery.org/2011/sf-bay-area/speakers/.  He discusses how to create app-like mobile web apps, and explores the various pitfalls and what jQuery Mobile offers to solve these issues, including "fastclick" -- you can read about this in "the jQuery Mobile Alpha 4":http://jquerymobile.com/blog/2011/03/31/jquery-mobile-alpha-4-released/ blog post.
+
+h3. Formly
+
+!/images/posts/formly-example.png!
+
+"Formly":http://thrivingkings.com/formly/ (GitHub: "ThrivingKings / Formly":https://github.com/ThrivingKings/Formly) by Daniel Raftery is a "form glamorizer" for jQuery.  It includes CSS and JavaScript necessary for quickly building modern-looking forms, AND validation!
+
+Giving Formly suitable markup will cause it to interpret attributes on each input to add appropriate validation.  This HTML fragment:
+
+{% highlight html %}
+<form id="ContactInfo" width="600px" title="Member sign up"><br/>
+  <input type="password" name="pword" require="true" label="Password" place="Password" /> 
+  <input type="password" name="pwordm" match="pword" label="Password" place="Re-type password" /><br/> 
+{% endhighlight %}
+
+Just requires this JavaScript to kick things off:
+
+{% highlight javascript %}
+$('#ContactInfo').formly({'theme':'Dark'}, function(e)
+    { $('.callback').html(e); });
+});
+{% endhighlight %}
+
+I feel like this could work better with data attributes and more semantic markup, I don't think it would take too much effort to make it work this way.
+
+h3. jQuery WormHole
+
+"jQuery WormHole":http://opensource.rotify.com/wormhole/ (GitHub: "JonMidhir / jQuery-Worm-Hole-Plugin":https://github.com/JonMidhir/jQuery-Worm-Hole-Plugin, License: _Don't be a Dick (DD)_) by Jon Hope is the kind of thing I'm going to need one day and be unable to craft the right set of search terms to find it.  It creates an invisible link between elements on a page, enabling jQuery UI's draggables to disappear in one place and appear in another.  There's a demo on the site that illustrates how it works.
+
+bq. WormHole was built for the Rotify project to allow overnight shifts to be scheduled easily and intuitively. It'll fit snugly into any similar situation, where the user needs to share child objects amongst discrete containers. The codebase is minimal and it is easily customisable.
+
+
+
