@@ -28,8 +28,8 @@ Giving Formly suitable markup will cause it to interpret attributes on each inpu
 Just requires this JavaScript to kick things off:
 
 {% highlight javascript %}
-$('#ContactInfo').formly({'theme':'Dark'}, function(e)
-    { $('.callback').html(e); });
+$('#ContactInfo').formly({'theme':'Dark'}, function(e) {
+  $('.callback').html(e);
 });
 {% endhighlight %}
 
@@ -40,6 +40,4 @@ h3. jQuery WormHole
 "jQuery WormHole":http://opensource.rotify.com/wormhole/ (GitHub: "JonMidhir / jQuery-Worm-Hole-Plugin":https://github.com/JonMidhir/jQuery-Worm-Hole-Plugin, License: _Don't be a Dick (DD)_) by Jon Hope is the kind of thing I'm going to need one day and be unable to craft the right set of search terms to find it.  It creates an invisible link between elements on a page, enabling jQuery UI's draggables to disappear in one place and appear in another.  There's a demo on the site that illustrates how it works.
 
 bq. WormHole was built for the Rotify project to allow overnight shifts to be scheduled easily and intuitively. It'll fit snugly into any similar situation, where the user needs to share child objects amongst discrete containers. The codebase is minimal and it is easily customisable.
-
-
 

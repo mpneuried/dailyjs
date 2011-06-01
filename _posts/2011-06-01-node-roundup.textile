@@ -1,0 +1,128 @@
+---
+layout: post
+title: "Node Roundup: Sequelize 1.0, node-shell, Formaline"
+author: Alex Young
+categories: 
+- node
+- modules
+- database
+- cli
+- express
+---
+
+h3. Sequelize 1.0.0
+
+"Sequelize":http://www.sequelizejs.com/ (GitHub: "sdepold / sequelize":https://github.com/sdepold/sequelize, "License":https://github.com/sdepold/sequelize/blob/master/LICENSE, npm: _sequelize_) by Sascha Depold has just been updated to version 1.0.0.  Sascha has written about the release in "Changes in Sequelize 1.0.0":http://blog.depold.com/post/5936116582/changes-in-sequelize-1-0-0.
+
+There's a nice new API for chained queries:
+
+{% highlight javascript %}
+new Sequelize.Utils.QueryChainer
+  .add(person.save())
+  .add(pet.save())
+  .run()
+  .on('success', function() { });
+{% endhighlight %}
+
+And changes to the way models are instantiated:
+
+{% highlight javascript %}
+// Before
+new Model({attr1: 1, attr2: 2}).save()
+
+// Now
+Model.build({}).save()
+// to first create the instance and save it afterwards or…
+
+Model.create({})
+// to create it and directly write it to the database
+{% endhighlight %}
+
+Other changes include:
+
+* An event-based architecture instead of callbacks
+* More convenient syncing
+* A <code>count</code> method for models
+* New model schema options: unique, primaryKey, autoIncrement
+
+And plenty more!
+
+If you're interested in Sequelize but haven't tried it before, "www.sequelizejs.com":http://www.sequelizejs.com/ has great documentation to get you started.
+
+h3. node-shell
+
+"node-shell":https://github.com/wdavidw/node-shell (npm: _shell_) by David Worms is a module for building shell scripts.  It's interesting because it lifts a lot of concepts straight from Express, particular "pluggable" modules.  It's very similar to working with Express.
+
+This is a cut-down example from the author's documentation:
+
+{% highlight javascript %}
+var shell = require('shell');
+var app = new shell.Shell();
+
+app.configure(function() {
+    app.use(shell.history({
+        shell: app
+    }));
+
+    // ... snip
+});
+
+// Command registration
+app.cmd('redis keys :pattern', 'Find keys', function(req, res, next){
+    if(!app.client){
+        app.client = require('redis').createClient();
+    }
+    app.client.keys(req.params.pattern, function(err, keys){
+        if(err){ return res.styles.red(err.message), next(); }
+        res.cyan(keys.join('\n')||'no keys');
+        res.prompt();
+    });
+});
+
+// Event notification
+app.on('redis quit', function(){
+    if(app.client){
+        app.client.quit();
+    }
+});
+{% endhighlight %}
+
+If you're a web app developer who hasn't worked with the console before, node-shell looks like it might be a good way to leapfrog a lot of tediousness.
+
+h3. Formaline
+
+"Formaline":https://github.com/rootslab/formaline (License: _MIT_, npm: _formaline_) by Guglielmo Ferri helps handle form requests and file uploads, complete with connect middleware.  It has several interesting features:
+
+* Progress tracking
+* HTML5 multiple file upload support
+* Speaks JSON
+* Tested against malicious and incorrect HTTP headers
+* Handles filename collisions
+* The SHA1 data checksum of received files can be returned
+
+Basic usage looks like this:
+
+{% highlight javascript %}
+var formaline = require('formaline'),
+    form = new formaline({});
+
+form.on('filereceived', function(json) {
+
+});
+{% endhighlight %}
+
+The resulting <code>json</code> object will contain these properties:
+
+{% highlight javascript %}
+json = { 
+  hashname: '..',           // <-- 40 HEX SHA1 STRING ( IT IS THE (SHA1) RESULTING HASH OF FILENAME )
+  name: '..',               // <-- FILE ORIGINAL NAME  
+  path: '..',               // <-- FILE PATH       
+  type: '..',               // <-- MIME TYPE
+  size: 217,                // <-- BYTES 
+  fieldname: '..',          // <-- FILE FIELD NAME 
+  datasha1sum: '..',        // <-- 40 HEX SHA1 STRING  ( IT IS THE (SHA1) RESULTING HASH OF THE FILE'S DATA )
+  lastModifiedDate: '..'    // <-- FILE MTIME       
+}
+{% endhighlight %}
+
