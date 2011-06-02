@@ -1,0 +1,51 @@
+---
+layout: post
+title: "Let's Make a Framework: Promises"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- promises
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Promises are something you may have used without realising it.  jQuery manages them using "Deferred Object":http://api.jquery.com/category/deferred-object/, and Dojo has "dojo.Deferred":http://docs.dojocampus.org/dojo/Deferred which is similar.  There are also a growing number of Node modules that offer APIs for working with asynchronous promises, some of which can work in browsers as well.
+
+It's easiest to understand promises with an example:
+
+{% highlight javascript %}
+$.get('test').then(
+  function() { alert("$.get succeeded"); },
+  function() { alert("$.get failed!"); }
+);
+{% endhighlight %}
+
+This is from jQuery's documentation.  When the Ajax request succeeds, the first callback will be run, else the second is run.  The most important thing is the Ajax method returns an object with a method called <code>then</code> with this signature: <code>then(fulfilledHandler, errorHandler, progressHandler)</code>.  It might not sound particularly exciting, but it can lead to surprisingly readable and expressive code.
+
+h3. CommonJS
+
+There is a CommonJS proposal for Promises, known as "Promises/A":http://wiki.commonjs.org/wiki/Promises/A.  It defines the <code>then</code> method, and also <code>get</code> and <code>call</code>.  These methods form what it calls an "interactive-promise".
+
+In an interactive-promise, the <code>get(propertyName)</code> method will return a promise that requests the given property from the target of the current promise.  Meanwhile, <code>call(functionName, arg1, arg2, ...)</code> will request to call the function from the target of the current promise and returns a promise to provide the resulting value.
+
+Notice how this syntax is eminently chainable -- various levels of asynchronous operations could be stacked and manipulated.
+
+h3. Practicality
+
+While promises sound like a great way to interact with asynchronous code, the practicality isn't immediately obvious in a web framework, outside of Ajax calls.  However, they can be used to build more advanced functionality within the framework.  People don't necessarily need to fully understand promises to be able to take advantage of <code>$.get('/url').then(function() { })</code>.  And promises seem like a good way of modelling animation behaviour without adding a complex library for animation scheduling.
+
+h3. Next
+
+Next week I'll take a look at building promises in browser-friendly JavaScript.  If you're interested in reading more, take a look at:
+
+* "Promises/A":http://wiki.commonjs.org/wiki/Promises/A
+* "jQuery Deferred":http://api.jquery.com/category/deferred-object/
+* "q: Defer/when style promise API for JavaScript":https://github.com/kriskowal/q
+
