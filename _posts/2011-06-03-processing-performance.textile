@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Processing 1.2, Canvas and WebGL Benchmarks, What is WebGL?"
+author: Alex Young
+categories: 
+- webgl
+- benchmarks
+- processing
+---
+
+h3. Processing.js 1.2
+
+!/images/posts/processing-cherry.png!
+
+"Processing.js 1.2 has been released":http://processingjs.org/blog/?p=267.  This version improves WebGL performance, and there's now a guide that shows how Canvas and WebGL relate to Processing's rendering modes: "Understanding Rendering Modes in Processing.js":http://processingjs.org/reference/articles/RenderingModes.
+
+There's a full changelog in the blog post.  And, the image above comes from "Spring and Processing.js":http://www.atelierbinturong.com/2011/04/spring-and-processingjs.html.
+
+h3. Canvas and WebGL Benchmarks
+
+Ilmari Heikkinen posted some interesting "jsPerf Canvas and WebGL benchmarks":http://fhtr.blogspot.com/2011/06/canvas-webgl-microbenchmarks.html to his blog, which includes a "text sources":http://jsperf.com/texture-sources benchmark.
+
+Running the benchmarks will show a comparison against other browsers using "Browserscope":http://www.browserscope.org/.
+
+h3. What is WebGL?
+
+<iframe width="500" height="320" src="http://www.youtube.com/embed/qy3uFupx5CM" frameborder="0" allowfullscreen></iframe>
+
+"What is WebGL?":http://www.youtube.com/watch?v=qy3uFupx5CM was a talk by Neil Trevett given at the "WebGL Meetup group":http://www.meetup.com/WebGL-Developers-Meetup.  It's fairly high-level, but Neil does a good job of explaining how the stack of technologies required for WebGL come together to make it all possible.
+
+It also mentions a project by Google called "ANGLE":http://code.google.com/p/angleproject/ which attempts to translate OpenGL ES 2.0 API calls to DirectX 9 for Windows machines that don't have OpenGL 2.0 drivers.  Interesting stuff!
+
