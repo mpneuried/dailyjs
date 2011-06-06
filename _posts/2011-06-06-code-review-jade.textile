@@ -1,0 +1,213 @@
+---
+layout: post
+title: "Code Review: Jade"
+author: Alex Young
+categories:
+- code-review
+- language
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+In "last week's code review":http://dailyjs.com/2011/05/30/code-review-coffeescript/ I looked at CoffeeScript, which is built with the excellent "Jison":http://zaach.github.com/jison/ parser generator.  I wanted to contrast this to "Jade":http://jade-lang.com/.  Although Jade is a very different language to CoffeeScript, I wanted to compare TJ's hand-crafted parser and lexer.
+
+h3. About Jade
+
+"Jade":http://jade-lang.com/ (GitHub: "visionmedia / jade":https://github.com/visionmedia/jade, License: _MIT_, npm: _jade_) by TJ Holowaychuk is a Haml-inspired template language.  It started off as a Node library, but it's been ported to other languages too.
+
+It has some interesting time saving features that make HTML feel like hard work.  Rather than writing <code>div</code> all the time, it's possible to just write classes or IDs with CSS selector syntax:
+
+{% highlight text %}
+#main
+  .post
+    h3 #{post.title}
+{% endhighlight %}
+
+There are even shortcuts for conditional comments.  This will insert <code><!--[if IE]></code>:
+
+{% highlight text %}
+body
+  /if IE
+    a(href='http://www.mozilla.com/en-US/firefox/') Get Firefox
+{% endhighlight %}
+
+h3. Installation
+
+Jade can be downloaded from GitHub or simply installed with npm:
+
+{% highlight sh %}
+npm install jade
+{% endhighlight %}
+
+h3. Usage
+
+Most people use Jade as part of "Express":http://expressjs.com/ apps.  It's possible to use it outside of Express:
+
+{% highlight javascript %}
+var jade = require('jade'),
+    options = {};
+
+jade.render('#main', options);
+jade.renderFile('file.jade', options, function(err, html) {
+  // Callback receives HTML
+});
+
+// Compile a function
+var fn = jade.compile('#main', options);
+fn.call(scope, locals);
+{% endhighlight %}
+
+The project also comes bundled with <code>bin/jade</code>:
+
+{% highlight sh %}
+$ jade -h
+
+  Usage: jade [options]
+              [path ...]
+              < in.jade > out.jade  
+  Options:
+    -o, --options <str>  JavaScript options object passed
+    -h, --help           Output help information
+    -w, --watch          Watch file(s) or folder(s) for changes and re-compile
+    -v, --version        Output jade version
+    --out <dir>          Output the compiled html to <dir>
+{% endhighlight %}
+
+h3. Structure
+
+Jade itself is pretty self-contained.  There are developer dependencies for testing and benchmarking -- parsing performance is very important to the author.  The build script is a simple, clean <code>Makefile</code>.  This is excellent because as far as I know every machine I use has <code>Make</code> installed.
+
+After checking out the project's git submodules, I was able to successfully benchmark it:
+
+{% highlight sh %}
+$ make benchmark
+
+benchmarking 2000 times
+
+  - jade compilation: 1006 ms
+  - jade execution: 340 ms
+  - jade compile(): 329 ms
+
+benchmarking 2000 times
+
+  - jade self compilation: 713 ms
+  - jade self execution: 53 ms
+  - jade compile(): 53 ms
+
+benchmarking 2000 times
+
+  - haml-js compilation: 841 ms
+  - haml-js execution: 145 ms
+
+benchmarking 2000 times
+
+  - haml compilation: 474 ms
+  - haml execution: 75 ms
+
+benchmarking 2000 times
+
+  - ejs compilation: 264 ms
+  - ejs execution: 89 ms
+{% endhighlight %}
+
+It was that simple!
+
+The overall structure of the code is easy to follow:
+
+* Main groups of functionality are separate files under <code>lib/</code> -- the parser and lexer are the main ones we'll look at
+* <code>lib/jade.js</code> provides the public API
+* Each feature of the Jade language is represented by a "node", which is an empty object
+
+h3. Parsing
+
+Let's look at a route through Jade as it parses input and generates output.  The <code>exports.render = function(str, options)</code> method renders a string of Jade into HTML.  The input is wrapped in a <code>String</code> so it'll accept buffer objects.  An internal line number position is kept inside an object called <code>meta</code> to help generate readable error messages with <code>rethrow(err, str, filename, meta.lineno)</code>.
+
+It then generates a function based on the output of <code>parse</code>:
+
+{% highlight javascript %}
+fn = new Function('locals', parse(str, options));
+{% endhighlight %}
+
+This is a minor point in the scope of everything Jade is doing here, but if you're not aware of the <code>Function</code> object it's worth reading up on.  It can be a useful tool for metaprogramming and escaping sticky situations while creating the veneer of a simple API.
+
+The fact that <code>Function</code> uses the output of <code>parse(str, options)</code> as the function body illustrates a central concept to Jade's compilation stage -- it effectively generates JavaScript that gets executed using <code>Function</code>.  I've used this technique myself to create metaprogrammed code that's more explicit than a dirty big <code>eval</code>, but my assumption here is TJ went down this route for performance reasons.
+
+Once <code>parse</code> has instantiated a <code>Parser</code>, the output of the parser is passed to a <code>Compiler</code> object.  The parser is responsible for driving a <code>Lexer</code> object, which has a simple API.
+
+The lexer consumes the input and generates tokens using regular expressions and very simple, readable JavaScript.  Remember how Jade handles element classes?  Well, consider this:
+
+{% highlight javascript %}
+className: function() {
+  return this.scan(/^\.([\w-]+)/, 'class');
+},
+{% endhighlight %}
+
+The lexer advances when a token is matched:
+
+{% highlight javascript %}
+next: function() {
+  return this.deferred()
+    || this.eos()
+    || this.pipelessText()
+    || this.doctype()
+    || this.tag()
+    || this.filter()
+    || this.each()
+    || this.code()
+    || this.id()
+    || this.className()
+    || this.attrs()
+    || this.indent()
+    || this.comment()
+    || this.blockComment()
+    || this.colon()
+    || this.text();
+}
+{% endhighlight %}
+
+The parser uses these tokens to build a tree of <code>Node</code> objects.  The parser's <code>parse*</code> methods are mostly co-ordinated by <code>parseBlock</code> and <code>parseExpr</code> according to what constitutes valid Jade.  The abstract representations of nodes and implied tree structure form what's known as an Abstract Syntax Tree (AST).
+
+In some cases lookahead is used, which is supported by the <code>peek</code> method, and <code>expect</code> is also used to check for invalid syntax.  This will throw an exception which can be used to generate useful error messages as we saw earlier.
+
+It's interesting to note that the parser houses the formal grammar rules -- although this was true of CoffeeScript, CoffeeScript has Jison representations of the grammar which are used to generate the parser.  The end result is superficially similar, but separating grammar from the parser may afford some advantages.
+
+The missing piece of the puzzle here is the <code>Compiler</code>.  This compiles the parse tree into JavaScript, which we saw being executed by the <code>parse</code> function in <code>lib/jade.js</code>.
+
+Each node is "visited" by the compiler:
+
+{% highlight javascript %}
+visitNode: function(node){
+  var name = node.constructor.name
+    || node.constructor.toString().match(/function ([^(\s]+)()/)[1];
+  return this['visit' + name](node);
+},
+{% endhighlight %}
+
+The <code>Compiler</code> class contains methods that begin with <code>visit</code> and will be matched here.  This is another handy and extremely simple way of effectively metaprogramming without any fuss or cartoon foxes.
+
+h3. Code Style
+
+TJ uses many conventions that make his code easy to read.  A small one is commas at the start of lines:
+
+{% highlight javascript %}
+var nodes = require('./nodes')
+  , filters = require('./filters')
+  , doctypes = require('./doctypes')
+  , selfClosing = require('./self-closing')
+  , utils = require('./utils');
+{% endhighlight %}
+
+I've never been able to get used to writing code this way, but it makes it easy to spot missing commas.  Another point is everything is well-named; he uses established computer science concepts where appropriate (specifically referencing ASTs for example), and writes simple but fast community-friendly JavaScript.
+
+h3. Conclusion
+
+In comparing CoffeeScript and Jade, the most interesting thing that sticks in my mind is the separation of grammar from the parser that Jison makes possible.  However, even though I've rushed through a brief analysis of Jade, I think you'll agree that it's very easy to follow what the parser is doing.
+
+TJ's packaged the project with tests, benchmarks, and all the libraries required to get started as a developer for the project.  There are also helpful code comments throughout.
+
+The <code>Makefile</code> makes managing the project simple and immediate on any platform I can think of.  I'm starting to advocate this approach myself -- there are now more language-specific versions of <code>make</code> than I can be bothered to learn, so I've given up and gone back to <code>make</code> too.
+
+I feel like many Node developers can learn a lot from this project, and what's more TJ has made it easy to contribute if you're in a position to help out.
+
