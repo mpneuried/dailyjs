@@ -39,6 +39,13 @@ task :deploy do
   Rake::Task['remote:deploy'].invoke
 end
 
+task :default => [:e]
+desc "Local workflow"
+task :e do
+  Rake::Task['tags:generate'].invoke
+  `jekyll --server`
+end
+
 namespace :tags do
   desc "Generate tags"
   task :generate do

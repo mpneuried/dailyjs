@@ -1,0 +1,55 @@
+---
+layout: post
+title: "jQuery Roundup: Color, animate-textshadow"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- css3
+---
+
+h3. jQuery Color
+
+"jQuery Color":http://blog.jquery.com/2011/05/31/jquery-color-v2-beta-1-released/ (GitHub: "jquery / jquery-color":https://github.com/jquery/jquery-color/, License: _MIT, GPL_) version 2 beta 1 has been released.  This version has a new API, RGBA, HSLA, and partial colour animation support.  This is the backbone of jQuery's colour animations, but only now is it being exposed as a public object.
+
+This new object, <code>$.Color</code> has a pretty simple API:
+
+{% highlight javascript %}
+// Create a red Color object:
+var red = $.Color('rgba(255,0,0,1)');
+
+// Create a red Color object, then make orange:
+var orange = $.Color('#FF0000').green( 153 );
+
+// Get the color halfway between red and blue:
+var between = $.Color([255, 0, 0]).transition('blue', 0.5);
+
+// Desaturate the background of this element
+elem.animate({
+  backgroundColor: $.Color({ saturation: 0 })
+}, 1000);
+{% endhighlight %}
+
+Anyone who has worked with CSS colour animations will know how useful this is.  It's also going to come in handy when building interfaces for things like colour picker widgets.  I imagine the jQuery UI project will benefit from this new API.
+
+h3. animate-textshadow
+
+"animate-textshadow":http://www.alexpeattie.com/projects/animate-textshadow/ (GitHub: "alexpeattie / animate-textshadow":https://github.com/alexpeattie/animate-textshadow, License: _MIT_) by Alex Peattie is a little plugin for creating <code>text-shadow</code> animations.
+
+This will make a shadow that slowly moves away from text as if it's being lifted off the screen:
+
+{% highlight javascript %}
+$('#slow').hover(function() { 
+	$(this).animate({textShadow: '#000 -10px -10px 30px'}, 1000);
+}, function() { 
+	$(this).animate({textShadow: '#259 5px 5px 5px'}, 1000);
+});
+{% endhighlight %}
+
+h3. jQuery.forrst
+
+!/images/posts/forrst.png!
+
+"jQuery.forrst":https://github.com/jas-/jQuery.forrst (License: _GPL_) by Jason Gerfen is a plugin for the "Forrst":http://forrst.com/ API.  It currently supports accessing user info, posts, and interestingly offers AES encryption for local storage.
+
+I initially thought it might be a handy way of creating Forrst widgets for blogs, but it seems more like something that could be used to build a Forrst client. 

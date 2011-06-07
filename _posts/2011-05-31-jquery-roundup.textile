@@ -5,6 +5,8 @@ author: Alex Young
 categories: 
 - jquery
 - plugins
+- mobile
+- forms
 ---
 
 h3. Path to Hybrid
