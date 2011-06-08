@@ -1,0 +1,73 @@
+---
+layout: post
+title: "Node Roundup: natural, node-beatport, node-schema-org"
+author: Alex Young
+categories: 
+- node
+- modules
+---
+
+h3. natural
+
+I was recently doing some work that involved stemming.  It wasn't very fun.  Anyway, I found "natural":https://github.com/chrisumbel/natural by Chris Umbel ("License":https://github.com/chrisumbel/natural/blob/master/LICENSE.txt) which offers tools for stemming, classification, phonetics and inflection:
+
+{% highlight javascript %}
+var natural = require('natural'),
+    classifier = new natural.BayesClassifier();
+
+natural.PorterStemmer.stem('reading');
+// 'read'
+
+classifier.train(
+  [{classification: 'happy', text: 'I love pizza'},
+   {classification: 'happy', text: 'javascript is awesome'},
+   {classification: 'sad', text: 'I hate tax'}
+]);
+
+classifier.classify('how does alex feel about pizza?');
+// 'happy'
+classifier.classify('how does alex feel about tax?');
+// 'sad'
+{% endhighlight %}
+
+h3. node-beatport
+
+"node-beatport":https://github.com/stagas/node-beatport is a client library for the "Beatport API":http://api.beatport.com/.  "Beatport":https://www.beatport.com is a service for buying and downloading electronic music, so the API provides a way of querying track, artist, chart or genre details.
+
+{% highlight javascript %}
+var Beatport = require('beatport')
+
+// initialize client
+var bp = Beatport()
+
+// resources (i.e: featured/releases) as methods (camelCased, i.e: featuredReleases)
+bp.releases({
+  facets: [ 'genreName:Trance', 'performerName:Above&Beyond' ]
+, perPage: 5
+, page: 1
+}, function(err, results, metadata) {
+  // do something
+})
+
+bp.labelDetail({ id: 804 }, function(err, results, metadata) {
+  // do something
+})
+{% endhighlight %}
+
+I found it surprising that Beatport _has_ an API -- I don't think I've seen other music retailers offering this kind of service.
+
+h3. node-schema-org
+
+"node-schema-org":https://github.com/indexzero/node-schema-org by Charlie Robbins is a library for parsing the "microdata":http://en.wikipedia.org/wiki/Microdata_(HTML5) schemas found on "schema.org":http://schema.org/.
+
+At the moment it will just output all of the scemas as JSON files:
+
+{% highlight sh %}
+$ npm install -g schema-org
+$ read-schema-org
+warn:   Removing all schemas in /usr/local/lib/node_modules/schema-org/schemas
+info:   Spawning: node /usr/local/lib/node_modules/schema-org/list-schemas.js
+info:   Contacting: http://schema.org/docs/full.html
+{% endhighlight %}
+
+This actually spawns lots of background jobs and totally owned my machine, so be wary of using it in its current state.

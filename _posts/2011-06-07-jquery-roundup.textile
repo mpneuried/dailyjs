@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "jQuery Roundup: Color, animate-textshadow"
+title: "jQuery Roundup: Color, animate-textshadow, jQuery.forrst"
 author: Alex Young
 categories: 
 - jquery
