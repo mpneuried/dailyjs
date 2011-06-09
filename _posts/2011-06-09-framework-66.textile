@@ -1,0 +1,235 @@
+---
+layout: post
+title: "Let's Make a Framework: Promises Part 2"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- promises
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+"Last week's post":http://dailyjs.com/2011/06/02/framework-65/ introduced the concept of _promises_, which are defined by the CommonJS "Promises/A":http://wiki.commonjs.org/wiki/Promises/A specification.
+
+h3. Implementation Concepts
+
+It's important to realise that implementing promises requires some coupling or wrapping between the promise library and code that will use it.  For example, in jQuery, "deferred.js":https://github.com/jquery/jquery/blob/master/src/deferred.js contains the promise API implementation.  That doesn't mean Ajax requests can now simply be manipulated to work with a promise, like this:
+
+{% highlight javascript %}
+// This won't work:
+promiseLibrary($.get('/example')).then(function() {
+  // Ajax complete!
+});
+{% endhighlight %}
+
+There's no way for <code>promiseLibrary</code> to be signalled by a given method in a generic way.
+
+This next example is from "q":https://github.com/kriskowal/q for Node.  It wraps promises around a file system call:
+
+{% highlight javascript %}
+var FS = require('fs');
+
+function list(path) {
+  path = String(path);
+  var result = Q.defer();
+  FS.readdir(path, function(error, list) {
+    if (error)
+      return result.reject(error);
+    else
+      result.resolve(list);
+  });
+  return result.promise;
+}
+
+list('/path/name');
+{% endhighlight %}
+
+Here <code>Q</code> is used inside the callback usually called by the <code>fs</code> module.  This new <code>list()</code> method will return a promise, allowing subsequent use of q's <code>when</code> primitive to build potentially more expressive file system queries.
+
+What all of this means is jQuery's "ajax.js":https://github.com/jquery/jquery/blob/master/src/ajax.js is _coupled_ to the promise implementation.  This allows jQuery to offer an alternative API based around promises:
+
+{% highlight javascript %}
+$.get('test').then(
+  function() { alert('$.get succeeded'); },
+  function() { alert('$.get failed!'); }
+);
+{% endhighlight %}
+
+Despite this coupling between the Promise and Ajax libraries, injecting jQuery's <code>Deferred</code> objects into the Ajax library isn't particularly taxing.  Here's a core piece of this implementation:
+
+{% highlight javascript %}
+// Success/Error
+if ( isSuccess ) {
+  deferred.resolveWith( callbackContext, [ success, statusText, jqXHR ] );
+} else {
+  deferred.rejectWith( callbackContext, [ jqXHR, statusText, error ] );
+}
+{% endhighlight %}
+
+jQuery's public APIs place a veneer between jQuery's other functionality and the <code>Deferred</code> object's API.  Using an Ajax call looks a lot like CommonJS Promises/A's suggestion, but in reality methods like <code>resolveWith</code> and <code>rejectWith</code> are being used underneath to provide the logic required to maintain asynchronous states.
+
+h3. An Example
+
+I'm going to introduce promises gently, because it's the kind of thing that can easily end up a confusing mess.  The example in this article is intentionally limited so anyone should be able to follow it.
+
+Developing a promise API needs a straightforward example to get the basic features nailed down.  We need to be able to create a delay that can trigger the promise API in a predictable way.  When experimenting with anything asynchronous, I always find good old <code>setTimeout</code> to be a big help, so let's use that:
+
+{% highlight javascript %}
+function delay(ms) {
+  var d = new Promise();
+  setTimeout(d.resolve, ms);
+  return d;
+}
+{% endhighlight %}
+
+This is based on q's examples, and it just wraps <code>setTimeout</code> with a promise.  Ideally, running the following in an interpreter should take a second, _then_ display the message:
+
+{% highlight javascript %}
+delay(1000).then(function() {
+  console.log('Delay complete');
+});
+{% endhighlight %}
+
+However... once a promise has fired, it shouldn't be able to get triggered again.  Imagine if someone had implemented a timeout system like this:
+
+{% highlight javascript %}
+function timeout(duration, limit) {
+  var d = new Promise();
+  setTimeout(d.resolve, duration);
+
+  // If the duration was over the limit then ideally the promise should fail
+  setTimeout(d.reject, limit);
+  return d;
+}
+{% endhighlight %}
+
+Should both callbacks fire?  Should an exception be thrown?  Well, jQuery is designed to simply clear out the _then_ callbacks as it rattles through them:
+
+{% highlight javascript %}
+// resolve with given context and args
+resolveWith: function( context, args ) {
+  if ( !cancelled && !fired && !firing ) {
+    // make sure args are available (#8421)
+    args = args || [];
+    firing = 1;
+    try {
+      while( callbacks[ 0 ] ) {
+        callbacks.shift().apply( context, args );
+      }
+      // ...
+{% endhighlight %}
+
+See that use of <code>shift()</code> there?  That's effectively looping through each callback, running it, then removing it.
+
+h3. A Promise Object
+
+Of course, our promise API isn't just a stack of callbacks.  We also need to store state, and allow callbacks to be added.  To me this implies a class with a simple API:
+
+{% highlight javascript %}
+function Promise() {
+  // Pending callbacks
+  this.pending = [];
+}
+
+Promise.prototype = {
+  // Called when something finished successfully
+  resolve: function(result) {
+    // This is where we'll loop through callbacks
+  },
+
+  // Called when something broke
+  reject: function(result) {
+  },
+
+  // I think you'll agree that implementing then is pretty easy
+  // This uses a handy object that follows along with our API nicely
+  then: function(success, failure) {
+    this.pending.push({ resolve: success, reject: failure });
+    return this;
+  }
+};
+{% endhighlight %}
+
+That's looking good, but I want to use <code>setTimeout(promise.resolve, 100)</code> and that will cause <code>resolve</code> to have the wrong <code>this</code>.  These methods could easily be moved to the constructor to make the <code>resolve</code> and <code>reject</code> methods behave more naturally:
+
+{% highlight javascript %}
+function Promise() {
+  var self = this;
+  this.pending = [];
+
+  this.resolve = function(result) {
+    self.complete('resolve', result);
+  },
+
+  this.reject = function(result) {
+    self.complete('reject', result);
+  }
+}
+
+Promise.prototype = {
+  then: function(success, failure) {
+    this.pending.push({ resolve: success, reject: failure });
+    return this;
+  },
+
+  complete: function(type, result) {
+    while (this.pending[0]) {
+      this.pending.shift()[type](result);
+    }
+  }
+};
+{% endhighlight %}
+
+I also started writing some tests for this:
+
+{% highlight javascript %}
+function delay(ms) {
+  var p = new Promise();
+  setTimeout(p.resolve, ms);
+  return p;
+}
+
+function timeout(duration, limit) {
+  var p = new Promise();
+  setTimeout(p.resolve, duration);
+  setTimeout(p.reject, limit);
+  return p;
+}
+
+delay(1000).then(function() {
+  console.log('Delay complete');
+  assert.ok('Delay completed');
+});
+
+timeout(10, 100).then(
+  function() {
+    console.log('Timeout 1 OK');
+    assert.ok('10ms is under 100ms');
+  },
+  function() {
+    assert.fail();
+  }
+);
+
+timeout(100, 10).then(
+  function() {
+    assert.fail();
+  },
+  function() {
+    console.log('Timeout 2 OK');
+    assert.ok('100ms is over 10ms');
+  }
+);
+{% endhighlight %}
+
+h3. Conclusion
+
+This is a very naive implementation of what CommonJS Promises/A describes.  Ultimately, I'd like to have something that can be used to provide an elegant API for Ajax callbacks and animations, which are both areas in client-side JavaScript where asynchronous code is important.
+

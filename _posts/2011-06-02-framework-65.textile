@@ -22,8 +22,8 @@ It's easiest to understand promises with an example:
 
 {% highlight javascript %}
 $.get('test').then(
-  function() { alert("$.get succeeded"); },
-  function() { alert("$.get failed!"); }
+  function() { alert('$.get succeeded'); },
+  function() { alert('$.get failed!'); }
 );
 {% endhighlight %}
 
