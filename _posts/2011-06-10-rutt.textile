@@ -1,0 +1,30 @@
+---
+layout: post
+title: "Rutt-Etra-Izer, GLOW, Chrysaora"
+author: Alex Young
+categories: 
+- webgl
+---
+
+h3. Rutt-Etra-Izer
+
+!/images/posts/rutt-nin.png!
+
+"Rutt-Etra-Izer":http://www.airtightinteractive.com/2011/06/rutt-etra-izer/ ("WebGL app":http://airtightinteractive.com/demos/js/ruttetra/) by Felix Turner is an implementation of a "video synthesizer":http://www.audiovisualizers.com/toolshak/vidsynth/ruttetra/ruttetra.htm.  Simply drag and drop an image file to the browser, and it'll render a 3D version using lines.
+
+!/images/posts/rutt-landscape.png!
+
+Different images have varying effects, so it's fun to experiment.  Rutt-Etra-Izer is built with "three.js":https://github.com/mrdoob/three.js/.
+
+h3. GLOW
+
+"GLOW":http://i-am-glow.com/ (GitHub: "empaempa / GLOW":https://github.com/empaempa/GLOW/, License: _MIT_) by Mikael Emtinger is a WebGL API that focuses on shaders.  The authors also worked on the impressive "ROME – Three Dreams of Black":http://ro.me/ project.
+
+There are tutorials on the GLOW site, including one which shows how it can work alongside three.js: "Hello Three.js":http://i-am-glow.com/?page_id=75.
+
+h3. Chrysaora
+
+!/images/posts/chrysaora.png!
+
+"Chrysaora":http://chrysaora.com/ is a WebGL demo by "Aleksandar Rodic":http://aleksandarrodic.com/.  There's a lot of background material about the project on "Aleksandar's blog":http://blog.aleksandarrodic.com/.
+
