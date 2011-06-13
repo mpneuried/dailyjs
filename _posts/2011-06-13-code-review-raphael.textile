@@ -1,0 +1,132 @@
+---
+layout: post
+title: "Code Review: Raphaël"
+author: Alex Young
+categories:
+- code-review
+- graphics
+- Canvas
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+I'm a fan of "Raphaël":http://raphaeljs.com/, so I thought it was high time we took a look at its innards to see how it really works.  Raphaël simplifies working with vector graphics in browsers by providing an easy API for working with SVG, and it also transparently generates VML for Microsoft's browsers.
+
+Drawing with vector graphics on the web is extremely convenient, because server-side image generation can be relatively CPU-intensive.  Would you rather generate images for potentially thousands of people, or make their browsers do the work instead?  Because Raphaël works well with Microsoft's browsers, it's safe to use it to generate things like graphs in a corporate environment.
+
+h3. About Raphaël
+
+!/images/posts/raphael-cw.png!
+
+"Raphaël":http://raphaeljs.com/ (GitHub: "DmitryBaranovskiy / raphael":https://github.com/DmitryBaranovskiy/raphael/, License: _MIT_) by Dmitry Baranovskiy (and now part of "Sencha":http://www.sencha.com/) can be included on a page, then drawing is as simple as this:
+
+{% highlight javascript %}
+var paper = Raphael(10, 50, 320, 200);
+paper.circle(50, 40, 10);
+{% endhighlight %}
+
+Great!  The website has some more involved demos.  I like these "curves":http://raphaeljs.com/curver.html which can be dragged around.  There's also the obligatory "tiger vector art":http://raphaeljs.com/tiger.html.
+
+h3. Usage
+
+Raphaël can be set up with a container element where it'll add a Canvas and start drawing.  It comes with a lot of drawing primitives: <code>circle</code>, <code>rect</code>, <code>ellipse</code>, <code>image</code>, <code>text</code>, and <code>path</code>.  There are also transformations like <code>scale</code> and <code>rotate</code>.
+
+One other useful feature is the ability to get a DOM object for event handling (or anything else you can do with DOM objects):
+
+{% highlight javascript %}
+var c = paper.circle(10, 10, 10);
+c.node.onclick = function () {
+    c.attr('fill', 'red');
+};
+{% endhighlight %}
+
+h3. Structure
+
+Raphaël comes with a simple integration test, some plugins for additional functionality that falls outside of the core library, and a reference document.
+
+All of the library code is inside "raphael.js":https://github.com/DmitryBaranovskiy/raphael/blob/master/raphael.js.  It doesn't look like it's split into separate files -- there's no build script or anything like that.  Everything is wrapped in an anonymous wrapper, which "exports" the <code>Raphael</code> object to <code>window</code>.
+
+Most of the library's classes are implemented as simple prototype classes, and there's a lot of prototype aliasing to make referencing shorter.  Even <code>Math</code> functions are aliased.
+
+There are some high-level tricks that I've seen all over jQuery, like using strings for lists and splitting on spaces to make arrays (event names are listed this way in both libraries).  There's also some duplication of functionality from libraries like jQuery to provide event handling.  Did the author find managing events was inexorably linked with drawing, or did he want to avoid depending on another library?
+
+Another point is there are very few local (effectively private) functions.  There are a few that are clearly implementation details (like <code>createUUID</code>), but not as many as I'd expect to see.  This isn't a bad thing, in fact it probably makes Raphaël relatively easy to test.
+
+h3. Drawing
+
+Most of the low-level drawing operations are split between VML and SVG.  On line 1084 <code>if (R.svg)</code> is used to branch off for SVG support, then later on line 1824, <code>if (R.vml)</code> branches the code into two sections.  The VML code is almost 1000 lines of code, then a comment says <code>// rest</code> and we see the <code>paperproto</code> methods for SVG.  Some simple user-agent-based detection is used to handle browser issues.
+
+Some of the <code>paperproto</code> methods are defined twice, whereas others call a different internal function that is set in the VML/SVG sections.
+
+As an example, this is how a circle is drawn for SVG:
+
+{% highlight javascript %}
+var theCircle = function (svg, x, y, r) {
+  var el = $("circle");
+  svg.canvas && svg.canvas[appendChild](el);
+  var res = new Element(el, svg);
+  res.attrs = {cx: x, cy: y, r: r, fill: "none", stroke: "#000"};
+  res.type = "circle";
+  $(el, res.attrs);
+  return res;
+}
+{% endhighlight %}
+
+Then we see the IE version later on:
+
+{% highlight javascript %}
+theCircle = function (vml, x, y, r) {
+  var g = createNode("group"),
+      o = createNode("oval"),
+      ol = o.style;
+  g.style.cssText = "position:absolute;left:0;top:0;width:" + vml.width + "px;height:" + vml.height + "px";
+  g.coordsize = coordsize;
+  g.coordorigin = vml.coordorigin;
+  g[appendChild](o);
+  var res = new Element(o, g, vml);
+  res.type = "circle";
+  setFillAndStroke(res, {stroke: "#000", fill: "none"});
+  res.attrs.cx = x;
+  res.attrs.cy = y;
+  res.attrs.r = r;
+  res.setBox({x: x - r, y: y - r, width: r * 2, height: r * 2});
+  vml.canvas[appendChild](g);
+  return res;
+};
+{% endhighlight %}
+
+The dollar method is a shortcut for creating SVG elements:
+
+{% highlight javascript %}
+var $ = function (el, attr) {
+  if (attr) {
+    for (var key in attr) {
+      if (attr[has](key)) {
+        el[setAttribute](key, Str(attr[key]));
+      }
+    }
+  } else {
+    el = doc.createElementNS(paperproto.svgns, el);
+    el.style.webkitTapHighlightColor = "rgba(0,0,0,0)";
+    return el;
+  }
+};
+{% endhighlight %}
+
+h3. Code Style
+
+The code is written in a very consistent style.  The author avoids verbose naming, but I still find it relatively easy to navigate through the library.  There aren't many comments, just a few one-line suggestions here and there.
+
+h3. Conclusion
+
+Raphaël is like four libraries in one:
+
+* SVG drawing
+* VML drawing
+* Animations
+* UI events
+
+Supporting VML doesn't impair the readability, but it does cause a huge duplication of effort.  Providing a consistent experience for both VML and SVG looks like an enormous amount of work, which probably explains why Raphaël is still the reigning champ of browser graphics libraries.
+
