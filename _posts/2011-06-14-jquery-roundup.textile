@@ -1,0 +1,58 @@
+---
+layout: post
+title: "jQuery Roundup: Fathom.js, jQuery-News-Ticker, jVectorMap"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- maps
+- graphics
+---
+
+h3. Fathom.js
+
+!/images/posts/fathom.png!
+
+"Fathom.js":http://markdalgleish.com/projects/fathom/ (GitHub: "markdalgleish / fathom":https://github.com/markdalgleish/fathom, License: _MIT_) by Mark Dalgleish is a plugin for building presentations.
+
+Given this HTML:
+
+{% highlight html %}
+<div id="presentation">
+<div class="slide"> <h1>My Presentation</h1> </div>
+<div class="slide"> <h2>My Dot Points</h2> <ul> <li>First dot point</li> <li>Second dot point</li> <li>Third dot point</li> </ul> </div>
+</div>
+{% endhighlight %}
+
+It just needs <code>$('#presentation').fathom();</code> to display the content as a slide show.  It comes bundled with CSS and supports keyboard shortcuts, so it's easy to get started and use for real presentations.
+
+h3. jQuery-News-Ticker
+
+!/images/posts/jquery-ticker.png!
+
+"jQuery-News-Ticker":http://www.jquerynewsticker.com/ (GitHub: "rhodimus / jQuery-News-Ticker":https://github.com/rhodimus/jQuery-News-Ticker, License: _GPL v2_) by Rhodri George is a news ticker plugin, similar to the one featured on the "BBC News site":http://www.bbc.co.uk/news/.  Before you scoff, this is exactly the kind of thing clients nag me to add to their sites, and this plugin is very well presented.
+
+With some suitable markup, <code>$('#js-news').ticker();</code> will do its magic:
+
+{% highlight html %}
+<div id="ticker-wrapper" class="no-js">
+  <ul id="js-news" class="js-hidden">
+    <li class="news-item"><a href="#">This is the 1st latest news item.</a></li>
+    <li class="news-item"><a href="#">This is the 2nd latest news item.</a></li>
+    <li class="news-item"><a href="#">This is the 3rd latest news item.</a></li>
+    <li class="news-item"><a href="#">This is the 4th latest news item.</a></li>
+  </ul>
+</div>
+{% endhighlight %}
+
+h3. jVectorMap
+
+!/images/posts/jvectormap.png!
+
+"jVectorMap":http://jvectormap.owl-hollow.net/ is a nice little plugin for rendering maps with various attributes.  The basic useage is just <code>$('#map').vectorMap();</code>, and this will even show zoom controls.
+
+And, there's no need to worry about IE!
+
+bq. It uses SVG in all modern browsers like Firefox 3 or 4, Safari, Chrome, Opera, IE9, while legacy support for older versions of IE from 6 to 8 is provided with VML.
+
+
