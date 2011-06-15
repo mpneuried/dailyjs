@@ -1,0 +1,69 @@
+---
+layout: post
+title: "Node Roundup: Common Node, NodeCamp.eu Talks, Hook.io"
+author: Alex Young
+categories: 
+- node
+- modules
+- events
+- fibers
+---
+
+h3. Common Node
+
+"Common Node":http://olegp.github.com/common-node/ (GitHub: "olegp / common-node":https://github.com/olegp/common-node) by Oleg Podsechin uses "node-fibers":https://github.com/laverdet/node-fibers to build CommonJS proposals.  This means it's now possible in many cases to write asynchronous code with synchronous logic.
+
+The "CommonJS proposals implemented by Common Node":http://olegp.github.com/common-node/doc/ are:
+
+* assert
+* binary
+* fs
+* httpclient
+* io
+* jsgi
+* system
+* test
+
+This fragment is from the "https.js":https://github.com/olegp/common-node/blob/master/examples/http.js example:
+
+{% highlight javascript %}
+new HttpClient({url: 'http://google.com'}).finish().body
+{% endhighlight %}
+
+The <code>finish()</code> method calls <code>HttpClient.prototype.read</code> which uses a fiber:
+
+{% highlight javascript %}
+var req = protocols[uri.protocol].request(options, function(response) {
+  fiber.run(response);
+});
+{% endhighlight %}
+
+As Oleg says in his documentation:
+
+bq. Fibers are used to emulate multi-threading within a single process, allowing one to use a synchronous programming style and as a result.
+
+h3. NodeCamp.eu Talks
+
+!/images/posts/nodecampeu.png!
+
+I saw Ryan Dahl tweeted a link to this huge list of "nodecamp.eu":http://nodecamp.eu/ talk slides: "A collection of talks and presentations held at nodecamp.eu 2011":https://gist.github.com/1024334.  
+
+<iframe src="http://player.vimeo.com/video/24713213?title=0&amp;byline=0&amp;portrait=0" width="500" height="300" frameborder="0"></iframe><p><a href="http://vimeo.com/24713213">using libuv and http-parser to build a webserver</a> from <a href="http://vimeo.com/user278471">ry</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+
+The "Understanding V8":http://s3.mrale.ph/nodecamp.eu/ talk includes some real JavaScript examples, and Ryan Dahl's talk is available as a screencast.
+
+Ryan's talk is about using "libuv":https://github.com/joyent/libuv" and "http-parser":https://github.com/ry/http-parser to build a web server using C.  It's not as scary as it sounds, libuv really looks very accessible.
+
+h3. Hook.io
+
+"Hook.io":https://github.com/Marak/hook.io by Marak Squires is a _distributed EventEmitter_:
+
+bq. You create custom i/o scenarios by picking and choosing from an extensive library of tiny, independent, autonomous "hooks" that seamlessly work together.
+
+It has a big list of interesting features:
+
+* Create hooks on ANY device that supports JavaScript
+* Interprocess Message Publishing and Subscribing done through "EventEmitter2":https://github.com/hij1nx/EventEmitter2 and "dnode":http://github.com/SubStack/dnode
+* Spawning and Daemonizing of processes handled with "Forever":https://github.com/indexzero/forever
+
+
