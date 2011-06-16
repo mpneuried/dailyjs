@@ -1,0 +1,128 @@
+---
+layout: post
+title: "Let's Make a Framework: Promises Part 3"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- promises
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Over the last two weeks I've been looking at how web frameworks implement promises, and I've built a little <code>Promise</code> class along the way.
+
+* "Promises: Part 1":http://dailyjs.com/2011/06/02/framework-65/
+* "Promises: Part 2":http://dailyjs.com/2011/06/09/framework-66/
+
+h3. Building on the Promise Class
+
+To build on last week's example we first need to make it sit alongside the rest of the framework code.  I've created <code>turing.promise.js</code>, and <code>test/promise_test.js</code>, then added code comments for Turing's annotated source code.
+
+Here's what the annotated source looks like now:
+
+{% highlight javascript %}
+/*!
+ * Turing Promise
+ * Copyright (C) 2010-2011 Alex R. Young
+ * MIT Licensed
+ */
+
+/**
+ * The Turing Promise module.
+ */
+(function() {
+
+  /**
+   * The Promise class.
+   */
+  function Promise() {
+    var self = this;
+    this.pending = [];
+
+    /**
+     * Resolves a promise.
+     *
+     * @param {Object} A value
+     */
+    this.resolve = function(result) {
+      self.complete('resolve', result);
+    },
+{% endhighlight %}
+
+This is what part of the unit test looks like:
+
+{% highlight javascript %}
+'test then': function() {
+  function delay(ms) {
+    var p = new turing.Promise();
+    setTimeout(p.resolve, ms);
+    return p;
+  }
+
+  function timeout(duration, limit) {
+    var p = new turing.Promise();
+    setTimeout(p.resolve, duration);
+    setTimeout(p.reject, limit);
+    return p;
+  }
+
+  delay(1000).then(function() {
+    assert.ok('Delay completed');
+  });
+{% endhighlight %}
+
+h3. Framework Integration
+
+One of the reasons I was interested in using promises was to make animation code more accessible.  The following example should be possible: 
+
+{% highlight javascript %}
+turing().delay(1000).then(function() {
+  // A second has passed!
+});
+{% endhighlight %}
+
+This could be tested by looking at the current time:
+
+{% highlight javascript %}
+'test chain': function() {
+  var start = (new Date()).valueOf();
+
+  // Don't match on exactly 1000 because setTimeout isn't accurate
+  turing().delay(1010).then(function() {
+    assert.ok((new Date()).valueOf() - start >= 1000);
+  });
+}
+{% endhighlight %}
+
+h3. Implementation
+
+A few months ago we added "middleware" to Turing which allows features to be injected based on the parameters passed to <code>turing()</code>.  Satisfying the previous test requires no parameters.  In future, the <code>Promise</code> module should be integrated with the animation module and supporting chain hooks can be added there:
+
+{% highlight javascript %}
+var chain = {};
+
+turing.init(function() {
+  if (arguments.length === 0)
+    return chain;
+});
+
+chain.delay = function(ms) {
+  var p = new turing.Promise();
+  setTimeout(p.resolve, ms);
+  return p;
+};
+{% endhighlight %}
+
+Now <code>turing().delay(1000).then(callback);</code> is entirely possible!
+
+h3. Conclusion
+
+I've updated Turing's repository with all of this, in "commit d64f0cf":https://github.com/alexyoung/turing.js/tree/d64f0cf1339f4dd0cbd8a0bb9317f8f4b2341446.
+
