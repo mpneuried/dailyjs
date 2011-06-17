@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Microsoft's WebGL Concerns, csonv, Same Game Gravity"
+author: Alex Young
+categories: 
+- games 
+- security
+- webgl
+- csv
+- json
+---
+
+h3. Microsoft's WebGL Concerns
+
+Microsoft's "Security Research & Defense blog":http://blogs.technet.com/b/srd/ recently published a post about serious concerns over WebGL security, with the rather damning title "WebGL Considered Harmful":http://blogs.technet.com/b/srd/archive/2011/06/16/webgl-considered-harmful.aspx.
+
+bq. Our analysis has led us to conclude that Microsoft products supporting WebGL would have difficulty passing Microsoft’s Security Development Lifecycle requirements.
+
+They cite low-level hardware access as a serious issue, along with reliance on third-party security and "problematic DoS scenarios":
+
+bq. Modern operating systems and graphics infrastructure were never designed to fully defend against attacker-supplied shaders and geometry.
+
+As a fan of WebGL I balked at these claims, but there's definitely something to them.  However, I don't think refusing to support WebGL is the right choice; couldn't a compromise be reached through the use of "UAC":http://en.wikipedia.org/wiki/User_Account_Control or other Windows/IE security features?
+
+Meanwhile, Chris Marrin (a WebKit reviewer) had this to say "about iOS 5 WebGL support":https://www.khronos.org/webgl/public-mailing-list/archives/1106/msg00036.html:
+
+bq. WebGL will not be publicly available in iOS 5. It will only be available to iAd developers.
+
+This makes sense from Apple's perspective because they'll be able to review content before it hits browsers.  Sadly it's more frustration for those of us who enjoy working with WebGL and iOS devices.
+
+h3. csonv.js
+
+If the world was made of JSON and CSS selectors we'd be the most powerful wizards in the universe!  Anyway... "csonv.js":http://archan937.github.com/csonv.js/ (GitHub: "archan937 / csonv.js":https://github.com/archan937/csonv.js, License: _MIT_) by Paul Engel is a library that fetches CSV files and translates it to JSON.  I always find extracting CSV headers to be extremely tedious, so getting more convenient JSON data sets may appeal to those of us who have to work with CSV.
+
+One particularly useful feature of this library is the ability to process relational data by nesting it.  Paul includes an example of how this works based on books and authors.
+
+h3. Same Game Gravity
+
+!/images/posts/samegame.png!
+
+"Same Game Gravity":http://same.greweb.fr/#home is a HTML5/CSS3/etc. game that uses CSS transforms to rotate a Canvas that contains a tile-matching game.  The game itself is similar to something like Bejeweled, except whenever the board is rotated the tiles fall down and rearrange themselves.
+
