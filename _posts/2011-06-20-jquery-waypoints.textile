@@ -1,0 +1,114 @@
+---
+layout: post
+title: "Code Review: jQuery Waypoints"
+author: Alex Young
+categories:
+- code-review
+- jquery
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+jQuery plugins are often distributed in a state that could be easily improved upon.  It's common to see them without much in the way of documentation, licensing, or tests.  I've written about "jQuery Waypoints":http://imakewebthings.github.com/jquery-waypoints/ before on DailyJS, and I remember being impressed by it.  Let's take a look at what sets this jQuery plugin apart.
+
+h3. About jQuery Waypoints
+
+"jQuery Waypoints":http://imakewebthings.github.com/jquery-waypoints/ (GitHub: "imakewebthings / jquery-waypoints":https://github.com/imakewebthings/jquery-waypoints, License: _MIT and GPL_) by Caleb Troughton makes it easy to execute a function whenever an element is scrolled to.  It can be used to create "sticky elements":http://imakewebthings.github.com/jquery-waypoints/sticky-elements/, "infinite scrolling":http://imakewebthings.github.com/jquery-waypoints/infinite-scroll/, or many other novel user interface enhancements.
+
+Even though it's a relatively simple plugin, it has a website, "documentation":http://imakewebthings.github.com/jquery-waypoints/#documentation, examples, a GitHub page, appropriate licensing, and even unit tests!  It's also extremely popular, with 469 watchers on GitHub.
+
+h3. Usage
+
+To trigger a function when an element is scrolled to, just use the <code>waypoint</code> function:
+
+{% highlight javascript %}
+$('.entry').waypoint(function() {
+  alert('You have scrolled to an entry.');
+});
+{% endhighlight %}
+
+There are also global functions, like <code>$.waypoints('viewportHeight')</code> and <code>$.waypoints('refresh')</code>.
+
+h3. Structure
+
+The project's source is contained in one file, "waypoints.js":https://github.com/imakewebthings/jquery-waypoints/blob/master/waypoints.js.  The author also distributes a minimised build.
+
+The first thing I noticed about this project was the detailed comments.  Most variables and functions have been documented, which makes it extremely easy to follow the source (and generate documentation).
+
+A classic anonymous wrapper is used to safely house the plugin, but this one has parameters:
+
+{% highlight javascript %}
+(function($, wp, wps, window, undefined){
+  // Plugin goes here
+})(jQuery, 'waypoint', 'waypoints', this);
+{% endhighlight %}
+
+Even though these variables aren't dynamic, they give the author (or contributors) some flexibility and makes the code feel a little bit more succinct.  Most of the plugin's "state" variables are kept within this function.
+
+The methods exposed by the plugin are set in an object called <code>methods</code>.  The appropriate method is delegated at runtime based on this object when <code>jQuery.fn.waypoint</code> is called:
+
+{% highlight javascript %}
+var methods = {
+  init: function(f, options) {
+    // ... snip
+  }
+};
+
+$.fn[wp] = function(method) {
+  if (methods[method]) {
+    return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+  // ... snip
+{% endhighlight %}
+
+This adds <code>jQuery.fn.waypoint</code> and uses <code>apply</code> so <code>this</code> will be the current jQuery object in <code>methods</code>.  This is a neat little delegation pattern often used by jQuery plugins.
+
+One reason this pattern has been used is because jQuery's authors recommend avoiding polluting jQuery's namespace with lots of methods.  Rather than naming methods like this: <code>jQuery.fn.waypointRemove</code> the following should be used: <code>jQuery.fn.waypoint('remove')</code>.  Options can still be passed, which is why <code>Array.prototype.slice</code> is used to prepare the method's arguments.
+
+Further down the file <code>jQMethods</code> is used in a very similar fashion to set up the <code>$.waypoints()</code> methods:
+
+{% highlight javascript %}
+$[wps] = function(method) {
+  if (jQMethods[method]) {
+    return jQMethods[method].apply(this);
+  }
+  else {
+    return jQMethods["aggregate"]();
+  }
+};
+{% endhighlight %}
+
+Finally, default settings are defined and some events are bound to <code>window</code>.
+
+h3. Code Style
+
+I noticed that Caleb uses <code>$varName</code> to denote objects that have been wrapped by jQuery:
+
+{% highlight javascript %}
+var $this = $(this);
+{% endhighlight %}
+
+This should stop people from accidentally calling jQuery more than once.
+
+I don't think there's any duplication of jQuery's built-in functionality; he uses <code>$.error()</code>, <code>$.grep</code>, and <code>$.each</code>.  I've seen a few plugins resort to Underscore for anything relating to iterators.
+
+He also correctly uses <code>===</code> and <code>!==</code>, so I imagine he's a fan of <a href="http://www.amazon.com/gp/product/0596517742?ie=UTF8&tag=da07e-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0596517742">JavaScript: The Good Parts</a><img src="http://www.assoc-amazon.com/e/ir?t=da07e-20&l=as2&o=1&a=0596517742" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.
+
+h3. Tests
+
+The tests are written with "Jasmine":http://pivotal.github.com/jasmine/ and "jasmine-jquery":https://github.com/velesin/jasmine-jquery, which means they can be executed in a browser: "jQuery Waypoint tests":http://imakewebthings.github.com/jquery-waypoints/test/.
+
+They're written in a BDD style:
+
+{% highlight javascript %}
+describe('jQuery Waypoints', function() {
+  // ... snip
+  it('should create a waypoint', function() {
+    expect($.waypoints().length).toEqual(1);
+  });
+{% endhighlight %}
+
+h3. Conclusion
+
+When writing jQuery plugins it's a good idea to take a look at existing ones for some guidance.  jQuery Waypoints has some tried and tested patterns that work well.  It also includes tests and documentation!
