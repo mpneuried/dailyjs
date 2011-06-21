@@ -1,0 +1,72 @@
+---
+layout: post
+title: "jQuery Roundup: 1.6.2 RC 1, jquery-lifestream, Better-Autocomplete"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- social
+- autocomplete
+---
+
+h3. jQuery 1.6.2 RC 1
+
+"jQuery 1.6.2 RC 1":http://blog.jquery.com/2011/06/14/jquery-162rc1-released/ was released last week.  This version is a maintenance release, with bug fixes for IE, and a "long-standing animation bug":http://bugs.jquery.com/ticket/9220 that I ran into recently.
+
+h3. jquery-lifestream
+
+!/images/posts/lifestream.png!
+
+"jquery-lifestream":http://christianv.github.com/jquery-lifestream/ (GitHub: "christianv / jquery-lifestream":https://github.com/christianv/jquery-lifestream, License: _CC Attribution 3.0 Unported_) by Christian Vuerings displays a list of activity for lots of social networks, including Twitter, Last.fm, Pinboard, and GitHub.  The author has even made a little tool that can be used to "create a lifestream":http://christianv.github.com/jquery-lifestream/me/. 
+
+Usage is straightforward:
+
+{% highlight javascript %}
+$("#lifestream").lifestream({
+  "list":[
+    {
+      "service": "github",
+      "user": "christianv"
+    },
+    {
+      "service": "twitter",
+      "user": "denbuzze"
+    }
+  ]
+});
+{% endhighlight %}
+
+h3. Better-Autocomplete
+
+!/images/posts/better-autocomplete.png!
+
+"Better-Autocomplete":https://github.com/betamos/Better-Autocomplete (License _MIT and GPL_) by Didrik Nordström is an autocompletion plugin that supports searching arrays, objects, and remote JSON data out of the box:
+
+{% highlight javascript %}
+var colors = [
+	{
+	  title: 'Red',
+	  description: 'The color of the heart.'
+	},
+
+  'Yellow', // You can even mix real result objects with plain strings
+  {
+    title: 'Green',
+    description: 'If you look at your plants, they will likely be green.'
+  }
+];
+
+$('#color').betterAutocomplete('init', colors, { charLimit: 1 }, {
+  select: function(result) {
+    $('#color').blur();
+    alert('You selected ' + result.title);
+  }
+});
+
+$('#geonames').betterAutocomplete('init', 'http://ws.geonames.org/searchJSON' // ...
+{% endhighlight %}
+
+It makes creating "rich" result sets quite easy -- "try the colours example":file://localhost/tmp/Better-Autocomplete/example.html to see what I mean.  This plugin also has "documentation":http://betamos.se/better-autocomplete/symbols/jQuery.betterAutocomplete.html.
+
+Although Better-Autocomplete only targets modern browsers and the author admits IE support isn't a priority, it seems lean and well made.
+
