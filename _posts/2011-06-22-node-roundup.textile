@@ -1,0 +1,59 @@
+---
+layout: post
+title: "Node Roundup: armory, imageable, spreadsheets"
+author: Alex Young
+categories: 
+- node
+- modules
+- games
+- graphics
+---
+
+h3. node-armory
+
+"node-armory":https://github.com/xtian/node-armory (npm: _armory_) by Christian Wesselhoeft is a library for accessing Blizzard's "REST API for World of Warcraft":http://blizzard.github.com/api-wow-docs/.  It can fetch data about realm status, characters, guilds, arenas, items, and more.
+
+Rather than messing around with lots of HTTP calls, this is now possible:
+
+{% highlight javascript %}
+var armory = require('armory');
+
+armory.publicKey = 'publickey';
+armory.privateKey = 'privatekey';
+
+// Single character
+armory.character('Dargonaut_Shadowmoon', function(err, character) {
+
+});
+{% endhighlight %}
+
+h3. node-imageable
+
+"node-imageable":https://github.com/dawanda/node-imageable (npm: _imageable_) is Connect middleware for image manipulation.  Given an image's URL, it can resize, fit, and crop it.  It also has configuration options for before/after event handlers, which could be used for generating statistics or logging.
+
+The actual image processing is down with good old ImageMagick.  A wrapper is used which just shells out with <code>exec</code>.
+
+DaWanda, the company that made node-imageable, also offers "node-imageable-server":https://github.com/dawanda/node-imageable-server which is a fully-featured Express app demonstrating the library.
+
+h3. node-spreadsheets
+
+"node-spreadsheets":https://github.com/EastCloud/node-spreadsheets (npm: _spreadsheets_) from EastCloud is a library for accessing Google Spreadsheets:
+
+{% highlight javascript %}
+var authenticate = require("spreadsheets");
+
+authenticate({
+  Email: 'alex@example.com',
+  Passwd: 'password'
+}, function(err, spreadsheets) {
+  spreadsheets.list(function(err, list) {
+    var spreadsheet = list['spreadsheet key'];
+    spreadsheet.worksheet(function(err, sheets) {
+      // etc...
+    });
+  });
+});
+{% endhighlight %}
+
+This library makes it possible to get and set values in spreadsheets, and even change cell styles.
+
