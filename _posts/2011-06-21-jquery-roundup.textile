@@ -66,7 +66,7 @@ $('#color').betterAutocomplete('init', colors, { charLimit: 1 }, {
 $('#geonames').betterAutocomplete('init', 'http://ws.geonames.org/searchJSON' // ...
 {% endhighlight %}
 
-It makes creating "rich" result sets quite easy -- "try the colours example":file://localhost/tmp/Better-Autocomplete/example.html to see what I mean.  This plugin also has "documentation":http://betamos.se/better-autocomplete/symbols/jQuery.betterAutocomplete.html.
+It makes creating "rich" result sets quite easy -- "try the colours example":https://github.com/betamos/Better-Autocomplete/blob/master/example.html to see what I mean.  This plugin also has "documentation":http://betamos.se/better-autocomplete/symbols/jQuery.betterAutocomplete.html.
 
 Although Better-Autocomplete only targets modern browsers and the author admits IE support isn't a priority, it seems lean and well made.
 
