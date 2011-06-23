@@ -1,0 +1,110 @@
+---
+layout: post
+title: "Let's Make a Framework: Promises Part 4"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- documentation
+- promises
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Over the last three weeks I've been looking at how web frameworks implement promises, and I've built a <code>Promise</code> class along the way.
+
+* "Promises: Part 1":http://dailyjs.com/2011/06/02/framework-65/
+* "Promises: Part 2":http://dailyjs.com/2011/06/09/framework-66/
+* "Promises: Part 3":http://dailyjs.com/2011/06/16/framework-67/
+
+h3. Ajax Integration
+
+After researching promises, jQuery's API stood out as a solid example of using them to do common tasks.  In particular, <code>jQuery.ajax</code> is _Deferred-compatible_, which means it transparently provides promise-related methods:
+
+{% highlight javascript %}
+$.get('/example').then(
+  function() { alert('Success'); },
+  function() { alert('Failure'); }
+);
+{% endhighlight %}
+
+We should be able to recreate this with our <code>turing.Promise</code> class, even though it's extremely simple.  There are a few things to keep in mind:
+
+* When implementing functions that support <code>turing.Promise</code>, they should return an object with a method that has the same signature as <code>then(success, failure)</code>
+* I designed Turing to be modular, so <code>turing.Promise</code> may not be available
+* The callee will return a promise that can be set with success/failure functions that are subsequently run later inside the original callee.  It's not as mind-bending as it sounds!
+
+h3. Tests
+
+I wrote a little Express app to test <code>turing.net</code>.  I've updated it to work with Express 2.x.  This should provide a useful test for promises:
+
+{% highlight javascript %}
+'test promises': function() {
+  $t.get('/get-test').then(
+    function(r) { assert.equal('{"key":"value"}', r.responseText); },
+    function(r) { assert.ok(false); }
+  );
+}
+{% endhighlight %}
+
+The value in the assertion, <code>'{"key":"value"}'</code>, is just something I set the Express app to return.  These tests can be run by changing directory to <code>test/functional</code> then running <code>node ajax.js</code> and visiting <code>http://localhost:3000</code>.
+
+h3. Implementation
+
+The beginning of the net module's internal <code>ajax</code> function needs to be changed to instantiate a <code>Promise</code> if it's available:
+
+{% highlight javascript %}
+function ajax(url, options) {
+  var request = xhr(),
+      promise;
+      
+  if (turing.Promise) {
+    promise = new turing.Promise();
+  }
+{% endhighlight %}
+
+Now we've got one, what do we do with it?  Well, we need to make it accessible to the outside by changing whatever <code>ajax()</code> returns to include a <code>then</code> method.  This is the bare minimum.
+
+This function returns an <code>XMLHttpRequest<code> object (or IE's various equivalents).  I just added a <code>then</code> method to this, but it would probably be better to return something else and keep the request object around internally.
+
+{% highlight javascript %}
+request.then = function() {
+  if (promise) promise.then.apply(promise, arguments);
+};
+{% endhighlight %}
+
+I made <code>then</code> just defer to the current promise object, and used <code>apply</code> to call it with <code>arguments</code>.  If any beginners find this puzzling, give "arguments":https://developer.mozilla.org/en/JavaScript/Reference/functions_and_function_scope/arguments and "apply":https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/apply a read on MDN.  These language features are extremely useful for making flexible APIs.
+
+The final thing to do is actually call the success or failure functions set up by <code>then</code>.  They just need to go where the original callbacks get executed.  Recall that our <code>Promise</code> class uses <code>resolve(value)</code> and <code>reject(value)</code> to handle the resolution of a promise:
+
+{% highlight javascript %}
+  function respondToReadyState(readyState) {
+    if (request.readyState == 4) {
+      if (request.getResponseHeader('content-type') === 'application/json')
+        request.responseJSON = net.parseJSON(request.responseText);
+
+      if (successfulRequest(request)) {
+        if (options.success) options.success(request);
+
+        // HERE:
+        if (promise) promise.resolve(request);
+      } else {
+        if (options.error) options.error(request);
+
+        // HERE:
+        if (promise) promise.reject(request);
+      }
+    }
+  }
+{% endhighlight %}
+
+h3. Conclusion
+
+That wasn't too painful, was it?  I think there may be a good argument for making <code>Promise</code> part of Turing's core module, particularly as it's so short and useful.  By following this example, promises could be used throughout the framework to enhance the API.
+
+The latest code update was "commit 0d0bfac":https://github.com/alexyoung/turing.js/tree/0d0bfacec4dbcb1a9a4bba46a1ab15ac51784fba.
