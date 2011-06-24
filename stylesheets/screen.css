@@ -3,7 +3,8 @@ pre { margin: 0; padding: 0 }
 a:link, a:visited { color: #559; }
 html body a:hover { border-bottom: none; color: #ff9900; }
 a img { border: none; }
-blockquote { font-style: italic; color: #666 }
+blockquote { font-style: italic; color: #666; margin-left: 40px }
+.attribution { font-style: italic; margin-left: 40px } 
 
 p.clean { margin: 0; padding: 0 }
 #container { margin: 0 auto; width: 870px }

@@ -1,0 +1,32 @@
+---
+layout: post
+title: "WebGL Security: The Backlash"
+author: Alex Young
+categories: 
+- webgl
+- security
+---
+
+bq. Web developers, like all developers, need good 3D support, and — as with Flash and Silverlight — browser implementers will need to be careful and thoughtful about how to expose that functionality securely on all operating systems.
+
+<p class="attribution">- Mike Shaver</p>
+
+Last week, "Microsoft voiced concerns over WebGL security":http://dailyjs.com/2011/06/17/webgl-security-csonv/ on the "Microsoft Security Research & Defense blog":http://blogs.technet.com/b/srd/.  Since then prominent Mozilla and Microsoft employees have joined the discussion.  The press tried to make this sound like an exciting backlash from Mozilla, but from what I've read the response was well-tempered.
+
+Avi Bar-Zeev had this to say, in "Why Microsoft and Internet Explorer need WebGL (and vice-versa)":http://www.realityprime.com/articles/why-microsoft-and-internet-explorer-need-webgl:
+
+bq. Operating systems and security mitigation are what Microsoft is known for. It's our bread and butter. Why would we run away from that challenge with such an alarmist attitude of “shut it off, shut it off, it might hurt me!”
+
+And:
+
+bq. WebGL will be running on my PC and yours, one way or another. Microsoft will need to deal with it. 
+
+Elsewhere, Mozilla VP of Engineering Mike Shaver wrote "A Three-Dimensional Platform":http://shaver.off.net/diary/2011/06/17/a-three-dimensional-platform/, in which he states:
+
+bq. Microsoft's concern that a technology be able to pass their security review process is reasonable, and similar matters were the subject of a large proportion of the discussions leading to WebGL's standardization; I also suspect that whatever hardening they applied to the low-level D3D API wrapped by Silverlight 3D can be applied to a Microsoft WebGL implementation as well.
+
+However, the "Mozilla Security Blog":http://blog.mozilla.com/security does contain this interesting bug report: "WebGL graphics memory stealing issue":http://blog.mozilla.com/security/2011/06/16/webgl-graphics-memory-stealing-issue/
+
+bq. This issue allows attackers to capture screen shots of private or confidential information.
+
+Although deliciously ironic, this is based on "further research by James Forshaw":http://www.contextis.com/resources/blog/webgl2/.  He wrote the post that was the epicentre for the WebGL security debate: "WebGL - A New Dimension for Browser Exploitation":http://www.contextis.com/resources/blog/webgl/. 
