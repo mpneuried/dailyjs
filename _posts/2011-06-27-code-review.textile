@@ -1,0 +1,183 @@
+---
+layout: post
+title: "Code Review: Underscore"
+author: Alex Young
+categories:
+- code-review
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+"Underscore":http://documentcloud.github.com/underscore/ provides functional programming tools for JavaScript.  Let's take a look inside to see how key functions are implemented.
+
+h3. About Underscore
+
+"Underscore":http://documentcloud.github.com/underscore/ (GitHub: "documentcloud / underscore":https://github.com/documentcloud/underscore, "License":https://github.com/documentcloud/underscore/blob/master/LICENSE, npm: _underscore_) from DocumentCloud provides a rich set of functions that help when dealing with arrays and objects.  Many of these functions are available in other languages, and some can even be found natively in JavaScript depending on the browser or interpreter.
+
+Underscore's API is accessed through an object rather than changing <code>Array</code> or <code>Object</code>.  That means it's easy to drop into a project without affecting existing code.
+
+h3. Usage
+
+The canonical example of Underscore is the <code>each</code> function:
+
+{% highlight javascript %}
+_.each([1, 2, 3], function(num) {
+  alert(num);
+});
+{% endhighlight %}
+
+The <code>map</code> function is similar, but allows the list to be changed:
+
+{% highlight javascript %}
+_.map([1, 2, 3], function(num) {
+  return num * 3;
+});
+
+// Returns [3, 6, 9]
+{% endhighlight %}
+
+I really like <code>reduce</code>:
+
+{% highlight javascript %}
+_.reduce([1, 2, 3], function(memo, num) { return memo + num; }, 0);
+// Returns 6
+{% endhighlight %}
+
+Underscore quickly became popular for client-side programming, but an increasing number of Node packages depend on it.
+
+h3. Structure
+
+Like most JavaScript modules, Underscore is distributed in an anonymous wrapper:
+
+{% highlight javascript %}
+(function() {
+  // Establish the root object, `window` in the browser, or `global` on the server.
+  var root = this;
+
+  // Save the previous value of the `_` variable.
+  var previousUnderscore = root._;
+
+  // Establish the object that gets returned to break out of a loop iteration.
+  var breaker = {};
+
+  // Save bytes in the minified (but not gzipped) version:
+  var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
+  
+  // ... snip
+})();
+
+{% endhighlight %}
+
+The author (Jeremy Ashkenas) has written detailed comments through the project.
+
+Underscore will attempt to use native JavaScript methods where available.  We see this intention straight away at around line 35:
+
+{% highlight javascript %}
+// All **ECMAScript 5** native function implementations that we hope to use
+// are declared here.
+var
+  nativeForEach      = ArrayProto.forEach,
+  nativeMap          = ArrayProto.map,
+  nativeReduce       = ArrayProto.reduce,
+  nativeReduceRight  = ArrayProto.reduceRight,
+  nativeFilter       = ArrayProto.filter,
+  nativeEvery        = ArrayProto.every,
+  nativeSome         = ArrayProto.some,
+  nativeIndexOf      = ArrayProto.indexOf,
+  nativeLastIndexOf  = ArrayProto.lastIndexOf,
+  nativeIsArray      = Array.isArray,
+  nativeKeys         = Object.keys,
+  nativeBind         = FuncProto.bind;
+{% endhighlight %}
+
+The most important function in Underscore is <code>each</code>, because so many other methods are built on it.  Because it delegates to ECMAScript 5's native <code>forEach</code> it has to be compatible.  It's also defined in the <code>each</code> variable, which makes using it throughout the rest of the file more straightforward (and save bytes):
+
+{% highlight javascript %}
+var each = _.each = _.forEach = function(obj, iterator, context) {
+  if (obj == null) return;
+  if (nativeForEach && obj.forEach === nativeForEach) {
+    obj.forEach(iterator, context);
+  } else if (_.isNumber(obj.length)) {
+    for (var i = 0, l = obj.length; i < l; i++) {
+      if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+    }
+  } else {
+    for (var key in obj) {
+      if (hasOwnProperty.call(obj, key)) {
+        if (iterator.call(context, obj[key], key, obj) === breaker) return;
+      }
+    }
+  }
+};
+{% endhighlight %}
+
+A guard against <code>null</code> values is used, then <code>nativeForEach</code> is tested.  If this isn't available and the object looks like an array, a simple for loop is used to iterate over each value and run the callback.  If the object looks like an <code>Object</code>, a <code>for... in</code> loop is used instead.
+
+However, because the <code>nativeForEach && obj.forEach === nativeForEach</code> test is used, <code>nativeForEach</code> will only ever be used for arrays.  The Mozilla Developer Network has some guidance on implementing <code>forEach</code>-compatible methods, in  the "Array forEach documentation":https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/foreach:
+
+{% highlight javascript %}
+if (!Array.prototype.forEach)
+{
+  Array.prototype.forEach = function(fun /*, thisp */)
+  {
+    "use strict";
+
+    if (this === void 0 || this === null)
+      throw new TypeError();
+
+    var t = Object(this);
+    var len = t.length >>> 0;
+    if (typeof fun !== "function")
+      throw new TypeError();
+
+    var thisp = arguments[1];
+    for (var i = 0; i < len; i++)
+    {
+      if (i in t)
+        fun.call(thisp, t[i], i, t);
+    }
+  };
+}
+{% endhighlight %}
+
+Since <code>forEach</code> is defined on <code>Array.prototype</code>, Underscore has to provide its own functionality for objects.  That means this will work as expected:
+
+{% highlight javascript %}
+_.each({ a: '1', b: '2' }, function(a, b) { console.log(a, b) });
+{% endhighlight %}
+
+h3. Building on <code>each</code>
+
+The <code>map</code> function works in a very similar way, testing for native support then calling <code>each</code> if required:
+
+{% highlight javascript %}
+_.map = function(obj, iterator, context) {
+  var results = [];
+  if (obj == null) return results;
+  if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
+  each(obj, function(value, index, list) {
+    results[results.length] = iterator.call(context, value, index, list);
+  });
+  return results;
+};
+{% endhighlight %}
+
+If the native method can be used, the results are returned right away.  Otherwise, the results are collected up and returned by using <code>each</code>.
+
+The <code>context</code> parameter is used throughout Underscore.  This is used by <code>call</code> to bind the callback.  The first parameter of <code>call</code> is "thisArg":
+
+bq. If <code>thisArg</code> is <code>null</code> or <code>undefined</code>, <code>this</code> will be the global object. Otherwise, <code>this</code> will be equal to <code>Object(thisArg)</code>
+
+The "MDN documentation on <code>call</code>":https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/Call has more information and examples.
+
+h3. Tests
+
+The tests are written with "QUnit":http://docs.jquery.com/Qunit, so they can be run in a browser very easily: "Underscore tests":http://documentcloud.github.com/underscore/test/test.html.
+
+h3. Conclusion
+
+Underscore's source reads almost like JavaScript documentation for the methods it implements.  And it's nice to see that a library that can give so many productivity gains is actually simple and easy to follow.
+
+Do you fancy building your own functional programming library?  Start with <code>each</code> and see how far you can get!
