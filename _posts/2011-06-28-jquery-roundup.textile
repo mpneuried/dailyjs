@@ -1,0 +1,79 @@
+---
+layout: post
+title: "jQuery Roundup: FitText, gmap3, Awesomemarkup"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- geo
+- typography
+---
+
+h3. FitText
+
+!/images/posts/fittext.png!
+
+Somehow I missed this companion project to the popular "Lettering.js":http://letteringjs.com/, but in case you also missed it...  "FitText":http://fittextjs.com/ (GitHub: "davatron5000 / FitText.js":https://github.com/davatron5000/FitText.js) by Dave Rupert and "Paravel":http://paravelinc.com/ resizes text to fit the parent element.  It makes creating fluid magazine-like layouts possible, just by using appropriate CSS and <code>$('#responsive_headline').fitText();</code>.
+
+There's also an interesting comment in the readme about <code>window.resize</code>:
+
+bq. If you oppose <code>window.resize()</code>, it's worth mentioning that @chriscoyier created a fork of "FitText using a debounced resize method":https://github.com/chriscoyier/FitText.js.
+
+The original post about debouncing is here: "Debouncing Javascript Methods":http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods.
+
+h3. gmap3
+
+"gmap3":http://gmap3.net (GitHub: "jbdemonte / gmap3":https://github.com/jbdemonte/gmap3) by Jean-Baptiste Demonte makes working with Google Maps a lot simpler, leveraging jQuery's succinctness rather nicely:
+
+{% highlight javascript %}
+$('#example').gmap3();
+{% endhighlight %}
+
+It also takes parameters in the form of an array of objects.  Each object has an _action_:
+
+{% highlight javascript %}
+$('#example').gmap3(
+  { action: 'init',
+    options: {
+      center: [46.578498, 2.457275],
+      zoom: 5
+    }
+  },
+  { action: 'addMarker',
+    latLng: [48.8620722, 2.352047]
+  },
+  { action: 'addMarker',
+    latLng: [48.8620722, 2.352047]
+  }
+);
+{% endhighlight %}
+
+h3. Awesomemarkup
+
+!/images/posts/awesomemarkup.png!
+
+"Awesomemarkup":http://clint-tseng.github.com/awesomemarkup/ (GitHub: "clint-tseng / awesomemarkup":https://github.com/clint-tseng/awesomemarkup, License: _WTFPL_) by Clint Tseng is a framework-agnostic library for generating markup.  When used with jQuery, it'll add <code>$.tag</code>:
+
+{% highlight javascript %}
+// Instead of doing this:
+var markup = '<div class="content ' + article.contentType +
+  '" style="display:' + (article.visible ? 'block' :
+  'none') + '">' + '<h2>' + article.title + '</h2>' +
+  '</div>';
+
+// Awesomemarkup makes this possible:
+var markup = $.tag({
+  _: 'div',
+  class: [ 'content', article.contentType ],
+  style: {
+    display: { i: article.visible, t: 'block', e: 'none' }
+  },
+  contents: {
+    _: 'h2',
+    contents: article.title
+  }
+});
+{% endhighlight %}
+
+Clint has also added CommonJS support, which means Awesomemarkup can be used in Node too.
+
