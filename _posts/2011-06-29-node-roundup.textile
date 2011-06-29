@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Node Roundup: Porting Node to Windows, socketstream, EventEmitter2"
+author: Alex Young
+categories: 
+- node
+- modules
+- frameworks
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Porting Node to Windows
+
+Building Node in Windows has gone from "use Cygwin", to serious thought starting in liboio (renamed to "libuv":https://github.com/joyent/libuv), and now this: "Porting Node to Windows With Microsoft's Help":http://blog.nodejs.org/2011/06/23/porting-node-to-windows-with-microsoft%E2%80%99s-help/.
+
+bq. As you may have heard in a talk we gave earlier this year, we have started the undertaking of a native port to Windows – targeting the high-performance IOCP API.
+
+There are good reasons why a serious port will be far superior to kludging builds with Cygwin, most notably IO concurrency.  This initial announcement mentions Windows Azure support, Microsoft's application hosting environment.  Hopefully this means Windows developers will get great performance on Microsoft's server platforms and on local development machines.
+
+h3. socketstream
+
+!/images/posts/socketstream-icon.png!
+
+"socketstream":https://github.com/socketstream/socketstream (License: _MIT_, npm: _socketstream_) is a new and ambitious web framework for building single-page applications.  Rather than focusing on pretty graphics, the socketstream team has focused on ridiculous performance and bandwidth efficiency, using Socket.IO, pub/sub, Redis, jQuery, Jade, Stylus, and more of our favourite libraries.
+
+Applications are generated using a script, and the resulting template app is a little bit like a Rails project (except it starts up instantly).  The template app also has user management baked in:
+
+bq. As almost all web applications have users which need to sign in and out, we have built the concept of a 'current user' into the core of SocketStream. This not only makes life easier for developers, but is vital to the correct functioning of the pub/sub system, authenticating API requests...
+
+The examples are in CoffeeScript, but the documentation mentions using good old fashioned JavaScript is fine too.
+
+There's already an interesting tutorial for socketstream by Addy Osmani: "Building Real-time CoffeeScript Web Applications With SocketStream":http://addyosmani.com/blog/building-real-time-coffeescript-web-applications-with-socketstream/.
+
+h3. EventEmitter2
+
+"EventEmitter2":https://github.com/hij1nx/EventEmitter2 (License: _MIT_, npm: _eventemitter2_) by hij1nx is an implementation of the <code>EventEmitter</code> class found in Node.  It introduces lots of useful features, including namespaces and wildcards and browser compatibility.
+
+The project comes with tests, so presumably the author has some solid benchmarks to back up his performance claim:
+
+bq. As good or better performance for emission and listener registration as Node.js core EventEmitter
+

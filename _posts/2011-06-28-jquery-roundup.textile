@@ -9,6 +9,10 @@ categories:
 - typography
 ---
 
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
 h3. FitText
 
 !/images/posts/fittext.png!
