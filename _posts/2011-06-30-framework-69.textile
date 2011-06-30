@@ -1,0 +1,108 @@
+---
+layout: post
+title: "Let's Make a Framework: Custom Events"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Way back at the start of this series I created a basic DOM events implementation, in "Let's Make a Framework: Events":http://dailyjs.com/2010/04/22/framework-part-9/.  Dealing with browser events is mostly a case of providing a simple API and patching browser quirks.  As we saw, various frameworks implement this differently.  In particular, jQuery has an almost completely custom event handling system, which allows it to support lots of useful features in almost every browser.
+
+When building modern web applications we often need to deal with events that don't apply to DOM elements.  Sometimes we create abstract objects and want to emit or listen for events.  This is becoming more common with the growing popularity of Node and its <code>EventEmitter</code> class.
+
+Let's add something like <code>EventEmitter</code> to Turing, so developers can make use of customised event handling for their own objects.
+
+h3. <code>EventEmitter</code>
+
+The <code>EventEmitter</code> class can be found in "lib/events.js":https://github.com/joyent/node/blob/master/lib/events.js in Node and there's also documentation in "events.EventEmitter":http://nodejs.org/docs/v0.4.8/api/events.html.
+
+It's actually very easy to use <code>EventEmitter</code>.  I think a lot of people find it confusing at first, because they hear about "evented JavaScript" and think Node's little <code>EventEmitter</code> is a magical tool that makes everything fast.
+
+In reality, it's basically this:
+
+{% highlight javascript %}
+var EventEmitter = require('events').EventEmitter,
+    bomb = new EventEmitter();
+
+bomb.on('explode', function() {
+  console.log('BOOM!');
+});
+
+bomb.emit('explode');
+{% endhighlight %}
+
+This is similar to what "CommonJS Events/A":http://wiki.commonjs.org/wiki/Events/A describes.
+
+h3. Structure
+
+In <code>EventEmitter</code>, event handlers are stored in an object that contains arrays of events indexed by the event names.  Some additional complexity comes from optimisations.  For example, one optimisation is for the case where there's only one listener:
+
+{% highlight javascript %}
+EventEmitter.prototype.addListener = function(type, listener) {
+  // ...
+  if (!this._events[type]) {
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  } else if (isArray(this._events[type])) {
+
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+{% endhighlight %}
+
+Then, when an event is emitted:
+
+{% highlight javascript %}
+EventEmitter.prototype.emit = function(type) {
+  if (!this._events) return false;
+  var handler = this._events[type];
+  if (!handler) return false;
+
+  if (typeof handler == 'function') {
+    // The optimised case
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+      // ... snip
+
+  } else if (isArray(handler)) {
+    // An array of handlers has been added
+    var listeners = handler.slice();
+    for (var i = 0, l = listeners.length; i < l; i++) {
+      listeners[i].apply(this, args);
+    }
+    return true;
+{% endhighlight %}
+
+h3. API Design
+
+Let's follow the basics of Node's API:
+
+* <code>addListener(event, fn)</code>, aliased as <code>on</code>: Register an event handler
+* <code>emit(event, [arg1], [arg2], [...])</code>: Emit an event with optional arguments
+* <code>removeListener(event, fn)</code>: Remove the handler
+* <cdoe>removeAllListeners(event)</code>: Removes all handlers for the event
+
+These methods should provide enough functionality to do some cool stuff.
+
+h3. Conclusion
+
+Whether we're using events in DOM programming, <code>EventEmitter</code> in Node, or even similar techniques in other languages (I keep finding myself working with <code>NSNotification</code> in Objective-C), events are an incredibly useful paradigm.
+
+Next week I'll start building our own events class!
+
+h3. References
+
+* "Let's Make a Framework: Events":http://dailyjs.com/2010/04/22/framework-part-9/
+* Node's "lib/events.js":https://github.com/joyent/node/blob/master/lib/events.js
+* "Node's events.EventEmitter documentation":http://nodejs.org/docs/v0.4.8/api/events.html.
+* "CommonJS Events/A":http://wiki.commonjs.org/wiki/Events/A
+
