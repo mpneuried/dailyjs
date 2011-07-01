@@ -1,0 +1,31 @@
+---
+layout: post
+title: "pdf.js, VisualSearch.js, Voice Debugger"
+author: Alex Young
+categories: 
+- audio
+- search
+- pdf
+---
+
+h3. pdf.js: Rendering PDF with HTML5 and JavaScript
+
+In "pdf.js: Rendering PDF with HTML5 and JavaScript":http://andreasgal.com/2011/06/15/pdf-js/ Andreas Gal discusses a project to determine if HTML5 is complete enough to render PDFs.  The "GitHub pdf.js":https://github.com/andreasgal/pdf.js project contains progress so far, and it looks like Andreas is updating it regularly.
+
+There's also another related post, "Overview of pdf.js guts":http://blog.mozilla.com/cjones/2011/06/15/overview-of-pdf-js-guts/, which explains how it works:
+
+bq. pdf.js (currently) parses raw arrays of bytes into streams of PDF "bytecode", compiles the bytecode into JavaScript programs, then executes the programs. Yes, it's a sort of PDF JIT. The side effect of those programs is to draw on an HTML5 Canvas.
+
+It sounds like a fascinating project, particularly the PDF stream parsing.
+
+h3. VisualSearch.js
+
+!/images/posts/visualsearch.png!
+
+"VisualSearch.js":http://documentcloud.github.com/visualsearch/ (GitHub: "documentcloud / visualsearch":https://github.com/documentcloud/visualsearch/, "License":https://github.com/documentcloud/visualsearch/blob/master/LICENSE) from DocumentCloud is a novel take on search design.  It allows field-level options to be specified using dynamic inline completion, using simple icons and drop-down menus.
+
+h3. Voice Debugger
+
+"Voice Debugger":http://varjs.com/voice-debugger/ (GitHub: "ferrante / Voice-Debugger":https://github.com/ferrante/Voice-Debugger) by Damian Wielgosik is a little HTML5 experiment to catch JavaScript errors and read them out.  A set of standard errors are saved as WAV files, and then played with an <code>audio</code> tag.
+
+I've been doing some pretty heavy HTML audio work lately, so I found this extremely amusing...
