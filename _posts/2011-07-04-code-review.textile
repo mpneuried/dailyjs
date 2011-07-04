@@ -1,0 +1,148 @@
+---
+layout: post
+title: "Code Review: Express"
+author: Alex Young
+categories:
+- code-review
+- express
+- frameworks
+- node
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+I was recently looking for something in the source to "Express":http://expressjs.com/, and suddenly it struck me that this would make a great candidate for a code review.  Let's take a look at how Express is put together.
+
+h3. About Express
+
+"Express":http://expressjs.com/ (GitHub: "visionmedia / express":https://github.com/visionmedia/express, License: _MIT_, npm: _express_) by TJ Holowaychuk is an extremely popular web framework.  It's fast, simple, and easy to learn, and even better -- it's actively maintained!  Strolling through npm looking at web frameworks is a little bit like a graveyard of half-finished ideas, but Express has received much love from its author, contributors, and the Node community.
+
+h3. Usage
+
+Express actually comes with a command-line app that can be used to generate a basic app.  I usually just write my own, it's very easy:
+
+{% highlight javascript %}
+var express = require('express')
+  , app = express.createServer();
+
+app.get('/', function(req, res) {
+  res.send('Hello from DailyJS');
+});
+
+app.listen(3000);
+{% endhighlight %}
+
+h3. Structure
+
+The main <code>lib/express.js</code> starts off by loading Connect.  Express is built on the "Connect":https://github.com/senchalabs/connect library which provides a number of features we'd typically expect from basic web framework: http and https servers, sessions, cookies, HTTP auth, static asset management, query string parsing, and more.
+
+The http and https servers in Express wrap the ones from Connect to provide some Express-specific features, like routing and middleware.  Connect's servers are in turn derived from Node's.
+
+The rest of the file loads other pieces of key functionality and exposes them using <code>exports</code> as required.
+
+Moving on to <code>lib/http.js</code>, we can see that an Express "app" is really a little server.  When a <code>HTTPServer</code> is instantiated, it runs <code>app.init</code> which sets up simple objects for things like the cache, settings, and routes, then sets defaults.  Some of this default behaviour is based on the environment, so for example, the production environment gets caching enabled.
+
+The initialisation code also heavily reuses features we typically associate with the public Express API.  The <code>use</code> method allows Express to be extended with middleware, and it returns <code>this</code> so it's chainable.  In fact, chaining is an interesting point because most methods in the server code return <code>this</code>.  I don't usually see this being used in Express apps.
+
+This code also shows how routing really works.  The whole server is heavily dependent on the router, which is set up in <code>app.init</code>:
+
+{% highlight javascript %}
+this.routes = new Router(this);
+{% endhighlight %}
+
+This <code>Router</code> object represents a collection of routes, and it also tracks URL parameters so route param pre-conditions can be handled (this is a very useful feature).
+
+h3. Routes
+
+The route library is loaded like this:
+
+{% highlight javascript %}
+var router = require('./router');
+{% endhighlight %}
+
+This loads <code>router/index.js</code> (see "Folders as Modules":http://nodejs.org/api/modules.html#folders_as_Modules) which contains collection-related routing methods.  Routes can be added, removed, searched, and actually dispatched.
+
+The core route finding method is <code>Router.prototype.find</code>.  There are convenience functions for this, namely <code>Router.prototype.lookup</code> and <code>Router.prototype.match</code>.  The naming makes sense here because <code>lookup</code> matches text and <code>match</code> uses regular expressions.
+
+Results are built using a class called <code>Collection</code> which is based on <code>Array</code>, but with some custom initialization and a <code>remove</code> method.  The body of <code>find</code> just runs a callback over each route using a simple <code>for</code> loop.
+
+There's also a <code>Route</code> class.  Routes are made up of a HTTP method, path, and some additional options.  The options can include a parameter for route strictness:
+
+bq. - strict: enable strict matching for trailing slashes
+
+Path strings are turned into regular expressions using <code>normalize()</code>.  This uses some nicely managed regular expression grouping to extract parameters, formats, and other URL options.
+
+One detail about route handling is HTTP verbs are delegated out in the HTTP server like this:
+
+{% highlight javascript %}
+methods.forEach(function(method){
+  app[method] = function(path){
+    if (1 == arguments.length) return this.routes.lookup(method, path);
+    var args = [method].concat(toArray(arguments));
+    if (!this.__usedRouter) this.use(this.router);
+    return this.routes._route.apply(this.routes, args);
+  }
+});
+{% endhighlight %}
+
+During initialisation a getter is set up for <code>this.router</code>:
+
+{% highlight javascript %}
+this.routes = new Router(this);
+this.__defineGetter__('router', function(){
+  this.__usedRouter = true;
+  return self.routes.middleware;
+});
+{% endhighlight %}
+
+Going back to <code>lib/router/index.js</code>:
+
+{% highlight javascript %}
+function Router(app) {
+  var self = this;
+  this.app = app;
+  this.routes = {};
+  this.params = {};
+  this._params = [];
+
+  this.middleware = function(req, res, next){
+    self._dispatch(req, res, next);
+  };
+{% endhighlight %}
+
+We can see that <code>self.routes.middleware</code> will call the dispatcher.
+
+h3. Views
+
+Moving on to views... <code>lib/view/view.js</code> provides a simple interface to views that helps manage paths and rendering engines.  Partial template support is even more surprisingly simple, with <code>lib/view/partial.js</code> containing just one function that <code>lib/view.js</code> uses to determine which view to render.
+
+h3. Request and Response
+
+The <code>req</code> and <code>res</code> objects, ubiquitous in Express apps, wrap around <code>http.IncomingMessage.prototype</code> and <code>http.ServerResponse.prototype</code> which ultimately comes from Node's <code>http</code> module via Connect.
+
+The <code>res.send</code> method does a lot of the work for generating responses.  The data passed in is checked using <code>switch (typeof body)</code> and <code>this.header('Content-Type')</code>.  Good old <code>JSON.stringify</code> is used to generate JSON responses.
+
+h3. Style
+
+Throughout Express TJ places literal values first in <code>if</code> statements:
+
+{% highlight javascript %}
+if ('string' != typeof route) {
+  middleware = route, route = '/';
+}
+{% endhighlight %}
+
+I assume this is because accidentally typing <code>if ('value' = a)</code> will cause an exception to be thrown.
+
+Another style observation I made (beyond those I've already explored in TJ's Jade project) was a heavy reliance on native functionality.  I expected to see a fairly heavy route collection management class, but TJ has simply built on <code>Array.prototype</code>.
+
+This is also another project that includes lots of well formatted code comments, so it's easy to understand the author's intent in the more abstract corners of the project.
+
+h3. Conclusion
+
+I hope this tour of the Express source has given you a feel of how it's put together, and also what it takes to build a web framework with Node.
+
+I invite you to take a look around yourself!  If you're looking for help when developing your own Node apps, Express contains a lot of pointers.  It's also worth looking at how these underlying mechanisms work if you're convinced you've exhausted the "Express Guide documentation":http://expressjs.com/guide.html.
+
