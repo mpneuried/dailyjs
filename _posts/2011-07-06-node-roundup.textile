@@ -1,0 +1,71 @@
+---
+layout: post
+title: "Node Roundup: 0.4.9, 0.5.0, node-secure, Kue"
+author: Alex Young
+categories: 
+- node
+- redis
+- security
+- modules
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 0.4.9, 0.5.0
+
+"Node 0.4.9":http://blog.nodejs.org/2011/06/29/node-v0-4-9/ and "Node 0.5.0 (unstable)":http://blog.nodejs.org/2011/07/06/node-v0-5-0-unstable/ have been released.  The 0.4.9 updates include SSL and crypto fixes, performance improvements for <code>util.inherits</code>, a V8 engine update, and module loading changes to better support nested project structures.
+
+Node 0.5.0 is where things start to get exciting for Windows users.  There's a (non-default) libuv backend to support IOCP in Windows.  In terms of deprecations, only <code>http.cat</code> is mentioned.  There's a huge amount of fixes and improvements elsewhere, but one thing I noticed was "AMD Compatibility":http://nodejs.org/docs/v0.5.0/api/modules.html#aMD_Compatibility:
+
+bq. Node's modules have access to a function named <code>define</code>, which may be used to specify the module's return value. This is not necessary in node programs, but is present in the node API in order to provide compatibility with module loaders that use the Asynchronous Module Definition pattern.
+
+h3. node-secure
+
+"node-secure":https://github.com/ddrcode/node-secure (npm: _node-secure_) by David de Rosier is a module that protects globals from being overridden that programs may depend on for safe execution: <code>undefined</code>, <code>NaN</code>, <code>Infinity</code>, <code>eval</code>, <code>isNaN</code>.
+
+This module also adds event handling to <code>eval</code>:
+
+{% highlight javascript %}
+var secure = require('node-secure');
+secure.on('eval', function(caller) {
+  console.log('Evel executed in following function:', caller);
+});
+{% endhighlight %}
+
+The project's README contains a lot more examples, including David's reasoning behind the features.
+
+h3. Kue
+
+!/images/posts/kue.png!
+
+"Kue":https://github.com/LearnBoost/kue (License: _MIT_, npm: _kue_) by TJ Holowaychuk and LearnBoost is a priority job queue backed by redis. Queues and jobs are created like this:
+
+{% highlight javascript %}
+var kue = require('kue')
+  , jobs = kue.createQueue();
+
+jobs.create('email', {
+    title: 'welcome email for tj'
+  , to: 'tj@learnboost.com'
+  , template: 'welcome-email'
+}).save();
+{% endhighlight %}
+
+Then elsewhere they can be processed:
+
+{% highlight javascript %}
+jobs.process('email', function(job, done){
+  email(job.to, done);
+});
+{% endhighlight %}
+
+The <code>job</code> object also has <code>job.progress(frames, totalFrames)</code> for displaying progress during long-running jobs.
+
+Kue also comes with a little Express app for managing jobs:
+
+{% highlight javascript %}
+var kue = require('kue');
+kue.app.listen(3000);
+{% endhighlight %}
