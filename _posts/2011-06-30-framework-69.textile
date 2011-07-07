@@ -89,7 +89,7 @@ Let's follow the basics of Node's API:
 * <code>addListener(event, fn)</code>, aliased as <code>on</code>: Register an event handler
 * <code>emit(event, [arg1], [arg2], [...])</code>: Emit an event with optional arguments
 * <code>removeListener(event, fn)</code>: Remove the handler
-* <cdoe>removeAllListeners(event)</code>: Removes all handlers for the event
+* <code>removeAllListeners(event)</code>: Removes all handlers for the event
 
 These methods should provide enough functionality to do some cool stuff.
 

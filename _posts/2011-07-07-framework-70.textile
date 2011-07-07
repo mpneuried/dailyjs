@@ -1,0 +1,250 @@
+---
+layout: post
+title: "Let's Make a Framework: Custom Events 2"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+"Last week":http://dailyjs.com/2011/06/30/framework-69/ I looked at how Node supports event handling with <code>EventEmitter</code>.  This tutorial explores building a simple event manager that can be used for custom event handling.
+
+h3. Event Emitter API
+
+This is the API I settled on in the previous part:
+
+* <code>addListener(event, fn)</code>, aliased as <code>on</code>: Register an event handler
+* <code>emit(event, [arg1], [arg2], [...])</code>: Emit an event with optional arguments
+* <code>removeListener(event, fn)</code>: Remove the handler
+* <code>removeAllListeners(event)</code>: Remove all handlers for the specified event
+
+A skeleton prototype class will look like this:
+
+{% highlight javascript %}
+  Emitter = function() {
+    this.events = {};
+  };
+
+  Emitter.prototype = {
+    /**
+     * Adds a listener.  Multiple can be added per eventName.  Aliased as `on`.
+     *
+     * @param {String} eventName The name of the event
+     * @param {Function} handler A callback
+     */
+    addListener: function(eventName, handler) {
+    },
+
+    /**
+     * Triggers all matching listeners.
+     *
+     * @param {String} eventName The name of the event
+     * @returns {Boolean} `true` if an event fired
+     */
+    emit: function(eventName) {
+    },
+
+    /**
+     * Removes all matching listeners.
+     *
+     * @param {String} eventName The name of the event
+     * @returns {Boolean} `true` if an event was removed
+     */
+    removeAllListeners: function(eventName) {
+    },
+
+    /**
+     * Removes a listener based on the handler function.
+     *
+     * @param {String} eventName The name of the event
+     * @param {Function} handler The handler function to remove
+     * @returns {Boolean} `true` if an event was removed
+     */
+    removeListener: function(eventName, handler) {
+    }
+  };
+
+  Emitter.prototype.on = Emitter.prototype.addListener;
+{% endhighlight %}
+
+I've added code comments in at this stage because I wanted to think about the return values and parameters.  I wasn't sure if most of these methods should return anything at all, but I decided returning some kind of status would make testing a lot easier.
+
+h3. Unit Test
+
+Adding listeners and emitting events can be tested together:
+
+{% highlight javascript %}
+exports.testEventEmitter = {
+  'test addListener': function() {
+    var Emitter = turing.events.Emitter,
+        emitter = new Emitter(),
+        i = 0;
+    
+    emitter.on('eventName', function() {
+      i++;
+    });
+
+    emitter.on('testFired', function() {
+      assert.equal(i, 1);
+    });
+
+    assert.ok(emitter.emit('eventName'));
+    assert.ok(emitter.emit('testFired'));
+  },
+{% endhighlight %}
+
+A counter is used to determine if an event has fired, and each method's return value is tested.
+
+Removing all listeners is another simple case:
+
+{% highlight javascript %}
+  'test removeAllListeners': function() {
+    var Emitter = turing.events.Emitter,
+        emitter = new Emitter();
+    
+    emitter.on('event1', function() {});
+    emitter.on('event2', function() {});
+
+    emitter.removeAllListeners('event1');
+  
+    assert.ok(!emitter.emit('event1'));
+    assert.ok(emitter.emit('event2'));
+  },
+{% endhighlight %}
+
+Removing an event then trying to emit returns <code>false</code>, which helps make these tests fairly readable.
+
+Removing a specific listener is a little bit more complicated.  Multiple handlers can be added per event name, so we need to ensure this is managed correctly.  You'll also notice I use functions instead of anonymous functions for these tests, that's just how <code>removeListener</code> has to work.
+
+{% highlight javascript %}
+  'test removeListener': function() {
+    var Emitter = turing.events.Emitter,
+        emitter = new Emitter(),
+        i = 0;
+    
+    function add() {
+      i++;
+    }
+
+    function nothing() {
+    }
+
+    emitter.on('add', add);
+    emitter.on('add', nothing);
+    emitter.on('testFired', function() {
+      assert.equal(i, 1);
+    });
+
+    assert.ok(emitter.emit('add'));
+    assert.ok(emitter.removeListener('add', add));
+    assert.ok(emitter.emit('add'));
+    assert.ok(emitter.removeListener('add', nothing));
+    assert.ok(!emitter.removeListener('add', nothing));
+    assert.ok(!emitter.emit('add'));
+    assert.ok(emitter.emit('testFired'));
+  }
+};
+{% endhighlight %}
+
+Notice how the boolean return values are useful here as well.
+
+h3. Implementation
+
+I've removed the comments from these examples to make this more readable in this tutorial.
+
+Adding a listener is pretty easy.  We have a simple JavaScript <code>Object</code> containing events indexed by name.  Each item is an array of event handler functions.
+
+{% highlight javascript %}
+Emitter.prototype = {
+  addListener: function(eventName, handler) {
+    if (eventName in this.events === false)
+      this.events[eventName] = [];
+
+    this.events[eventName].push(handler);
+  },
+{% endhighlight %}
+
+If you're confused about the <code>eventName in this.events</code> syntax it's just a simple test to see if the property is present in the internal list of events.  Just think about it like this:
+
+{% highlight javascript %}
+'a' in { a: 1, b: 2 }
+// true
+
+'c' in { a: 1, b: 2 }
+// false
+{% endhighlight %}
+
+Emitting an event uses this to avoid adding an extra layer of indentation, and then loops through each matching handler and runs it:
+
+{% highlight javascript %}
+  emit: function(eventName) {
+    var fired = false;
+    if (eventName in this.events === false) return fired;
+
+    for (var i = 0; i < this.events[eventName].length; i++) {
+      this.events[eventName][i].apply(this, Array.prototype.slice.call(arguments, 1));
+      fired = true;
+    }
+    return fired;
+  },
+{% endhighlight %}
+
+Removing all listeners is fairly simple too, I just use <code>delete</code> to remove the property from the list of events:
+
+{% highlight javascript %}
+  removeAllListeners: function(eventName) {
+    if (eventName in this.events === false) return false;
+    
+    delete this.events[eventName];
+    return true;
+  },
+{% endhighlight %}
+
+Removing single events is probably the hardest part.  For a start, we need to remember to pass in the original function.  It's often more convenient to use an anonymous callback for this style of API, so this usually confuses people at first.
+
+Then the handler has to actually be removed from the array.  I'd usually use <code>slice</code> and <code>indexOf</code>, but as I'm building this with browsers in mind I've used a helper method called <code>removeListenerAt</code> which is really just "JavaScript Array Remove":http://ejohn.org/blog/javascript-array-remove/ by John Resig.
+
+This method chops an array into two parts based on the index of the item we want to remove, found using a <code>for</code> loop.  The original array is split one position after the item we want to remove.  Then the original array's length is shortened, removing the item we don't need.  Finally, the two halves are joined back together using <code>push</code>.
+
+{% highlight javascript %}
+  removeListenerAt: function(eventName, i) {
+    var array = this.events[eventName],
+        rest = array.slice(i + 1);
+    array.length = i;
+    array.push.apply(array, rest);
+    this.events[eventName] = array;
+  },
+
+  removeListener: function(eventName, handler) {
+    if (eventName in this.events === false) return false;
+
+    for (var i = 0; i < this.events[eventName].length; i++) {
+      if (this.events[eventName][i] == handler) {
+        this.removeListenerAt(eventName, i);
+        return true;
+      }
+    }
+
+    return false;
+  }
+};
+{% endhighlight %}
+
+h3. Conclusion
+
+I hope this demonstrates how simple event handling really is.  I've avoided some of the optimisations from <code>EventEmitter</code> in Node to keep the code easy to follow.
+
+The full version of this code can be found in "commit 1e9f11d of turing.js":https://github.com/alexyoung/turing.js/tree/1e9f11df3f56c1c617fc57477db5a4e9cda75166. 
+
+h3. References
+
+* "delete":https://developer.mozilla.org/en/JavaScript/Reference/Operators/Special/delete
+* "JavaScript Array Remove":http://ejohn.org/blog/javascript-array-remove/
+* "Node's EventEmitter":https://github.com/joyent/node/blob/master/lib/events.js
