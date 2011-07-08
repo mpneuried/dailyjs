@@ -1,0 +1,53 @@
+---
+layout: post
+title: "d3.js, log.io, Buzz"
+author: Alex Young
+categories: 
+- graphics
+- frameworks
+- logging
+- audio
+---
+
+h3. d3.js
+
+!/images/posts/d3.jpg!
+
+"Data-Driven Documents":http://mbostock.github.com/d3/ (GitHub: "mbostock / d3":https://github.com/mbostock/d3, "License":https://github.com/mbostock/d3/blob/master/LICENSE) by Michael Bostock is a library for manipulating HTML based on data.  It can be used to visualise data using HTML or SVG, and supports interactivity and animations.
+
+"This relatively simple graph example":http://mbostock.github.com/d3/ex/stack.html demonstrates some basic visualisation and animation possibilities.  This "choropleth example":http://mbostock.github.com/d3/ex/choropleth.html illustrates some of d3's features in a more concise manner, and this "Voronoi diagram":http://mbostock.github.com/d3/ex/voronoi.html is just fun to play with!
+
+The author has written "detailed documentation and tutorials for d3":http://mbostock.github.com/d3/api/.  It also includes a guide for people who have worked with "Protovis":http://mbostock.github.com/protovis/ (also by Mike Bostock).
+
+h3. log.io
+
+!/images/posts/logio.png!
+
+"Log.io":http://logio.org/ (GitHub: "NarrativeScience / Log.io":https://github.com/NarrativeScience/Log.io, License: _Apache 2.0_) by Mike Smathers and Narrative Science is log viewer written with Node.  It can be used to monitor logs from multiple machines, generating data effectively instantly using inotify then pushing them to the browser with socket.io.
+
+There's a live demo running on "logio.org:8998":http://logio.org:8998/.
+
+Although the authors have a lot planned, the project is already formidable.  Best of all, it's fast:
+
+bq. Log.io has no persistence layer. Harvesters are informed of file changes via inotify, and log messages hop from harvester to server to web client via socket.io. The result is fast; internal benchmarks have exceeded 5000 messages/sec.
+
+h3. Buzz
+
+"Buzz":http://buzz.jaysalvat.com/ (GitHub: "jaysalvat / buzz":https://github.com/jaysalvat/buzz, License: _MIT_) by Jay Salvat is a library that makes working with the <code>audio</code> element easier.  It has a chainable API:
+
+{% highlight javascript %}
+var mySound = new buzz.sound( '/sounds/myfile', {
+  formats: [ 'ogg', 'mp3', 'acc' ]
+});
+
+mySound.play()
+  .fadeIn()
+  .loop()
+  .bind('timeupdate', function() {
+    var timer = buzz.toTimer(this.getTime());
+    document.getElementById('timer').innerHTML = timer;
+  });
+{% endhighlight %}
+
+Recently I've been working with HTML5 audio and it's not exactly as straightforward as it should be.  Buzz looks like it does some of the things I found awkward -- for some reason most browsers seem to say <code>maybe</code> for <code>canPlayType('/audio/aac')</code> which confused me when I _knew_ they wanted vorbis.  Buzz makes this easier by accepting groups of files for each supported format then testing to see which the browser can play, using the right jiggery pokery behind the scenes.
+
