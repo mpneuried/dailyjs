@@ -1,0 +1,182 @@
+---
+layout: post
+title: "Code Review: jLL"
+author: Alex Young
+categories:
+- code-review
+- express
+- frameworks
+- node
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+I usually select code review subjects based on what I use in my own projects.  However, this week Mihai Bojin sent in a project: "jLL":https://github.com/MihaiBojin/jLL (JavaScript Library Loader).  This is the first user-submitted code review -- why not send in your own projects? 
+
+h3. About jLL
+
+"jLL":https://github.com/MihaiBojin/jLL (License: _MIT_) by Mihai Bojin is a lightweight script loader.  It can either load scripts asynchronously or in predetermined order.
+
+h3. Usage
+
+Scripts can be loaded by pushing them onto a queue with a callback:
+
+{% highlight javascript %}
+var deferrer = jLL.staticDeferrer();
+
+deferrer.push('jquery-1.6.1.js', function() {
+  // Done
+});
+
+deferrer.run();
+{% endhighlight %}
+
+It's also possible to load when the page is ready, using <code>deferrer.runOnLoad()</code>.  To load jQuery _then_ several other libraries, the following pattern can be used:
+
+{% highlight javascript %}
+var deferrer = jLL.staticDeferrer();
+
+deferrer.push('jquery-1.6.1.js', function() {
+  var asyncLoader = jLL.buildScriptDeferrer();
+  
+  // Push a number of scripts to be loaded in order
+  asyncLoader.push([
+    ['js/jquery.roundabout-1.0.min.js'],
+    ['js/jquery.roundabout-shapes-1.1.js'],
+    
+    // after final script is loaded attach onReady event
+    ['js/contact.js', function() {
+      // Ready
+    }]
+  ]);
+
+  asyncLoader.run();
+});
+
+deferrer.runOnLoad();
+{% endhighlight %}
+
+h3. Structure
+
+The project is distributed with the source file, a minified version, a big set of examples, and some tests.  It's really great to see tests distributed with a project like this, so I'll take a deeper look at those later.
+
+The main source file itself includes solid documentation, which makes it very easy to navigate the code.  The self-executing anonymous function pattern is used yet again, this time passing in <code>window</code> and <code>document</code>:
+
+{% highlight javascript %}
+(function (window, document) {
+	"use strict";
+
+  var jLL,	
+		head,
+		ScriptTag,
+		ScriptDeferrer;
+
+  // ... snip
+
+	// attach an instance of the jLL object to the window
+	window.jLL = jLL;
+}(window, document));
+{% endhighlight %}
+
+Mihai has placed everything inside the anonymous function in "strict mode":https://developer.mozilla.org/en/JavaScript/Strict_mode.  This is something that's starting to crop up more and more in the client-side community.
+
+Next, <code>ScriptTag</code> and <code>ScriptDeferrer</code> are defined as simple prototype classes.  Most of the public methods are added to <code>this</code> inside the constructor, which means they're "privileged" in that they can see the private members of the class:
+
+{% highlight javascript %}
+ScriptDeferrer = function () {
+  var queue,
+    running,
+    loadFromQueue,
+    raceFromQueue;
+
+  // ... snip
+
+  this.push = function (src, onload, check, checkTrigger) {
+    var i, 
+      tag,
+      allowContinue;
+{% endhighlight %}
+
+Now <code>push</code> can access <code>queue</code> without exposing queue as a public property.  In general, Mihai is careful about what's being exposed throughout this project.
+
+Other parts of the library, like script tag rendering, are nicely encapsulated by suitable methods.
+
+h3. Tests
+
+The tests are written with "QUnit":http://docs.jquery.com/Qunit so they'll run in a browser.  The tests are organised nicely using modules, grouped according to the main classes in the project: <code>ScriptTag</code> and <code>ScriptDeferrer</code>.
+
+A helper file is used to keep a lot of useful mocking functions outside of the main test file.  Most of these are simple functions that are passed to jLL as callbacks:
+
+{% highlight javascript %}
+var mockCheckEventTrue = function() {
+  ok(true, "Mocking check and returning true");
+  return true;
+}
+
+test("Check passes and loads object", 2, function() {
+	var script = jLL.buildScriptTag('mock_load/mock_add_2.js');
+	stop();
+	script.addCheck(mockCheckEventTrue);
+	script.addEvent(mockOnloadEvent);
+	script.addEvent(start);
+	script.render();
+});
+{% endhighlight %}
+
+h3. Style
+
+I think my tabstop was set to something that made this project's spacing look weird, so I had to tinker with that.  It's probably worth remembering that if you like to line up <code>var</code> declarations, then mixing tabs and spaces defeats the point of using tabs if people aren't using the same tab spacing as you:
+
+{% highlight javascript %}
+// What you want:
+var a,
+    b,
+    c,;
+
+// What someone might see with a different tabstop:
+var a,
+      b,
+      c;
+
+// Or:
+var a,
+  b,
+  c;
+{% endhighlight %}
+
+Mihai is another fan of placing literals first in conditionals:
+
+{% highlight javascript %}
+if ("object" !== typeof src[i] || -1 === src[i].constructor.toString().indexOf("Array")) {
+}
+{% endhighlight %}
+
+Notice he's also carefully using the right comparison operators.
+
+h3. Conclusion
+
+This project would definitely benefit from a simple website with some easy to follow examples and automatically generated API documentation.  Also, the minified version is distributed with no reproducible build script.  Including a simple <code>Makefile</code> is a good idea for this type of project, just so the author or contributors are less likely to forget to minify the latest version.
+
+These might seem like high-level project-management issues, but it's worth keeping these things in mind when a project starts to mature and the forks/contributions start rolling in.
+
+If this was my project I'd consider a simplified chained API, and removing the <code>window</code> <code>onload</code> functionality:
+
+{% highlight javascript %}
+jLL
+  .push('script1.js')
+  .push('script2.js');
+{% endhighlight %}
+
+I'd also consider removing <code>.run</code>, and add a method to the chain that can handle waiting for callbacks:
+
+{% highlight javascript %}
+jLL
+  .push('script1.js')
+  .wait()
+  .push('script2.js');
+{% endhighlight %}
+
+However, that line of thinking ends up being suspiciously similar to "LABjs":http://labjs.com/, and I expect the author has his own reasons for making it different.
+
