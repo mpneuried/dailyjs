@@ -1,0 +1,50 @@
+---
+layout: post
+title: "jQuery Roundup: Cuepoint, Boombox.js, jqMessageBar"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- html5
+- audio
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Cuepoint
+
+!/images/posts/cuepoint.png!
+
+"Cuepoint":http://cuepoint.org/ (GitHub: "owainlewis / Cuepoint-JS":https://github.com/owainlewis/Cuepoint-JS) by Owain Lewis is a small plugin for adding subtitles to HTML5 video:
+
+{% highlight javascript %}
+cuepoint.init({ 5: 'Hello World' });
+cuepoint.play();
+{% endhighlight %}
+
+It's also possible to skip to points within the video, thereby displaying specific subtitles:
+
+{% highlight javascript %}
+cuepoint.setTime(60)
+{% endhighlight %}
+
+h3. Boombox.js
+
+!/images/posts/boombox.png!
+
+"Boombox.js":https://audiofile.cc/boombox/ (GitHub: "cgcardona / boombox.js":https://github.com/cgcardona/boombox.js) by Carlos Cardona is another library that makes dealing with the HTML5 <code>audio</code> tag easier.
+
+It actually expects the buttons given in the author's example, which on the one hand makes it easy to distribute themes, but on the other is a little bit restrictive.  It might work well in cases where you want to quickly add HTML5 audio capabilities to a site, but for more customised UIs "Buzz":http://buzz.jaysalvat.com/ may be more suitable.
+
+h3. jqMessageBar
+
+"jqMessageBar":http://mindscratch.org/2011/07/06/jqmessagebar-jquery-plugin/ (GitHub: "mindscratch / jqMessageBar":https://github.com/mindscratch/jqMessageBar, License: _MIT_) by Craig Wickesser helps manage a global message bar that displays errors or information.  I'm always writing my own versions of this, so I've been looking around for open source ones:
+
+{% highlight javascript %}
+$('body').messagebar('addMessage', 'hello world', 'info');
+{% endhighlight %}
+
+Craig has even included tests with this plugin, written using the "Jasmine BDD library":http://pivotal.github.com/jasmine/.
+
