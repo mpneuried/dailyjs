@@ -193,7 +193,7 @@ A test for writing text might look like this:
 }
 {% endhighlight %}
 
-And an implementation is fairly basic DOM stuff, with <code>appendChild</code> and <cdoe>createTextNode</code>, combined with <code>dom.empty</code>:
+And an implementation is fairly basic DOM stuff, with <code>appendChild</code> and <code>createTextNode</code>, combined with <code>dom.empty</code>:
 
 {% highlight javascript %}
 /**
