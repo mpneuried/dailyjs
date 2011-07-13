@@ -1,0 +1,61 @@
+---
+layout: post
+title: "Node Roundup: Branding, Hadoop Hive, node-googl"
+author: Alex Young
+categories: 
+- node
+- modules
+- hadoop
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. New Node Branding
+
+!/images/posts/new-node-design.png!
+
+In "Evolving the Node.js Brand":http://blog.nodejs.org/2011/07/11/evolving-the-node-js-brand/, Emily Tanaka-Delgado of Joyent discusses the reasoning behind the new Node website and logo.  The new logo initially attracted a mixed response, but I'm sure it'll grow on us over time.  Emily writes:
+
+bq. To echo Node’s evolutionary nature, we have refreshed the identity to help mark an exciting time for developers.
+
+So perhaps it's fair to say this iteration of Node's logo is the difficult second album?
+
+h3. Node Bindings for Hadoop Hive
+
+"node-hive":https://github.com/forward/node-hive (npm: _node-hive_) by Jae is a set of bindings for "Hadoop Hive":http://hive.apache.org/, a data warehouse system for Hadoop:
+
+{% highlight javascript %}
+var hive = require('node-hive').for({ server:"hive.myserver" });
+
+hive.fetch("SELECT * FROM my_table", function(err, data) {
+  data.each(function(record) {
+    console.log(record);
+  });
+});
+{% endhighlight %}
+
+Each query runs in its own connection.  There's currently no connection pooling, but the author notes that most users run a small number of long running hive queries so it should work well enough for most people for now.
+
+h3. node-googl
+
+"node-googl":https://github.com/kaimallea/node-googl (npm: _goo.gl_) is a small client for shortening URLs using Google's service:
+
+{% highlight sh %}
+goo.gl www.google.com
+goo.gl http://goo.gl/fbsS
+goo.gl www.google.com http://goo.gl/fbsS nba.com
+{% endhighlight %}
+
+It can be used as a module as well:
+
+{% highlight javascript %}
+var googl = require('goo.gl');
+
+// Shorten a long url and output the result
+googl.shorten('http://www.google.com/', function (shortUrl) {
+    console.log(shortUrl);
+});
+{% endhighlight %}
+
