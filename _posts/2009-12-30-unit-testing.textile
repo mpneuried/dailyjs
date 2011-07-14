@@ -54,8 +54,8 @@ unittest.js also includes a handy <code>benchmark</code> method, and the followi
 | <code>assertReturnsTrue(method, obj)</code> | Ensured that the method named <code>method</code> called on <code>obj</code> returns true |
 | <code>assertReturnsFalse</code> | Inverse of above |
 | <code>assertRaise(exceptionName, method)</code> | Ensures calling <code>method</code> raises an exception named <code>exceptionName</code> |
-| <code>assertElementsMatch([elements], expression1, expression2, ...) | Ensures the array of elements match the list of expressions |
-| <code>assertElementMatches(element, expression) | A helper for the above assertion when supplying a single element |
+| <code>assertElementsMatch([elements], expression1, expression2, ...)</code> | Ensures the array of elements match the list of expressions |
+| <code>assertElementMatches(element, expression)</code> | A helper for the above assertion when supplying a single element |
 
 h3. JsUnitTest
 
