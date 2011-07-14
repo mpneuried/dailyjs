@@ -1,0 +1,123 @@
+---
+layout: post
+title: "Let's Make a Framework: Custom Events 3"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+"Last week":http://dailyjs.com/2011/07/07/framework-70/ I demonstrated a simple event class implementation.  Some readers pointed out weaknesses in that implementation, so I've written fixes and regression tests.
+
+h3. Listener Removal
+
+Richard pointed out that listeners that remove themselves might cause unexpected side effects:
+
+bq. Take care when removing listeners!  If the listener itself calls remove, all the listeners added after it are moved up one in the array.  You may cause one of the elements to not be called.  i.e., the element that gets moved into the position of the removed listener.
+
+To put it concisely: removing listeners mutates the same array that's used to fire events.
+
+If you're still puzzled, consider this test:
+
+{% highlight javascript %}
+'test listener removal in Emitter': function() {
+  var Emitter = turing.events.Emitter,
+      emitter = new Emitter(),
+      i = 0,
+      j = 0;
+  
+  function add() {
+    i++;
+    assert.ok(emitter.removeListener('add', add));
+  }
+
+  // This should end up being called twice
+  function add2() {
+    j++;
+  }
+
+  emitter.on('add', add);
+  emitter.on('add', add2);
+
+  assert.ok(emitter.emit('add'));
+  assert.ok(!emitter.removeListener('add', add));
+  assert.ok(emitter.emit('add'));
+  assert.equal(2, j);
+}
+{% endhighlight %}
+
+There are two counters that get incremented when the same event, <code>'add'</code>, fires: <code>i</code> and <code>j</code>.  The <code>add</code> listener removes itself, so it should only fire once.  I test this by making sure it can't be removed after it fires:
+
+{% highlight javascript %}
+assert.ok(!emitter.removeListener('add', add));
+{% endhighlight %}
+
+Then I fire the same event again, which should still trigger <code>add2</code>.  Before fixing this, the test will display an error like this:
+
+{% highlight text %}
+✕ Assertion failed in: test listener removal in Emitter
+AssertionError: 1 == 2
+{% endhighlight %}
+
+But how do we fix it?  Well, the clue is in my description of the problem: the underlying event listener array is being mutated.  The method that calls listeners, <code>emit</code>, needs to work with a copy of the array.
+
+How do we copy an array?  An easy way is to use <code>Array.prototype.slice</code>, and this is what Node's "events.js":https://github.com/joyent/node/blob/master/lib/events.js code does.
+
+The fixed code doesn't look too different from the original:
+
+{% highlight javascript %}
+emit: function(eventName) {
+  var fired = false;
+  if (eventName in this.events === false) return fired;
+
+  var list = this.events[eventName].slice();
+
+  for (var i = 0; i < list.length; i++) {
+    list[i].apply(this, Array.prototype.slice.call(arguments, 1));
+    fired = true;
+  }
+  
+  return fired;
+}
+{% endhighlight %}
+
+h3. Deleting Items from Arrays
+
+Cameron Knight had this to say:
+
+bq. For your array remove, you should just use array.splice(i, 1); If you read the comments on Resig's blog, even he makes this conclusion.
+
+I've been avoiding <code>splice()</code> for a long time because I once hit a browser support issue with it.  Unfortunately, I've forgotten the exact reasons why.  I decided to forge ahead and replace the complicated <code>removeListenerAt</code> method:
+
+{% highlight javascript %}
+// Before:
+removeListenerAt: function(eventName, i) {
+  var array = this.events[eventName],
+      rest = array.slice(i + 1);
+  array.length = i;
+  array.push.apply(array, rest);
+  this.events[eventName] = array;
+}
+
+// After:
+removeListenerAt: function(eventName, i) {
+  this.events[eventName].splice(i, 1);
+}
+{% endhighlight %}
+
+I tested this in recent versions of Chrome, Firefox, and IE6 and above, and it worked well.  Whatever made me avoid <code>splice</code> seems invalid now.
+
+h3. Conclusion
+
+Thanks for your comments, this event handling code is definitely looking a lot sharper now!
+
+The latest commit was "1a41b80":https://github.com/alexyoung/turing.js/tree/1a41b8045c8c0dd1bff9b960f3911cfc589812cb.
+
+
