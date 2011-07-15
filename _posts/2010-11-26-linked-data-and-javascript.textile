@@ -9,7 +9,9 @@ categories:
 
 !/images/posts/linked-data-and-javascript-map.png!
 
-_Disclaimer: This article by Ric is a short tutorial on how to consume Linked Data using JavaScript. Some of the examples use Ric's company's new Linked Data publishing platform, "PublishMyData":http://publishmydata.com._
+<div class="intro">
+Disclaimer: This article by Ric is a short tutorial on how to consume Linked Data using JavaScript. Some of the examples use Ric's company's new Linked Data publishing platform, "PublishMyData":http://publishmydata.com.
+</div>
   
 h3. Introduction
 

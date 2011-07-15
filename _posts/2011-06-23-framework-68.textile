@@ -70,7 +70,7 @@ function ajax(url, options) {
 
 Now we've got one, what do we do with it?  Well, we need to make it accessible to the outside by changing whatever <code>ajax()</code> returns to include a <code>then</code> method.  This is the bare minimum.
 
-This function returns an <code>XMLHttpRequest<code> object (or IE's various equivalents).  I just added a <code>then</code> method to this, but it would probably be better to return something else and keep the request object around internally.
+This function returns an <code>XMLHttpRequest</code> object (or IE's various equivalents).  I just added a <code>then</code> method to this, but it would probably be better to return something else and keep the request object around internally.
 
 {% highlight javascript %}
 request.then = function() {
