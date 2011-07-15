@@ -1,0 +1,64 @@
+---
+layout: post
+title: "godzi-webgl, paper.js, Liquid Galaxy WebGL Demo"
+author: Alex Young
+categories: 
+- graphics
+- maps
+- webgl
+- canvas
+---
+
+h3. godzi-webgl
+
+!/images/posts/pel-3dmap.png!
+
+"godzi-webgl":https://github.com/gwaldron/godzi-webgl (License: _LGPL v3_) by Glenn from Pelican Mapping is an SDK for building WebGL maps.  The "ReadyMap Web SDK":http://readymap.com/websdk.html supports 2D and 3D maps -- the 2D maps look like the familiar maps we've seen on the web before, while the 3D maps are rendered on a globe that can be rotated and populated with geographical data.
+
+!/images/posts/pel-2dmap.png!
+
+There's a list of "ReadyMap SDK demos":http://demo.pelicanmapping.com/rmweb/webgl/tests/index.html that includes many examples of the possibilities the current implementation offers.  
+
+The company's website at "pelicanmapping.com":http://pelicanmapping.com/ has more details behind the SDK and associated services:
+
+bq. Pelican Mapping is the creator and maintainer of the osgEarth and ReadyMap SDK open source projects. These are powerful, “on-demand” 3D terrain engines capable of providing an interactive, 3D globe populated with a variety of local or web-based data sources.
+
+h3. paper.js
+
+!/images/posts/paperjs.png!
+
+"paper.js":http://paperjs.org/ (GitHub: "paperjs / paper.js":https://github.com/paperjs/paper.js, "License":https://github.com/paperjs/paper.js/blob/master/LICENSE.txt) by Juerg Lehni and Jonathan Puckey is a "vector graphics scripting framework" that uses Canvas.  It's designed to be mostly compatible with "Scriptographer":http://scriptographer.org/, which is a scripting environment for Adobe Illustrator.
+
+It comes packed with features:
+
+* Simple scene graph
+* Paths and segments
+* Mouse and keyboard handling
+* Bitmap colour processing
+* Selection outlines
+* Vector geometry abstraction
+* Mathematical operations
+
+!/images/posts/paperjs2.png!
+
+One thing I like about the API is the ability to use arrays or simple objects:
+
+{% highlight javascript %}
+var rect = new Rectangle({ x: 10, y: 20, width: 100, height: 200 });
+console.log(rect); // { x: 10, y: 20, width: 100, height: 200 }
+
+// Define the size as an array containing [width, height]:
+rect.size = [200, 300];
+console.log(rect); // { x: 10, y: 20, width: 200, height: 300 }
+{% endhighlight %}
+
+There's a good set of "paper.js tutorials":http://paperjs.org/tutorials/ which cover everything from paths and geometry to animations and rasters.
+
+h3. WebGL Tron Tank on Liquid Galaxy WebGL Demo
+
+<iframe width="500" height="300" src="http://www.youtube.com/embed/uXelTp64Nwc" frameborder="0" allowfullscreen></iframe>
+
+"SceneJS Tron Tank":http://code.google.com/p/wonderama/wiki/TronTank is a WebGL demo "from SceneJS":http://scenejs.org/dist/curr/extr/examples/tron-tank/index.html, except it's running on 5 tiled screens:
+
+bq. This is a hack to see if WebSocket/WebGL is viable for achieving view synchronisation on immersive multi-machine visualisation rigs. The test rig is a 5 screen curved tile-wall at the University of Western Sydney based on Google's Liquid Galaxy.
+
