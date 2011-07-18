@@ -1,0 +1,195 @@
+---
+layout: post
+title: "Code Review: SocketStream"
+author: Alex Young
+categories:
+- code-review
+- frameworks
+- node
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+h3. About SocketStream
+
+"SocketStream":https://github.com/socketstream/socketstream (License: _MIT_, npm: _socketstream_) is a full stack framework for building single-page applications.  It's still under heavy development, but it already offers some extremely useful features:
+
+* WebSockets
+* Client-side rendering
+* HTTPS support
+* Built-in authentication and user model
+
+h3. Usage
+
+SocketStream apps can be generated with a command-line client, so it's a good idea to install it globally with npm:
+
+{% highlight sh %}
+npm install -g socketstream
+socketstream new dailyjs-test
+cd dailyjs-test
+socketstream start
+{% endhighlight %}
+
+Running this skeleton app will show a welcome page with a little WebSocket chat demo.
+
+h3. Structure
+
+SocketStream is built with CoffeeScript and includes a <code>Cakefile</code> which is the CoffeeScript version of a good old fashioned <code>Makefile</code>.  The core project is really contributor/hacker territory rather than something users of the framework are likely to use, but that's where I started when checking out the project.  Anyway, I'm baffled by this particular <code>Cakefile</code> because it refers to tests that don't seem to exist (it's looking for a <code>spec/</code> folder but there isn't one).
+
+The SocketStream binary script is integral to working with SocketStream projects.  This concerned me because I often have multiple projects that use different versions of a framework.  However, fortunately it's possible to get around this by running <code>npm install socketstream</code> inside a SocketStream project's directory, then running <code>node_modules/socketstream/bin/socketstream start</code> to start it up.
+
+While looking around this level of the project I noticed the "package.json":https://github.com/socketstream/socketstream/blob/master/package.json file is extremely specific about dependency versions:
+
+{% highlight javascript %}
+"dependencies": {
+  "coffee-script":  "= 1.1.1",
+  "socket.io":      "= 0.6.18",
+  "redis":          "= 0.6.6",
+  "hiredis":        "= 0.1.12",
+  "node-static":    "= 0.5.6",
+// ...
+{% endhighlight %}
+
+I recommend doing this in your own projects, simply because I can guarantee that people *will* break APIs given half a chance.  Only use more relaxed versions if a library is extremely simple and is unlikely to change its public API.
+
+The SocketStream binary script itself is only 11 lines of code.  I like short binary files because it's usually an indication that everything is broken up into modules and therefore easy to test.
+
+Command line arguments are parsed using "argsparser":https://github.com/kof/node-argsparser.  I typically parse arguments with this pattern:
+
+{% highlight javascript %}
+var args = process.argv.slice(2)
+  , path = '.';
+
+while (args.length) {
+  var arg = args.shift();
+  switch (arg) {
+    case '-h':
+    case '--help':
+      console.log(usage);
+      process.exit(0);
+    case '-v':
+    case '--version':
+      console.log('Version 1.0');
+      process.exit(0);
+    case '--server':
+      useServer = true;
+      break;
+    default:
+        path = arg;
+  }
+}
+{% endhighlight %}
+
+I copied this pattern from TJ Holowaychuk's projects, and as you can see it's pretty short and sweet.  I'm not sure what improvements argsparser adds to this, so further investigation may be necessary.  This might seem like a minor point, but so many Node projects ship with binaries these days that I think it's worth thinking about.
+
+Back to SocketStream.  Once the arguments are parsed, CoffeeScript is loaded, and then the arguments are passed to "main.coffee":https://github.com/socketstream/socketstream/blob/master/lib/main.coffee.
+
+h3. main.coffee
+
+Right off the bat I noticed the generous amount of comments and consistent code formatting in this project.  Although CoffeeScript can sometimes feel a bit like a wall of text (without those extra braces everywhere), it's fairly easy to follow this project's code.  The command processing is done with a simple case statement, and heredocs are used to print out long sections of text (I'm a big fan of heredocs).
+
+In <code>exports.init</code> the <code>SS</code> global, which is effectively used to communicate between client and server:
+
+bq. The key to using SocketStream is the 'SS' global variable which can be called anywhere within your server or client-side code.
+
+This file also loads "helpers.js":https://github.com/socketstream/socketstream/blob/master/lib/helpers.js which I presume is JavaScript rather than CoffeeScript because it's shared between the client and server-side code.  It provides a lot of useful methods, but extends native objects.  Obviously this saves typing, but I think it would be better to avoid doing this unless the additions are ECMAScript shims.  Also, this file mixes tabs and spaces -- is it really that hard to set your editor to use spaces like everyone else?  Clearly it's just one dude here who's adding these phantom tabs in random parts of the project.  As well as phantom tabs there's also phantom whitespace before line endings, so I assume someone is using TextMate.
+
+The fact this file has the following comment raises a red flag:
+
+bq. Be very careful about introducing new helpers as they may break external third-party client-side libraries.
+
+Elsewhere in <code>main.coffee</code>, I saw something that I keep finding myself doing: loading the modules used throughout the project in one global so they don't need to be required all the time:
+
+{% highlight coffeescript %}
+  externalLibs: ->
+    [
+      ['coffee',    'coffee-script']
+      ['io',        'socket.io']
+      ['static',    'node-static']
+      ['jade',      'jade']
+      ['stylus',    'stylus']
+      ['uglifyjs',  'uglify-js']
+      ['redis',     'redis']
+      ['semver',    'semver']
+    ].forEach (lib) ->
+      npm_name = lib[1]
+      try
+        version = SS.internal.package_json.dependencies[lib[1]].substring(2)
+      catch e
+        throw new Error("Unable to find #{npm_name} within the package.json dependencies")
+      try        
+        SS.libs[lib[0]] = require("#{npm_name}@#{version}")
+      catch e
+        try
+          SS.libs[lib[0]] = require("#{npm_name}")
+        catch e
+          throw new Error("Unable to start SocketStream as we're missing #{npm_name}.\nPlease install with 'npm install #{npm_name}'. Please also check the version number if you're using a version of npm below 1.0")
+{% endhighlight %}
+
+I usually just do this with something like "winston":https://github.com/indexzero/winston -- anything that might be instantiated and shared.  Node caches modules, so I'm not sure why something like Jade needs to be loaded this way.  Elsewhere we see code like <code>SS.libs.jade.renderFile</code> which seems needlessly wordy for something that's obviously a third-party module.
+
+h3. App Generation
+
+At the moment apps are just generated by copying an example app.  I expect this will be expanded in the future.  The script checks to ensure the directory isn't already taken, then runs something that should look familiar to anyone who's done a lot of Node filesystem work:
+
+{% highlight coffeescript %}
+exports.recursiveCopy = (source, destination) ->
+  files = fs.readdirSync source
+
+  # iterates over current directory
+  files.forEach (file) ->
+    unless file.match /^\./
+
+      sourcePath = path.join source, file
+      destinationPath = path.join destination, file
+
+      stats = fs.statSync sourcePath
+      if stats.isDirectory()
+        fs.mkdirSync destinationPath, 0755
+        exports.recursiveCopy sourcePath, destinationPath
+      else
+        exports.copyFile sourcePath, destinationPath
+{% endhighlight %}
+
+h3. logger.coffee
+
+I was surprised to find logging in the project, since winston seems so popular lately, but the authors have left a note saying logging is a work in progress:
+
+bq. NOTE: Let's be honest. This idea sucks. It seemed like a good idea at the time, but I'm sure we can a lot better
+
+The output of the logs looks relatively useful, and the current structure looks like it was designed to help transition to i18n in the future.  There's also a comment about an exception handling system elsewhere, so hopefully the authors will add an app-level option to turn off logging and just collect exceptions (have you ever seen the gigabytes of useless logs generated by Rails apps?)
+
+h3. Server
+
+The server, session, and request files are mostly custom solutions for SocketStream.  This is heavily based around "Socket.IO":http://socket.io/.  The server code is split between HTTP, HTTPS, and "API" code.  SocketStream treats persistent HTTP connections differently to traditional stateless HTTP requests, and this is reflected by allowing applications to include optional HTTP APIs.  These are mounted at a URL, the default is <code>/api</code>.
+
+The server code also includes a form of keepalive, referred to as "heartbeat".  This helps maintain a count of how many users are online.  I wondered if this whole user tracking code could instead be built like a plugin, rather than inside the main server code.  It seems like it would be desirable to add an <code>EventEmitter</code> (or perhaps the pubsub system) to the server to allow external code, such as user management, bind to various events and process them accordingly. 
+
+h3. Example Apps
+
+The "SocketStream Chat":https://github.com/addyosmani/socketchat demo includes a "deployment script":https://github.com/addyosmani/socketchat/blob/master/deploy.coffee that's easy to follow and potentially reuse for your own projects.  I think this is great, because many frameworks rarely give much guidance to this side of the project life cycle.
+
+h3. Benchmarks
+
+SocketStream's documentation has this to say:
+
+bq. [Features] ... Crazy fast! Starts up instantly. No HTTP handshaking/headers/routing to slow down every request
+
+That makes sense, but where are the benchmarks?  I only found one benchmark in the HTTP middleware code.  If you're going to market your project as "crazy fast" I want to see real benchmarks!  Look at Jade, right there at the top-level there's a folder called "benchmarks/":https://github.com/visionmedia/jade/tree/master/benchmarks.  If you're serious about speed be scientific about it.
+
+h3. Conclusion
+
+The authors of SocketStream write great CoffeeScript, and it's an extremely ambitious project.  I'd love to spend some more time looking over the code to fully appreciate it, but sadly I'm out of time for this Code Review.  So far they've put a lot of effort into the project, and judging by their code comments the project is heading in a positive direction.
+
+In summary:
+
+* Ship tests (where are the SocketStream tests)?
+* Could we get more benchmarks, perhaps something that can be run from the command line?
+* Selecting a house style for code formatting might help collaborators work together better.  It's consistent but there's definitely a rogue tabber out there
+* Is it really a good idea to load every module and pass it around the project?
+* Is extending native objects in the helpers module the best approach?
+
+Something else I thought about while writing and researching this article was this: is building something as fundamental as a framework in CoffeeScript a good idea?  Please don't beat me up about this point, I mention it for the prospect of an interesting discussion!
+
