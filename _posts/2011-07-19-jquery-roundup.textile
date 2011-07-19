@@ -1,0 +1,50 @@
+---
+layout: post
+title: "jQuery Roundup: Chosen, jQuery.bulletGraph, ARIA Hackathon"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- jqueryui
+- graphs
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Chosen
+
+!/images/posts/chosen.png!
+
+"Chosen":http://harvesthq.github.com/chosen/ (GitHub: "harvesthq / chosen":https://github.com/harvesthq/chosen/, License: _MIT_) by Patrick Filler for "Harvest":http://www.getharvest.com/ is a nice little library for enhancing select boxes.  Like many other similar plugins, this one hides standard selects and provides an alternative using modern HTML and CSS.  That means it's possible to add behaviour that standard selects don't support without losing support when JavaScript is turned off.
+
+The basic usage involves adding the plugin's source to your project and then applying the <code>chzn-select</code> class to select boxes.
+
+With other similar plugins I've found some browsers like Internet Explorer can suffer from a very noticeable visual hiccup when the selects are rendered.  I haven't yet tested this one with a complex page with lots of selects, but I'd be interested to see how well it performs.
+
+h3. jQuery.bulletGraph
+
+"jQuery.bulletGraph":http://johdax.github.com/jQuery.bulletGraph/ (GitHub: "johdax / jQuery.bulletGraph":https://github.com/johdax/jQuery.bulletGraph) by johdax helps render "bullet graphs":http://www.perceptualedge.com/articles/misc/Bullet_Graph_Design_Spec.pdf, created by Stephen Few, which are "linear and no-frills" graphs for "rich display of data in a small space".
+
+{% highlight javascript %}
+// bulletgraph with custom ranges & range labels
+$('select#metric2').bulletGraph({
+  width: 200,
+  height: 20,
+  ranges: ['0%', '20%', '70%', '100%'],
+  rangesLabels: ['low', 'medium', 'high'],
+  sliderOptions: {
+    disabled: true
+  }
+});
+{% endhighlight %}
+
+It's always good to see graph libraries based on serious technical design instead of whatever combination of shadows and gradients is currently fashionable, so I'd bookmark this if you're looking for ways to present data visually.
+
+h3. ARIA Hackathon Summary
+
+The "jQuery UI Blog":http://blog.jqueryui.com/ has a post detailing the "ARIA Hackathon":http://blog.jqueryui.com/2011/07/aria-hackathon-summary/ which was an event designed to get jQuery UI developers and ARIA experts together to work on jQuery UI accessibility.  It sounds like the jQuery UI keyboard accessibility is being improved.
+
+If you're interested in jQuery UI and ARIA, I found the "jQuery UI Accessibility Hackathon":http://wiki.jqueryui.com/w/page/38817541/ARIA-Hackathon wiki page.  If you want to read up on ARIA, there are a lot of resources at the "WAI-ARIA Overview":http://www.w3.org/WAI/intro/aria.php.
+
