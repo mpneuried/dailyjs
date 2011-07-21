@@ -1,0 +1,155 @@
+---
+layout: post
+title: "Let's Make a Framework: Node and modules"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+h3. npm
+
+<img src="/images/posts/npm-logo.png" style="border: none" alt="" />
+
+There's a growing collection of Node modules that started life as front-end frameworks but have found a new lease of life on the server-side through Node and "npm":http://npmjs.org/.  A good example is "Underscore":http://documentcloud.github.com/underscore/ which includes many functional-style methods that work well in both environments.
+
+There are different ways to make a project like Turing available to CommonJS environments.  Some front-end code might work best as modules for "Connect":https://github.com/senchalabs/Connect or "Express":http://expressjs.com/ -- imagine HTTP middleware that automatically enhances features using server-side code (nib/stylus do this to great effect).
+
+Turing has components that would suit distribution through npm, but other parts of the framework are clearly browser-specific.  Some Node modules actually make jQuery available for conveniently querying markup using selectors.  This is incredibly useful, particularly for testing or screen scraping.
+
+That gives us three possible avenues for exploration:
+
+# Allow people to require modules that provide features suitable for Node.  For example: functional helpers, promises, enumerable
+# Provide a version of the DOM code that can be used outside of a browser
+# Look into what Connect middleware could be created
+
+h3. Supporting CommonJS Modules
+
+"Underscore":http://documentcloud.github.com/underscore/ (GitHub: "documentcloud / underscore":https://github.com/documentcloud/underscore/, "License":https://github.com/documentcloud/underscore/blob/master/LICENSE, npm: _underscore_) from DocumentCloud has a simple package.json that is used to distribute the project through npm:
+
+{% highlight javascript %}
+{
+  "name" : "underscore",
+  "description" : "JavaScript's functional programming helper library.",
+  "homepage" : "http://documentcloud.github.com/underscore/",
+  "keywords" : ["util", "functional", "server", "client", "browser"],
+  "author" : "Jeremy Ashkenas <jeremy@documentcloud.org>",
+  "contributors" : [],
+  "dependencies" : [],
+  "repository" : {"type": "git", "url": "git://github.com/documentcloud/underscore.git"},
+  "main" : "underscore.js",
+  "version" : "1.1.7"
+}
+{% endhighlight %}
+
+The <code>main</code> property points at the same file used by browsers.  How does this work?  Underscore needs to be exported as a CommonJS module:
+
+{% highlight javascript %}
+// Export the Underscore object for **CommonJS**, with backwards-compatibility
+// for the old `require()` API. If we're not in CommonJS, add `_` to the
+// global object.
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = _;
+  _._ = _;
+} else {
+  // Exported as a string, for Closure Compiler "advanced" mode.
+  root['_'] = _;
+}
+{% endhighlight %}
+
+Setting a value to <code>module.exports</code> like this will effectively make it return when using <code>require()</code>.  Make a file called <code>a.js</code>:
+
+{% highlight javascript %}
+module.exports = function() {
+  return 'Hello from a';
+};
+{% endhighlight %}
+
+Now load node and require it:
+
+{% highlight sh %}
+$ node
+> var a = require('./a');
+> a()
+'Hello from a'
+{% endhighlight %}
+
+"Backbone":https://github.com/documentcloud/backbone/ does things slightly differently:
+
+{% highlight javascript %}
+var Backbone;
+if (typeof exports !== 'undefined') {
+  Backbone = exports;
+} else {
+  Backbone = root.Backbone = {};
+}
+{% endhighlight %}
+
+The difference here is Backbone exports an _Object_ rather than an instance of something.  This is documented in "Node's Modules documentation":http://nodejs.org/docs/v0.4.10/api/all.html#modules.
+
+h3. Wrapping DOM Code
+
+Supporting client-side JavaScript in an environment like Node is far from trivial.  Fortunately there's an extremely popular solution in the form of "JSDOM":http://jsdom.org/ (GitHub: "tmpvar / jsdom":https://github.com/tmpvar/jsdom, "License":https://github.com/tmpvar/jsdom/blob/master/LICENSE.txt, npm: _jsdom_) by Elijah Insua.  This is a fully native JavaScript implementation of the W3C DOM.
+
+Most projects use it by running <code>jsdom.env</code> over some HTML, but it doesn't just parse HTML, it'll load scripts from URLs or files:
+
+{% highlight javascript %}
+var jsdom = require('jsdom');
+
+jsdom.env(
+  // Some HTML
+  '<p><a class="the-link" href="http://jsdom.org>JSDOM\'s Homepage</a></p>',
+
+  // A script to load
+  ['http://code.jquery.com/jquery-1.5.min.js'],
+
+  // A callback
+  function(errors, window) {
+    console.log('contents of a.the-link:', window.$('a.the-link').text());
+  }
+);
+
+// contents of a.the-link: JSDOM's Homepage
+{% endhighlight %}
+
+Amazing, right?  Are you reconsidering your career now you can apply your client-side skills straight to the server?
+
+Using JSDOM will allow us to offer most (if not all) of Turing's functionality in some form on the server.
+
+h3. Connect Middleware
+
+Connect modules take this form:
+
+{% highlight javascript %}
+module.exports = function myModule() {
+  return function(req, res, next) {
+    if (some condition) {
+      next();
+    } else {
+      // End the request
+    }
+  }
+};
+{% endhighlight %}
+
+This is a function that returns a function that accepts the standard request and response objects found in all Express (and Connect-based) apps.  The <code>next</code> parameter is called when the request should continue on to other middleware.
+
+What can we do with this with a client-side framework?  If Turing included something like "Raphaël":http://raphaeljs.com/ it could generate bitmap versions of SVG graphics.  Or maybe it could simply load the client-side JavaScript so people can use npm to manage Turing rather than manually downloading the scripts.
+
+h3. Conclusion
+
+Client-side JavaScript is often suitable for use by server-side code.  Also, in some cases it's desirable to run DOM code outside of a browser, particularly for creating fast unit tests.
+
+Next week I'll explain how to apply some of these techniques.
+
+h3. References
+
+* "Node's Modules documentation":http://nodejs.org/docs/v0.4.10/api/all.html#modules
+
