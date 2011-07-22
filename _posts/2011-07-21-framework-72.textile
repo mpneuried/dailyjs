@@ -96,7 +96,7 @@ The difference here is Backbone exports an _Object_ rather than an instance of s
 
 h3. Wrapping DOM Code
 
-Supporting client-side JavaScript in an environment like Node is far from trivial.  Fortunately there's an extremely popular solution in the form of "JSDOM":http://jsdom.org/ (GitHub: "tmpvar / jsdom":https://github.com/tmpvar/jsdom, "License":https://github.com/tmpvar/jsdom/blob/master/LICENSE.txt, npm: _jsdom_) by Elijah Insua.  This is a fully native JavaScript implementation of the W3C DOM.
+Supporting client-side JavaScript in an environment like Node is far from trivial.  Fortunately there's an extremely popular solution in the form of "JSDOM":http://jsdom.org/ (GitHub: "tmpvar / jsdom":https://github.com/tmpvar/jsdom, "License":https://github.com/tmpvar/jsdom/blob/master/LICENSE.txt, npm: _jsdom_) by "Elijah Insua":http://twitter.com/#!/tmpvar.  This is a fully native JavaScript implementation of the W3C DOM.
 
 Most projects use it by running <code>jsdom.env</code> over some HTML, but it doesn't just parse HTML, it'll load scripts from URLs or files:
 
