@@ -1,0 +1,43 @@
+---
+layout: post
+title: "MoscowJS, Radiohead WebGL, Web Typography, Opa"
+author: Alex Young
+categories: 
+- events
+- webgl
+- design
+- typography
+---
+
+h3. MoscowJS
+
+Moscow now has its very own JavaScript meet up: "Moscow JavaScript Meetup":http://jsmeetup.timepad.ru/event/9859.  This is organised by "Oleg Podsechin":http://twitter.com/olegpodsechin who has written for DailyJS, and Anton Korenyushkin, who founded "Akshell":http://www.akshell.com/.
+
+Find out more by following the "Moscow JavaScript Twitter account":http://twitter.com/moscowjs.
+
+Oleg said they've had 100 people sign up within 24 hours of announcing the event, so it's probably a good idea to register now!
+
+h3. Radiohead WebGL
+
+!/images/posts/house-of-cards.png!
+
+"Radiohead WebGL":http://www.chromeexperiments.com/detail/radiohead-webgl/ by "Mikko Haapoja":http://www.twitter.com/mikkoh uses the "House of Cards":http://code.google.com/creative/radiohead/ dataset to render an interesting 3D visualisation.
+
+h3. Web Typography for the Lonely
+
+!/images/posts/webtypelonely.png!
+
+"Web Typography for the Lonely":http://webtypographyforthelonely.com/ (sent in by "@sstarr":https://twitter.com/#!/sstarr) aims to draw designers into our wonderful world of CSS3 and JavaScript.  Some of the examples are really interesting, particularly "Punchout":http://webtypographyforthelonely.com/punchout.
+
+If you're a fan of "Lettering.js":http://letteringjs.com/ this should be up your alley.
+
+h3. Opa
+
+"Opa":http://opalang.org/ is now open source (GitHub: "MLstate / opalang":https://github.com/MLstate/opalang, License: "GNU Affero":https://github.com/MLstate/opalang/blob/master/LICENSE).  They announced it to us as part of promoting their "Opa Developer Challenge":http://blog.opalang.org/2011/07/opa-developer-challenge-is-on.html.
+
+Opa is a full-stack platform for building web applications that can be easily deployed to cloud services or a private server.  It includes the Opa language, and generates suitable client-side code for browsers.
+
+In a sense it reminds me of projects like "SproutCore":http://www.sproutcore.com/ and "Cappuccino":http://cappuccino.org/, but it's taking an approach more like server-oriented architectures that have cropped up over the last decade (yet failed to catch on, for example: "JWIG":http://www.brics.dk/JWIG/).
+
+If this sounds interesting, there's a great book on Opa here: "Simple, Secure, Scalable Web Development with Opa":http://opalang.org/resources/book/index.html.
+
