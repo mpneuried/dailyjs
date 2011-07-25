@@ -9,7 +9,7 @@ categories:
 ---
 
 <div class="intro">
-Alex Kessinger is a programmer who lives in the bay area. He is always trying to make websites, cook, and write a little bit better then he did yesterday. You can find more from Alex at his <a href="http://alexkessinger.com/">blog</a>, on <a href="http://twitter.com/voidfiles">Twitter</a>, and <a href="https://plus.google.com/108319722006237870403/posts">Google+</a>.
+Alex Kessinger is a programmer who lives in the bay area. He is always trying to make websites, cook, and write a little bit better then he did yesterday. You can find more from Alex at his <a href="http://alexkessinger.net/">blog</a>, on <a href="http://twitter.com/voidfiles">Twitter</a>, and <a href="https://plus.google.com/108319722006237870403/posts">Google+</a>.
 </div>
 
 You are possibly the maker of an open source project. You might even have a few repositories on GitHub, and one or two ready to be committed. If that describes you, then I have a bone to pick with you. First off, stop making that new JavaScript library. Don't `git init .` anything just yet. Instead, take a moment to read this.
