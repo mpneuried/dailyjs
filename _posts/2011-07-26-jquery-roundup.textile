@@ -1,0 +1,50 @@
+---
+layout: post
+title: "jQuery Roundup: grumble.js, miniTip, Mosaiqy"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- tooltips
+- galleries
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. grumble.js
+
+!/images/posts/grumble.png!
+
+"grumble.js":http://jamescryer.github.com/grumble.js/ (GitHub: "jamescryer / grumble.js":https://github.com/jamescryer/grumble.js) by James Cryer and Huddle.com is a very flexible tooltip library:
+
+bq. A grumble can be rotated around a given element at any angle, all 360 degrees. Any distance can be specified. Any CSS style can be applied. There's auto-magic size adjustment for use with localised text. FX queues for animating multiple grumbles.
+
+It uses CSS3, but will use Microsoft's proprietary filters for IE6+.
+
+The example seen on the site's homepage works like this:
+
+{% highlight javascript %}
+$('h1').grumble({
+	text: 'Bubble-tastic!', 
+	angle: 85, 
+	distance: 100, 
+	showAfter: 500 
+});
+{% endhighlight %}
+
+h3. miniTip
+
+"miniTip":http://goldfirestudios.com/blog/81/miniTip-jQuery-Plugin (GitHub: "goldfire / miniTip":https://github.com/goldfire/minitip, License: _MIT and GPL_) by James Simpson is a lightweight tooltip plugin.  This one uses title attributes to display neat little tooltips.
+
+There are options for customising the content, delay, events, animations, but the most basic usage is just <code>$('#tip).miniTip();</code>.
+
+h3. Mosaiqy
+
+!/images/posts/mosaiqy.png!
+
+"Mosaiqy":http://www.fabriziocalderan.it/mosaiqy/ (GitHub: "fcalderan / mosaiqy":https://github.com/fcalderan/mosaiqy, License: "CC BY-ND 3.0":http://creativecommons.org/licenses/by-nd/3.0/) by Fabrizio Calderan is a plugin for displaying images in a grid and manipulating them with animations.  HTML5 and JSON/JSONP are used for the templates and data.  CSS3 hardware acceleration is used where available, and it will fetch data from popular sites like Flickr and Instagram.
+
+Full details of usage and configuration options can be found at "fabriziocalderan.it/mosaiqy":http://www.fabriziocalderan.it/mosaiqy/.
+
