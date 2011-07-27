@@ -1,0 +1,87 @@
+---
+layout: post
+title: "Node Roundup: 0.5.2, OSCON Slides, node-language-detect, d3bench"
+author: Alex Young
+categories: 
+- node
+- modules
+- talks
+- language
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 0.5.2
+
+"Node 0.5.2":http://blog.nodejs.org/2011/07/22/node-v0-5-2/ was released last week:
+
+* libuv improvements; named pipe support
+* "#1242":https://github.com/joyent/node/issues/1242 check for SSL_COMP_get_compression_methods() (Ben Noordhuis)
+* "#1348":https://github.com/joyent/node/issues/1348 remove require.paths (isaacs)
+* "#1349":https://github.com/joyent/node/issues/1349 Delimit NODE_PATH with ; on Windows (isaacs)
+* "#1335":https://github.com/joyent/node/issues/1335 Remove EventEmitter from C++
+* "#1357":https://github.com/joyent/node/issues/1357 Load json files with require() (isaacs)
+* "#1374":https://github.com/joyent/node/pull/1374 fix setting ServerResponse.statusCode in writeHead (Trent Mick)
+* Fixed: GC was being run too often
+* Upgrade V8 to 3.4.14
+* doc improvements
+
+"#1357":https://github.com/joyent/node/issues/1357 in particular should prove to be popular.  It allows JSON files to be required, so a JSON configuration can now be loaded like this:
+
+{% highlight javascript %}
+var config = require('./config.json');
+{% endhighlight %}
+
+h3. OSCON Node 0.5 Slides
+
+Ryan Dahl "posted his OSCON 2011 slides to Twitter":https://twitter.com/#!/ryah/status/95978090987130880.  The slides are here: "nodejs.org/oscon.pdf":http://nodejs.org/oscon.pdf.  These slides have more details on the work going into Windows Node support:
+
+bq. With the support of Microsoft, Cloudkick, and Joyent we have four person team sponsored to complete the project.  The ultimate result will be an official node.exe distribution.
+
+And:
+
+bq. Replacing the binding layer is difficult. Everything will be broken for a while.  All new code is set alongside existing bindings until it is good enough to be used by default.
+
+It looks like a short talk, but it's encouraging for Windows-based developers.
+
+There's a lot of support growing for libuv:
+
+bq. Only took 1h to make Redis use libuv by @ryah et al. Very usable socket interface sugar coated with platform independence. Love it!
+
+- "@pnoordhuis":https://twitter.com/#!/pnoordhuis/status/96251236440997888
+
+h3. node-language-detect
+
+"node-language-detect":https://github.com/FGRibreau/node-language-detect (npm: _languagedetect_) by Francois-Guillaume Ribreau is a language detection module:
+
+{% highlight javascript %}
+var lngDetector = new (require('languagedetect'));
+console.log(lngDetector.detect('This is a test.'));
+
+/*
+  [ [ 'english', 0.5969230769230769 ],
+  [ 'hungarian', 0.407948717948718 ],
+  [ 'latin', 0.39205128205128204 ],
+  [ 'french', 0.367948717948718 ],
+  [ 'portuguese', 0.3669230769230769 ],
+  [ 'estonian', 0.3507692307692307 ],
+  [ 'latvian', 0.2615384615384615 ],
+  [ 'spanish', 0.2597435897435898 ],
+  [ 'slovak', 0.25051282051282053 ],
+  [ 'dutch', 0.2482051282051282 ],
+  [ 'lithuanian', 0.2466666666666667 ],
+  ... ]
+*/
+{% endhighlight %}
+
+The Hungarian result in the example surprised me, but the library ships with tests and seems a lot faster than the original module that the author has ported.
+
+h3. d3bench
+
+!/images/posts/d3bench.png!
+
+Ryan Dahl posted a little benchmarking app to GitHub recently called "d3bench":https://github.com/ry/d3bench.  It's made using Express, Socket.IO, and "D3":http://mbostock.github.com/d3/.
+
+I was more interested in seeing how Ryan builds Node apps than actually _using_ d3bench, but if anything it'll probably inspire Node developers to take another look at D3.
