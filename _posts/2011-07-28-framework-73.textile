@@ -1,0 +1,159 @@
+---
+layout: post
+title: "Let's Make a Framework: npm"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- npm
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+There's no reason why you can't distribute your client-side JavaScript using npm!  In this tutorial I'll look at adapting parts of Turing to work using the popular package manager.
+
+h3. Installation 
+
+Distributing packages with npm is extremely easy.  This is partly due to the fact that npm itself is very simple, but it's also because npm has great documentation.
+
+If you don't already have npm, the basic installation is just:
+
+{% highlight text %}
+curl http://npmjs.org/install.sh | sh
+{% endhighlight %}
+
+There's more information in the "npm readme":https://github.com/isaacs/npm#readme.
+
+h3. Registry Account Creation
+
+A registry user account is required to distribute npm packages.  Use <code>man npm-adduser</code> to read how this works.  If you've forgotten your password, npm now has a password reset page at "admin.npmjs.org":http://admin.npmjs.org/.
+
+h3. <code>package.json</code>
+
+Once you've got an account, you'll need to create a <code>package.json</code> file.  You don't really need a tool to do this; it's pretty trivial as long as you write well-formed JSON.  Like most people I usually forget what various supported options are, so I usually check <code>man npm-json</code> to make sure I've got everything I want set up.
+
+When working on most Node projects, I'll have a <code>dependencies</code> property, but this project doesn't really have any.  We do have some development dependencies though, so these can be put into the <code>devDependencies</code> property.  This is preferable to <code>dependencies</code> because people who just want to _use_ your module don't usually want to build or test it.
+
+This is what the Turing <code>package.json</code> file looks like:
+
+{% highlight javascript %}
+{ "name": "turing"
+, "description": "A library for enumeration, functional programming, promises, and more"
+, "version": "0.0.73"
+, "url": "http://turingjs.com/"
+, "author": "Alex R. Young <alex@helicoid.net>"
+, "engines": ["node >= 0.4.0"]
+, "main": "./lib/index.js"
+, "devDependencies": {
+    "dox": "latest"
+  , "jake": "latest"
+  }
+, "repository": {
+    "type" : "git"
+  , "url" : "https://github.com/alexyoung/turing.js.git"
+  }
+}
+{% endhighlight %}
+
+h3. Adapting Turing's Modules
+
+In the browser Turing uses a global to stitch various modules together.  This was done so it can be safely split into self-contained modules.  However, this pattern makes adapting it to a CommonJS module slightly awkward.
+
+As an example, consider Turing's enumerable module and <code>turing.init</code>.  The <code>init</code> method is from the Core module, and allows us to extend the behaviour of <code>turing()</code>.  That means we get jQuery-like polymorphic initialization:
+
+{% highlight javascript %}
+turing([1, 2, 3]).map(function(i) { return i * 10; }).values();
+{% endhighlight %}
+
+Great!  But that means the enumerable looks for <code>turing.init</code>.  We can't share globals in the same way using CommonJS modules.  That means the anonymous function wrapper isn't quite enough.
+
+This old pattern worked well in the browser, but doesn't suit CommonJS without modification:
+
+{% highlight javascript %}
+(function() {
+  turing.myModule = {
+    // Methods
+  };
+})();
+{% endhighlight %}
+
+What we need is a way of passing <code>turing</code> after it's instantiated in <code>turing.core.js</code>.  That gives rise to this pattern:
+
+{% highlight javascript %}
+(function() {
+  function myModule(global) {
+    global.myModule = {
+      // Methods
+    };
+  }
+
+  if (typeof module !== 'undefined') {
+    // For Node
+    module.exports = function(t) {
+      return EnumerableModule(t);
+    }
+  } else {
+    EnumerableModule(turing);
+  }
+})();
+{% endhighlight %}
+
+Now, in the <code>lib/index.js</code> mentioned by the example <code>package.json</code>:
+
+{% highlight javascript %}
+var turing = require(__dirname + '/../turing.core.js').turing;
+require(__dirname + '/../turing.promise.js')(turing);
+require(__dirname + '/../turing.enumerable.js')(turing);
+module.exports = turing;
+{% endhighlight %}
+
+Now Turing can be loaded using Node:
+
+{% highlight javascript %}
+var t = require('turing');
+
+t([1, 2, 3]).map(function(i) { return i * 10; }).values();
+{% endhighlight %}
+
+Further iterations could make it load certain modules on demand.  Ideally people should be able to do this:
+
+{% highlight javascript %}
+var lessCommonModule = require('turing').lessCommonModule;
+lessCommonModule.doSomething();
+{% endhighlight %}
+
+h3. Testing
+
+I actually wrote a small unit test for this in <code>test/index.test.js</code>:
+
+{% highlight javascript %}
+var assert = require('assert')
+  , turing = require(__dirname + '/../lib/index.js');
+
+assert.ok(turing.Promise);
+
+var sum = 0;
+turing.enumerable.each([1, 2, 3], function(i) {
+  sum += i;
+});
+assert.equal(6, sum);
+{% endhighlight %}
+
+It just makes sure everything gets loaded as expected.
+
+Another way to test your npm modules is to use <code>npm link</code>.  This links your package system-wide, so it behaves as if it's been installed.  This is useful for loading your modules in the Node REPL, or testing binary scripts that you might distribute alongside your package.
+
+h3. Publishing
+
+Once you're done with all that, run <code>npm publish</code> and your code will be available for distribution through npm.
+
+h3. Conclusion
+
+Check all of this out in "commit a54f32":https://github.com/alexyoung/turing.js/blob/a54f3273af5498692eeff66a2ca7c912510623c8.  And, if you've ever wanted to create a project website using GitHub, I've already got you covered in "Part 48: Project Websites":http://dailyjs.com/2011/01/27/framework-part-48/.
+
+
