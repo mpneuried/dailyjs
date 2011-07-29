@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Upscaling WebGL, WebGL Text Editor, minimal"
+author: Alex Young
+categories: 
+- events
+- webgl
+- editors
+- libraries
+---
+
+h3. Upscaling WebGL
+
+In "Dirty Full-Frame WebGL Performance Hack":http://blog.tojicode.com/2011/07/dirty-full-frame-webgl-performance-hack.html by Toji, the author discusses a technique for upscaling a lower resolution WebGL canvas.  Basically, CSS3 is used to scale the content.  The post has some interesting comments discussing this approach compared to changing the viewport size.
+
+h3. Open Source Programmer's Text Editor using Canvas and WebGL
+
+!/images/posts/webgleditor.png!
+
+"Open Source Programmer's Text Editor using Canvas and WebGL":http://www.kickstarter.com/projects/1241383920/open-source-programmers-text-editor-using-canvas-a is a Kickstarter project started by Robey Holderith to create a browser-based open source text editor.  Robey argues that using native browser features like tabs, and JavaScript for the macro language, would make a great portable text editor.
+
+He cites netbooks as a target platform and mentions that this project is intended to be a programmer's text editor rather than an IDE.
+
+Backers have currently offered $1,488 of the $4,096 target.  I intend to support this project purely because the pledge prices and target are powers of two.
+
+h3. minimal
+
+"minimal":https://github.com/timmywil/minimal by timmywil is a client-side library that focuses on performance and saving bytes rather than ease of use.  It supports older browsers, so it actually includes a limited-but-fast selector engine.
+
+Like jQuery, it has a core library with the all important <code>minimal.each</code> function, but it also has other must-have features like:
+
+* Class, attributes, and CSS manipulation;
+* DOM traversal;
+* And events.
+
+If you like the _Framework_ series that I run on DailyJS it's worth checking out minimal, I've enjoyed rifling through the source.
+
