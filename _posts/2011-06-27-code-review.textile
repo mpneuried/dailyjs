@@ -4,6 +4,7 @@ title: "Code Review: Underscore"
 author: Alex Young
 categories:
 - code-review
+- functional
 ---
 
 <div class="intro">

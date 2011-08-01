@@ -1,0 +1,114 @@
+---
+layout: post
+title: "Code Review: Burrito"
+author: Alex Young
+categories:
+- code-review
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+h3. About Burrito
+
+"Burrito":https://github.com/substack/node-burrito (npm: _burrito_) by James Halliday is a module that wraps useful functionality around an Abstract Syntax Tree (AST) for JavaScript source.  It's based on portions of "UglifyJS":https://github.com/mishoo/UglifyJS/ and uses UglifyJS to generate the AST.
+
+h3. Usage
+
+Burrito is a CommonJS module, so install it with npm then <code>require</code> it:
+
+{% highlight javascript %}
+var burrito = require('burrito');
+
+burrito('var a = 1.0; a += Math.PI; Math.sin(a)', function(node) {
+  console.log(node.name);
+});
+{% endhighlight %}
+
+This walks over each node and logs node names.  One of the author's examples uses <code>node.wrap</code> to wrap each function call:
+
+{% highlight javascript %}
+var burrito = require('burrito');
+
+var src = burrito('f() && g(h())\nfoo()', function (node) {
+  if (node.name === 'call') node.wrap('qqq(%s)');
+});
+
+console.log(src);
+{% endhighlight %}
+
+Now imagine the function <code>qqq</code> performs benchmarks, or code coverage analysis; this is Burrito's niche.
+
+h3. Structure
+
+The module is distributed with tests and examples.  The library's source comes in just one file.  Most of the underlying work is performed by UglifyJS and "traverse":https://github.com/substack/js-traverse.  The author has included developer dependencies in the package.json file, in this case it's just "Expresso":https://github.com/visionmedia/expresso.  This is always a good idea -- you don't want everyone to have to install Expresso just to use your module.
+
+In the main source file, <code>burrito</code> is defined and exported.  Most of the functions are relatively short, so the author has defined things inline as they're needed rather than making a top heavy set of <code>require</code> calls.  Most of the code centres around <code>burrito.wrapNode</code>.
+
+This project makes good use of <code>vm.runInNewContext(res, context)</code>.  The "vm module":http://nodejs.org/docs/v0.4.10/api/all.html#vm.runInNewContext, provided by Node, includes several methods of executing JavaScript without resorting to <code>eval()</code>.  In this instance, <code>vm.runInNewContext</code> is useful because it allows a context to be created each time Burrito is used -- using <code>eval</code> would execute the code in the local context giving access to local scope.
+
+A local <code>var</code> for the module is exported as a function, which is appropriate for this module, and some local functions are defined to make calling <code>uglify</code> cleaner:
+
+{% highlight javascript %}
+var deparse = function (ast, b) {
+    return uglify.uglify.gen_code(ast, { beautify : b });
+};
+
+var parser = uglify.parser;
+var parse = function (expr) {
+    if (typeof expr !== 'string') throw 'expression should be a string';
+    
+    try {
+        var ast = parser.parse.apply(null, arguments);
+
+// ... snip
+return ast;
+};
+
+var burrito = module.exports = function (code, cb) {
+    var ast = parse(code.toString(), false, true);
+    
+    var ast_ = traverse(ast).map(function mapper () {
+        wrapNode(this, cb);
+    });
+    
+    return deparse(parse(deparse(ast_)), true);
+};
+
+{% endhighlight %}
+
+The <code>deparse</code> and <code>parse</code> methods are mainly used for convenience, but <code>parse</code> adds some additional exception handling to make exceptions more readable.
+
+As I mentioned, the real meat of the module is in <code>wrapNode</code>.  This creates a simple object that provides additional properties to make working with the AST easier.  It also defines the <code>wrap</code> method exposed by the public API and used in the previous examples.  Wrapping each node is where the <code>traverse</code> module comes in handy.
+
+h3. Tests
+
+The tests are pretty solid.  Most run through specific features of the library, or presumably areas the author was concerned about.  Here's an example:
+
+{% highlight javascript %}
+exports.binaryString = function () {
+    var src = 'z(x + y)';
+    var context = {
+        x : 3,
+        y : 4,
+        z : function (n) { return n * 10 },
+    };
+    
+    var res = burrito.microwave(src, context, function (node) {
+        if (node.name === 'binary') {
+            node.wrap('%a*2 - %b*2');
+        }
+    });
+    
+    assert.equal(res, 10 * (3*2 - 4*2));
+};
+
+{% endhighlight %}
+
+h3. Conclusion
+
+Burrito is a nice little library, and I look forward to seeing what people create with it.  James seems to have a fascination with "meta" JavaScript projects; I've looked at "node-browserify":https://github.com/substack/node-browserify, "js-traverse":https://github.com/substack/js-traverse and a few others before (also his blog at "substack.net":http://substack.net/ is always a lot of fun).
+
+I initially felt like the main Burrito source file could have been either split into separate files or possibly organised differently.  However, as I read through it I had no problem understanding and navigating around the various functions.  Once I got my head around artefacts like <code>deparse(parse(deparse(ast_)), true);</code> I felt confident that I could hack on it, at least a little bit.
+
