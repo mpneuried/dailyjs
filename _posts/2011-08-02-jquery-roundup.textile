@@ -1,0 +1,54 @@
+---
+layout: post
+title: "jQuery Roundup: Timeago, glDatePicker, Boston Conference"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- events
+- date
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Timeago
+
+!/images/posts/timeago.png!
+
+"Timeago":http://timeago.yarp.com/ (GitHub: "rmm5t / jquery-timeago":https://github.com/rmm5t/jquery-timeago, License: _MIT_) by Ryan McGeary generates fuzzy timestamps (like "less than a minute ago") from ISO 8601 formatted dates and times:
+
+{% highlight javascript %}
+$('selector').timeago();
+{% endhighlight %}
+
+It even has i18n support!
+
+This plugin takes advantage of the "Datetime Design Pattern":http://microformats.org/wiki/datetime-design-pattern microformat.
+
+h3. glDatePicker
+
+!/images/posts/gldatepicker.png!
+
+"glDatePicker":http://code.gautamlad.com/glDatePicker/ (GitHub: "glad / glDatePicker":https://github.com/glad/glDatePicker/) by Gautam Lad is a lightweight date picker, featuring:
+
+* Forward/backward navigation
+* Current date highlight
+* Various date selection and navigation restriction options
+* Styles per-date picker
+
+The most basic usage is just <code>$('#date1').glDatePicker()</code>, and there are lots of examples on the project's homepage.
+
+h3. jQuery Conference: Boston
+
+"The jQuery Boston conference":http://events.jquery.org/2011/boston/ will be on the October 1-2, 2011, at the "Royal Sonesta":http://events.jquery.org/2011/boston/hotel/.  Speakers include:
+
+* Nicholas C. Zakas
+* Raymond Camden
+* Paul Irish
+* Steve Souders
+* Rick Waldron
+
+"Registration is open":http://events.jquery.org/2011/boston/register/ and costs $299.00 for the two day conference.
+
