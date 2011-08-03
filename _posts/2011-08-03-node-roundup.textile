@@ -1,0 +1,39 @@
+---
+layout: post
+title: "Node Roundup: 0.5.3, Joyent Node Meetup, Reds"
+author: Alex Young
+categories: 
+- node
+- modules
+- redis
+- events
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 0.5.3
+
+"Node 0.5.3":http://blog.nodejs.org/2011/08/02/node-v0-5-3/ is out, hot on the heels of 0.5.2.  This version adds <code>child_process</code> support for Windows.  I also noticed Ryan Dahl post this to Twitter:
+
+bq. The remaning 52 tests that need to pass on #nodejs Windows "gist.github.com/1119827":https://gist.github.com/1119827 Want to help out? Fix one!
+
+- "@ryah":https://twitter.com/#!/ryah/status/98511800777195520
+
+h3. Joyent Node Meetup
+
+The "Node.js Meetup at Joyent: Distributed Web Architectures":http://nodemeetup.eventbrite.com/ will be held tomorrow:
+
+bq. This meetup will feature talks from Matt Ranney of Voxer, Curtis Chambers of Uber, and David Pacheco of Joyent. They will each describe their real-life applications and how they've used Node in it. 
+
+bq. Please arrive by 6:00pm, speaking will start by 6:30pm.
+
+h3. Reds
+
+"Reds":http://tjholowaychuk.com/post/8265428421/reds-light-weight-full-text-search-for-nodejs-backed (GitHub: "visionmedia / reds":https://github.com/visionmedia/reds, License: _MIT_, npm: _reds_) by TJ Holowaychuk is a full-text search library for Node:
+
+bq. I wrote reds with Kue in mind, a priority job queue for node. I wanted to add search capabilities so you can easily find jobs by any of the arbitrary data provided, names, emails, anything.
+
+TJ notes that although Reds uses Redis, it could technically use any data store.  Word stemming is performed using Chris Umbel's "natural":https://github.com/chrisumbel/natural package.
+
