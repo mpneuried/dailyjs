@@ -44,11 +44,12 @@ h3. jQuery Conference: Boston
 
 "The jQuery Boston conference":http://events.jquery.org/2011/boston/ will be on the October 1-2, 2011, at the "Royal Sonesta":http://events.jquery.org/2011/boston/hotel/.  Speakers include:
 
-* Nicholas C. Zakas
-* Raymond Camden
-* Paul Irish
-* Steve Souders
+* Ben Alman
+* Yehuda Katz
 * Rick Waldron
+* Adam Sontag
+* Jörn Zaefferer
+* John Resig
 
 "Registration is open":http://events.jquery.org/2011/boston/register/ and costs $299.00 for the two day conference.
 
