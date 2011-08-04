@@ -1,0 +1,115 @@
+---
+layout: post
+title: "Let's Make a Framework: jsdom"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- npm
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+"Last week":/2011/07/28/framework-73/ we adapted Turing to load appropriate modules using npm.  It's also possible to adapt the DOM-related code to work using "jsdom":https://github.com/tmpvar/jsdom.
+
+h3. jsdom
+
+"jsdom":https://github.com/tmpvar/jsdom by Elijah Insua is a CommonJS implementation of the DOM.  This isn't a trivial module, and thankfully is extremely easy to use thanks to the recently introduced <code>jsdom.env()</code> method.
+
+There are several different ways to invoke <code>env</code>, but I like passing an object of options:
+
+{% highlight javascript %}
+jsdom.env({
+  html: '<p>Some HTML, it could be read from a file.</p>',
+  src: [ fileName1, fileName2 ],
+  done: function(err, window) {
+    if (err) throw(err);
+    fn(window.turing);
+  }
+});
+{% endhighlight %}
+
+The <code>done</code> callback will be run when the source files have been read.  The callback takes two arguments, <code>errors</code> and <code>window</code>.  The <code>window</code> object is what we're looking for.
+
+h3. Adding the Module
+
+The <code>package.json</code> file must be edited to include the new dependency:
+
+{% highlight javascript %}
+// ...
+, "dependencies": {
+    "jsdom": "0.2.x"
+  }
+{% endhighlight %}
+
+I've set it to <code>0.2.x</code> because I expect the API won't be too volatile within this version range.
+
+h3. Using <code>jsdom</code>
+
+I'd have liked to be able to use <code>turing('<p>html</p>')</code>, but I reasoned that this was confusing given that this function is effectively overloaded.  I decided using a separate function would make things a lot clearer; allowing the reader to distinguish between a typical framework invocation and the case where <code>jsdom</code> has been used.
+
+I've named this function <code>browser</code> -- I think this makes the intent fairly clear.  I wrote a short test to get a feel for a potential API:
+
+{% highlight javascript %}
+turing.browser('<p><a class="the-link" href="http://jsdom.org">JSDOM\'s Homepage</a></p>', function(turing) {
+  assert.equal(1, turing('p').length);
+});
+{% endhighlight %}
+
+As this is a framework-provided method, I decided to wrap <code>jsdom.env</code>'s callback and pass in the <code>turing</code> function, rather than <code>errors</code> and <code>window</code>.
+
+I found that <code>done</code> seemed to fire multiple times unless I read all the JavaScript first:
+
+{% highlight javascript %}
+module.exports.browser = function(html, fn) {
+  var js = '',
+      files = ('turing.core.js turing.oo.js turing.enumerable.js turing.promise.js '
+              + 'turing.functional.js turing.dom.js turing.plugins.js turing.events.js '
+              + 'turing.net.js turing.touch.js turing.anim.js').split(' ');
+
+  files.forEach(function(file) {
+    js += fs.readFileSync(__dirname + '/../' + file);
+  });
+
+  // The JavaScript in as an array seems to make `done` fire twice
+  jsdom.env({
+    html: html,
+    src: [ js ],
+    done: function(err, window) {
+      if (err) throw(err);
+      fn(window.turing);
+    }
+  });
+};
+{% endhighlight %}
+
+In the end I decided to make it read all of the files in the framework.
+
+h3. Events
+
+When I first wrote the previous test I only loaded the DOM and core modules.  Then I realised <code>jsdom</code> should also be able to cope with events.  To test events work, I tried triggering a simple _click_ handler:
+
+{% highlight javascript %}
+turing.browser('<p><a class="the-link" href="http://jsdom.org">JSDOM\'s Homepage</a></p>', function(turing) {
+  var triggered = 0;
+  assert.equal(1, turing('p').length);
+  turing('a').bind('click', function() {
+    triggered++;
+  });
+  turing.events.fire(turing('a')[0], 'click');
+  assert.equal(1, triggered);
+});
+{% endhighlight %}
+
+This actually passes and demonstrates that <code>jsdom.env</code> is fine for both querying the DOM and simulating events.
+
+h3. Conclusion
+
+If you've got a cool client-side script and want to distribute it with npm, wrapping certain functionality with jsdom might provide people with new ways to use your code.  The most obvious example is screen scraping, but it would also be convenient for writing tests that run in the console, or maybe for indexing documents in a search engine.
+
+I've committed these changes in "98ec3af":https://github.com/alexyoung/turing.js/tree/98ec3afc0c2d8ea7e4c9342255059756d9ee511b and published the npm module.
