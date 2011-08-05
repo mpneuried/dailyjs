@@ -1,0 +1,55 @@
+---
+layout: post
+title: "Web Intents, put-selector, XB PointStream"
+author: Alex Young
+categories: 
+- events
+- webgl
+- medical
+- libraries
+---
+
+h3. Web Intents
+
+"Web Intents":http://webintents.org/ is a new browser-based API that aims to facilitate service discovery and inter-application communication:
+
+bq. Services register their intention to be able to handle an action on the user's behalf. Applications request to start an Action of a certain verb (share, edit, view, pick etc) and the system will find the appropriate Services for the user to use based on the user's preference.
+
+Yesterday Google announced their work in this area, in "Connecting Web Apps with Web Intents":http://blog.chromium.org/2011/08/connecting-web-apps-with-web-intents.html.  This post also mentions that Mozilla have been exploring similar technologies, but more importantly that they're working together:
+
+bq. In fact we’re working closely with Mozilla engineers to unify our two proposals into one simple, useful API.
+
+There's an "examples page on webintents.org":http://examples.webintents.org/intents/share/index.html and Twitter also posted documentation on "Twitter's Web Intents API":https://dev.twitter.com/docs/intents.
+
+h3. put-selector
+
+"put-selector":https://github.com/kriszyp/put-selector by Kris Zyp is a library for manipulating DOM elements based on CSS selectors:
+
+{% highlight javascript %}
+put(parent, 'input.my-input#address[type=checkbox]');
+{% endhighlight %}
+
+It's quite intelligent about how it processes arguments -- passing just a class name will apply the class to the element:
+
+{% highlight javascript %}
+put(parent, '.foo');
+{% endhighlight %}
+
+And it also has other manipulation features, like element removal:
+
+{% highlight javascript %}
+put(elementToDelete, '!');
+{% endhighlight %}
+
+I have a feeling this library might appeal to people working with single-page applications.
+
+h3. Point Clouds and XB PointStream
+
+!/images/posts/mickey.png!
+
+In "WebGL Visible Human Project":http://asalga.wordpress.com/2011/07/30/webgl-visible-human-project/, Andor Salga writes about a WebGL point cloud renderer for medical data.  The "Visible Human demo":http://scotland.proximity.on.ca/asalga/demos/visible%20human/ allows viewers to explore the "meat" of a medical data set.  It's not optimised for speed at the moment, but the author notes:
+
+bq. The demo is sluggish right now since it stupidly renders 3.5 million points/frame. However, this can be fixed. Because the user clipping planes work on the Y-axis and because the cloud loads along the Y-axis, it would be possible to do coarse-level culling on sections of the cloud if it was pre-cut along this axis.
+
+This is built with "XB PointStream":http://zenit.senecac.on.ca/wiki/index.php/XB_PointStream, a point cloud library.  The advantage of this library is it allows streaming of point data, which is illustrated in this "Mickey Mouse example":http://www.hitechmex.org/mickey/.
+
