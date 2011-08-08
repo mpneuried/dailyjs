@@ -1,0 +1,108 @@
+---
+layout: post
+title: "Code Review: Superagent"
+author: Alex Young
+categories:
+- code-review
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+h3. About Superagent
+
+"Superagent":http://visionmedia.github.com/superagent/ (GitHub: "visionmedia / superagent":https://github.com/visionmedia/superagent, License: _MIT_, npm: _superagent_) by TJ Holowaychuk is a small HTTP request library.  My interest in the library was originally piqued when TJ criticised the jQuery Ajax API, apparently building Superagent out of sheer frustration.
+
+bq. jQuery's API while having recently added some promise-like support, is largely static, forcing you to build up big objects containing all the header fields and options, not to mention most of the options are awkwardly named "type" instead of "method", etc.
+
+A common technique for mitigating high arity or complex <code>Object</code> arguments is to use a chained API, which is exactly what TJ has done:
+
+{% highlight javascript %}
+request
+  .post('/api/pet')
+  .data({ name: 'Manny', species: 'cat' })
+  .set('X-API-Key', 'foobar')
+  .set('Accept', 'application/json')
+  .end(function(res){
+    if (res.ok) {
+      alert('yay got ' + JSON.stringify(res.body));
+    } else {
+      alert('Oh no! error ' + res.text);
+    }
+  });
+{% endhighlight %}
+
+Another issue TJ cites is with callback signatures.  jQuery's Ajax callbacks take three parameters: <code>data</code>, <code>textStatus</code>, and <code>xhr</code>, but TJ has replaced all of these with one object.
+
+As the man behind "Express":http://expressjs.com/, it's not surprising that TJ has an extremely solid grasp of HTTP-based APIs.  He's also corrected other inconsistent behaviour, like 4/500 response handling.
+
+This library has nascent Node support.  I've tested it out and it's already looking like a clean and simple way to fire off server-side HTTP requests.
+
+h3. Structure
+
+This project is fairly typical for TJ (and a growing number of Node-based developers); it includes a Makefile, <code>package.json</code> with developer dependencies for tests, and source under <code>lib/</code>.  The Makefile includes recipes for building and minimising the client-side code, which I suggest you reuse if you're interested in building client-side projects with JavaScript across the entire stack.
+
+TJ includes a very neat little <code>EventEmitter</code> library for browsers to use.  Since this project isn't built specifically for jQuery there's other chunks of functionality that would typically be found in a library: in the main source file there's <code>isFunction</code> and <code>isObject</code>.
+
+Superagent also has to deal with Microsoft's <code>XMLHttpRequest</code> implementation:
+
+{% highlight javascript %}
+var getXHR = 'XMLHttpRequest' in this
+  ? function(){ return new XMLHttpRequest }
+  : function(){ return new ActiveXObject('Microsoft.XMLHTTP') };
+{% endhighlight %}
+
+I know that to support a wide range of Microsoft's implementations this might need to be extended with <code>Msxml2.XMLHTTP.6.0</code>, <code>Msxml2.XMLHTTP.3.0</code>, and <code>Msxml2.XMLHTTP</code>.  This is partially documented in "Microsoft's XMLHttpRequest Object documentation":http://msdn.microsoft.com/en-us/library/ms535874%28v=vs.85%29.aspx (but doesn't cover IE prior to 7).
+
+While we're on the subject of IE, the tests depend on a native version of the <code>JSON object</code> which IE doesn't have.  Most projects usually include "json2":https://github.com/douglascrockford/JSON-js to accomplish this.  I expect TJ just hasn't had time to explore IE fully yet (he only released Superagent yesterday).
+
+The default MIME types should be easy to extend through the <code>types</code> property:
+
+{% highlight javascript %}
+exports.types = {
+      html: 'text/html'
+    , json: 'application/json'
+    , urlencoded: 'application/x-www-form-urlencoded'
+  };
+{% endhighlight %}
+
+The MIME types are then backed up with associated parsers:
+
+{% highlight javascript %}
+exports.parse = {
+      'application/x-www-form-urlencoded': parseString
+    , 'application/json': JSON.parse
+  };
+{% endhighlight %}
+
+The whole library is built around the <code>Request</code> and <code>Response</code> objects, which is extremely reminiscent of Express.  They both wrap functionality around the <code>XMLHttpRequest</code> object, and are well documented and easy to follow.  The <code>Request</code> object inherits from <code>EventEmitter</code>, and calls the original constructor:
+
+{% highlight javascript %}
+function Request(method, url) {
+  var self = this;
+  EventEmitter.call(this);
+
+// ...
+
+Request.prototype = new EventEmitter;
+Request.prototype.constructor = Request;
+{% endhighlight %}
+
+Using <code>EventEmitter</code> this way makes dealing with asynchronous requests trivial:
+
+{% highlight javascript %}
+this.on('end', function(){
+  self.callback(new Response(self.xhr));
+});
+
+// state change
+xhr.onreadystatechange = function(){
+  if (4 == xhr.readyState) self.emit('end');
+};
+{% endhighlight %}
+
+h3. Conclusion
+
+Superagent's API is definitely nice, and the project has been packaged in a careful and friendly way.  Although I suspect a few browser quirks might need patching to encourage wide adoption, it should be fairly trivial for people to contribute such patches -- considering the documentation and tests that TJ has already written.
+
