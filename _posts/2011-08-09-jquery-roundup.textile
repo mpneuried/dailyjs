@@ -1,0 +1,65 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery.kinetic, jQuery.twinkle, jQuery.fracs"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery.kinetic
+
+"jQuery.kinetic":http://the-taylors.org/jquery.kinetic/ (GitHub: "davetayls / jquery.kinetic":https://github.com/davetayls/jquery.kinetic, License: _MIT_) by Dave Taylor is a plugin for creating iOS-style scrolling with acceleration.  There's a "demo of jQuery.kinetic":http://the-taylors.org/jquery.kinetic/, and basic usage is as you'd expect:
+
+{% highlight javascript %}
+$(selector).kinetic();
+{% endhighlight %}
+
+It's possible to bind a function whenever the container moves:
+
+{% highlight javascript %}
+$(selector).kinetic({
+  moved: function(state) {}
+});
+{% endhighlight %}
+
+And the container can even be scrolled programmatically:
+
+{% highlight javascript %}
+$(selector).kinetic('start', { velocity: -30 });
+{% endhighlight %}
+
+h3. jQuery.twinkle
+
+"jQuery.twinkle":http://larsjung.de/twinkle/ (GitHub: "lrsjng / jQuery.twinkle":https://github.com/lrsjng/jQuery.twinkle, License: _MIT_) by Lars Jung creates gently glowing circles that can be used to draw the user's attention to a particular element or place on the page.
+
+{% highlight javascript %}
+$(selector).twinkle();
+{% endhighlight %}
+
+The demo that fires off twinkles in sequence is particularly cool:
+
+{% highlight javascript %}
+var options = {
+	"delay": 1000,
+	"gap": 300,
+	"effect": "drop"
+};
+
+$(selector).twinkle(options);
+{% endhighlight %}
+
+h3. jQuery.fracs
+
+"jQuery.fracs":http://larsjung.de/fracs/ (GitHub: "lrsjng / jQuery.fracs":https://github.com/lrsjng/jQuery.fracs, License: _MIT_) also by Lars can be used to obtain the fraction of an element that's currently in the viewport.
+
+{% highlight javascript %}
+$(selector).fracs();
+{% endhighlight %}
+
+"This jQuery.fracs demo":http://larsjung.de/fracs/demo/ neatly illustrates how this works.
