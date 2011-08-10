@@ -1,0 +1,83 @@
+---
+layout: post
+title: "Node Roundup: LazyBoy, node-fibers, NsSocket"
+author: Alex Young
+categories: 
+- node
+- modules
+- fibers
+- network
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. LazyBoy
+
+"LazyBoy":http://www.garrensmith.com/LazyBoy/ (GitHub: "garrensmith / LazyBoy":https://github.com/garrensmith/lazyboy, License: _MIT_, npm: _LazyBoy_) by Garren Smith is a CouchDB object mapper:
+
+{% highlight javascript %}
+var Model = require('LazyBoy');
+
+Model.define('User', {
+  name: String
+  surname: {type: String, default: 'Rambo'}
+});
+
+var user = Model.create('User', { name: 'John', surname: 'Rambo' });
+
+user.save(function(err, saved_user) {
+});
+
+var User = Model('User');
+User.find('some id', function(err, user) {
+});
+{% endhighlight %}
+
+The API reminds me of "Mongoose":http://mongoosejs.com/, where models are registered then fetched back later.  The author has written tests, and intends to add some useful features like validation later.
+
+h3. node-fibers 0.5
+
+"node-fibers":https://github.com/laverdet/node-fibers (License: _MIT_, npm: _node-fibers_) by Marcel Laverdet has just been updated to version 0.5:
+
+bq. I recently pushed out version 0.5 which most notably adds a nifty implementation of futures which supports synchronous wait'ing in lieu of callback chains in NodeJS.
+
+Fibers are a convenient way of wrapping code that blocks in something like a thread -- "coroutines" is the more accurate term.  To get a good sense of what fibers are and how they can help with certain classes of problems, "Adding fibers to v8: efficiency + clarity in SSJS":http://asana.com/2010/10/adding-fibers-to-v8-efficiency-clarity-in-ssjs/ covers the subject very well.
+
+h3. NsSocket
+
+"NsSocket":https://github.com/nodejitsu/nssocket (npm: _nssocket_) from Nodejitsu wraps network sockets with events and automatic buffering to help simplify string-based network communication.
+
+The default namespace delimiter is <code>::</code>:
+
+{% highlight javascript %}
+nsSocket.on('data::some::evented', function(datas) {
+  console.log(datas);
+}
+{% endhighlight %}
+
+The authors have written up a full example that demonstrates the basic functionality:
+
+{% highlight javascript %}
+var net = require('net'),
+    nssocket = require('nssocket');
+
+// Config object
+var config = {
+  delimiter : '::' // default (recommended)
+  type : 'tcp' // default (tcp, tls)
+  msgLength : 3 // default (can be any length, technically even 1)
+};
+
+// socket gets wrapped
+var socket = new net.Socket({ type: 'tcp4'}),
+    nsSocket = nssocket.NsSocket(socket, config);
+
+nsSocket.connect(80, '127.0.0.1', function onConnect() {
+  // pass in an array
+  nsSocket.send(['hello', 'world', 'derp']);
+  console.dir('success!');  
+});
+{% endhighlight %}
+
