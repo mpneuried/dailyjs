@@ -1,0 +1,85 @@
+---
+layout: post
+title: "Let's Make a Framework: JSLint, Makefiles"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+"JSLint":http://www.jslint.com/ is a code quality tool.  There are arguments for and against many of its suggestions, so I usually tailor its options per project.  I like to run it over my client-side projects just to make sure I don't get any nasty surprises (generally found when I come to minimise a project).
+
+Using JSLint does require care, however.  Blindly following all of the suggestions could change delicate logic.  However, unit tests should catch any behaviour changes.
+
+h3. Installation
+
+I've put <code>jslint</code> in Turing's <code>package.json</code> under <code>devDependencies</code>.
+
+h3. Interesting JSLint Errors
+
+I think this was my favourite:
+
+{% highlight javascript %}
+for (property in properties) {
+  if (properties.hasOwnProperty(property)) {
+    properties[property] = parseCSSValue(properties[property], element, property);
+    if (property === 'opacity' && opacityType === 'filter') {
+      element.style.zoom = 1;
+    } else if (CSSTransitions.vendorPrefix && (property === 'left' || property === 'top')) {
+      CSSTransitions.start(element, duration, property, properties[property].value + properties[property].units, options.easing);
+      setTimeout(function() { CSSTransitions.end(element, property); }, duration);
+      return;
+    }
+  }
+}
+{% endhighlight %}
+
+The error was "Don't make functions within a loop".  The function expression defined inside the loop, used as a callback by <code>setTimeout</code>, might be executed for each iteration.  However, in this case it returns after running the callback.  It doesn't seem like idiomatic JavaScript to me, so I moved the callback out.
+
+h3. Building with <code>make</code>
+
+I was reviewing Turing's build scripts when I realised I'd basically rewritten <code>cat</code>.  Rather than using Node to concatenate files, this saves a lot of time and effort:
+
+{% highlight text %}
+cat *.js build/turing.js
+{% endhighlight %}
+
+Rather than shelling out in Node, this can easily be put into a Makefile.  Writing Makefiles is pretty easy, but you need to know a few things up front:
+
+* Make is designed to determine which files need to be recompiled.  My simple JavaScript-oriented Makefiles don't usually take advantage of this
+* Rules are indented with tabs.  If you're using vim, <code>:set noexpandtab</code> 
+* GNU <code>make</code> has great documentation here: "GNU make manual":http://www.gnu.org/software/make/manual/make.html
+
+I was happily using language-specific build tools until I noticed TJ Holowaychuk was using Makefiles all over the place.  I'm not sure if he got the idea from other Node developers, but it's convenient for a number of reasons.
+
+Firstly, using <code>make</code> means I don't need to install yet another dependency just to build my projects.  It's also good to learn something that can be applied to many languages.  And I find it discourages me from putting too much code inside my build scripts; fat build scripts often mean there's a lot of untested code hanging around.
+
+Another bonus is we can use the wealth of shell commands that are already installed on our systems.  And they're simple, too.  Take a look at Turing's <code>Makefile</code>:
+
+{% highlight text %}
+SRC = turing.core.js turing.oo.js turing.enumerable.js turing.promise.js turing.functional.js turing.dom.js turing.plugins.js turing.events.js turing.net.js turing.touch.js turing.anim.js
+
+lint:
+	./node_modules/.bin/jslint --onevar false *.js
+
+build: $(SRC)
+	cat $^ > build/turing.js
+
+min: build
+	./node_modules/.bin/uglifyjs --no-mangle build/turing.js > build/turing.min.js
+{% endhighlight %}
+
+A few lines and the entire build process is done.  Feel free to steal this, improve it, or check the Node community's many Makefiles to get ideas for your own projects.
+
+* "Express Makefile":https://github.com/visionmedia/express/blob/master/Makefile
+* "jQuery Makefile":https://github.com/jquery/jquery/blob/master/Makefile
+* "npm Makefile":https://github.com/isaacs/npm/blob/master/Makefile
+
+The last Turing commit was "71daa50":https://github.com/alexyoung/turing.js/tree/71daa50251dd49f222428fb7b95edea330541da0.
