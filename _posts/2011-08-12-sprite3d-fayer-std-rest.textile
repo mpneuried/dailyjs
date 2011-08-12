@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Sprite3D, Fayer, STD-Rest"
+author: Alex Young
+categories: 
+- libraries
+- webgl
+- webkit
+- json
+---
+
+h3. Sprite3D
+
+!/images/posts/sprite3d.png!
+
+"Sprite3D":http://minimal.be/lab/Sprite3D/ (GitHub: "boblemarin / Sprite3D.js":https://github.com/boblemarin/Sprite3D.js, License: _MIT_) by Emeric Florence is a JavaScript API that wraps around CSS 3D transforms to make creating 3D animations and sprite handling a lot easier.  The site has a lot of examples (I like "Sprite Harrier":http://minimal.be/lab/spriteHarrier/ and "Canvas demo":http://minimal.be/lab/Sprite3D/examples/canvasExample.htm).
+
+Sprite3D's API allows chaining:
+
+{% highlight javascript %}
+new Sprite3D(element)
+  .setPosition(x, y, z)
+  .setRotation(x, y, z)
+  .update();
+{% endhighlight %}
+
+In this example, <code>update()</code> will apply the position and rotation values to the element passed to the constructor.  The "Sprite3D API documentation":http://minimal.be/lab/Sprite3D/jsdoc/symbols/Sprite3D.html shows all of the other transforms and methods.
+
+According to the author:
+
+bq. As you manipulate "real" HTML elements, you don't need a Canvas object (and its performance problems), nor a WebGL-enabled browser. And, as 3D transforms are hardware-accelerated, you can get a very decent framerate, even on (Apple's) mobile devices.
+
+This is an interesting point, because a lot of people have been frustrated at Canvas performance on iOS.  Given the author's background in AS3, perhaps this library will appeal to Flash developers looking to build interactive content for mobile WebKit browsers?
+
+h3. Fayer
+
+"Fayer":https://github.com/sandeepjain/fayer (License: _dual MIT/GPLv2_) is a library that helps selectively execute functions based on the current "page".  The current page is determined based on a body ID:
+
+{% highlight javascript %}
+// Given <body id="page-home">
+
+fayer.on('page-home', function() {
+  // code for homepage goes here
+})
+{% endhighlight %}
+
+This doesn't require jQuery and is a very lightweight library.  Fayer would come in handy when working on a project with monolithic client-side JavaScript, although I find myself using libraries like "LABjs":http://labjs.com/ these days.
+
+h3. STD Rest
+
+"STD Rest":https://github.com/richthegeek/STD-Rest (or API Kit) by Richard Lyon is an attempt to provide a standard API format using JSON that can be accessed using the same API in multiple languages.  The author has written prototype implementations in CoffeeScript and PHP.
+
+Richard hopes to make a universally readable format that can be applied to any JSON REST API.  To see if this is realistic, he's testing it with Last.fm, Twitter, LinkedIn, and Qwerly.  Although he notes that:
+
+bq. [I need to] figure out flexible authentication scheme (OAuth is easy if everyone would just implement it please?)
+
+Chance would be a fine thing!
+
+The "lastfm.json":https://github.com/richthegeek/STD-Rest/blob/master/apis/lastfm.json file illustrates how the project works.  The service is described in JSON, and this includes API methods, authentication, validation, and error handling.  This sounds suspiciously like WSDL, and the author addresses this comparison in the project's README.
+
