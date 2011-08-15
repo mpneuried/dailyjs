@@ -1,0 +1,129 @@
+---
+layout: post
+title: "Code Review: LABjs"
+author: Alex Young
+categories:
+- code-review
+- loaders
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+h3. About LABjs
+
+"LABjs":http://labjs.com/ (GitHub: "getify / LABjs":https://github.com/getify/LABjs, License: _MIT_) by Kyle Simpson is an asynchronous script loader.  Although there are many similar projects now on the scene, LABjs is the first that I used heavily.
+
+bq. LABjs by default will load (and execute) all scripts in parallel as fast as the browser will allow. However, you can easily specify which scripts have execution order dependencies and LABjs will ensure proper execution order. This makes LABjs safe to use for virtually any JavaScript resource, whether you control/host it or not, and whether it is standalone or part of a larger dependency tree of resources.
+
+It has a nice little chained API:
+
+{% highlight javascript %}
+$LAB.script('https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js').wait()
+    .script('/javascripts/example1.js').wait()
+    .script('/javascripts/example2.js');
+{% endhighlight %}
+
+Inserting <code>wait()</code> into the chain can be used to express a dependency -- in this case <code>example2.js</code> won't run until the other scripts have been fully loaded.
+
+h3. Structure
+
+LABjs is distributed as a single script that currently weighs in at 513 lines of code.  The project also comes with tests and a minimised file.  This project is religiously indented with tabs, and it looks best with a tabstop of 4.  This project doesn't ship with its build scripts, so I can't duplicate the minification process. 
+
+As we've seen many times in this series, the self-executing anonymous function is used to contain the entire library:
+
+{% highlight javascript %}
+(function(global){
+  var _$LAB = global.$LAB,
+  
+  // ...
+
+  global.$LAB = create_sandbox();
+})(this);
+{% endhighlight %}
+
+Presumably the author has chosen to export the library as <code>$LAB</code> to avoid collisions with <code>LAB</code>, but I can't imagine using that name for anything anyway.
+
+One thing I noticed early on was this debug style:
+
+{% highlight javascript %}
+/*!START_DEBUG*/
+  // console.log() and console.error() wrappers
+  log_msg = function(){}, 
+  log_error = log_msg,
+/*!END_DEBUG*/
+{% endhighlight %}
+
+This explains the presence of LAB-debug.min.js and LAB.min.js.  It would be useful if the build process was present in the form of a build script so I could build my own versions of these scripts.
+
+h3. Feature Sniffing
+
+Generally, LABjs opts to use feature sniffing to gather browser capabilities:
+
+{% highlight javascript %}
+// feature sniffs (yay!)
+test_script_elem = document.createElement("script"),
+explicit_preloading = typeof test_script_elem.preload == "boolean", // http://wiki.whatwg.org/wiki/Script_Execution_Control#Proposal_1_.28Nicholas_Zakas.29
+real_preloading = explicit_preloading || (test_script_elem.readyState && test_script_elem.readyState == "uninitialized"), // will a script preload with `src` set before DOM append?
+script_ordered_async = !real_preloading && test_script_elem.async === true, // http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
+
+// XHR preloading (same-domain) and cache-preloading (remote-domain) are the fallbacks (for some browsers)
+xhr_or_cache_preloading = !real_preloading && !script_ordered_async && !opera_or_gecko
+{% endhighlight %}
+
+This is preferable to branching based on the user agent string.  I wondered if <code>test_script_elem</code> needs to be discaded to avoid leaking a DOM element, but I'm fairly sure even older IEs will garbage collect it because no properties are changed and there aren't any circular references.
+
+h3. Support Functions
+
+LABjs is developed to work without any particular client-side framework, which means it includes a few commonly found helper functions: <code>is_func</code>, <code>is_array</code>, and <code>merge_objs</code> jumped out at me.  Is it time for someone to make a "native JavaScript helper function" library?
+
+h3. Chained API
+
+When using LABjs, we're actually interacting with the <code>create_sandbox</code> function.  This contains several variables to manage state, functions for managing the chained API and requests, and it returns an object that forms a public API.  Here we can see how <code>wait</code> works:
+
+{% highlight javascript %}
+wait:function(){
+  return create_chain().wait.apply(null,arguments);
+}
+{% endhighlight %}
+
+It actually creates new chains, then calls the <code>wait</code> method on the chained API.  Following this through illustrates how requests and dependencies are managed:
+
+{% highlight javascript %}
+// force LABjs to pause in execution at this point in the chain, until the execution thus far finishes, before proceeding
+wait:function(){
+  if (arguments.length > 0) {
+    for (var i=0; i<arguments.length; i++) {
+      chain.push(arguments[i]);
+    }
+    group = chain[chain.length-1];
+  }
+  else group = false;
+  
+  advance_exec_cursor();
+  
+  return chainedAPI;
+}
+{% endhighlight %}
+
+This is a fairly typical way of managing a chained API.  Afterwards, <code>advance_exec_cursor</code> is called and the current chained API object is returned so subsequent calls to <code>script()</code> can be performed.  The trick to making a natural chained API is working out where code can be executed or deferred.  In this case, <code>advance_exec_cursor</code> is used to execute parts of the chain in the right sequence.
+
+Ultimately, <code>do_script</code> will be called by <code>script</code>, which just sets up the request.  A registry of loaded scripts will be built up, and it'll optionally insert parameters to force caches to be ignored.
+
+If a script requires pre-loading, <code>setTimeout</code> is used to immediately call the ready listener.
+
+<code>request_script</code>, called by <code>do_script</code> will attempt to load the script using the most suitable method.
+
+h3. Request Handling
+
+Inside <code>request_script</code>, <code>setTimeout</code> is used to run the body of the function.  This is apparently to avoid race conditions in older browsers.  Another <code>setTimeout</code> is used to wait until the element where the script tags is pasted is ready.  The options provided by <code>do_script</code> in <code>script_obj</code> are used to create a script tag and insert it into the desired element.
+
+Once the script tag has been set up, the real cross-browser code kicks in that has to manage the callbacks needed to monitor the script's network events and ready state.  Like many mature client-side projects, this requires some careful handling of browser kinks.
+
+h3. Conclusion
+
+LABjs isn't a trivial library, but it can make web pages feel fast without concatenating all of the client-side JavaScript into monolithic files.  On reviewing the code I found several areas that had interested notes about cross-browser support and proposals for more modern solutions.
+
+Some of the core methods in the library have very high arity.  Using option objects might make these functions clearer.  It would also be nice to keep the build scripts in the repository.
+
