@@ -1,0 +1,70 @@
+---
+layout: post
+title: "jQuery Roundup: jquery.terminal, jquery-inputs, Mobily*"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+- terminal
+- forms
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jquery.terminal
+
+!/images/posts/jqueryterm.png!
+
+"jquery.terminal":http://terminal.jcubic.pl/ (GitHub: "jcubic / jquery.terminal":https://github.com/jcubic/jquery.terminal, License: _LGPL 3_) by Jakub Jankiewicz helps create client-side command-line applications.  With one line of code it'll display an interpreter for JSON-RPC services, and even supports authentication.  Keyboard shortcuts like <code>ctrl+d</code> are supported, and history can be saved to local storage.
+
+The source that runs the demo shows how simple it is to get something going with jquery.terminal:
+
+{% highlight javascript %}
+jQuery(function($, undefined) {
+    $('#term_demo').terminal(function(command, term) {
+        var result = window.eval(command);
+        if (result != undefined) {
+            term.echo(String(result));
+        }
+    }, {
+        greetings: 'Javascript Interpreter',
+        name: 'js_demo',
+        height: 200,
+        width: 450,
+        prompt: 'js>'});
+});
+{% endhighlight %}
+
+h3. jquery-inputs
+
+"jquery-inputs":https://github.com/dshimkoski/jquery-inputs (License: _MIT_) by Denny Shimkoski allows getting and setting of form inputs using hierarchical JSON data structures.  Given a suitable form, the following JSON will be interpreted and inserted into the correct fields:
+
+{% highlight javascript %}
+$('form.user').inputs('set', {
+  user: {
+    name: 'Alex',
+    description: 'JavaScript fan',
+    password: 'All your base'
+  }
+});
+{% endhighlight %}
+
+In this example, an input with a name of <code>user_name</code> found within <code>form.user</code> will be set to <code>'Alex'</code>.  This seems like an extremely useful addition to the growing suite of jQuery templating tools.
+
+h3. MobilyMap, MobilySlider, MobilyBlocks
+
+!/images/posts/mobily.png!
+
+Marcin Dziewulski sent in three plugins.  "MobilyMap":http://playground.mobily.pl/jquery/mobily-map.html ("Demo":http://playground.mobily.pl/jquery/mobily-map/demo.html, License: _MIT_) generates Google Maps-inspired draggable interfaces from a regular bitmap image.  It supports markers, captions, controls, and it'll even save the last position in a cookie.
+
+"MobilySlider":http://playground.mobily.pl/jquery/mobily-slider.html ("Demo":http://playground.mobily.pl/jquery/mobily-slider/demo.html, License: _MIT_) is yet another jQuery slideshow plugin.  It includes controls for pagination and next/previous scrolling, and will pause on hover.
+
+"MobilySelect":http://playground.mobily.pl/jquery/mobily-select.html ("Demo":http://playground.mobily.pl/jquery/mobily-select/demo.html, License: _MIT_) can replace one set of items for another.  The author's example usage is switching between groups of images.
+
+"MobilyBlocks":http://playground.mobily.pl/jquery/mobily-blocks.html ("Demo":http://playground.mobily.pl/jquery/mobily-blocks/demo.html, License: _MIT_) displays unordered lists as animated circles.  It's a very interesting effect (pictured above).
+
+I thought this was a great collection of plugins, but I can't seem to find uncompressed source code.  Hopefully Marcin will post the original source somewhere like GitHub (or his favourite code sharing site) so we can contribute!
+
