@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Node Roundup: Node 0.5.4, Multimeter, Distributed Web Architectures Meetup Videos"
+author: Alex Young
+categories: 
+- node
+- modules
+- fibers
+- network
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 0.5.4
+
+"Node 0.5.4":http://blog.nodejs.org/2011/08/12/node-v0-5-4/ was released last week.  This version introduces yet more Windows improvements through libuv.  It can now be built on Microsoft Visual Studio via GYP.  There are also bug fixes, and V8 has been updated to 3.5.4.
+
+h3. Multimeter
+
+!/images/posts/multimeter.png!
+
+"Multimeter":https://github.com/substack/node-multimeter (npm: _multimeter_) is another interesting project by James Halliday.  This one generates ANSI progress bars, suitable for use in your next great console-based application.
+
+{% highlight javascript %}
+var multimeter = require('multimeter')
+  , multi = multimeter(process);
+
+// Drop creates a new progress bar at the cursor
+multi.drop(function(bar) {
+  var iv = setInterval(function() {
+    var p = bar.percent();
+
+    bar.percent(p + 1); 
+
+    if (p >= 100) clearInterval(iv);
+  }, 25);
+});
+{% endhighlight %}
+
+h3. Videos for Node Distributed Web Architectures Meetup
+
+Joyent have been kind enough to publish "videos for the Distributed Web Architectures meetup":http://joyeur.com/2011/08/11/node-js-meetup-distributed-web-architectures/ that was held on the 4th of August.
+
+Curtis Chambers from Uber discusses how Uber's real-time mobile system has been made more efficient with Node.  Dave Pacheco from Joyent explores behind the scenes of the analytics and visualisation tools in their SmartDataCenter software.  And, Matt Ranney explains how Node has helped reduce latency in Voxer's real-time voice application.
+
