@@ -1,0 +1,126 @@
+---
+layout: post
+title: "Let's Make a Framework: hasClass"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- css
+- dom
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Using Turing's DOM module quickly reveals the lack of <code>hasClass</code>.  This is a handy method that most frameworks provide to detect if a node has a given class name.  We've already implemented the class manipulation functionality in "Part 60: CSS Classes":http://dailyjs.com/2011/04/28/framework-60/.
+
+h3. jQuery <code>hasClass</code>
+
+jQuery uses a combination of a regular expression and <code>indexOf</code> to detect if classes are present:
+
+{% highlight javascript %}
+hasClass: function( selector ) {
+  var className = " " + selector + " ";
+  for ( var i = 0, l = this.length; i < l; i++ ) {
+    if ( this[i].nodeType === 1 && (" " + this[i].className + " ").replace(rclass, " ").indexOf( className ) > -1 ) {
+      return true;
+    }
+  }
+
+  return false;
+},
+{% endhighlight %}
+
+A nice touch here is every element in the current internal stack is searched for the class name.  If a result is found the method will return straight away.
+
+h3. Zepto
+
+I also looked at how Zepto does this, because Zepto is usually very concise and easy to follow.  The <code>hasClass</code> implementation is in "zepto.js":https://github.com/madrobby/zepto/blob/master/src/zepto.js.  Zepto includes caching, but the real work is a regular expression:
+
+{% highlight javascript %}
+function classRE(name){
+  return name in classCache ?
+    classCache[name] : (classCache[name] = new RegExp('(^|\\s)' + name + '(\\s|$)'));
+}
+{% endhighlight %}
+
+I actually thought of just using <code>new RegExp('\\b' + className + '\\b').test(element.className)</code>, but looking at Zepto made me realise that expression might not match all valid class names.
+
+h3. Regular Expression Matching
+
+The reason using <code>\b</code> isn't sufficient is because CSS identifiers can contain hyphen and underscore (from "CSS Level 2: Characters and case":http://www.w3.org/TR/CSS21/syndata.html#characters), while <code>\b</code> would only match <code>[a-zA-Z0-9_]</code> (which are considered _word characters_ by the regular expression engine).  Zepto's regular expression uses <code>\s</code> and the line ending characters.
+
+h3. Tests
+
+To make sure Turing's implementation worked along these lines, I wrote some tests:
+
+{% highlight javascript %}
+'test hasClass': function() {
+  assert.ok(turing('#attr-test').hasClass('example'));
+  assert.ok(turing('#attr-test').hasClass('example-2'));
+  assert.ok(turing('#attr-test').hasClass('example_3'));
+  assert.ok(!turing('#attr-test').hasClass('example_'));
+},
+
+'test nested hasClass': function() {
+  assert.ok(turing('#nested-hasClass-test div').hasClass('find-me'));
+  assert.ok(!turing('#nested-hasClass-test div').hasClass('aaa'));
+},
+{% endhighlight %}
+
+I wrote this feature test first -- this approach has always worked well for me when researching and writing this series.  Notice that I've also included a "nested test" which is intended to test Turing's chained <code>hasClass</code> behaviour which searches through every matching element just like jQuery.
+
+h3. Implementation
+
+I used a similar regular expression to Zepto and added some sanity checking for node type and inputs:
+
+{% highlight javascript %}
+  /**
+   * Detects if a class is present.
+   *
+   * @param {Object} element A DOM element
+   * @param {String} className The class name
+   * @return {Boolean}
+   */
+  dom.hasClass = function(element, className) {
+    if (!className || typeof className !== 'string') return false;
+    if (element.nodeType !== nodeTypes.ELEMENT_NODE) return false;
+    if (element.className && element.className.length) {
+      return new RegExp('(^|\\s)' + className + '($|\\s)').test(element.className);
+    } else {
+      return false;
+    }
+  };
+{% endhighlight %}
+
+To make this work through a chain, it just needs to be put in a loop:
+
+{% highlight javascript %}
+/**
+ * Detects if a class is present.
+ *
+ * @param {String} className A class name
+ * @returns {Boolean}
+ */
+hasClass: function(className) {
+  for (var i = 0; i < this.length; i++) {
+    if (dom.hasClass(this[i], className)) {
+      return true;
+    }
+  }
+  return false;
+},
+{% endhighlight %}
+
+This passes the tests in IE6, Firefox, Chrome, Safari, etc.
+
+To get the version of Turing in this tutorial, checkout commit "b169bd4":https://github.com/alexyoung/turing.js/tree/b169bd4008f6a3c56047f7d173e8d9d17b23c0c0.
+
+h3. References
+
+* "CSS Level 2: Characters and case":http://www.w3.org/TR/CSS21/syndata.html#characters
+* "zepto.js":https://github.com/madrobby/zepto/blob/master/src/zepto.js
