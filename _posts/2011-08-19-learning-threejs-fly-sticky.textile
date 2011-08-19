@@ -1,0 +1,44 @@
+---
+layout: post
+title: "Learning Three.js, FlyJSONP, HTML5Sticky"
+author: Alex Young
+categories: 
+- jsonp
+- webgl
+- apps
+---
+
+h3. Learning Three.js
+
+"Learning Three.js":http://learningthreejs.com/ by Jerome Etienne is a new blog full of tutorials about "Mr.doob's three.js":https://github.com/mrdoob/three.js/.  There's already quite a few tutorials, with one covering "drawing a cube":http://learningthreejs.com/blog/2011/08/06/lets-do-a-cube/, "skyboxes":http://learningthreejs.com/blog/2011/08/15/lets-do-a-sky/ and "tweening":http://learningthreejs.com/blog/2011/08/17/tweenjs-for-smooth-animation/.
+
+If you'd like to learn WebGL but you're afraid it's only for genius mind wizards, then try "reading right from the start":http://learningthreejs.com/blog/2011/07/15/threejs-installation/ where Jerome demonstrates how to install Three.js, then follow on to the "cube tutorial":http://learningthreejs.com/blog/2011/08/06/lets-do-a-cube/.  And if you make something cool, "send it to us":/contact.html.
+
+h3. FlyJSONP
+
+I noticed that TJ is still actively working on "superagent":https://github.com/visionmedia/superagent which is shaping up to be a great all-purpose browser-friendly network library.  Meanwhile, DailyJS reader Abdulrahman Alotaiba sent in "FlyJSONP":http://alotaiba.github.com/FlyJSONP/ (GitHub: "alotaiba / FlyJSONP":https://github.com/alotaiba/FlyJSONP, License: _GNU GPLv3_).  This library supports cross-domain <code>GET</code> and <code>POST</code> (passed through "YQL":http://developer.yahoo.com/yql/).
+
+The author's example demonstrates cross-domain <code>POST</code>:
+
+{% highlight javascript %}
+FlyJSONP.post({
+  url: 'http://storify.com/story/new',
+  parameters: {
+    username: 'your-username',
+    api_key: 'secret-api-key',
+    title: 'FlyJSONP',
+    description: 'Testing it out'
+  },
+  success: function(data) {
+    console.log(data);
+  }
+});
+{% endhighlight %}
+
+By using the YQL service, FlyJSONP has a small footprint and no dependencies.  And you can try it out at the "FlyJSONP demo page":http://alotaiba.github.com/FlyJSONP/#!/demo-get-flickr.  And it's good to see that the author has included QUnit tests!
+
+h3. HTML5Sticky
+
+"HTML5Sticky":https://github.com/sarfraznawaz2005/HTML5Sticky ("demo":http://sarfraznawaz2005.kodingen.com/html5sticky/, License: _MIT_) is actually a full-blown application by Sarfraz Ahmed that uses HTML5 trickery (local storage, CSS3, "Google Web Fonts":http://www.google.com/webfonts) to create a dynamic dashboard of sticky notes.  He's used "Modernizr":http://www.modernizr.com/ so it supports slightly older browsers like IE8 and Firefox 3.5.
+
+
