@@ -1,0 +1,39 @@
+---
+layout: post
+title: "Book Review: JavaScript Enlightenment"
+author: Alex Young
+categories: 
+- reviews
+- books
+---
+
+!/images/posts/js_enlight.png!
+
+"JavaScript Enlightenment":http://www.javascriptenlightenment.com/ by "Cody Lindley":http://codylindley.com/ is a guide to JavaScript by giving native objects centre stage.  It's self-published and available as a PDF for $15 through Google Checkout and PayPal (bulk licensing is also available).
+
+The book begins with an explanation of objects and properties:
+
+bq. In JavaScript, objects are king: Almost everything is an object or acts like an object. Understand objects and you will understand JavaScript. So let's examine the creation of objects in JavaScript.
+
+Objects are explored in detail, with full examples of constructors, native constructors, literals, and even how values are stored and copied.  Each example has source code with a link to jsFiddle, so it's easy to play around with examples to attain new levels of JavaScript enlightenment.
+
+Some of the more confusing aspects of JavaScript are covered early on, particularly object comparison, primitive value object wrapping, and prototype chain property reference resolution.  The language used is clear and easy to follow:
+
+bq. All object instances have a property that is a secret link (aka __proto__) to the constructor function that created the instance. This secret link can be leveraged to grab the constructor function, specifically the prototype property of the instance's constructor function.
+
+Other fundamental JavaScript concepts like using <code>hasOwnProperty</code> to correctly enumerate over objects are also explained.  In fact, I really couldn't find anything missing.  If you've ever wondered why JSLint is complaining about something, the root cause is likely to be explained somewhere in this book.
+
+The author even references modern libraries like "Underscore.js":http://documentcloud.github.com/underscore/:
+
+bq. JavaScript 1.5 is lacking when it comes time to seriously manipulate and manage objects. If you are running JavaScript in web browser, I would like to be bold here and suggest the usage of Underscore.js when you need more functionality than is provided by JavaScript 1.5.
+
+It's also encouraging to see solid coverage of <code>Function</code> objects -- one of the hidden aspects of JavaScript that can unlock serious power if used carefully.  Slightly confusingly, <code>apply</code> and <code>call</code> are only covered briefly here, with more thorough coverage in chapter 6.  The split between explaining <code>this</code> and <code>Function</code> felt slightly awkward, which is one of the reasons why this book works better taken as a whole rather than discrete chunks.
+
+The author carefully notes where JavaScript implementations deviate from the ECMA standard, and explains the cleanest way to mitigate this.
+
+h3. Conclusion
+
+If you've ever wondered how prototypal inheritance works, or just want to bolster your JavaScript knowledge, this is an extremely potent book.  It's short -- readable in a handful of sittings, but it works best read from start to finish.
+
+Although the technical foundation of this book is solid and the writing is clear and concise, it would benefit from an editor with a more scrupulous eye.  There are a few typographical and grammatical errors that conspire to undermine the author's authority.  For example, I got extremely tired of repeatedly reading the phrase _the take away_.  Hopefully Cody will keep publishing new editions, so don't let this stop you from reading one of the most interesting books on JavaScript this year.
+
