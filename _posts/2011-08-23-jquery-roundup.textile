@@ -1,0 +1,55 @@
+---
+layout: post
+title: "jQuery Roundup: jStat, Art Text Light, Portamento"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- statistics
+- ui
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jStat
+
+"jStat":http://www.jstat.org/ ("GitHub":https://github.com/jstat/jstat, License: _MIT_) is a statistical library that includes general statistical functions and a large set of probability distribution:
+
+* "Beta":http://en.wikipedia.org/wiki/Beta_distribution
+* "Cauchy":http://en.wikipedia.org/wiki/Cauchy_distribution
+* "Chi-square":http://en.wikipedia.org/wiki/Chisquare_distribution
+* "Exponential":http://en.wikipedia.org/wiki/Exponential_distribution
+* "Gamma":http://en.wikipedia.org/wiki/Gamma_distribution
+* "Kumaraswamy":http://en.wikipedia.org/wiki/Kumaraswamy_distribution
+* "Log-normal":http://en.wikipedia.org/wiki/Log_normal_distribution
+* "Normal":http://en.wikipedia.org/wiki/Normal_distribution
+* "Pareto":http://en.wikipedia.org/wiki/Pareto_distribution
+* "Weibull":http://en.wikipedia.org/wiki/Weibull_distribution
+* "Uniform":http://en.wikipedia.org/wiki/Uniform_distribution_%28continuous%29
+
+There are a few more that appear to be work in progress.  Each distribution has the following methods: "pdf":http://en.wikipedia.org/wiki/Probability_density_function, "cdf":http://en.wikipedia.org/wiki/Cumulative_distribution_function, inv, mean, median, mode, and variance.
+
+jStat also includes many commonly used functions as static methods, and even includes tools for generating random numbers and manipulating arrays of values.
+
+The reason I've diligently waded through the source linking to Wikipedia is to demonstrate the scope of the library, because documentation is currently scant.  The source is easy to follow though, so if you're interested in using the library for something serious don't be afraid to check it out.
+
+Although not a jQuery library, it's designed to work in browsers and can work with the "jQuery Flot plotting library":http://code.google.com/p/flot/.
+
+h3. Art Text Light
+
+"Art Text Light":http://www.artetics.com/Articles/art-text-light-jquery-plugin (License: _MIT_) will apply CSS to elements over a repeated interval.  The author has used this to apply <code>text-shadow</code>, creating an interesting effect.  Any CSS or time intervals could be used, so I imagined using it to set up a fast shimmering text effect on a gaming site to direct people to a button.  Perhaps.
+
+h3. Portamento
+
+"Portamento":http://simianstudios.com/portamento/ (GitHub: "krisnoble / Portamento":https://github.com/krisnoble/Portamento, License: _GPLv3_) by Kris Noble solves a problem that I had with DailyJS's page design.  It allows panels to float vertically, with lots of customisation possibilities.  For example, "panels can be made to stop at a given position":http://simianstudios.com/portamento/demos/absolute-with-bottom-limit.html like this:
+
+{% highlight javascript %}
+$('#sidebar').portamento({ wrapper: $('#wrapper') });
+{% endhighlight %}
+
+It also adapts well to small displays:
+
+bq. Portamento also has sensible behaviour if the user's viewport is too small to display the whole panel, so you don't need to worry about users not being able to see your important content.
+
