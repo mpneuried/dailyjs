@@ -1,0 +1,73 @@
+---
+layout: post
+title: "Node Roundup: Windows Performance Boost, Bricks.js, Commander.js"
+author: Alex Young
+categories: 
+- node
+- modules
+- windows
+- frameworks
+- cli
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Windows Performance Boost
+
+I noticed Ryan Dahl post a link to "these Node http_simple benchmarks":https://gist.github.com/1166690 on Twitter:
+
+bq. nodejs v0.5 benchmarks gist.github.com/1166690 (still some work to do on libuv backend but Windows is on par with Linux now!)
+
+- "@ryah":https://twitter.com/#!/ryah/status/106123259908599808
+
+This is good news for Windows developers, and again demonstrates the phenomenal progress we're seeing on libuv.
+
+h3. Bricks.js
+
+"Bricks.js":http://bricksjs.com/ (GitHub: "JerrySievert / bricks":https://github.com/JerrySievert/bricks, License: _MIT/X11_, npm: _bricks_) by Jerry Sievert is a modular web framework that isn't built on existing web technology like "Connect":http://senchalabs.github.com/connect/.
+
+The most basic usage example is a static web server:
+
+{% highlight javascript %}
+var bricks = require('bricks');
+var appServer = new bricks.appserver();
+
+appServer.addRoute('/static/.+', appServer.plugins.filehandler, { basedir: './static' });
+appServer.addRoute('.+', appServer.plugins.fourohfour);
+var server appServer.createServer();
+
+server.listen(3000);
+{% endhighlight %}
+
+Routes can be strings or regular expressions.  Routes are grouped into sections, which are <code>pre</code>, <code>main</code>, <code>post</code>, and <code>final</code>.  Each of these sections are explained in the "Bricks.js documentation":http://bricksjs.com/documentation.html.
+
+When a function is passed to a route, it gets <code>request, response</code> parameters like Express.  Routes can also take plugins, which can be used to manage state.  The routing and error APIs are event-based.   That means it's possible to set up listeners on events like section completion and errors:
+
+{% highlight javascript %}
+response.on('main.complete', mainCompletion);
+
+// Errors
+appserver.addEventHandler('route.fatal', function(error) { console.log('FATAL:', error); });
+{% endhighlight %}
+
+Bricks.js seems to be quite different to most Node web frameworks, and I like the fact it's event-based.  It seems like the strength of the framework will come from contributed plugins, so hopefully Jerry will start some kind of centralised list of plugins as they emerge.
+
+h3. Commander.js
+
+"Commander.js":http://tjholowaychuk.com/post/9103188408/commander-js-nodejs-command-line-interfaces-made-easy (GitHub: "visionmedia / commander.js":https://github.com/visionmedia/commander.js, License: _MIT_, npm: _commander_) by TJ Holowaychuk is a "complete solution" for developing command-line interfaces.
+
+It has a chained API, allowing you to express a command-line application in terms of options, prompts (including a non-echoing password prompt), confirmation, and simple menus.  This allows command-line help to be automatically generated.
+
+{% highlight javascript %}
+program
+  .version('0.0.1')
+  .option('-i, --integer <n>', 'An integer argument', parseInt)
+  .option('-f, --float <n>', 'A float argument', parseFloat)
+  .option('-r, --range <a>..<b>', 'A range', range)
+  .option('-l, --list <items>', 'A list', list)
+  .option('-o, --optional [value]', 'An optional value')
+  .parse(process.argv);
+{% endhighlight %}
+
