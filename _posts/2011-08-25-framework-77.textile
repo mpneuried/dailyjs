@@ -1,0 +1,157 @@
+---
+layout: post
+title: "Let's Make a Framework: hasClass Optimisation"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- optimisation
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+"Last week":http://dailyjs.com/2011/08/18/framework-76/ I explained how a simple <code>hasClass</code> implementation might work for detecting CSS classes, complete with tests and suitable documentation.  "Henrik Lindqvist":http://llamalab.com/ wrote a comment with some code that he claimed was faster.  If you're building your own open source project it's likely that people may post their own performance suggestions and patches.  This should be managed with care, because overly aggressive optimisation can potentially lead to confusing code or unexpected bugs.
+
+In this tutorial I'm going to walk through Henrik's code as I would any optimisation suggestion, using a little bit of science in the form of tests and benchmarks.
+
+h3. The Original <code>hasClass</code>
+
+The original code is based around a regular expression.  Like most of my tutorial code, I've attempted to make it extremely explicit and easy to follow:
+
+{% highlight javascript %}
+dom.hasClass = function(element, className) {
+  if (!className || typeof className !== 'string') return false;
+  if (element.nodeType !== nodeTypes.ELEMENT_NODE) return false;
+  if (element.className && element.className.length) {
+    return new RegExp('(^|\\s)' + className + '($|\\s)').test(element.className);
+  } else {
+    return false;
+  }
+};
+{% endhighlight %}
+
+h3. The Optimised <code>hasClass</code>
+
+This is Henrik's code:
+
+{% highlight javascript %}
+function hasClassString(e, c) {
+  var s = e.className, i = s.indexOf(c);
+  return i != -1 && (s.charCodeAt(i - 1) || 32) == 32 && (s.charCodeAt(i + c.length) || 32) == 32;
+};
+{% endhighlight %}
+
+The first line gets the class name from the element and finds the index of the class name that we're looking for using <code>indexOf</code>.
+
+The second line is longer.  The comparison with <code>-1</code> is done as early as possible to optimise cases where the class name hasn't been found.   The next part checks to see if the character before the match is a space (32 is the character code for space).  When the index is outside the string, <code>charCodeAt</code> will return 32 using the <code>||</code> because <code>NaN</code> will be returned:
+
+{% highlight javascript %}
+''.charCodeAt(0)
+// NaN
+
+''.charCodeAt(0) || 32
+// 32
+
+'a'.charCodeAt(0) || 32
+// 97
+{% endhighlight %}
+
+The same thing is true for the end of the line, which the part after <code>&&</code> deals with.
+
+It looks like this code makes sense, but is it really faster?
+
+h3. Benchmarking
+
+To benchmark these functions, I used "Benchmark.js":http://benchmarkjs.com/ to compare the performance of each:
+
+{% highlight javascript %}
+var Benchmark = require('benchmark')
+  , suite = new Benchmark.Suite
+  , div = { className: 'example1 example2 example3' };
+
+function hasClassString(e, c) {
+  var s = e.className, i = s.indexOf(c);
+  return i != -1 && (s.charCodeAt(i - 1) || 32) == 32 && (s.charCodeAt(i + c.length) || 32) == 32;
+};
+
+function hasClassRegExp(element, className) {
+  if (element.className && element.className.length) {
+    return new RegExp('(^|\\s)' + className + '($|\\s)').test(element.className);
+  } else {
+    return false;
+  }
+};
+
+suite.add('hasClassString', function() {
+  hasClassString(div, 'example1');
+  hasClassString(div, 'example2');
+  hasClassString(div, 'example3');
+  hasClassString(div, 'unknown');
+})
+.add('hasClassRegExp', function() {
+  hasClassRegExp(div, 'example1');
+  hasClassRegExp(div, 'example2');
+  hasClassRegExp(div, 'example3');
+  hasClassRegExp(div, 'unknown');
+})
+.on('cycle', function(event, bench) {
+  console.log(String(bench));
+})
+.on('complete', function() {
+  console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+})
+// run async
+.run(true);
+{% endhighlight %}
+
+The results on my machine look like this:
+
+{% highlight text %}
+hasClassString x 2,319,886 ops/sec ±0.27% (81 runs sampled)
+hasClassRegExp x 17,348 ops/sec ±0.39% (81 runs sampled)
+{% endhighlight %}
+
+The <code>indexOf/charCodeAt</code> version appears to perform over 100 times faster!
+
+h3. Testing
+
+I dropped the optimised code into the DOM module:
+
+{% highlight javascript %}
+/**
+ * Detects if a class is present, optimised by Henrik Lindqvist.
+ *
+ * @param {Object} element A DOM element
+ * @param {String} className The class name
+ * @return {Boolean}
+ */
+dom.hasClass = function(element, className) {
+  if (!className || typeof className !== 'string') return false;
+  if (element.nodeType !== nodeTypes.ELEMENT_NODE) return false;
+  var s = element.className, i = s.indexOf(className);
+  return i != -1 && (s.charCodeAt(i - 1) || 32) == 32 && (s.charCodeAt(i + className.length) || 32) == 32;
+};
+{% endhighlight %}
+
+Then I ran the tests in IE6, 7, 8, Firefox 4, Chrome, Safari, and gave up because it seemed fine.  That's not to say my tests are perfect, however, but it seems Henrik's code does what we want.
+
+h3. Managing Optimisation
+
+When it comes to optimising code, you're only as good as your benchmarks and tests.  There's also the question of whether optimisation is really useful.  In this case, <code>hasClass</code> is a good candidate for optimisation because it's likely to be used frequently by client-side developers.  There are times where regular expressions won't perform as well as direct string manipulation, but will yield more succinct code.  I found Henrik's code easy to follow and the performance improvement was huge, so this seems clear cut to me.
+
+The new code should have proper client-side benchmarks, but I'll save that for another week.
+
+This week's latest commit was "0ddf1c":https://github.com/alexyoung/turing.js/commit/0ddf1c46c47ff35a7925b775766e6fa9db142f56.
+
+h3. References
+
+* "String.prototype.indexOf":https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String/indexOf
+* "indexOf Method at MSDN":http://msdn.microsoft.com/en-us/library/53xtt423%28v=vs.94%29.aspx
+* "Benchmark.js":http://benchmarkjs.com/
+
+
