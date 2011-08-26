@@ -1,0 +1,56 @@
+---
+layout: post
+title: "CAMDUG Node Event, SunCalc, Bubbles"
+author: Alex Young
+categories: 
+- events
+- html5
+- video
+---
+
+h3. CAMDUG Summer of Open Source
+
+Like an idiot I forgot to post this sooner (I've been snowed under by cool JavaScript links lately!)  The "CAMDUG Summer of Open Source":http://www.camdug.com/events/27937651/?eventId=27937651&action=detail is tomorrow (27th August) in Cambridge UK, and has a Node open day, with speakers and coding sessions.  Oleg Podsechin will be speaking, and he also recently gave a talk entitled "The Future of Server-Side JavaScript":http://www.slideshare.net/olegp/the-future-of-server-side-javascript at "FrOSCon":http://froscon.org/.
+
+h3. SunCalc
+
+!/images/posts/suncalc.png!
+
+"SunCalc":http://suncalc.net/ (GitHub: "mourner / suncalc":https://github.com/mourner/suncalc, License: _BSD_) by Vladimir Agafonkin is a small library for calculating the Sun's position, and sunlight phases. 
+
+This example will fetch the sunlight times for London:
+
+{% highlight javascript %}
+var times = SunCalc.getTimes(new Date(), 51.5, -0.1);
+{% endhighlight %}
+
+It'll also fetch the position of the Sun, returning the azimuth and altitude:
+
+{% highlight javascript %}
+var sunrisePos = SunCalc.getSunPosition(times.sunrise, 51.5, -0.1);
+{% endhighlight %}
+
+It's a nicely designed library with a lot of configuration options (detailed in the README).
+
+h3. BubblesJS
+
+"BubblesJS":http://bubbles.childnodes.com/ by Pantelis Kalogiros can be used to manage captions and subtitles for HTML5 videos.  It'll even read <code>.srt</code> files:
+
+{% highlight javascript %}
+var bubbles = new Bubbles.video('video-srt');
+bubbles.subtitles(false, {
+  'English': {
+    language: 'English',
+    file: 'subs/english.srt'
+  },
+  'Greek': {
+    language: 'Greek',
+    file: 'subs/greek.srt'
+  }
+});
+{% endhighlight %}
+
+The way it works is actually fairly simple.  Progress can be tracked using <code>element.currentTime</code>, and it includes a built-in <code>srt</code> parser.  The first parameter to <code>subtitles</code> is the type of parser, <code>false</code> makes it use the built-in one but remote parsers can also be used.
+
+The author notes there isn't currently a standard usable way of managing HTML5 subtitles, and he said he's going to put the source on GitHub soon too.
+
