@@ -148,10 +148,42 @@ The new code should have proper client-side benchmarks, but I'll save that for a
 
 This week's latest commit was "0ddf1c":https://github.com/alexyoung/turing.js/commit/0ddf1c46c47ff35a7925b775766e6fa9db142f56.
 
+h3. [Update] Reader Feedback
+
+Ryan Cannon suggested this:
+
+{% highlight javascript %}
+dom.hasClass = function(element, className) {
+  return (' ' + element.className + ' ').indexOf(' ' + className + ' ') !== -1;
+};
+{% endhighlight %}
+
+It's slightly slower than Henrik's suggestion, but it fixes a problem I didn't spot that Adam Solove pointed out:
+
+bq. Given a div with the classes: "something some" and a query for the class "some", this code returns false when it should return true. The first match of a substring isn't followed with a space, but you need to repeatedly look for the same substring in case it occurs by itself later.
+
+I forgot to include coverage of "element.classList":https://developer.mozilla.org/en/DOM/element.classList again, so I've added that as well:
+
+{% highlight javascript %}
+if (turing.detect('classList')) {
+  dom.hasClass = function(element, className) {
+    return element.classList.contains(className);
+  };
+} else {
+  dom.hasClass = function(element, className) {
+    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') !== -1;
+  };
+}
+{% endhighlight %}
+
+Recall that <code>turing.detect</code> will cache the result and first requires <code>turing.addDetectionTest</code> to work.  In this case it's only called once.
+
+I've added the readers that suggested these improvements to the contributor list in Turing's README.
+
 h3. References
 
 * "String.prototype.indexOf":https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String/indexOf
 * "indexOf Method at MSDN":http://msdn.microsoft.com/en-us/library/53xtt423%28v=vs.94%29.aspx
 * "Benchmark.js":http://benchmarkjs.com/
-
+* "element.classList":https://developer.mozilla.org/en/DOM/element.classList
 
