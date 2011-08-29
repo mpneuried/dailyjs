@@ -1,0 +1,43 @@
+---
+layout: post
+title: Nodepad Resurrection
+author: Alex Young 
+categories: 
+- nodepad
+- lmawa
+- express
+---
+
+When I sign in to GitHub I keep noticing new watchers appear on the "Nodepad":https://github.com/alexyoung/nodepad project (it's currently at 207 watchers).  Although the "Let's Make a Web App":http://dailyjs.com/tags.html#lmawa tutorials have already noticably aged (particularly as Mongoose changed drastically in the middle of the series), I thought I'd give the Nodepad followers something to look at!
+
+I updated the libraries by editing <code>package.json</code>:
+
+* "Express":http://expressjs.com/ went from 2.2.2 to 2.4.x with no major API changes
+* "Mongoose":http://mongoosejs.com/ has gone from 1.2.0 to 2.0.3 without much trouble
+* Jade, Stylus and connect-mongodb have also been updated.  Again, no major API changes affected Nodepad
+
+Upgrading modules is a common task when maintaining production Node apps.  Keeping tight versions in <code>package.json</code> can feel like a pain at times, but it's really important for keeping production and staging environments sane and working with other people.
+
+h3. Backbone
+
+I've updated "Backbone.js":http://documentcloud.github.com/backbone/ to 0.5.3.  This version has API changes, but the only one that affected us was a naming change from <code>refresh</code> to <code>reset</code>:
+
+bq. We've taken the opportunity to clarify some naming with the <strong>0.5.0</strong> release. <code>Controller</code> is now <a href="#Router">Router</a>, and <code>refresh</code> is now <a href="#Collection-reset">reset</a>. The previous <code>saveLocation</code> and <code>setLocation</code> functions have been replaced by <a href="#Router-navigate">navigate</a>. <code>Backbone.sync</code>'s method signature has changed to allow the passing of arbitrary options to <code>jQuery.ajax</code>. Be sure to <a href="#History-start">opt-in</a> to <code>pushState</code> support, if you want to use it.
+
+While I was updating the client-side code I improved the 'empty state' handling.  Now when first logging in, Nodepad will behave much better.  There's no-longer a different add document view when creating the first document, in fact it's now possible to just press 'Save' right away (an empty document will be created, but it makes more sense than the old version).
+
+h3. Summary
+
+The main Nodepad resurrection commit was "56f7554":https://github.com/alexyoung/nodepad/commit/56f7554715d77f1a3ab60641dc45b3e59d5df393:
+
+* Client-side sorting uses <code>toLowerCase</code>
+* Most persistent views are now on AppView
+* Nobody keeps document model references around unless they need them directly
+* Added <code>selectedDocument</code> to track the currently viewed document
+* Changed <code>refresh</code> to <code>reset</code> to support Backbone 0.5.0+
+* Improved new account handling by handling an empty document list correctly
+
+And I followed that up with the library updates.  See the full history here: "Nodepad commit history":https://github.com/alexyoung/nodepad/commits/master/.
+
+Hopefully this will make Nodepad a little less confusing for people just discovering the tutorials and app!
+
