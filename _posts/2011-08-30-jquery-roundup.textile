@@ -1,0 +1,52 @@
+---
+layout: post
+title: "jQuery Roundup: 1.6.3 RC1, Spin.js, imagesLoaded"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.6.3 RC1
+
+"jQuery 1.6.3 RC1":http://blog.jquery.com/2011/08/29/jquery-1-6-3-rc1-released/ is out, which means the team is looking for feedback.  The preferred way to submit bug reports is "jsFiddle":http://jsfiddle.net/ using the _jQuery (edge)_ option.
+
+The <code>requestAnimationFrame</code> has been removed to avoid problems caused when browsers schedule animations for hidden tabs.  An XSS attack vector has been fixed by stopping HTML passed to <code>$()</code> from being evaluated if a <code>#</code> precedes the expression.  HTML5 attribute support has also been improved.
+
+h3. Spin.js
+
+"Spin.js":http://fgnass.github.com/spin.js/ (GitHub: "fgnass / spin.js":https://github.com/fgnass/spin.js, License: _MIT_) by Felix Gnass is a small JavaScript library with no dependencies that creates spinners using CSS3 (or VML for Internet Explorer).  I seem to remember a similar thing appearing on "37signals' blog":http://37signals.com/svn/posts/2577-loading-spinner-animation-using-css-and-webkit a year ago, but this library makes it easy for anyone to drop spinners into a page with little trouble.
+
+The author also has a suggested jQuery plugin wrapper in the documentation:
+
+{% highlight javascript %}
+$.fn.spin = function(opts) {
+  this.each(function() {
+    var $this = $(this),
+        spinner = $this.data('spinner');
+
+    if (spinner) spinner.stop();
+    if (opts !== false) {
+      opts = $.extend({color: $this.css('color')}, opts);
+      spinner = new Spinner(opts).spin(this);
+      $this.data('spinner', spinner);
+    }
+  });
+  return this;
+};
+{% endhighlight %}
+
+h3. jQuery imagesLoaded
+
+"jQuery imagesLoaded":http://desandro.github.com/imagesloaded/ (GitHub: "desandro / imagesloaded":https://github.com/desandro/imagesloaded) by David DeSandro (and based on a script by Paul Irish) is a small plugin for tracking when images have loaded inside a parent element.  You get a callback which receives an array of images:
+
+{% highlight javascript %}
+$('selector').imagesLoaded(function($images) {
+  // Callback
+});
+{% endhighlight %}
