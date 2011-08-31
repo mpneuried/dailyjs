@@ -1,0 +1,36 @@
+---
+layout: post
+title: "Node Roundup: Buildr, Search, Node Knockout"
+author: Alex Young
+categories: 
+- node
+- modules
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Buildr, Query-Engine, DocPad
+
+"Benjamin Arthur Lupton":http://balupton.com/ sent us three packages to look at:
+
+* "Buildr":https://github.com/balupton/buildr.npm (License: _MIT_, npm: _buildr_) -- tools for building and merging CoffeeScript, Less, and CSS
+* "Query-Engine":https://github.com/balupton/query-engine.npm (License: _MIT_, npm: _query-engine_) -- a NoSQL query engine
+* "DocPad":https://github.com/balupton/docpad (License: _MIT_, npm: _docpad_) -- a static site generator
+
+All of the projects have installation and usage guides in the README files.  Buildr supports bundling, compression, and client-side loading.  Query-Engine can manage collections of objects, but also optionally extends <code>Object</code> to work with other objects.  DocPad's templating engine has complete access to the DOM, which means it can be used a bit like a novel CMS.
+
+h3. Search
+
+"Search":https://github.com/visionmedia/search (License: _MIT_, npm: _search_) by TJ Holowaychuk is a simple file searching utility that works a bit like "ack":http://betterthangrep.com/ (my tool of choice, which I use with vim).  It's built with TJ's new library "commander.js":https://github.com/visionmedia/commander.js, and has deliciously colourised output:
+
+!/images/posts/tj-search.png!
+
+Is it faster than ack?  On my machine it performs slightly slower than ack, but not noticeably (there's a pause after all the results have been displayed).  Given how simple the source is, it seems like an extremely hackable version of ack.
+
+h3. Node Knockout
+
+!/images/posts/nodeko2011.png!
+
+"Node Knockout":http://nodeknockout.com/ has had a ridiculous 183 entries this year!  I've been playing around with the entries and some of them seriously give the startups I've seen on "Y Combinator":http://ycombinator.com/ a run for their money.  Check them out, show your support, and get ready for the winners on the 6th.
