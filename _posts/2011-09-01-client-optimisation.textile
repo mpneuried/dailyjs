@@ -1,0 +1,110 @@
+---
+layout: post
+title: "Client-Side Benchmarks"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- optimisation
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Last week we had a very interesting discussion about optimising the deceptively simple <code>hasClass</code> function that I wrote for Turing's DOM module.  Not only is optimisation difficult, once you bring browsers into the mix it can seem like a dark art.  Particularly when cross-browser issues are taken into account, which is why I've covered things like cached browser feature detection in previous tutorials.
+
+I mentioned that we really needed client-side benchmarks to talk confidently about performance, because my benchmark example script was just intended to be used in Node.  As I already used "Benchmark.js":http://benchmarkjs.com/ (GitHub: "bestiejs / benchmark.js":https://github.com/bestiejs/benchmark.js, License: _MIT_, npm: _benchmark_) I've used it again for browser benchmarks.  And guess what?  It even works in IE6!
+
+h3. Writing Browser Benchmarks
+
+I've added <code>"benchmark": "latest"</code> to the <code>devDependencies</code> in the "package.json":https://github.com/alexyoung/turing.js/blob/master/package.json file.  Then, at the bottom of a HTML test harness file, I added a script tag to load <code>Benchmark.js</code>.
+
+{% highlight html %}
+    <script src="../../node_modules/benchmark/benchmark.js" type="text/javascript"></script>
+  </body>
+</html>
+{% endhighlight %}
+
+Next I wrote a pure JavaScript file for the DOM-related benchmarks and added it to the other script tags:
+
+{% highlight javascript %}
+var suite = new Benchmark.Suite,
+    div = $t('#test-div')[0],
+    cache = {};
+
+function log(text) {
+  $t('#results').append('<li>' + text + '</li>');
+}
+
+function hasClassRegExp(element, className) {
+  if (element.className && element.className.length) {
+    return new RegExp('(^|\\s)' + className + '($|\\s)').test(element.className);
+  } else {
+    return false;
+  }
+};
+
+function hasClassCachedRegExp(element, className) {
+  if (!cache[className]) {
+    cache[className] = new RegExp('(^|\\s)' + className + '($|\\s)');
+  }
+  if (element.className && element.className.length) {
+    return cache[className].test(element.className);
+  } else {
+    return false;
+  }
+};
+
+suite.add('hasClassRegExp', function() {
+  hasClassRegExp(div, 'example1');
+  hasClassRegExp(div, 'unknown');
+})
+.add('hasClassCachedRegExp', function() {
+  hasClassCachedRegExp(div, 'example1');
+  hasClassCachedRegExp(div, 'unknown');
+})
+.add('built-in', function() {
+  turing.dom.hasClass(div, 'example1');
+  turing.dom.hasClass(div, 'unknown');
+})
+.on('cycle', function(event, bench) {
+  log(String(bench));
+})
+.on('complete', function() {
+  log('Fastest is ' + this.filter('fastest').pluck('name'));
+  $t('#notice').text('Done');
+})
+.run(true);
+{% endhighlight %}
+
+Benchmark.js uses callbacks and events to organise benchmarks.  That means you need to instantiate a suite using <code>var suite = new Benchmark.Suite</code>, then add benchmarks using <code>suite.add('name', function() {})</code>.  It allows chaining, so as you can see I've added a few benchmarks and then watched for two events, <code>cycle</code> and <code>complete</code>.  The <code>cycle</code> event will run after each benchmark.  Easy!
+
+I'm using the <code>$t</code> Turing alias to do some simple DOM manipulation for displaying results.  The <code>log</code> function could actually be placed in a benchmark helpers file once more benchmarks have been added.  Just out of interest, I kept the old simple <code>hasClass</code> functions and also included the one currently implemented in <code>turing.dom.hasClass</code>.
+
+This benchmark also includes <code>hasClassCachedRegExp</code>.  I noticed that "Zepto":https://github.com/madrobby/zepto/ caches regexes, and it turns out this performs extremely well in Firefox and Chrome, but not so well in IE6.  However, remember that when comparing the built-in function, you might be looking at <code>element.classList</code> depending on the browser.  In Firefox, Ryan Cannon's <code>String.prototype.indexOf</code> solution performs better than <code>element.classList</code>.
+
+Given that each browser appears to have different performance characteristics, should we use different functions?  I'd probably never do this, unless I was targeting a specific browser.  This might sound unusual, but plenty of people are developing games that can only run in WebKit mobile browsers (and Zepto specifically targets WebKit).
+
+h3. Results
+
+Chrome 13, Mac:
+
+!/images/posts/bench-chrome.png!
+
+Firefox 6, Mac:
+
+!/images/posts/bench-firefox.png!
+
+Internet Explorer 6, Windows XP, VirtualBoxVM:
+
+!/images/posts/bench-ie6.png!
+
+h3. Conclusion
+
+If you're working on client-side code, it doesn't take much work to be scientific about benchmarks.  And, using Node and npm to manage your tools can make it quick to set things up.  When writing optimised code, don't champion a given solution -- be scientific, experiment, and try to discover the solution most suited to the task at hand.  In the interest of science, benchmarks like these should be run on a wide range of machines (not just virtual machines, but I use those purely for convenience).
+
+This code can be found in "commit 095a229":https://github.com/alexyoung/turing.js/tree/a033eecb24fd3953ef952d88aa71432523f461e7.
