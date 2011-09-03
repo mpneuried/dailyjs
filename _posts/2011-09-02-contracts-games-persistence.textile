@@ -1,0 +1,46 @@
+---
+layout: post
+title: "Contracts.coffee, Game Prototyping, Persistence.js"
+author: Alex Young
+categories: 
+- libraries
+- coffeescript
+- games
+- html5
+- mobile
+---
+
+h3. Contracts.coffee
+
+"Contracts.coffee":http://disnetdev.com/contracts.coffee/ (GitHub: "disnet / contracts.coffee":https://github.com/disnet/contracts.coffee) by Tim Disney is a new dialect of CoffeeScript that adds contracts.
+
+bq. Contracts let you clearly express how your code behaves, and free you from writing tons of boilerplate, defensive code.
+
+{% highlight text %}
+// id is a function that should always be called with a number and return a number
+id :: (Num) -> Num
+id = (x) -> x
+{% endhighlight %}
+
+When I first looked at this I thought I was looking at Haskell, and the author points out the similarity:
+
+bq. It looks a lot like types (in fact the syntax looks a lot like Haskell) but unlike types, contracts are enforced at runtime in pure JavaScript.
+
+The "Contracts.coffee":http://disnetdev.com/contracts.coffee/ site includes lots of details on how to get started using the dialect.  I don't usually write CoffeeScript, but this twist on the language is definitely extremely interesting.
+
+h3. TJ Holowaychuk on Game Prototyping
+
+!/images/posts/tjgame.png!
+
+In "Game prototyping with JavaScript & CSS3":http://tjholowaychuk.com/post/9524129814/game-prototyping-with-javascript-css3, TJ talks about game prototyping with CSS3, HTML5, and "move.js":http://visionmedia.github.com/move.js/ (GitHub: "visionmedia / move.js":https://github.com/visionmedia/move.js, License: _MIT_).  TJ discusses how he started writing a game for iOS, moved to Canvas, and then discovered the performance gains of CSS3 and HTML.
+
+He's posted a "game-prototype":https://github.com/visionmedia/game-prototypes to GitHub, and I hope to see more (particularly as he mentions Grim Fandango in his blog post).
+
+h3. Persistence.js
+
+Jacob Mumm emailed us about his experiences using "persistence.js":https://github.com/zefhemel/persistencejs/, an asynchronous ORM mapper by Zef Hemel.  In particular, persistence.js comes with <code>persistence.sync.js</code>, a remote server synchronisation plugin:
+
+bq. persystence.sync.js is a persistence.js plug-in that adds data synchronization with remote servers. It comes with a client-side component (persistence.sync.js) and a sample server-side component (persistence.sync.server.js) for use with node.js. It should be fairly easy to implement server-components using other languages, any contributions there are welcome.
+
+I'd like to write more on mobile sync in the future, as I've done a lot of work on native app syncing (mostly Objective-C), and I've also recently been working with single page client-side apps that sync against remote APIs.  If you're interested in this area, give "persistence.sync.js":https://github.com/zefhemel/persistencejs/blob/master/docs/sync.md a look.
+
