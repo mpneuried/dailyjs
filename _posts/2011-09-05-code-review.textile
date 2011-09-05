@@ -1,0 +1,114 @@
+---
+layout: post
+title: "Code Review: Search"
+author: Alex Young
+categories:
+- code-review
+- language
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+"Search":https://github.com/visionmedia/search by TJ Holowaychuk is a small "ack":http://betterthangrep.com/ inspired utility for searching source code.  I picked this project out in particular because it showcases TJ's nifty "Commander.js":https://github.com/visionmedia/commander.js library and demonstrates how easy it is to build fast command line utilities with Node.
+
+h3. Installation and Usage
+
+Search can be installed with <code>npm install -g search</code>.  This clashes with my "Sphinx":http://sphinxsearch.com/ binaries, so I installed it in <code>~/</code> and set up an alias in my shell.
+
+To use it, navigate to a directory with lots of code and run <code>search text</code>, where <code>text</code> is a case insensitive regular expression.
+
+h3. Structure
+
+Like TJ's other projects, this is distributed with a README, Makefile, history, and all of the code is in <code>bin/search</code>.  I'd argue against putting all of the code in <code>bin/search</code> so I could <code>require</code> core modules elsewhere (potentially making testing easier), but the binary itself could be tested as well.
+
+h3. Set Up
+
+As I mentioned, this project uses Commander.js, which makes setting everything up a breeze:
+
+{% highlight javascript %}
+var program = require('commander')
+  , path = require('path')
+  , join = path.join
+  , fs = require('fs');
+
+// options
+
+program
+  .version('0.0.4')
+  .usage('[options] <query> [path ...]')
+  .option('-H, --hidden', 'search hidden files and directories')
+  .parse(process.argv);
+
+// no args
+
+if (!program.args.length) {
+  process.stdout.write(program.helpInformation());
+  process.exit(0);
+}
+{% endhighlight %}
+
+The chainable API allows everything that describes the program to be described in a concise manner.
+
+Next, the paths and query are processed.  The regular expression is instantiated once for performance reasons:
+
+{% highlight javascript %}
+var query = program.args.shift()
+  , paths = program.args
+  , pending = paths.length
+  , re = new RegExp('(' + query + ')', 'ig');
+{% endhighlight %}
+
+h3. Searching
+
+The main searching code is similar to code I've written a few times for my Node apps, which is one of the reasons I picked this for a code review.  It uses Node's asynchronous file system APIs to recursively walk over each path and their children.  However, the slight twist here is TJ uses <code>Array.prototype.(forEach|filter|map)</code> rather than <code>for</code> loops.  A lot of people use <code>for</code> loops over iterators for performance reasons, reducing scoping complexity, or browser support.  It's worth considering this counter example in terms of readability.
+
+I've added some comments to explain how it works:
+
+{% highlight javascript %}
+function search(path) {
+  // Does this file exist?
+  fs.stat(path, function(err, stat){
+    if (err) throw err;
+     
+    // Is it a directory?
+    if (stat.isDirectory()) {
+      // If it's a directory, remove hidden files using the hidden() function (defined below),
+      // then generate a list of file names with the current path, then run search() again on the resulting paths
+      fs.readdir(path, function(err, files){
+        if (err) throw err;
+        files.filter(hidden).map(function(file){
+          return join(path, file);
+        }).forEach(search);
+      });
+{% endhighlight %}
+
+The next part reads through each file and searches each line for the regular expression.  Output is printed directly with <code>console.log</code>, and colour codes are inserted to make the matches easier to spot.
+
+{% highlight javascript %}
+    } else if (stat.isFile()) {
+      var lines = [];
+      fs.readFile(path, 'utf8', function(err, str){
+        if (err) throw err;
+        str.split('\n').forEach(function(line, i){
+          if (!re.test(line)) return;
+          lines.push([i, line]);
+        });
+
+        if (lines.length) {
+          console.log('\n  \033[36m%s\033[0m', path);
+          lines.forEach(function(line){
+            var i = line[0]
+              , line = line[1];
+            line = line.replace(re, '\033[37;43m$1\033[0;90m');
+            console.log('  \033[90m%d: %s\033[0m', i+1, line);
+          });
+        }
+      });
+{% endhighlight %}
+
+h3. Conclusion
+
+TJ makes writing command line apps look easy.  That's partly because it actually is!  The next time you're itching to solve an interesting console-based problem, try scripting something with Node.  There are lots of projects similar to "Search":https://github.com/visionmedia/search that you can reference to get a head start.
+
