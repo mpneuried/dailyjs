@@ -1,0 +1,44 @@
+---
+layout: post
+title: "jQuery Roundup: 1.6.3, lccache, Storagify"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- localStorage
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.6.3
+
+"jQuery 1.6.3":http://blog.jquery.com/2011/09/01/jquery-1-6-3-released/ has been released, not long after RC1.  This version fixes a much discussed XSS attack, animation browser tab switchiing issues, and better handling of HTML5 attribute names.
+
+h3. lccache
+
+"lccache":https://github.com/JohnMunsch/lccache (License: _Apache 2.0_) by Pamela Fox and John Munsch emulates memcache for client-side caching.  John Munsch's port uses "Lawnchair":http://westcoastlogic.com/lawnchair/ instead of HTML5 Local Storage, which means it should work in older browsers.
+
+The library has three methods: <code>set</code>, <code>get</code> and <code>remove</code>:
+
+{% highlight javascript %}
+//          key,        value,          time/expiration
+lccache.set('greeting', 'Hello World!', 2);
+
+lccache.get('greeting');
+// Returns 'Hello World!'
+
+// Objects can also be stored
+lccache.set('data', { 'greeting': 'Hello World!' }, 2);
+lccache.get('data').greeting;
+{% endhighlight %}
+
+Pamela's real world examples included developing against JSON APIs on unreliable networks.  The most obvious example is a mobile web app.  I'd also consider it for single page apps, because it makes knowing when to refresh data that might change on the server a lot easier.
+
+h3. Storagify
+
+"Storagify":http://ek.alphaschildren.org/resources/jquery-plugins/storagify/ (GitHub: "ekdevdes / Storagify":https://github.com/ekdevdes/Storagify, License: _MIT/GPL_) by Ethan Kramer combines HTML5 <code>contenteditable</code> with Local Storage to make potentially any element editable.  Calling <code>$('selector').storagify('storageKey');</code> makes the element editable, and changes will be visible after a page refresh.
+
+Now imagine combining this with a simple JSON API and you've got yourself a CMS in minutes!
+
