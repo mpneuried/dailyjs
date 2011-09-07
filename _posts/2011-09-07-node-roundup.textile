@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Node Roundup: Node Knockout Winners, readabilitySAX, Browserling's 90 Modules"
+author: Alex Young
+categories: 
+- node
+- modules
+- parsing
+- sax
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node Knockout Winners
+
+!/images/posts/nodeko-2011-1.png!
+
+The "Node Knockout Winners":http://blog.nodeknockout.com/post/9895206272/node-knockout-winners have been announced!
+
+* Overall winner: "Observer":http://observer.no.de/ by "Speedo":http://nodeknockout.com/teams/speedo
+* Popularity: "Driv.in":http://driv.in/ by "Go Horse Brazil":http://nodeknockout.com/teams/go-horse-brazil
+* Utility / Fun: "Doodle or Die":http://doodle.no.de/ by "opower":http://nodeknockout.com/teams/opower
+* Design: "ACROnode.com":http://acronode.com/ by "rochester-js":http://nodeknockout.com/teams/rochester-js
+* Innovation: "Blue GPU Lava":http://minimason.no.de/ by "Minimason":http://nodeknockout.com/teams/minimason
+* Completeness: "Chess@home":http://joshfire.nko2.nodeknockout.com/ by "Joshfire":http://nodeknockout.com/teams/joshfire
+
+The entries this year were extremely diverse and creative.  It's inspiring to see so many entries that are nothing to do with business software or social networks.
+
+h3. readabilitySAX
+
+"readabilitySAX":https://github.com/fb55/readabilitysax (npm: _readabilitySAX_) by Felix Böhm is a port of "Readability":https://www.readability.com that attempts to improve on the direct ports of Readability's JavaScript to Node.  The author claims it's faster (the source includes benchmarks), and uses a SAX parser to handle the required HTML parsing.
+
+The easiest way to see how it works is by looking at this "readabilitySAX jsFiddle example":http://jsfiddle.net/DYE9k/.
+
+And the README includes some benchmark information:
+
+bq. Using a (jsdom cleaned) package of 620 pages from "CleanEval":http://cleaneval.sigwac.org.uk/, readabilitySAX processed all of them in 10874ms, that's an average of 17.5387ms per page. The benchmark was done using <code>benchmark.js</code> and is probably far from perfect.
+
+h3. Browserling: 90 Open Source Node Modules
+
+!/images/posts/browserling90.png!
+
+I enjoyed perusing this list of "90 Node modules written by Browserling":http://www.catonmat.net/blog/browserling-open-sources-90-node-modules/ that includes lots of cool stuff by Peteris Krumins and James Halliday.  If writing Node modules is addictive, then James should definitely see someone!  Or at least take a vacation somewhere sunny.
+
+
