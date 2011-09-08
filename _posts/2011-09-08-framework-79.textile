@@ -1,0 +1,128 @@
+---
+layout: post
+title: "Let's Make a Framework: Ajax Improvements"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- ajax
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+I was impressed by the "Superagent":https://github.com/visionmedia/superagent HTTP library, so I decided to see what improvements I could make to <code>turing.net</code> based on it.  Along the way I found some IE compatibility issues that I hadn't spotted before, and improved the functional testing script.
+
+h3. Response and Requests
+
+Both "Express":http://expressjs.com/ and Superagent pass abstracted response and request objects back to callbacks.  I found the need for this arose when I noticed IE6 didn't like me adding properties to the <code>ActiveXObject</code> it uses to support <code>XMLHttpRequest</code>.  To fix this I decided to take some inspiration from these projects and provide an abstracted response object to callbacks:
+
+{% highlight javascript %}
+var response = {};
+
+response.status = request.status;
+response.responseText = request.responseText;
+if (/json/.test(contentType)) {
+  response.responseJSON = net.parseJSON(request.responseText);
+} else if (/xml/.test(contentType)) {
+  response.responseXML = net.parseXML(request.responseText);
+}
+
+if (successfulRequest(request)) {
+  if (options.success) options.success(response, request);
+  if (promise) promise.resolve(response, request);
+} else {
+  if (options.error) options.error(response, request);
+  if (promise) promise.reject(response, request);
+}
+
+{% endhighlight %}
+
+Now the callbacks get a more friendly response object, as well as the original <code>XMLHttpRequest</code> request object.  The JSON and XML tests were also added here -- previously only JSON was parsed, but I added support for XML as well.
+
+h3. Parsing XML
+
+In "Parsing and serializing XML":https://developer.mozilla.org/en/Parsing_and_serializing_XML on MDN, the following fragment is suggested for parsing XML:
+
+{% highlight javascript %}
+var theString='<a id="a"><b id="b">hey!</b></a>';
+var parser = new DOMParser();
+var dom = parser.parseFromString(theString, "text/xml");
+// print the name of the root element or error message
+dump(dom.documentElement.nodeName == "parsererror" ? "error while parsing" : dom.documentElement.nodeName);
+{% endhighlight %}
+
+The resulting XML isn't parsed into a plain JavaScript <code>Object</code> but a <code>Document</code> instead, which means methods and properties like <code>nodeName</code> are available.
+
+Microsoft's approach is again to use <code>ActiveXObject</code>:
+
+{% highlight javascript %}
+// Instantiate a DOM object at run time.
+var dom = new ActiveXObject("msxml2.DOMDocument.6.0");
+dom.async = false;
+dom.resolveExternals = false;
+dom.loadXML("<a>A</a>");
+{% endhighlight %}
+
+This is from "InstantiateDOM.js at MSDN":http://msdn.microsoft.com/en-us/library/ms764708(v=vs.85).aspx.
+
+I decided to define a <code>parseXML</code> method once based on browser support:
+
+{% highlight javascript %}
+  /**
+    * Parses XML represented as a string.
+    *
+    * @param {String} string The original string
+    * @returns {Object} A JavaScript object
+    */
+  if (window.DOMParser) {
+    net.parseXML = function(text) {
+      return new DOMParser().parseFromString(text, 'text/xml');
+    };
+  } else {
+    net.parseXML = function(text) {
+      var xml = new ActiveXObject('Microsoft.XMLDOM');
+      xml.async = 'false';
+      xml.loadXML(text);
+      return xml;
+    };
+  }
+{% endhighlight %}
+
+To test this, I wrote the following:
+
+{% highlight javascript %}
+'test xml parsing': function() {
+  $t.post('/give-me-xml', {
+    contentType: 'application/xml',
+    success: function(r) {
+      assert.equal('key', r.responseXML.documentElement.nodeName);
+    }
+  });
+}
+{% endhighlight %}
+
+This runs through an Express app, in "test/functional/ajax.js":https://github.com/alexyoung/turing.js/blob/master/test/functional/ajax.js.
+
+h3. Promises
+
+As I mentioned, IE doesn't like modifying the <code>XMLHttpRequest</code> object it provides through ActiveX.  I was setting a <code>then</code> property on request objects to support "promises":http://dailyjs.com/2011/06/02/framework-65/ which was only used because the <code>XMLHttpRequest</code> was being returned from the network-related methods.  To get around the IE issue, I decided just to return an empty object with a <code>then</code> property, so this is still possible:
+
+{% highlight javascript %}
+$t.get('/get-test').then(
+  function(r) { assert.equal('Sample text', r.responseText); },
+  function(r) { assert.ok(false); }
+);
+{% endhighlight %}
+
+I made the documentation slightly ambiguous about what the network methods return because I suspect returning the current <code>turing</code> object to allow other chaining might be more useful.  It currently reads <code>@returns {Object} An object for further chaining with promises</code>, which is what I intended it to do in the first place.
+
+h3. Conclusion
+
+After all that, I never really got to use any of TJ's ideas from Superagent, other than abstracting response objects.  The most important thing to remember when creating cross-browser code is to be careful about extending native objects.  That's a good rule of thumb for JavaScript in general, and I feel doubly embarrassed about doing it in the first place because I've been preaching this for a while!
+
+You can get this week's code in "commit 93a5d75":https://github.com/alexyoung/turing.js/commit/93a5d75338a8422e5a48fa2b5aa80049b1565b27.
