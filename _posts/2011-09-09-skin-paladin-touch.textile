@@ -1,0 +1,39 @@
+---
+layout: post
+title: "Realistic Skin, Swarming Example, Paladin"
+author: Alex Young
+categories: 
+- libraries
+- webgl
+- games
+- graphics
+---
+
+h3. WebGL Materials: Skin
+
+!/images/posts/webgl-materials-skin.png!
+
+This "three.js skin demo":http://alteredqualia.com/three/examples/webgl_materials_skin.html by "AlteredQualia":http://alteredqualia.com/ ("@alteredq":https://twitter.com/#!/alteredq) uses a "skin shader":http://alteredqualia.com/three/examples/js/ShaderSkin.js based on a "GDC 2007 presentation from Nvidia":http://developer.download.nvidia.com/presentations/2007/gdc/Advanced_Skin.pdf and "GPU Gems 3 Chapter 14. Advanced Techniques for Realistic Real-Time Skin Rendering":http://http.developer.nvidia.com/GPUGems3/gpugems3_ch14.html.  It seems to perform very well (I tested it on a fairly lightweight laptop and my desktop).
+
+"Mr.doob":https://twitter.com/#!/mrdoob also tweeted about this "three.js facial rigging demo":http://stickmanventures.com/labs/demo/webgl-threejs-morph-target/.  It's interesting to see techniques from games development cropping up in work by "three.js":https://github.com/mrdoob/three.js/ developers!
+
+h3. Swarming Example
+
+!/images/posts/jsfiddle-swarming.png!
+
+"This jsFiddle swarming demo":http://jsfiddle.net/g105b/Z4TFh/ is interesting because it shows everything used to create the WebGL demo, complete with a panel containing the 3D Canvas results.  I did some digging to find the author and found him on Reddit, here: "Swarms battle":http://www.reddit.com/r/programming/comments/k7ewc/swarms_battle_very_cool_simulation_of_swarms/.
+
+bq. It was meant as an attempt to learn 3d projection, and I just threw in the swarming for fun, and then some lasers, and then some explosions.
+
+He says he adapted 2D swarming code and searched around online for the appropriate specs to get the drawing code working.
+
+h3. Paladin
+
+"Paladin":https://wiki.mozilla.org/Paladin (GitHub: "alankligman / paladin":https://github.com/alankligman/paladin, "License":https://github.com/alankligman/paladin/blob/master/LICENSE) by Alan Kligman and Mozilla is "Mozilla's movement to provide open source gaming technology for the web":
+
+bq. Paladin sits at the intersection of 3D gaming, JavaScript framework and library development, and the browser. We're tied into the bits of the web that are up-and-coming, and are working to weaponize them for gaming. Where the web is missing critical gaming support, we aim to fill those gaps by adding new browser APIs, enhancing existing ones, and building technologies on top of the web..
+
+This includes libraries for 3D graphics, sound, and user input APIs for joysticks and mice.  Actually, they'd probably be better off referencing "gamepads" seeing as the 360 pad seems to popular amongst modern PC gamers.  Even though the project is at an early stage there's already a lot of code, complete with qunit tests.
+
+There's also a project called "RescueFox":https://github.com/mozilla/rescuefox which is a demo game that they hope will inspire other developers to build things with Paladin.  And, before I forget, it seems like "Paladin" is only the work-in-progress name, so keep an eye on the "Mozilla Paladin Wiki":https://wiki.mozilla.org/Paladin to keep track of future developments.
+
