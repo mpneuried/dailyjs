@@ -1,0 +1,76 @@
+---
+layout: post
+title: "JavaScript Destructuring Assignment"
+author: Alex Young
+categories: 
+- language
+- TC39
+---
+
+On following the commentary around "My TXJS Talk":http://brendaneich.com/2011/08/my-txjs-talk-twitter-remix/ by Brendan Eich, I noticed a debate on Twitter between "@brendaneich":https://twitter.com/#!/brendaneich and several developers about one particular facet in the talk: destructuring.  I wanted to take a look a this area and give some examples that illustrate why it might be useful to JavaScript developers in general.
+
+Is destructuring an unnecessary language feature that just lets us swap values, or is there more to it?
+
+h3. What is Destructuring?
+
+Many languages include pattern matching features that make pattern matching more expressive and concise.  Pattern matching just means the ability to check a sequence of things for a given pattern; regular expressions are an obvious example.  Functional languages include other pattern matching features, and one is called destructuring.  Common Lisp includes a <code>destructuring-bind</code> macro, and there's an example of this in "On Lisp":http://www.paulgraham.com/onlisptext.html by Paul Graham in "Destructuring on Lists":http://dunsmor.com/lisp/onlisp/onlisp_22.html.
+
+In Clojure, <code>let</code> supports abstract structural binding:
+
+{% highlight text %}
+(let [[a b] [1 2 3]]
+  (println "a:" a " b:" b))
+{% endhighlight %}
+
+This will print "a: 1  b: 2".  In Lisp it's easy to see why destructuring is useful because the language is based around lists, and it has so many useful tools for dealing with them.
+
+h3. In JavaScript
+
+As "JavaScript 1.7":https://developer.mozilla.org/en/new_in_javascript_1.7 destructuring assignment is supported.  That means you can use it in Mozilla's interpreters and Firefox 2+.  The canonical example is value swapping:
+
+{% highlight javascript %}
+var a = 1, b = 2;
+[a, b] = [b, a];
+// a = 2, b = 1
+{% endhighlight %}
+
+That's not particularly exciting unless you need to swap around lots of values, but what might be convenient for some APIs is the implications it has for return values:
+
+{% highlight javascript %}
+function f() {
+  return [1, 2];
+}
+
+var a, b;
+[a, b] = f();
+{% endhighlight %}
+
+That's potentially useful, but also potentially confusing.  Do we really need destructuring assignment?  Well, let's think about it in the context of Lisp again.  What makes destructuring useful in Lisp-like languages is dealing with lisps.  Similarly, in JavaScript the <code>Object</code> unlocks a great deal of power and flexibility.
+
+Destructuring assignment in the context of <code>Object</code> gives rise to this:
+
+{% highlight javascript %}
+var o = { name: 'Alex', permissions: 'Admin', email: 'alex@example.com' };
+var {name, email} = o;
+{% endhighlight %}
+
+That sets a variable called <code>name</code> to <code>'Alex'</code> and one called <code>email</code> to <code>alex@example.com</code>.  Imagine combining this with iterations over JSON returned from an API, and it should be obvious where a lot of unnecessarily verbose code can be made more concise.
+
+h3. Further Reading
+
+This is a basic Destructuring Assignment 101 lesson, but as I intimated in the last paragraph, destructuring assignment can be useful in a wider range of situations.  To read more, specifically about JavaScript destructuring, have a look at these pages:
+
+* "Harmony: Destructuring":http://wiki.ecmascript.org/doku.php?id=harmony:destructuring
+* "New in JavaScript 1.7":https://developer.mozilla.org/en/new_in_javascript_1.7
+* "Destructuring Assignment in CoffeeScript":http://jashkenas.github.com/coffee-script/#destructuring
+
+h3. Related Topics in Other Languages
+
+* Haskell: "Irrefutable Patterns":http://www-users.cs.york.ac.uk/~mfn/hacle/issues/node3.html
+* "Points in the Pattern Matching Design Space":http://lambda-the-ultimate.org/node/4187
+* "Lisp Destructuring":http://dunsmor.com/lisp/onlisp/onlisp_22.html
+* "More Lisp Destructuring Examples":http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node252.html
+* "Clojure's Special Forms":http://clojure.org/special_forms (includes destructuring examples)
+* "Run Time Pattern Matching":http://www.phyast.pitt.edu/~micheles/scheme/scheme15.html
+* "Destructuring in Ruby":http://tony.pitluga.com/2011/08/08/destructuring-with-ruby.html
+
