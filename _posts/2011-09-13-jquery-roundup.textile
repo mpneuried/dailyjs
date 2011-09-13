@@ -1,0 +1,58 @@
+---
+layout: post
+title: "jQuery Roundup: 1.6.4, BoltJS, Kendo UI"
+author: Alex Young
+categories: 
+- jquery
+- frameworks
+- ui
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.6.4
+
+"jQuery 1.6.4":http://blog.jquery.com/2011/09/12/jquery-1-6-4-released/ is out already!  This version fixes issues discovered in the last release:
+
+* "#10194":http://bugs.jquery.com/ticket/10194 - Data attribute names with single dash-surrounded letters cannot be accessed by the camel-case name
+* "#10208":http://bugs.jquery.com/ticket/10208 - <code>$("form").live("submit", fn)</code> not fired from <code><button type="submit"></code> in IE8
+* "#10197":http://bugs.jquery.com/ticket/10197 - Bug with mime-type <code>application/xhtml+xml</code> in jquery 1.6.3
+
+h3. BoltJS
+
+"BoltJS":http://shaneosullivan.github.com/boltjs/ (GitHub: "shaneosullivan / boltjs":https://github.com/shaneosullivan/boltjs, License: _MIT_) by Shane O'Sullivan (and Facebook apparently) is a client-side framework built on "Javelin":http://javelinjs.com and CommonJS modules.  It makes it possible to compose complex widgets from other widgets, then synchronise their data models.  To do this, several core modules are used:
+
+* "Builder":http://shaneosullivan.github.com/boltjs/view_building.html - for managing views based on JSON data
+* "Layout Views":http://shaneosullivan.github.com/boltjs/view_layouts.html - includes horizontal and vertical view abstractions, implemented with the "CSS Flex Box Model":http://www.w3.org/TR/css3-flexbox
+* "Binding Models To Views":http://shaneosullivan.github.com/boltjs/model_binding.html - a "data binding" framework
+
+h3. Kendo UI
+
+!/images/posts/kendoui.png!
+
+"Kendo UI":http://www.kendoui.com/ ("License":http://www.kendoui.com/download/licenseagreement.aspx?skuId=436) by Telerik Inc. is a new HTML5 UI framework that's built on jQuery.  The core framework includes a <code>DataSource</code> component for using local or remote data that supports CRUD operations, and can be bound to UI widgets.  Templates are another core feature, and it's claimed they're extremely fast.  Kendo UI also supports a strong set of UI widgets and tools for building mobile web apps.
+
+The "TreeView":http://demos.kendoui.com/treeview/index.html, "Upload":http://demos.kendoui.com/upload/index.html, and "Splitter":http://demos.kendoui.com/splitter/index.html widgets caught my eye as I looked through the documentation -- particularly the Splitter, as it's something I've often been tasked to build and felt was missing from jQuery UI.
+
+Kendo UI's widgets are instantiated and configured the same way as any jQuery plugin.  The "widget client object" can be accessed using <code>data()</code>:
+
+{% highlight javascript %}
+var grid = $('#grid').data('kendoGrid');
+{% endhighlight %}
+
+Events can be bound through widget initialization or using <code>bind</code>:
+
+{% highlight javascript %}
+$('#search').kendoAutoComplete({
+  dataSource: data,
+  change: onChange,
+  close: onClose,
+  open: onOpen
+});
+
+var autoComplete = $('#search').data('kendoAutoComplete');
+autoComplete.bind('change', onChange);
+{% endhighlight %}
+
