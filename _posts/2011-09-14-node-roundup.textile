@@ -1,0 +1,97 @@
+---
+layout: post
+title: "Node Roundup: NodObjC, SockJS, French Node Blog"
+author: Alex Young
+categories: 
+- node
+- modules
+- libraries
+- websockets
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. NodObjC
+
+"NodObjC":https://github.com/TooTallNate/NodObjC (npm: _NodObjC_) by Nathan Rajlich is an Objective-C bridge:
+
+bq. It uses the <code>BridgeSupport</code> files to dynamically generate an API from an Objective-C "Framework", and uses node-ffi to dynamically interact with the Objective-C runtime.
+
+If you're an Objective-C developer, then you should be able to follow this basic app structure:
+
+{% highlight javascript %}
+var $ = require('NodObjC')
+
+// First you need to "import" the Framework
+$.import('Foundation')
+
+// Setup the recommended NSAutoreleasePool instance
+var pool = $.NSAutoreleasePool('alloc')('init')
+
+// NSStrings and JavaScript Strings are distinct objects, you must create an
+// NSString from a JS String when an Objective-C class method requires one.
+var string = $.NSString('stringWithUTF8String', 'Hello Objective-C World!')
+
+// Print out the contents (calling [string description])
+console.log(string)
+//   → Prints "Hello Objective-C World!"
+
+pool('drain')
+{% endhighlight %}
+
+Sending messages to objects looks like this: <code>obj('func', arg)</code>.  So a call like <code>[array insertObject:obj atIndex:5];</code> would be written as <code>array('insertObject', obj, 'atIndex', 5)</code>.
+
+This means Apple's native APIs are accessible from Node, so you could create GUI apps for Mac OS.  There are examples out there of GUI code already: "cocoa-hello-world2.js":https://gist.github.com/1204212.
+
+h3. SockJS
+
+"SockJS":https://github.com/majek/sockjs-client (License: _MIT_) is a WebSocket emulation library that attempts to provide simple APIs for both server and clients, while remaining as close to the WebSocket API as possible.  It's designed to work from behind restrictive corporate proxies, and browsers that don't support WebSocket.  The project includes the server-side library, "sockjs-node":https://github.com/majek/sockjs-node and client-side: "sockjs-client":https://github.com/majek/sockjs-client.
+
+Using sockets in the browser looks like this:
+
+{% highlight javascript %}
+var sockjs = new SockJS('http://mydomain.com/my_prefix');
+sockjs.onopen = function() {
+  console.log('open', e.data);
+};
+sockjs.onmessage = function(e) {
+  console.log('message', e.data);
+};
+sockjs.onclose = function(e) {
+  console.log('close', e.data);
+};
+{% endhighlight %}
+
+To me this looks like the current draft of the WebSocket spec (Editor's Draft 10 September 2011):
+
+{% highlight javascript %}
+var socket = new WebSocket('ws://game.example.com:12010/updates');
+socket.onopen = function() {
+  setInterval(function() {
+    if (socket.bufferedAmount == 0)
+      socket.send(getUpdateData());
+  }, 50);
+};
+{% endhighlight %}
+
+This is different to "Socket.IO":http://socket.io/:
+
+{% highlight javascript %}
+var socket = io.connect('http://localhost');
+socket.on('news', function (data) {
+  console.log(data);
+  socket.emit('my other event', { my: 'data' });
+});
+{% endhighlight %}
+
+There's a detailed article about the library on RabbitMQ's blog: "SockJS - WebSocket emulation":http://www.rabbitmq.com/blog/2011/09/13/sockjs-websocket-emulation/ and it includes details on how SockJS can be used with load balancing.
+
+One interesting detail I noticed in the project README is it falls over to polling rather than Flash:
+
+bq. No Flash inside (no need to open port 843 - which doesn't work through proxies, no need to host 'crossdomain.xml', no need to wait for 3 seconds in order to detect problems)
+
+h3. French Node Blog
+
+Vincent Rabah emailed us to share his French Node blog: "IT Wars: Node articles":http://www.it-wars.com/categorie8/dev.  He's got articles covering Socket.IO, Twitter, Vim, Windows, and a variety of other topics including log monitoring.
