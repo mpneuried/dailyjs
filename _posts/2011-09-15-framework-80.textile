@@ -1,0 +1,148 @@
+---
+layout: post
+title: "Let's Make a Framework: Ajax Improvements"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- ajax
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+h3. API Redesign
+
+As I mentioned last week, I thought it would be interesting to change the <code>turing.net</code> module to have a chained API that looks more like TJ Holowaychuk's "Superagent":https://github.com/visionmedia/superagent library.  Part of the reason for doing this is to again demonstrate how easy it is to make a simple and consistent chained API with JavaScript.  However, TJ's reasoning behind Superagent's design is worth thinking about, because he makes some good points about the inconsistencies found in many modern frameworks.
+
+jQuery's API generally looks like this:
+
+{% highlight javascript %}
+$.get('/user/1', function(data, textStatus, xhr) {
+  // Callback manages result
+});
+{% endhighlight %}
+
+TJ argued that reducing the arity in the callback would make it more friendly:
+
+{% highlight javascript %}
+request.get('/user/1', function(res) {
+  // The abstracted `res` object contains status code, result data, etc.
+});
+{% endhighlight %}
+
+The <code>res</code> object neatly encapsulates everything you need to deal with the server's response.
+
+Another issue is any configuration requires falling back to the full-blown <code>$.ajax()</code> method.  And, much like my initial Turing design, we end up with calls like this:
+
+{% highlight javascript %}
+$.ajax({
+  url: '/api/pet',
+  type: 'POST',
+  data: { name: 'Manny', species: 'cat' },
+  headers: { 'X-API-Key': 'foobar' }
+}).success(function(res) {
+
+}).error(function() {
+
+});
+{% endhighlight %}
+
+Whenever you're designing a JavaScript API and you find yourself creating large configuration options, it's often worth sketching out what a chained API would look like.  I agree with TJ's example that this looks better:
+
+{% highlight javascript %}
+request
+  .post('/api/pet')
+  .data({ name: 'Manny', species: 'cat' })
+  .set('X-API-Key', 'foobar')
+  .set('Accept', 'application/json')
+  .end(function(res) {
+
+  });
+{% endhighlight %}
+
+Rather than providing two callbacks, users of the library can process <code>res</code> however they wish.  They don't depend on the framework's interpretation of HTTP status codes.
+
+h3. Tests
+
+To convert Turing's API to a Superagent-inspired chained API, I started by writing tests based on my idealised API:
+
+{% highlight javascript %}
+$t.post('/post-test')
+  .data({ key: 'value' })
+  .end(function(res) {
+    assert.equal('value', res.responseText);
+  });
+{% endhighlight %}
+
+Compare that to the old style:
+
+{% highlight javascript %}
+$t.post('/post-test', {
+  postBody: { key: 'value' },
+  success: function(r) {
+    assert.equal('value', r.responseText);
+  },
+  error: function() {
+    assert.ok(false);
+  }
+});
+{% endhighlight %}
+
+h3. Chains
+
+The network methods call and return an internal method, <code>ajax</code>.  This was returning an object for chaining <code>then</code> (the promise API), so I extended it:
+
+{% highlight javascript %}
+function ajax(url, options) {
+  var chain = {};
+
+  // All the old ajax stuff goes here
+
+  chain = {
+    set: function(key, value) {
+      options.headers[key] = value;
+      return chain;
+    },
+
+    send: function(data, callback) {
+      options.postBody = net.serialize(data);
+      options.callback = callback;
+      send();
+      return chain;
+    },
+
+    end: function(callback) {
+      options.callback = callback;
+      send();
+      return chain;
+    },
+
+    data: function(data) {
+      options.postBody = net.serialize(data);
+      return chain;
+    },
+
+    then: function() {
+      chain.end();
+      if (promise) promise.then.apply(promise, arguments);
+      return chain;
+    }
+  };
+
+  return chain;
+}
+{% endhighlight %}
+
+As with all chained APIs, the trick is to just return an object with the expected methods.  Here I return the same object from each method.  The only other things I had to change were to make <code>respondToReadyState</code> always call <code>options.callback</code> if present (else it looks for success/error callbacks from the promise API or old style API), and I made <code>net.serialize</code> cope with strings.
+
+h3. Conclusion
+
+As we've seen before in this series, implementing chainable APIs is pretty easy.  In this case, a chainable network API seems a lot cleaner than large configuration objects
+
+These changes can be reviewed in "commit 5263c6c":https://github.com/alexyoung/turing.js/commit/5263c6ca5418761f25b6025cc53229f6591f01ae.
+
