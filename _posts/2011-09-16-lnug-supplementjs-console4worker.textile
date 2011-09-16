@@ -1,0 +1,60 @@
+---
+layout: post
+title: "LNUG, Supplement.js, console4worker"
+author: Alex Young
+categories: 
+- libraries
+- events
+- webworkers
+---
+
+h3. LNUG
+
+The "London Node.js User Group":http://lnug.org/ occurs on the last Wednesday of every month, in Camden.  This month's event is on the 28th of September at 6pm, and has four talks scheduled:
+
+* Tom Hall - Webscaling With Node.js
+* Andy Kent - Streaming Analytics and Node.js
+* Rob Tweed - The Globals Database: It's Significance To Developers
+* Garren Smith - These are the ORMs you are looking for
+
+There's a Google Group for keeping up to date with the group: "LNUG Google Group":https://groups.google.com/group/lnug?pli=1.
+
+h3. Supplement.js
+
+"Supplement.js":http://supplementjs.com/ (GitHub: "olivernn / supplement.js":https://github.com/olivernn/supplement.js) by Oliver Nightingale adds extensions to built-in types:
+
+bq. [Supplement.js is] a small collection of utility functions to make working with JavaScript that much sweeter and more expressive.  Responsibly adds extensions to built in types.
+
+There are some nice functional style methods, like <code>Array.prototype.head</code>, <code>Array.prototype.tail</code>, <code>Array.prototype.take</code>, and a lot of functions you probably use from "Underscore.js":http://documentcloud.github.com/underscore/.
+
+The <code>Function</code> extensions are interesting too: <code>Function.prototype.throttle</code> for example returns a function that will only execute once every <code>n</code> milliseconds.
+
+h3. console4Worker
+
+"console4Worker":http://blog.jetienne.com/blog/2011/09/12/console4worker/ (GitHub: "jeromeetienne / console4Worker":https://github.com/jeromeetienne/console4Worker, License: _MIT_) by Jerome Etienne helps debug WebWorkers by making <code>console.log</code> (and other <code>console</code> methods) work inside workers in browsers that don't yet support this.
+
+Some configuration within each worker is required first:
+
+{% highlight javascript %}
+importScripts('console4Worker-worker.js');
+console.log("console call made from inside a webworker");
+{% endhighlight %}
+
+Then on the actual page:
+
+{% highlight javascript %}
+// init the worker
+var worker  = new Worker("worker.js");
+// bind the console4Worker to get console API from worker
+console4Worker.bind(worker);
+
+worker.addEventListener('message', function(event) {
+  // filter this event if it is from console4Worker
+  if (console4Worker.filterEvent(event)) {
+    return;
+  }
+
+  // ... here handle your own events
+}, false);
+{% endhighlight %}
+
