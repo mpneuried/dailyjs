@@ -1,0 +1,148 @@
+---
+layout: post
+title: "Code Review: EventEmitter2"
+author: Alex Young
+categories:
+- code-review
+- node
+- events
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+A few weeks ago I was working on the deceptively simple problem of writing a custom events library for the _Framework_ series in "Custom Events":http://dailyjs.com/2011/06/30/framework-69/.  The "EventEmitter2":https://github.com/hij1nx/EventEmitter2 module is an interesting alternative to Node's EventEmitter, which adds a few novel features to this problem space.
+
+h3. About EventEmitter2
+
+"EventEmitter2":https://github.com/hij1nx/EventEmitter2 (License: _MIT_, npm: _eventemitter2_) by hij1nx is an alternative to EventEmitter that adds several unique features:
+
+* Namespaces
+* Wildcards
+* A <code>many</code> method, which is similar to <code>once</code>
+* Browser compatibility
+* Performance improvements over EventEmitter
+
+h3. Usage
+
+Usage is basically the same as "EventEmitter":http://nodejs.org/docs/v0.4.12/api/events.html#events.EventEmitter.  The constructor takes a configuration object, where the namespace delimiter can be changed:
+
+{% highlight javascript %}
+var server = EventEmitter2({
+    wildcard: true
+  , delimiter: '::'
+  , maxListeners: 20
+});
+{% endhighlight %}
+
+The <code>many</code> method sounds a little bit confusing at first, but all it does is fires an event several times and then removes it:
+
+{% highlight javascript %}
+server.many('quad hello', 4, function() {
+  console.log('hello');
+});
+{% endhighlight %}
+
+h3. Structure
+
+EventEmitter2 is distributed as a Node module with a detailed package.json and tests.  The main library file, "lib/eventemitter2.js":https://raw.github.com/hij1nx/EventEmitter2/master/lib/eventemitter2.js contains all of the source in a self-executing anonymous function so browsers can be catered for:
+
+{% highlight javascript %}
+;!function(exports, undefined) {
+  // source goes here
+
+  exports.EventEmitter2 = EventEmitter;
+}(typeof exports === 'undefined' ? window : exports);
+{% endhighlight %}
+
+An <code>inArray</code> method is also defined for browser support:
+
+{% highlight javascript %}
+var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
+  return Object.prototype.toString.call(obj) === "[object Array]";
+};
+{% endhighlight %}
+
+Other than that the library's overall structure should look familiar to anyone who's heavily used EventEmitter.
+
+h3. Configuration
+
+I thought it was interesting how configuration is removed from the constructor:
+
+{% highlight javascript %}
+function configure(conf) {
+
+  if (conf) {
+    this.wildcard = conf.wildcard;
+    this.delimiter = conf.delimiter || '.';
+
+    if (this.wildcard) {
+      this.listenerTree = new Object;
+    }
+  }
+}
+
+function EventEmitter(conf) {
+  this._events = new Object;
+  configure.call(this, conf);
+}
+{% endhighlight %}
+
+Presumably this is to differentiate between constructor initialisation and setting configuration value defaults.
+
+h3. Similarities to EventEmitter
+
+I noticed a few familiar techniques from EventEmitter, like this optimisation from when events are added:
+
+{% highlight javascript %}
+if (!this._events[type]) {
+  // Optimize the case of one listener. Don't need the extra array object.
+  this._events[type] = listener;
+}
+{% endhighlight %}
+
+And the listener leak protection is the same too:
+
+{% highlight javascript %}
+// Check for listener leak
+if (!this._events[type].warned) {
+
+var m;
+if (this._events.maxListeners !== undefined) {
+  m = this._events.maxListeners;
+} else {
+  m = defaultMaxListeners;
+}
+
+if (m && m > 0 && this._events[type].length > m) {
+
+  this._events[type].warned = true;
+  console.error('(node) warning: possible EventEmitter memory ' +
+                'leak detected. %d listeners added. ' +
+                'Use emitter.setMaxListeners() to increase limit.',
+                this._events[type].length);
+  console.trace();
+}
+{% endhighlight %}
+
+h3. Wildcard Support
+
+When wildcard support is enabled, two methods are used: <code>searchListenerTree</code> and <code>growListenerTree</code>.  EventEmitter2 uses an object to hold "branches" for namespaces so they can be recursively searched.
+
+When adding an event, <code>growListenerTree</code> is called with the event name and the listener function.  The event name is <code>split</code> based on the configured delimiter.  Each part of the event name is removed from an array, and a tree is built up as required.  The leaves are the listener functions.
+
+Just like the EventEmitter optimisation, if there's only one handler it's stored as a function, else an array of functions is used.  The <code>growListenerTree</code> function will return <code>true</code>, but the return value is never used.
+
+h3. Tests
+
+The tests include a benchmark to compare against <code>EventEmitter</code>, and this uses the "Benchmark.js":http://benchmarkjs.com/ library that we seem to keep referencing on DailyJS lately.  The rest of the tests are split into "simple" and "wildcardEvents", because EventEmitter2 uses very different code if wildcards are required.
+
+These tests use good ol' "nodeunit":https://github.com/caolan/nodeunit, and use <code>test.expect</code> to ensure the correct number of assertions are run per-test.
+
+h3. Conclusion
+
+Comparing EventEmitter2 to the original EventEmitter is interesting, because it shows how adding a seemingly simple feature like namespaces requires a very different approach.
+
+The original thread on the nodejs group where hij1nx came up with EventEmitter2 is here: "Namespaced EventEmitters?":http://groups.google.com/group/nodejs/browse_thread/thread/915f89a540e93cfc/, and you can see the comments that influenced the fundamental separation of simple and wildcard/namespaced events.
+
