@@ -1,0 +1,81 @@
+---
+layout: post
+title: "jQuery Roundup: jquery-expander, Marco Polo, Manifest, CacheProvider"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- ui
+- localStorage
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jquery-expander
+
+"The Expander Plugin":https://github.com/kswedberg/jquery-expander (License: _MIT_ and _GPL_) by Karl Swedberg can collapse part of an element's content and add 'read more' links.  Truncation is based on characters, and this can be changed along with many other things when invoking the plugin:
+
+{% highlight javascript %}
+$(selector).expander({
+  slicePoint: 100
+, preserveWords: true
+, expandText: 'read more'
+, expandPrefix: '&hellip; '
+});
+{% endhighlight %}
+
+h3. Marco Polo
+
+!/images/posts/marco-polo.png!
+
+"Marco Polo":https://github.com/jstayton/jquery-marcopolo (License: _MIT_, "demo":http://justinstayton.com/jquery-marcopolo/) by Justin Stayton is an autocomplete plugin with some interesting features:
+
+* Prevents unnecessary requests using a cache
+* Automatic selection, in a similar fashion to <code>select</code> inputs
+* Require selections
+* Supports large text through overlabel support
+* Easy styling
+* Event-based, with public access
+
+These features are documented in the "Marco Polo wiki":https://github.com/jstayton/jquery-marcopolo/wiki.  This simple example demonstrates how results can be obtained and formatted:
+
+{% highlight javascript %}
+$('#userSearch').marcoPolo({
+  url: '/users/search',
+  formatItem: function(data, $item) {
+    return data.first_name + ' ' + data.last_name;
+  },
+  onSelect: function(data, $item) {
+    window.location = data.profile_url;
+  }
+});
+{% endhighlight %}
+
+h3. Manifest
+
+!/images/posts/jquery-manifest.png!
+
+"Manifest":https://github.com/jstayton/jquery-manifest (License: _MIT_, "examples":http://justinstayton.com/jquery-manifest/) also by Justin Stayton enhances text inputs so multiple items can be selected and edited.  The API is very consistent with Marco Polo, and Manifest can take a <code>marcoPolo</code> object if autocomplete functionality is required.
+
+{% highlight javascript %}
+$('#recipients').manifest({
+  marcoPolo: {
+    url: '/contacts/search',
+    formatItem: function(data) {
+      return '"' + data.name + '" (' + data.email + ')';
+    }
+  }
+});
+{% endhighlight %}
+
+The author also points out how these plugins differ from the popular "Chosen":http://harvesthq.github.com/chosen/ plugin:
+
+bq. If you want to make a select element with a lot of options more user-friendly, use Chosen. If you can't reasonably list out every possible option (like all users in a system), or you need to allow arbitrary values (like new tags), use Manifest.
+
+h3. CacheProvider
+
+Felipe Abreu sent us a client-side caching library called "CacheProvider":https://github.com/coisa/CacheProvider (License: _MIT_).  He hasn't yet written a README, but the most of the methods in the "CacheProvider source":https://github.com/coisa/CacheProvider/blob/master/src/cache.js are nicely commented so it's easy to follow how it works.
+
+It's a continuation of the "JavaScript Cache Provider":http://www.dustindiaz.com/javascript-cache-provider class by Dustin Diaz.  Like Diaz's class, CacheProvider will use <code>localStorage</code> if available.
