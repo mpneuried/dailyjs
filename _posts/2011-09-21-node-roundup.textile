@@ -1,0 +1,93 @@
+---
+layout: post
+title: "Node Roundup: Celeri, Strata, Node ACL"
+author: Alex Young
+categories: 
+- node
+- modules
+- cli
+- express
+- middleware
+- frameworks
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Celeri
+
+!/images/posts/celeri.png!
+
+"Celeri":https://github.com/spiceapps/celeri by Craig Condon is a command line library with lots of useful features:
+
+* Argument parsing
+* History
+* Progress bars
+* Busy spinner
+* Masked password input
+* Confirmation and prompts
+* Tables
+
+The API is based around events:
+
+{% highlight javascript %}
+var celeri = require('celeri');
+
+celeri.on('hello :name', function(data) {
+  console.log('Hello %s!', data.name); 
+});
+
+celeri.open();
+celeri.parse(process.argv);
+{% endhighlight %}
+
+There are examples available on GitHub that demonstrate the main features of the library.  The API is a lot different to "Commander.js":https://github.com/visionmedia/commander.js which I posted about recently, but the feature set is slightly different.  However, the Commander.js authors have also written several other userful CLI libraries (which TJ links to in the Commander.js documentation).
+
+h3. Strata
+
+"Strata":http://stratajs.org/ (GitHub: "mjijackson / strata":https://github.com/mjijackson/strata, License: _MIT_, npm: _strata_) is a Node web framework inspired by WSGI/Rack instead of the popular "Connect middleware framework":http://senchalabs.github.com/connect/.  Strata includes a "specification":https://github.com/mjijackson/strata/blob/master/SPEC that can be enforced by using the <code>strata.lint</code> middleware.
+
+On the surface Strata looks like Express, but it's actually quite different:
+
+{% highlight javascript %}
+var strata = require('strata')
+  , redirect = strata.redirect
+  , app = new strata.Builder;
+
+app.use(strata.commonLogger);
+app.use(strata.contentType);
+app.use(strata.contentLength);
+app.use(strata.sessionCookie);
+
+app.get('/', function(env, callback) {
+  callback(200, {}, 'Friends, help! A guinea pig tricked me!');
+});
+
+app.get('/redir', function(env, callback) {
+  env.session = {}; 
+  redirect(env, callback, '/');
+});
+
+module.exports = app;
+{% endhighlight %}
+
+There's a lively debate "about the Strata framework at Hacker News":http://news.ycombinator.com/item?id=3021564.
+
+h3. Node ACL
+
+"Node ACL":https://github.com/OptimalBits/node_acl (License: _MIT_, npm: _acl_) by Manuel Astudillo is an ACL implementation using Redis.  It includes support for users, roles, hierarchies, resources, and Express middleware.
+
+Granting administrator privileges might look like this in your application:
+
+{% highlight javascript %}
+acl = new acl(redisClient);
+acl.allow('admin', ['blogs', 'forums'], '*');
+{% endhighlight %}
+
+Express routes and resources can make use of <code>acl.middleware()</code>:
+
+{% highlight javascript %}
+app.put('/route', acl.middleware(), function(req, res, next) {
+});
+{% endhighlight %}
