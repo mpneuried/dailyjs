@@ -1,0 +1,52 @@
+---
+layout: post
+title: "WebGL Examples, Backbone Forms, Third-Party JavaScript"
+author: Alex Young
+categories: 
+- webgl
+- backbone
+- forms
+- books
+---
+
+h3. WebGL Examples
+
+!/images/posts/cycleblob.png!
+
+I found this collection of "WebGL examples":http://www.ibiblio.org/e-notes/webgl/webgl.htm at "ibiblio.org":http://www.ibiblio.org that includes a few things I haven't seen before, particularly "Cycleblob":http://cycleblob.com/ which is an interesting take on the Tron light cycles concept.
+
+h3. Backbone Forms
+
+"Backbone Forms":https://github.com/powmedia/backbone-forms is a form framework for "Backbone.js":http://documentcloud.github.com/backbone/ with some advanced features like nested forms, and it even comes with CSS for styling fields.
+
+This library makes it possible to automatically generate forms based on model instances:
+
+{% highlight javascript %}
+var form = new Backbone.Form({
+  model: users.get(userId)
+}).render();
+{% endhighlight %}
+
+If a model isn't available, a <code>Backbone.Form</code> can be instantiated using <code>data</code> and <code>schema</code> properties:
+
+{% highlight javascript %}
+new Backbone.Form({
+  data: { id: 123, name: 'Rod Kimble', password: 'cool beans' },
+  schema: {
+    id:       { type: 'Number' },
+    name:     {},
+    password: { type: 'Password' }
+  }
+}).render();
+{% endhighlight %}
+
+The source is documented and the README has enough examples to get started.
+
+h3. Third-Party JavaScript
+
+"Third-Party JavaScript":http://thirdpartyjs.com/ by Ben Vinegar and Anton Kovalyov (both from Disqus) is a book about the art of third-party scripting -- writing JavaScript intended to be executed on a remote site.  It's aimed at intermediate developers, and covers distributing and loading applications, server communication, cross-domain iframe messaging, rendering HTML and CSS, authentication, security, and performance.  Considering the authors work at Disqus it seems like a potentially essential book on the subject.
+
+The book will be published by Manning, and an "early access" edition can be purchased from $35.99.  Three chapters are available so far, and the example source code is on GitHub at "benvinegar / thirdpartyjs-code":https://github.com/benvinegar/thirdpartyjs-code.  The first chapter is available for free: "Introduction to Third-Party JavaScript":http://manning.com/vinegar/TPJS_meap_ch01.pdf (PDF).
+
+To pre-order the book, visit "Third-Party JavaScript at Manning's site":http://manning.com/vinegar/.
+
