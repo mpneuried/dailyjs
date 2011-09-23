@@ -17,7 +17,7 @@ I found this collection of "WebGL examples":http://www.ibiblio.org/e-notes/webgl
 
 h3. Backbone Forms
 
-"Backbone Forms":https://github.com/powmedia/backbone-forms is a form framework for "Backbone.js":http://documentcloud.github.com/backbone/ with some advanced features like nested forms, and it even comes with CSS for styling fields.
+"Backbone Forms":https://github.com/powmedia/backbone-forms by Charles Davison is a form framework for "Backbone.js":http://documentcloud.github.com/backbone/ with some advanced features like nested forms, and it even comes with CSS for styling fields.
 
 This library makes it possible to automatically generate forms based on model instances:
 
