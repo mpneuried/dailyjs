@@ -1,0 +1,200 @@
+---
+layout: post
+title: "Run a Node PostgreSQL App on Heroku"
+author: Alex Young
+categories: 
+- databases
+- heroku
+- node
+---
+
+I really like the "pg":https://github.com/brianc/node-postgres PostgreSQL library by Brian Carlson, and considering the amount of attention we've given to Redis and MongoDB on DailyJS I thought it was time to give relational databases some coverage again.
+
+Heroku is one of many services that supports Node.  This tutorial will demonstrate how easy it is to get a simple "Express":http://expressjs.com/ and "pg":https://github.com/brianc/node-postgres app running.
+
+This tutorial is based on the following documentation:
+
+* "Getting Started With Node.js on Heroku/Cedar":http://devcenter.heroku.com/articles/node-js
+* "Heroku Database FAQ":http://devcenter.heroku.com/articles/database#frequently-asked-questions
+* "pg's Documentation":https://github.com/brianc/node-postgres
+* "pg's Example App":https://github.com/brianc/node-postgres/wiki/Example
+
+The files for this tutorial can be found here: "alexyoung / dailyjs-heroku-postgres":https://github.com/alexyoung/dailyjs-heroku-postgres.
+
+h3. Getting Started
+
+An account at "Heroku":http://www.heroku.com/ is required first.  Next, install the Heroku client:
+
+* "Heroku for Mac OS X":http://toolbelt.herokuapp.com/osx/download
+* "Heroku for Windows":http://toolbelt.herokuapp.com/windows/download
+* "Ubuntu Heroku installation instructions":http://toolbelt.herokuapp.com/linux/readme
+* For other operating systems, use the "Heroku client tarball":http://assets.heroku.com/heroku-client/heroku-client.tgz
+
+Once that's installed, try typing <code>heroku help</code> in a terminal to see what the command-line client can do.  Heroku obviously realised that us developers prefer using the command-line to a GUI -- although some basic management features are available through Heroku's web interface, almost everything is handled from the command-line tool.
+
+Authentication is requried before progressing:
+
+{% highlight text %}
+heroku login
+{% endhighlight %}
+
+I had to tell Heroku about my public SSH key too:
+
+{% highlight text %}
+heroku keys:add ~/.ssh/id_rsa.pub
+{% endhighlight %}
+
+h3. Module Installation
+
+Heroku wisely supports <code>npm</code>, so our app begins with a <code>package.json</code>:
+
+{% highlight javascript %}
+{ 
+  "name": "dailyjs-heroku-postgres"
+, "version": "0.0.1"
+, "dependencies": {
+    "express": "2.4.5"
+  , "pg": "0.5.7"
+  }
+}
+{% endhighlight %}
+
+h3. PostgreSQL Setup
+
+Heroku uses environmental variables to supply database connection parameters.  This is simply <code>process.env.DATABASE_URL</code> for PostgreSQL.  Connecting to the database is as simple as this:
+
+{% highlight javascript %}
+var pg = require('pg').native
+  , connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/dailyjs'
+  , client
+  , query;
+
+client = new pg.Client(connectionString);
+client.connect();
+query = client.query('SELECT * FROM mytable');
+query.on('end', function() { client.end(); });
+{% endhighlight %}
+
+Notice how <code>pg</code> uses events -- I've called <code>client.end()</code> so this script will exit gracefully when it's finished.  If you've got PostgreSQL installed locally you could try experimenting with this script.
+
+h3. Schema
+
+There are a few ways to change the database schema on Heroku.  I've made a little schema creation script:
+
+{% highlight javascript %}
+var pg = require('pg').native
+  , connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/dailyjs'
+  , client
+  , query;
+
+client = new pg.Client(connectionString);
+client.connect();
+query = client.query('CREATE TABLE visits (date date)');
+query.on('end', function() { client.end(); });
+{% endhighlight %}
+
+I'll explain how to run this on Heroku later.
+
+Another option would be to use a library like "node-migrate":https://github.com/visionmedia/node-migrate by TJ Holowaychuk.  I haven't actually used this before, but it seems like a sensible way to keep local schemas in sync as developers work on a project.
+
+Typing <code>heroku help pg</code> shows the commands available for PostgreSQL, and this includes <code>heroku pg:psql</code> which can be used to open a remote connection to a _dedicated_ database.  This won't be allowed for a shared database, but could be used to modify the schema.
+
+h3. Example App
+
+Now we've got a <code>package.json</code>, we just need an app to run.  Create a file called <code>web.js</code> that starts like this:
+
+{% highlight javascript %}
+var express = require('express')
+  , app = express.createServer(express.logger())
+  , pg = require('pg').native
+  , connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/dailyjs'
+  , start = new Date()
+  , port = process.env.PORT || 3000
+  , client;
+{% endhighlight %}
+
+Notice how I use Heroku's environmental variable for the database connection string and server port, or defaults for development purposes.
+
+Now we can add the code required to connect to the database:
+
+{% highlight javascript %}
+client = new pg.Client(connectionString);
+client.connect();
+{% endhighlight %}
+
+A single Express route should suffice for this tutorial:
+
+{% highlight javascript %}
+app.get('/', function(req, res) {
+  var date = new Date();
+
+  client.query('INSERT INTO visits(date) VALUES($1)', [date]);
+
+  query = client.query('SELECT COUNT(date) AS count FROM visits WHERE date = $1', [date]);
+  query.on('row', function(result) {
+    console.log(result);
+
+    if (!result) {
+      return res.send('No data found');
+    } else {
+      res.send('Visits today: ' + result.count);
+    }
+  });
+});
+{% endhighlight %}
+
+And we better start the app too:
+
+{% highlight javascript %}
+app.listen(port, function() {
+  console.log('Listening on:', port);
+});
+{% endhighlight %}
+
+h3. Procfile
+
+The last thing we need is a file that tells Heroku what our main script is called.  Create a file called <code>Procfile</code>:
+
+{% highlight text %}
+web: node web.js
+{% endhighlight %}
+
+h3. Deploying
+
+Heroku uses Git for deployment, so set up a repo:
+
+{% highlight text %}
+git init
+git add .
+git commit -m 'First commit'
+{% endhighlight %}
+
+Then run this command which creates a remote app on the service with a random name:
+
+{% highlight text %}
+heroku create --stack cedar
+{% endhighlight %}
+
+It'll give you the URL, but your app isn't quite ready yet.
+
+Now <code>push</code> the repo to make the magic happen:
+
+{% highlight text %}
+git push heroku master
+{% endhighlight %}
+
+And tell Heroku you want to use a database:
+
+{% highlight text %}
+heroku addons:add shared-database
+{% endhighlight %}
+
+And finally... run the schema creation script:
+
+{% highlight javascript %}
+heroku run node schema.js
+{% endhighlight %}
+
+Hopefully you now have a little Node and PostgreSQL app running on Heroku!
+
+If anything went wrong, "Heroku's documentation":http://devcenter.heroku.com/ is excellent, and you can download my sample source here: "alexyoung / dailyjs-heroku-postgres":https://github.com/alexyoung/dailyjs-heroku-postgres. 
