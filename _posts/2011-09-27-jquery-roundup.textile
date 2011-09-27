@@ -1,0 +1,49 @@
+---
+layout: post
+title: "jQuery Roundup: Mockjax, ImageMapster, Face Detection"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- testing
+- imagemap
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery Mockjax
+
+"jQuery Mockjax":http://enterprisejquery.com/2010/07/mock-your-ajax-requests-with-mockjax-for-rapid-development/ (GitHub: "appendto / jquery-mockjax":https://github.com/appendto/jquery-mockjax, License: _MIT or GPL_) by Jonathan Sharp is a library for mocking jQuery's network requests.  This can be useful when writing tests.  It can mock the same data types that jQuery supports: text, HTML, JSON, JSONP, Script, and XML.
+
+Mocking a request looks a lot like the ajax API:
+
+{% highlight javascript %}
+$.mockjax({
+  url: '/restful/fortune'
+, responseTime: 750
+, responseText: { status: 'success' }
+});
+{% endhighlight %}
+
+Mockjax modifies jQuery using <code>$.extend({ ajax: function() { // ... } });</code> -- by passing one argument to <code>$.extend</code> the jQuery object itself is modified.  The original ajax module is kept around internally and used to simulate network requests by changing jQuery's <code>xhr</code> function.
+
+As shown above, request latency can be simulated using a parameter.  There are other advanced configuration options as well, including <code>contentType</code> and <code>isTimeout</code>.
+
+h3. ImageMapster
+
+ImageMapster (GitHub: "jamietre / ImageMapster":https://github.com/jamietre/imagemapster, License: _MIT_) by James Treworgy is a plugin that makes it easier to manipulate HTML image maps.  That means interesting effects can be created using image maps and more modern HTML/CSS/JavaScript techniques, while still falling over to the basic functionality in older browsers.  The "ImageMapster demos page":http://www.outsharked.com/imagemapster/default.aspx?demos.html has a lot of examples -- the "Vegetable Tray" example shows off some of the basic features.
+
+By calling <code>$('img').mapster(options)</code>, ImageMapster will attempt to bind to each image that has an associated map.  An area within the image map can be selected with <code>$('area').mapster('select')</code>.  The project has lots of options and features, but fortunately the "ImageMapster documentation":http://www.outsharked.com/imagemapster/default.aspx?docs.html is thorough.
+
+h3. JavaScript Face Detection
+
+This isn't a jQuery project, but some extremely interesting client-side coding: "JavaScript Face Detection + Canvas + Video = HTML5 Glasses!":http://wesbos.com/html5-video-face-detection-canvas-javascript/  The author, Wes Bos, has written a tutorial and the provided source ("wesbos / HTML5-Face-Detection":https://github.com/wesbos/HTML5-Face-Detection) for some interesting HTML5 Canvas and JavaScript that uses the "Core Computer Vision Library":https://github.com/liuliu/ccv.
+
+The CCV JavaScript library uses Web Worker to parallelise computation, but Wes said:
+
+bq. In the CCV examples, they provide a web worker example so we could do this asynchronously, but in my tests it was significantly slower.
+
+The "HTML5 Glasses":http://wesbos.com/demos/html5-face-detection/ demo that comes with this tutorial doesn't run in real time (on my computer it updates every 380-400ms), but the tracking library seems to work very well.
+
