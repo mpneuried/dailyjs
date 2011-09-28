@@ -1,0 +1,74 @@
+---
+layout: post
+title: "Node Roundup: libuv Status, node-sql, Zipper, Jade and Stylus Updates"
+author: Alex Young
+categories: 
+- node
+- modules
+- css
+- zip
+- sql
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. libuv Status Report
+
+Ryan Dahl posted a "status report for libuv":http://blog.nodejs.org/2011/09/23/libuv-status-report/ to the Node blog, and described some of the background to libuv and reviewed the features implemented so far.  This includes non-blocking TCP sockets (using IOCP in Windows), non-blocking named pipes, UDP, timers, child process spawning, asynchronous DNS, asynchronous file APIs, and more.  They're currently working on file system events (using inotify, kqueue, and event ports), a VT100 TTY, and socket sharing between processes. 
+
+Ryan also linked to some interesting projects built with libuv, and this includes "Mozilla's Rust":http://www.rust-lang.org/ which is billed as a low-level concurrent language.
+
+h3. node-sql
+
+"node-sql":https://github.com/brianc/node-sql (npm: _sql_) by Brian Carlson (the author of "node-postgres":https://github.com/brianc/node-postgres, better known as <code>pg</code>) builds strings of SQL from a simple API.  It uses the kind of chained API that suits this kind of problem:
+
+{% highlight javascript %}
+var sql = require('sql')
+  , user
+  , query;
+
+user = sql.define({
+  name: 'user',
+  columns: ['id', 'email', 'lastLogin']
+});
+
+query = user.select(user.id, user.email)
+            .from(user)
+            .where(user.lastLogin.lt(new Date()));
+{% endhighlight %}
+
+It's still a major work in progress, but I think it could lead to some extremely interesting database APIs in the future.
+
+h3. Zipper
+
+"Zipper":http://weblog.savanne.be/445-zipper-an-insanely-simple-zipfile-creator-for-node-js (GitHub: "rubenv / zipper":https://github.com/rubenv/zipper, npm: _zipper_, License: _BSD_) by Ruben Vermeersch is a zip file creator with an extremely easy API:
+
+{% highlight javascript %}
+var zipper = require('zipper').Zipper
+  , zipfile;
+
+zipfile = new zipper('file.zip');
+zipfile.addFile('image.jpg', 'path/image.jpg', function(err) {
+});
+{% endhighlight %}
+
+h3. Jade and Stylus Updates
+
+"Jade and Stylus have been updated":http://tjholowaychuk.com/post/10695801204/jade-stylus-0-16-0-released to 0.16.0.  Jade's grammar has been extended to include literal support for <code>if</code>, <code>unless</code>, <code>while</code>, <code>until</code>, and it also supports assignment.  This means that rather than using JavaScript, it's now possible to use declarative statements:
+
+{% highlight text %}
+// Old:
+- if (!(foo && bar))
+ p stuff
+
+// New:
+unless foo && bar
+  p stuff
+{% endhighlight %}
+
+This demonstrates the <code>unless</code> keyword, and the new Jade grammar.
+
+The other major feature is template inheritance.  The keywords <code>extends</code> and <code>block</code> allow templates to be inherited from, and "blocks" of markup grouped together and overridden as required.
+

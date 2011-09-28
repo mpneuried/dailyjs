@@ -23,7 +23,7 @@ Mocking a request looks a lot like the ajax API:
 $.mockjax({
   url: '/restful/fortune'
 , responseTime: 750
-, responseText: { status: 'success' }
+, responseText: { status: 'success' }
 });
 {% endhighlight %}
 
