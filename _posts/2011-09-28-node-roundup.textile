@@ -22,7 +22,7 @@ Ryan also linked to some interesting projects built with libuv, and this include
 
 h3. node-sql
 
-"node-sql":https://github.com/brianc/node-sql (npm: _sql_) by Brian Carlson (the author of "node-postgres":https://github.com/brianc/node-postgres, better known as <code>pg</code>) builds strings of SQL from a simple API.  It uses the kind of chained API that suits this kind of problem:
+"node-sql":https://github.com/brianc/node-sql (npm: _sql_) by Brian Carlson (the author of "node-postgres":https://github.com/brianc/node-postgres, better known as <code>pg</code>) builds strings of SQL using a simple API.  It uses the kind of chained API that suits this kind of problem:
 
 {% highlight javascript %}
 var sql = require('sql')

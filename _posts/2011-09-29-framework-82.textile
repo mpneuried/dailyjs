@@ -1,0 +1,148 @@
+---
+layout: post
+title: "Asynchronous Resource Loading Part 2"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- network
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Last week in "Asynchronous Resource Loading":http://dailyjs.com/2011/09/22/framework-81/ I introduced some popular script loading libraries, and discussed how recent web standards aim to give us more control over how scripts are loaded.  This week I want to explain how to programatically load scripts asynchronously in a way that supports legacy browsers.
+
+Resource loading can be split into three main concerns:
+
+# Controlling how things are loaded
+# Providing an API
+# Supporting legacy browsers
+
+Each script loader that I looked at seemed to place a different emphasis on each of these areas.  "RequireJS":http://requirejs.org/ has a lot of code for its module-based API; "LABjs":http://labjs.com/ has a simpler chained API which is a little more focused on the first problem.
+
+h3. Script Insertion
+
+In "Loading Scripts Without Blocking":http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/ by Steve Souders, various non-blocking loading techniques are compared.  Steve summarises with the following
+
+bq. In many situations, the Script DOM Element is a good choice. It works in all browsers, doesn't have any cross-site scripting restrictions, is fairly simple to implement, and is well understood. The one catch is that it doesn’t preserve execution order across all browsers.
+
+Inserting <code>script</code> tags is the approach most libraries use for basic asynchronous script loading.  Preserving order is problematic and requires the use of several different solutions to accomplish it.
+
+The most basic script insertion technique looks like this:
+
+{% highlight javascript %}
+(function(global) {
+  var appendTo = document.head || document.getElementsByTagName('head');
+
+  function require(scriptSrc, fn) {
+    var script = document.createElement('script');
+
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+    script.onload = fn;
+
+    appendTo.insertBefore(script, appendTo.firstChild);
+  }
+
+  turing.require = require;
+}(window));
+{% endhighlight %}
+
+The handling of <code>appendTo</code> is based on "LAB.src.js":https://github.com/getify/LABjs/blob/master/LAB.src.js.  To create a suitable unit test, I've used the Turing Ajax test harness.  The test itself just needs to ensure JavaScript gets loaded and executed as expected:
+
+{% highlight javascript %}
+'test require': function() {
+  $t.require('/load-me.js', function() {
+    assert.equal(loadMeDone, 1);
+  });
+}
+{% endhighlight %}
+
+The <code>load-me.js</code> script sets a global, <code>loadMeDone</code>, and the assertion tests for this.  The script's <code>onload</code> method will be set to this callback.
+
+h3. Internet Explorer Support
+
+Internet Explorer provides an <code>onreadystatechange</code> property instead of <code>onload</code>.  That means the script element's <code>readyState</code> has to be checked.
+
+{% highlight javascript %}
+(function(global) {
+  var appendTo = document.head || document.getElementsByTagName('head');
+
+  function require(scriptSrc, fn) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+
+    script.onload = script.onreadystatechange = function() {
+      if (!script.readyState || (script.readyState === 'complete' || script.readyState === 'loaded')) {
+        script.onload = script.onreadystatechange = null;
+        fn();
+        appendTo.removeChild(script);
+      }
+    };
+
+    appendTo.insertBefore(script, appendTo.firstChild);
+  }
+
+  turing.require = require;
+}(window));
+{% endhighlight %}
+
+This creates an onload/onreadystatechange callback that should work in both Internet Explorer and standards-compliant browsers.  However, running the test produces an error raised on the <code>insertBefore</code> line that inserts the script tag.  After looking at "LAB.src.js":https://github.com/getify/LABjs/blob/master/LAB.src.js I realised it was because the document isn't yet ready, which means we need a way of deferring until <code>appendTo.firstChild</code> is available.
+
+The easiest way to do this is by using <code>setTimeout</code>:
+
+{% highlight javascript %}
+(function(global) {
+  var appendTo = document.head || document.getElementsByTagName('head');
+
+  function require(scriptSrc, fn) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+
+    script.onload = script.onreadystatechange = function() {
+      if (!script.readyState || (script.readyState === 'complete' || script.readyState === 'loaded')) {
+        script.onload = script.onreadystatechange = null;
+        fn();
+        appendTo.removeChild(script);
+      }
+    };
+
+    appendTo.insertBefore(script, appendTo.firstChild);
+  }
+
+  turing.require = function(scriptSrc, fn) {
+    setTimeout(function() {
+      if ('item' in appendTo) {
+        if (!appendTo[0]) {
+          return setTimeout(arguments.callee, 25);
+        }
+
+        appendTo = appendTo[0];
+      }
+
+      require(scriptSrc, fn);
+    });
+  };
+}(window));
+{% endhighlight %}
+
+The callback will keep calling itself and returning until <code>appendTo[0]</code> is available.  At this point execution will continue to call the original <code>require</code> function.
+
+h3. Conclusion
+
+This example only illustrates loading scripts by inserting script tags.  There's no way to control the order the scripts are executed, and there isn't any HTML5 support.
+
+This code can be found in "commit 2450ee3":https://github.com/alexyoung/turing.js/commit/2450ee3b5fd52b758d21dca1baf72eda4bde296a.
+
+h3. References
+
+* "LAB.src.js":https://github.com/getify/LABjs/blob/master/LAB.src.js
+* "Loading Scripts Without Blocking":http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/ by Steve Souders
+
