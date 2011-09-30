@@ -1,0 +1,75 @@
+---
+layout: post
+title: "enchant.js, Source Engine Levels in WebGL, Ender"
+author: Alex Young
+categories: 
+- libraries
+- webgl
+- games
+---
+
+h3. enchant.js
+
+"enchant.js":http://enchantjs.com/ (GitHub: "wise9 / enchant.js":https://github.com/wise9/enchant.js, License: _MIT or GPL_) from Ubiquitous Entertainment Inc. is a new game engine that uses HTML5.  It supports events, sprites, sounds, scenes, maps, and a whole host of other game-management classes.  It also supports controls for touchscreen devices.
+
+The game engine itself is designed around events, so from what I can tell it's mostly asynchronous.  There's a plugin system for extending the engine itself, and some sample images are included which includes some font sprites.
+
+h3. Source Engine Levels in WebGL
+
+In "Source Engine Levels in WebGL":http://blog.tojicode.com/2011/09/source-engine-in-webgl-tech-talk.html by Brandon Jones, Valve's Source Engine BSP format is discussed in the context of WebGL.  Brandon demonstrated his code at "onGameStart":http://ongamestart.com/ using a level from Team Fortress 2, but he hasn't uploaded it due to licensing concerns.  
+
+The post contains a lot of details about Valve's level file format, and how rendering complex commercial 3D game data relates to WebGL:
+
+bq. I was told once that one of the big reasons that WebGL doesn't have instanced rendering is because it's hard to make use of it in real world scenarios, so very few games do. I'd like to present my counter example, and ask nicely for the people making decisions to reconsider!
+
+h3. Ender
+
+!/images/posts/ender.png!
+
+"Ender":http://ender.no.de/ (GitHub: "ender-js / Ender":https://github.com/ender-js/Ender, License: _MIT_, npm: _ender_) by Dustin Diaz and Jacob Thornton is a package manager for front-end JavaScript.  It has a command-line interface that allows scripts to be packaged and minimised, which can then be loaded like CommonJS modules in a browser.
+
+This builds <code>ender.js</code> and <code>ender.min.js</code> files that contain the specified modules:
+
+{% highlight sh %}
+ender build jquery underscore backbone
+{% endhighlight %}
+
+Then in my client-side scripts I can <code>require</code> libraries when they're needed:
+
+{% highlight javascript %}
+var _ = require('underscore')
+  , _.each([1, 2, 3], alert)
+
+// Access methods augmented directly to the $
+$.ready(function() {
+  $([1, 2, null, 3])
+    .filter(function(item) { return item; })
+    .each(alert)
+})
+{% endhighlight %}
+
+The <code>ender.js</code> file adds this line to each module:
+
+{% highlight javascript %}
+$.ender(module.exports);
+{% endhighlight %}
+
+From what I understand of Ender's source, it actually wraps the entire client-side source in its own closure:
+
+{% highlight javascript %}
+!function () {
+  var module = { exports: {} }, exports = module.exports;
+
+  // Original source follows
+  (function() {
+  })();
+
+  provide('module name here, underscore or jquery or whatever', module.exports);
+  $.ender(module.exports);
+}();
+{% endhighlight %}
+
+It seems like an interesting solution to managing client-side dependencies as our projects become more complicated.  I've actually found myself including client-side modules in my <code>package.json</code>, and then exposing their files to the client.
+
+The authors claim that Ender encourages people to use smaller modules rather than monolithic libraries, and I think this is a good idea.  Particularly now that strong, tightly focused libraries are becoming more commonplace.
+
