@@ -1,0 +1,36 @@
+---
+layout: post
+title: "jQuery Roundup: jQuery 1.7 Beta 1, Sensible DateTime, Slim Milo Animation"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- dates
+- animation
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.7 Beta 1
+
+"jQuery 1.7 beta 1":http://blog.jquery.com/2011/09/28/jquery-1-7-beta-1-released/ has been released, and this version looks significant with a new events API and major underlying event code changes to improve Internet Explorer support.
+
+The new events API is pretty simple on the surface: <code>$.on</code> and <code>$.off</code> have been added, which attach or remove events.  However, the intention behind this is to effectively combine the existing APIs for <code>.bind</code>, <code>.live</code>. and <code>.delegate</code>.  The rationale behind this is to remove some "surprising interactions" caused when mixing <code>bind</code> and <code>live</code> events.  This is fully explained on the jQuery blog's 1.7 announcement.
+
+h3. Sensible DateTime
+
+"Sensible DateTime":http://crossbreeze.github.com/jquery-sensible-datetime/ (GitHub: "crossbreeze / jquery-sensible-datetime":https://github.com/crossbreeze/jquery-sensible-datetime, License: _MIT_) by Jaewoong Kim is a plugin for formatting ISO times.  Formatting strings are supported, as well as natural language relative times -- for example, "2 minutes ago" rather than a date and time.
+
+To use it, call <code>$('.datetime').sensible()</code> on an element with either a <code>datetime</code> or <code>title</code> attribute, and make sure it contains a "ISO8601":http://en.wikipedia.org/wiki/ISO_8601 datetime string.
+
+The last time I solved this problem I'm fairly sure I used an ancient scrap of code by John Resig.  This library looks neatly written and has some fixes to support older browsers like IE6, so I'm going to use it the next time I'm dealing with client-side dates.
+
+h3. The Slim Milo Affair
+
+"The Slim Milo Affair":http://slimmilo.com/blog/index.php/2011/09/27/the-slim-milo-affair/ is a tutorial with jQuery source that details the creation of a Pablo Ferro-inspired animation.  The author wanted to employ a similar effect to Ferro's animation used by the "Thomas Crown Affair title sequence":http://www.youtube.com/watch?v=ELgjuHTbT3o.
+
+bq. The basic concept of the library is that you have a single DOM element that you want to animate with various "stages". Each stage consists of a main image shown in full, a set of horizontal and vertical bars, and a set of sub images put into the "slots" defined by the bars.
+
+It's interesting to read through the reasoning behind this type of animation design, because we often use animation libraries without much thought to how they actually work.
