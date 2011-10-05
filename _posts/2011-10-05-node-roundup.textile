@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Node Roundup: Scalable Network Programs, tap, Gittyup"
+author: Alex Young
+categories: 
+- node
+- modules
+- essays
+- deployment
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. An Easy Way to Build Scalable Network Programs
+
+"An Easy Way to Build Scalable Network Programs":http://blog.nodejs.org/2011/10/04/an-easy-way-to-build-scalable-network-programs/ is a short essay by Ryan Dahl, that helps address some recent criticism of Node:
+
+bq. Node has a clear purpose: provide an easy way to build scalable network programs. It is not a tool for every problem. Do not write a ray tracer with Node. Do not write a web browser with Node. Do however reach for Node if tasked with writing a DNS server, DHCP server, or even a video encoding server.
+
+I've noticed several high-profile Node developers say similar things recently, even before the community at large was attacked by certain readers of sites like Hacker News and Reddit.  What summed it up for me was "this tweet by TJ Holowaychuk":https://twitter.com/#!/tjholowaychuk/status/114713018209812480:
+
+bq. I love how rails people keep coming to node, expecting a rails-like framework. Why not just use.... rails?
+
+It's nice to have options, and we have enough high quality high-level programming languages and libraries to keep everyone happy.  Be nice!
+
+h3. tap
+
+"tap":https://github.com/isaacs/node-tap/ (License: <em>MIT</em>, npm: <em>tap</em>) by Isaac Z. Schlueter is essentially a collection of packages that forms a "TAP-compliant":http://testanything.org/wiki/index.php/Main_Page test framework.  Presumably the reason Isaac is interested in this is to encourage Node developers to generate machine-consumable test output for use with npm's npat option.
+
+Using the <code>tap</code> package as a test framework looks a lot like other Node test frameworks -- there's an object passed to each test that can be used to run assertions and call a method that denotes the test has finished (useful for asynchronous testing).  I noticed that it uses a slightly different approach to the "CommonJS Unit Testing module":http://wiki.commonjs.org/wiki/Unit_Testing/1.0, but this might be because Isaac's examples demonstrate testing inline rather than through a test runner.
+
+The best thing about <code>tap</code> is the way it's been split up into lots of smaller packages.  There are currently 8 packages, and each one is based around either generating or consuming TAP streams.  That means it's possible to generate TAP output from existing frameworks, or they could even be sewn together in new ways to form your own Frankenstein's monster of test frameworks.
+
+h3. Gittyup
+
+"Gittyup":https://github.com/spiceapps/gittyup (npm: _gittyup_) by Craig Condon is a deployment library aimed at Node.  It supports rollback, testing before deployment, and making slugs of apps.  It's based around JavaScript files rather than a configuration language or DSL:
+
+{% highlight javascript %}
+// Deploy from a git repository
+gittyup.app('myApp').checkout('git@github.com:spiceapps/gittyup-test.git', function(err, result) {
+});
+
+// Or from a local path
+gittyup.app('myApp').checkout('/some/local/path', function(err, result) {
+
+});
+{% endhighlight %}
+
