@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Changing Perceptions of JavaScript"
+author: Alex Kessinger
+categories: 
+- essays
+- language
+---
+
+<div class="box">
+Alex Kessinger is a programmer who lives in the Bay Area. He strives to make websites, cook, and write a little bit better each day. You can find more from Alex at his <a href="http://alexkessinger.net/">blog</a>, on <a href="http://twitter.com/voidfiles">Twitter</a>, and <a href="https://plus.google.com/108319722006237870403/posts">Google+</a>. 
+</div>
+
+JavaScript is weird. There's the obvious weirdness of prototypal inheritance, <code>==</code> vs. <code>===</code>; but those are just surface issues. One feature that boggles non-JavaScript programmers is space optimizations. JavaScript is unique in this fact. Much of our insane syntax flows from the fact that the code goes over the wire. Space saving optimizations are not just acceptable -- they are encouraged.
+
+Think about that for a moment. How long has it been since programmers have had to worry about the size of their code? Front-end developers do this all the time, but to anyone else it's crazy.
+
+At Yahoo I got really good at space optimizations. There were a bundle of internal documents you could turn to that would offer tricks, and rules for making your code smaller. The importance placed on these syntax rules turned code reviews into a checking off process. Every time we passed the list we patted ourselves on the back. We thought it was the best use of our time, and we plodded on, writing the same code over and over. It was prettier, smaller, and well documented, but there wasn't a ton of original thought that went into it. At least on my part there wasn't. I am embarrassed to say this now, but I felt like I was at my JavaScript zenith during this time. Oh man, was I wrong.
+
+I don't think like that anymore. My rubric for good code is how well others can readily understand it. I no longer consider something useful until someone else has successfully modified it. And still, the finish line keeps speeding away from me. There is _always_ a way to be better.
+
+When I moved from a large place like Yahoo, where I rarely had other kinds of engineers looking at my code, my code habits had to change. Other kinds of engineers -- especially more polyglot engineers -- were looking at my code. I found I had to explain myself constantly.
+
+Their acceptance of my crazily optimised code was tepid. Over time, the craziness started to wear on me. Every time another programmer had to interact with my code I had to explain everything to them. I felt like a baboon pounding my chest then leaning over and saying "see, it's simple, right?" -- it wasn't!  And I had to admit, the blame did not lie with the language or the environment. I am sure that I had become lax in my syntax, and my code wasn't as clean as it used to be. When there is no one to call you on your habits, you slide a little.
+
+I was the only front-end developer for a while, but even that wasn't the worst part. The biggest failure was forcing other kinds of engineers to accept the craziness, and not taking their code habits into consideration. I thought that was how it has always been done, and will forever be done. My coworkers enlightened me. In a small but diverse team, shared code habits might be the most important key to understandable code.
+
+With shared code habits in mind, we set about mixing and matching a front-end system that was more understandable to everyone. I had to learn how others would see the front-end system. We went about encapsulating things in a way that would make more sense to others. Some engineers think of JavaScript as something that needs to disappear, like in GWT, but our reformulation was more like a blending of technology that kept the good parts of JavaScript.
+
+During the transition I began to realize the reasons other programmers reel away from front-end code. Engineers who are fully capable of writing code for the web will be turned off by the syntax. It might even stop them from writing web code. Then, even if they do write some code, they switch off their analytical brains when using something they don't like. They'll just do what they need to do to get the job done. You won't get them to help you make the code better. In the end you took someone who could have been a net positive on code quality, and created a net negative on code quality. And for what; smaller code?
+
+One of the best things we did was to switch to intermediaries. "Uglify.js":https://github.com/mishoo/UglifyJS is a great example of an intermediary code processor. We have begun to use a number of these tools. Basically, you can use something like Uglify.js or "CoffeScript":http://jashkenas.github.com/coffee-script/ to bridge the gap of understanding. You can turn something that people found ugly, into something beautiful. And then you start to switch the editorial part of their brain on.
+
+None of this means that I don't care about optimizing code, or keeping things small. This is important for everyone, and especially so for high-traffic websites like Yahoo. It is not a means to an end. It's that 90% of my checklist has been replaced by code compressors like Uglify.js. I don't know what I would have done at Yahoo code reviews if we started using Uglify.js. It would have been a lot of latte sipping, and crying as the company crumbled around me.
+
+We should have used better tools, and spent more of our time learning better ways to code.
+

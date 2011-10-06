@@ -5,6 +5,7 @@ author: Alex Kessinger
 categories: 
 - mobile
 - data
+- essays
 - storage
 ---
 
