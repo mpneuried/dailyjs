@@ -1,0 +1,33 @@
+---
+layout: post
+title: "W3C Game Development Course, dyn.js, ShapeWright"
+author: Alex Young
+categories: 
+- webgl
+- games
+- graphics
+- language
+---
+
+h3. W3C Game Development Course
+
+W3C recently announced a new online course, "Game Development in HTML5":http://openmediaweb.eu/2011/10/06/html5-games-course/, all about creating browser-based multiplayer games.  The course aims to review the state of JavaScript game development, explore how new HTML5 elements can be used for building games, and even covers deploying games to app stores.
+
+The tickets are €225, but there are a limited number of seats available at the early bird rate of €145.  Registration is here: "W3C Training: Game Development in HTML5":http://www.w3techcourses.com/course/view.php?id=9.
+
+h3. dyn.js
+
+"dyn.js":http://dynjs.org/ (GitHub: "dynjs / dyn.js":https://github.com/dynjs/dyn.js) is an <code>invokedynamic</code>-based JavaScript implementation.  Why is this interesting and potentially big news?  Well, this quote from an "interview with Douglas Campos":http://www.infoq.com/news/2011/10/dynjs sums it up:
+
+bq. Rhino is an truly piece of art - back when Rhino was born, the JVM was not cool as today, so they really made miracles getting performance by hand-crafting almost all aspects of their runtime. So dyn.js is kinda like we were starting Rhino again in 2011 - with a much powerful JVM and not worrying about backward compatibility.
+
+If you'd like to read more about this subject, Charles Oliver Nutter wrote a phenomenal explanation back in 2008 called "A First Taste of InvokeDynamic":http://blog.headius.com/2008/09/first-taste-of-invokedynamic.html.
+
+h3. ShapeWright
+
+!/images/posts/shapewright.png!
+
+"ShapeWright":http://shapewright.com/ is an experimental "mass customization" platform that uses WebGL for visualisation.  One of the experiments, "Ship":http://ship.shapewright.com/ generates 3D spaceships and allows VRML object downloads and purchasing of 3D prints.
+
+Is there really not a JavaScript/WebGL multiplayer Elite clone yet?
+
