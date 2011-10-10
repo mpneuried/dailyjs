@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Mozilla Secure Coding Guidelines, Raphaël 2.0, cryptico.js"
+author: Alex Young
+categories: 
+- libraries
+- documentation
+- graphics
+- cryptography
+- security
+---
+
+h3. Mozilla Secure Coding Guidelines
+
+Mozilla's "WebAppSec/Secure Coding Guidelines":https://wiki.mozilla.org/WebAppSec/Secure_Coding_Guidelines is a set of coding guidelines for developing secure applications.  There's a lot information about securing application layer communications, but there's also some JavaScript-specific advice.  JavaScript input validation is considered, along with preventing XSS attacks, and uploads as a JavaScript-based XSS attack vector.
+
+Mozilla also "introduced Aurora 9":http://hacks.mozilla.org/2011/09/introducing-aurora-9/ recently, which includes a JavaScript interface for "Do Not Track":https://developer.mozilla.org/en/The_Do_Not_Track_Field_Guide/Introduction/How_Do_Not_Track_works, and the addition of type inference.
+
+h3. Raphaël 2.0
+
+Dmitry Baranovskiy has released "Raphaël 2.0":http://raphaeljs.com/ (GitHub: "DmitryBaranovskiy / raphael":https://github.com/DmitryBaranovskiy/raphael). Dmitry wrote a post on February 10th about the "planned features for Raphaël 2.0":http://groups.google.com/group/raphaeljs/browse_thread/thread/f76614f79da88478.  The GitHub history indicates that this version has a new VRML version, and the project has been split up into three files: raphael.svg.js, raphael.vml.js, and raphael.core.js.
+
+If you want to figure out the other changes, either look through "Raphaël's documentation":http://raphaeljs.com/reference.html or try to read more of the history on GitHub.
+
+h3. cryptico.js
+
+"cryptico.js":http://cryptico.wwwtyro.net/ (Google Code: "cryptico":http://code.google.com/p/cryptico/, License: _New BSD License_) is a public key cryptography library that can generate RSA key pairs, encrypt and decrypt messages.
+
+Keys can be generated with <code>cryptico.generateRSAKey(passPhrase, 1024)</code>, and messages can be encrypted with <code>cryptico.encrypt(message, publicKeyString)</code>.
+
+The "cryptico documentation":http://code.google.com/p/cryptico/ includes notes on the library's implementation:
+
+bq. A hash is generated of the user's passphrase using the SHA256 algorithm found at webtoolkit.info. This hash is used to seed David Bau's seedable random number generator. A (seeded) random RSA key is generated with Tom Wu's RSA key generator with 3 as a hard-coded public exponent. 
+
