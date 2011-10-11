@@ -1,0 +1,69 @@
+---
+layout: post
+title: "jQuery Roundup: Notificon, stickySectionHeaders, jQuery.suggest, smartTruncation"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- Canvas
+- truncation
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Notificon
+
+"Notificon":http://makeable.github.com/Notificon/ (GitHub: "makeable / Notificon":https://github.com/makeable/Notificon, License: _BSD_) by Matt Williams dynamically changes a site's favicon to include a notification value.  This works by generating <code>link</code> elements with data URIs using a <code>canvas</code>:
+
+{% highlight javascript %}
+var changeFavicon = function changeFavicon(canvas) {
+  var link = document.createElement('link');
+  link.type = 'image/x-icon';
+  link.rel = 'icon notificon';
+  link.href = canvas.toDataURL("image/png");
+  removeNotificon();
+  document.getElementsByTagName('head')[0].appendChild(link);
+};
+{% endhighlight %}
+
+It's a cool hack, and it made me wonder about Internet Explorer support.  IE8 apparently supports <code>link</code> elements with base64 encoded data, so perhaps something like "ExplorerCanvas":http://code.google.com/p/explorercanvas/ could be used to get broader browser support?
+
+h3. stickySectionHeaders
+
+"stickySectionHeaders":http://polarblau.github.com/stickySectionHeaders/ (GitHub: "polarblau / stickySectionHeaders":https://github.com/polarblau/stickySectionHeaders, License: _GPL and MIT_) by Polarblau is a jQuery plugin that can help create iOS-style sticky headers in a list.  All that's needed is a simple call:
+
+{% highlight javascript %}
+$('#sticky-list').stickySectionHeaders({
+  stickyClass     : 'sticky',
+  headlineSelector: 'strong'
+});
+{% endhighlight %}
+
+The author has provided some iOS-style CSS as well.
+
+h3. jQuery.suggest
+
+"jQuery.suggest":http://polarblau.github.com/suggest/ (GitHub: "polarblau / suggest":https://github.com/polarblau/suggest, License: _GPL and MIT_) also by Polarblau is an autocomplete plugin that works a little bit like native elements, with greyed out text.
+
+!/images/posts/jquerysuggest.png!
+
+While it's true there's a lot of autocomplete plugins out there, how many of them are written this cleanly and come with tests?
+
+h3. smartTruncation
+
+Finally, "smartTruncation":http://polarblau.github.com/smarttruncation/ (GitHub: "polarblau / smarttruncation":https://github.com/polarblau/smarttruncation, License: _GPL and MIT_) is another plugin by Polarblau.  This one truncates text within its parent element.  It can also truncate from the centre: "Hello World" becomes "Hel...rld".
+
+Text truncation in client-side code is a source of fascination for me because I've attempted it a few times without a huge amount of success.  Polarblau's algorithm creates a cache of font size values and then adds characters to an element until it has filled the desired size.  It also takes file name extensions into account.
+
+It's pretty easy to use:
+
+{% highlight javascript %}
+$('.files li').smartTruncation({
+  'protectExtensions' : true // "myimagefile.jpg" -> "myimagef...jpg"
+});
+{% endhighlight %}
+
+It's worth noting that each of these plugins by Polarblau is clearly licensed, includes tests, and has its own project web site (hosted by GitHub).  This is how you distribute plugins!
+
