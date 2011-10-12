@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Node Roundup: Cluster, Node 0.5.9 and 0.6, French Node Blogs"
+author: Alex Young
+categories: 
+- node
+- blogs
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node Cluster
+
+I saw a Tweet in which Ryan Dahl mentioned this commit to Node: "introduce node cluster, 87339a2":https://github.com/joyent/node/commit/87339a22b1cc539259c02119bd7381006d56396d.  It adds a command line option to run a script using multiple processes.  The obvious criticism of this is it's possible to build this at a higher level, but I agree with Daniel Ennis' comment on the commit:
+
+bq. While it may seem high level, I'd much rather have an officially supported method of doing it that's maintained [...]
+
+h3. Node 0.5.9 and 0.6
+
+"Node 0.5.9":http://blog.nodejs.org/2011/10/10/node-v0-5-9/ has been released, and "Node 0.6":https://groups.google.com/forum/#!msg/nodejs-dev/1z4PTv7fHro/8x1KtRXOcCEJ is getting close.  This means 0.6 will be the new stable branch, and Ryan recommended testing modules against 0.5.9.
+
+bq. I apologize that it's taken so long to reach a new stable release - porting to Windows took longer than expected. In the future we will try to keep dev/stable cycles to 6 weeks.
+
+I thought this was a very humble statement given the herculean effort that's been put into Windows support.  I'm looking forward to 0.6!
+
+h3. More French Node Blogs
+
+I recently featured a "French Node blog":http://www.it-wars.com/categorie8/dev in the Node Roundup, and reader Sebastien Chopin sent in two more:
+
+* "Sebastien Chopin's Node Blog":http://www.atinux.fr -- covers topics suitable for beginners, and other JavaScript tricks
+* "Nicolas Chambrier's Node Blog":http://naholyr.fr/ -- suitable for more advanced programmers
+
