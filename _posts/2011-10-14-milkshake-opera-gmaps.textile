@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Milkshake, An Introduction to WebGL, MapsGL"
+author: Alex Young
+categories: 
+- webgl
+- animation
+- google
+- opera
+---
+
+h3. Milkshake 
+
+!/images/posts/milkshake.png!
+
+"Milkshake":http://gattis.github.com/milkshake/ (GitHub: "gattis / milkshake":https://github.com/gattis/milkshake, License: <em>LGPL</em>) by Matt Gattis is a WebGL audio visualiser that uses SoundCloud's API to play audio.  It'll play lots of tracks and cycle through tonnes of visualisations based on "MilkDrop":http://www.geisswerks.com/about_milkdrop.html.
+
+I particularly like the way the visualiser presets are JSON files, and how everything is client-side -- this thing can be uploaded to GitHub Pages or Dropbox and shared easily.
+
+The choice of tracks really made me want to get some "Girl Talk":http://www.myspace.com/girltalk out (Feed the Animals is a great way to start the weekend!)
+
+h3. An Introduction to WebGL
+
+In "An Introduction to WebGL":http://dev.opera.com/articles/view/an-introduction-to-webgl/, Luz Caballero explains the basics behind WebGL, including: browser support, the rendering pipeline, WebGL libraries, and example code using "PhiloGL":http://senchalabs.github.com/philogl/.
+
+h3. MapsGL
+
+!/images/posts/gmaps-webgl-rome.png!
+
+"MapsGL from Google":http://maps.google.com/support/bin/answer.py?hl=en&answer=1630790 is a new way to view Google Maps using WebGL.  To use it, load up Google Maps in the latest Chrome or Firefox 8+ and look for the "What to try something new?" button on the bottom left-hand-side:
+
+!/images/posts/gmaps-webgl.png!
+
+bq. MapsGL uses new technology called WebGL (Web-based Graphics Library) to enhance the Google Maps experience. WebGL brings 3D graphics to your browser without the need to install additional software. This allows us to provide seamless transitions between various levels of imagery and different map views.
+
+I really like the 45 degree view mode, but I could only get it working around Rome for some reason.  It's also slightly weird that when MapsGL is enabled the Google Earth option still requires a plugin.  However, it does feel extremely slick, particularly zooming right in which automatically transitions to street view mode.
+
