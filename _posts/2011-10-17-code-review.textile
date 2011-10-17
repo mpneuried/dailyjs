@@ -1,0 +1,119 @@
+---
+layout: post
+title: "Code Review: Oliver Caldwell's EventEmitter"
+author: Alex Young
+categories:
+- code-review
+- node
+- events
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+After a previous Code Review of "EventEmitter2":https://github.com/hij1nx/EventEmitter2 by hij1nx in "Code Review: EventEmitter2":http://dailyjs.com/2011/09/19/code-review/, Oliver Caldwell asked me to take a look at his "EventEmitter":http://olivercaldwell.co.uk/2011/09/eventemitter-3-released/ (GitHub: "Wolfy87 / EventEmitter":https://github.com/Wolfy87/EventEmitter, License: _MIT_ and _GPL_).
+
+This library places special focus on browser support, supporting all major browsers and even IE 5+.  A minimised version is also supplied to further support client-side developers.
+
+h3. Usage
+
+This EventEmitter implementation is used the same way as Node's:
+
+{% highlight javascript %}
+// Initialise the EventEmitter
+var ee = new EventEmitter();
+
+function myListener() {
+}
+
+// Add the listener
+ee.addListener('event', myListener);
+
+// Emit the event
+ee.emit('event');
+
+// Remove the listener
+ee.removeListener('event', myListener);
+{% endhighlight %}
+
+h3. Structure
+
+As with most browser-based libraries, I expected to see a self-executing anonymous function.  However, in this implementation the author has opted to wrap everything in a regular function, declaring methods inside the function's scope:
+
+{% highlight javascript %}
+function EventEmitter() {
+  var listeners = {},
+      instance = this;
+
+  instance.Event = function(type, listener, scope, once) {
+  };
+
+  instance.eachListener = function(type, callback) {
+  };
+
+  // Etc.
+}
+{% endhighlight %}
+
+The <code>Event</code> class is used to encapsulate an event, and instantiated <code>Event</code> objects are pushed onto arrays indexed by type on <code>listeners</code>.
+
+This style of encapsulation reminds me of how TJ Holowaychuk likes to model his runtime objects (the <code>Request</code> and <code>Response</code> classes in "Express":http://expressjs.com/ for example).  Also, it demonstrates high-level object oriented principles without resorting to creating classical-OO-style classes in JavaScript.
+
+h3. Implementation
+
+Like the other EventEmitter libraries, listeners are stored in an <code>Object</code>.  The <code>newListener</code> event has been retained, which I thought shows good attention to detail.  Most of the core methods are extremely short, which I like to see.  For example, <code>emit</code> is implemented like this:
+
+{% highlight javascript %}
+instance.emit = function(type, args) {
+  instance.eachListener(type, function(currentListener) {
+    return currentListener.fire(args);
+  });
+
+  // Return the instance to allow chaining
+  return instance;
+};
+{% endhighlight %}
+
+Extracting <code>eachListener</code> seems like a good idea.  Rather than having a lot of loops throughout the code, <code>eachListener</code> gets reused by <code>removeListener</code> and <code>emit</code>, making these methods more readable.
+
+The code is also clearly commented, and the build process is included as part of the <code>Makefile</code>.
+
+h3. Performance
+
+The last time I looked at serious JavaScript loop benchmarks, optimised <code>for</code> loops performed extremely well, which I suspect is why <code>EventEmitter</code> and <code>EventEmitter2</code> don't use the callback-based iterators Oliver has used.  He hasn't included benchmarks so I can't easily say how well this implementation performs, but I did find this code easier to follow than the other EventEmitters that I've looked at.
+
+h3. Tests
+
+Oliver has included QUnit tests, which do the job admirably:
+
+{% highlight javascript %}
+test('Emitting events', function() {
+  var ee = new EventEmitter();
+
+  ee.addListener('emittingTest', function() {
+    // Listener
+    ok(true, 'First called');
+  });
+
+  ee.addListener('emittingTest', function() {
+    // Another listener for the same event
+    ok(true, 'Second called');
+  });
+
+  ee.addListener('differentEvent', function() {
+    // Another listener for the same event
+    ok(false, 'Wrong event called');
+  });
+
+  ee.emit('emittingTest');
+});
+{% endhighlight %}
+
+I think these tests could benefit from being able to assert on how many assertions are expected before the test completes, like <code>assert.expect</code> in "nodeunit":https://github.com/caolan/nodeunit.
+
+h3. Conclusion
+
+Yet another EventEmitter implementation, but this one still manages to differentiate itself from the others I've looked at.  I liked the way the author has explored readability rather than purely performance; it offers a hackable alternative that might suit certain projects.  And the code uses OO concepts without feeling too heavy handed.
+
+Check it out yourselves on GitHub: "Wolfy87 / EventEmitter":https://github.com/Wolfy87/EventEmitter
