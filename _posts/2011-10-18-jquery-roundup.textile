@@ -1,0 +1,88 @@
+---
+layout: post
+title: "jQuery Roundup: 1.7 Beta 2, Counter, Templator"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- templates
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.7 Beta 2
+
+"jQuery 1.7 Beta 2":http://blog.jquery.com/2011/10/13/jquery-1-7-beta-2-released/ is out.  It's worth skimming over the whole change log in the announcement to check for things that may affect your scripts.  This release includes a lot of IE fixes and improvements, for example:
+
+* "#6485":http://bugs.jquery.com/ticket/6485 -- Solution for HTML5 issues in IE
+* "#10267":http://bugs.jquery.com/ticket/10267 -- IE8 and <code>window is(':visible')</code> crashes
+* "#10429":http://bugs.jquery.com/ticket/10429 -- IE7 – invalid procedure call or argument when calling <code>.removeAttr('contenteditable');</code>
+* "#9033":http://bugs.jquery.com/ticket/9033 -- (Deferred) <code>try { } finally { }</code> error in IE8
+* "#6170":http://bugs.jquery.com/ticket/6170 -- <code>jQuery(window).scroll();</code> causes IE* to scroll to 0,0
+* "#6319":http://bugs.jquery.com/ticket/6319 -- Regression: <code>stopPropagation</code> inside change handlers in IE is incorrectly applied to <code>keydown</code> event
+* "#6593":http://bugs.jquery.com/ticket/6593 -- IE8: DOM 0 event handler called twice when a separate handler is attached via jQuery
+* "#6667":http://bugs.jquery.com/ticket/6667 -- submit event doesn't delegate in IE* under certain conditions
+* "#6942":http://bugs.jquery.com/ticket/6942 -- <code>jQuery.event.fix</code> causes unnecessary reflows in IE when handling key events
+* "#7161":http://bugs.jquery.com/ticket/7161 -- Submit event on a form element not unbound properly in IE
+* "#7444":http://bugs.jquery.com/ticket/7444 -- Submitting form with "Enter" instead of button click on IE8 or IE7 triggers live submit event twice
+* "#8157":http://bugs.jquery.com/ticket/8157 -- Focusing an already focused text field will prevent the change event from firing in IE
+* "#8866":http://bugs.jquery.com/ticket/8866 -- IE8 <code>input[type=file]</code> delegated change event files only on blur
+* "#9593":http://bugs.jquery.com/ticket/9593 -- Delegated submit event is not <code>instanceof jQuery.Event</code> in IE
+* "#9570":http://bugs.jquery.com/ticket/9570 -- Selector <code>$('form[name=".."]')</code> returns zero elements in IE8 under some conditions
+
+There are 68 fixes and improvements altogether; 15 are for IE support.
+
+h3. jQuery Word and Character Counter
+
+"Counter":http://qwertypants.me/counter/ (License: _MIT_) by Wilkins Fernandez is a word and character counting plugin that works a little bit like Twitter.  <code>$(selector).counter();</code> will add a character counter to a <code>textarea</code>.  It supports lots of options -- it's possible to enforce the word or character limit by preventing more text from being entered, or to simply count forever:
+
+{% highlight javascript %}
+// This will simply print the character count forever
+$(selector).counter({
+  goal: 'sky'
+});
+
+$(selector).counter({
+  type: 'word'
+, goal: 'sky'
+});
+{% endhighlight %}
+
+The thing I've always found challenging about word counting algorithms is supporting other languages.  A naive word count implementation is likely to get Japanese and Chinese word counts wrong.  It would be interesting to see this supported here (or your favourite JavaScript algorithm for doing this in the comments).
+
+h3. Templator
+
+"Templator":https://github.com/Nijikokun/Templator (License: _AOL_) by Nijiko Yonskai is a template manager, and currently supports a wide range of template languages.  It depends on jQuery, and includes support for mustache.js, jSmart, TrimPath Template, YAJET, and more (look at "Template/lib/":https://github.com/Nijikokun/Templator/tree/master/lib to see what template languages are supported).
+
+It also comes with a caching system:
+
+{% highlight javascript %}
+var Template = new Templator({
+    language: 'jSmart', // Supported Languages: jSmart, EJS, Moustache, Trimpath, YAJET, JST, or Empty
+    cache: {
+        enabled: false,
+        life: 32000,
+        tick: 1000
+    }
+});
+{% endhighlight %}
+
+And has a chainable API:
+
+{% highlight javascript %}
+var Template = new Templator({ language: 'yajet' })
+   .storeElement('tmpl', '.tmpl', { foo: 'Hello', bar: 'World!' })
+   .partialElement({ partial: '.partial' }, {}, 'tmpl')
+   .on('.this')
+   .render('tmpl');
+{% endhighlight %}
+
+It can also be used in a rudimentary fashion without a template language:
+
+{% highlight javascript %}
+var Template = new Templator({ language: '' });
+Template.renderRaw('Hello {name}!', { name: 'World' });
+{% endhighlight %}
+
