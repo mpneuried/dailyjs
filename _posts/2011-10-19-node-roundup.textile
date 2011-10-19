@@ -1,0 +1,92 @@
+---
+layout: post
+title: "Node Roundup: hotcode, fbgraph, browser"
+author: Alex Young
+categories: 
+- node
+- modules
+- scraping
+- facebook
+- social
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. hotcode
+
+!/images/posts/hotcode.png!
+
+"hotcode":https://github.com/mape/node-hotcode (License: _MIT_, npm: _hotcode_) by Mathias Pettersson is a small Express app that watches for changes on a given path, then reloads an associated app when files change.
+
+To use it, follow the instructions in the project's README file.  When <code>hotcode</code> is run it'll print out a link to some JavaScript (it should be <code>http://127.0.0.1:8080/static/injected.js</code>) -- this will need to be added to your project to get automatic reloading in the browser.
+
+Projects can be configured in <code>~/.hotcode</code> so the path doesn't need to be entered each time <code>hotcode</code> is started.  This can be set per-domain as well.
+
+One of the interesting things about hotcode is it can be run against practically any app in any language.  If you're sick of having to restart your app and refresh the browser every time you make a change, then you're going to love this.
+
+h3. fbgraph
+
+"fbgraph":http://criso.github.com/fbgraph/ (GitHub: "criso / fbgraph":https://github.com/criso/fbgraph, License: _MIT_, npm: _fbgraph_) by Cristiano Oliveira provides consistent access to the Facebook graph API.  According to the author:
+
+bq. All calls will return json. Facebook sometimes decides to just return a <code>string</code> or <code>true</code> or redirects directly to an image.
+
+Given suitable configuration options, people can be authorised using <code>getOauthUrl</code>:
+
+{% highlight javascript %}
+var graph = require('fbgraph')
+  , authUrl = graph.getOauthUrl({
+      'client_id':    conf.client_id
+    , 'redirect_uri': conf.redirect_uri
+  });
+{% endhighlight %}
+
+Once the Facebook dialog has been displayed, <code>graph.authorize</code> is called to complete the process and get the access token.
+
+API calls are made with <code>graph.get</code> or <code>graph.post</code>, so most of the API is oriented around HTTP methods:
+
+{% highlight javascript %}
+graph.get('zuck', function(err, res) {
+  console.log(res); // { id: '4', name: 'Mark Zuckerberg'... }
+});
+
+graph.post(userId + '/feed', wallPost, function(err, res) {
+  // returns the post id
+  console.log(res); // { id: xxxxx}
+});
+{% endhighlight %}
+
+This is a clean, well-documented, and well-tested Facebook library, which is surprisingly refreshing.
+
+h3. browser
+
+"browser":https://github.com/shinout/browser (License: _MIT_, npm: _browser_) by Shin Suzuki is an event-based library for browsing and scraping URLs, whilst maintaining cookies.  Requests are built up using the library's object, and then triggered with <code>.run()</code>:
+
+{% highlight javascript %}
+var $b = require('browser');
+$b.browse('https://example.com/');
+$b.run();
+{% endhighlight %}
+
+Building up a sequence of events is possible with the <code>after</code> method:
+
+{% highlight javascript %}
+var $b = require('browser');
+
+$b.browse('https://example.com/sign-in');
+
+$b.browse('https://example.com/account')
+  .after(); // browse after previously registered function
+
+$b.run();
+{% endhighlight %}
+
+Event callbacks can also be registered:
+
+{% highlight javascript %}
+$b.on('end', function(err, res) {
+});
+{% endhighlight %}
+
+Now load up "jsdom":https://github.com/tmpvar/jsdom and you'll be able to scrape faster than you can say "deep-linking lawsuit"!
