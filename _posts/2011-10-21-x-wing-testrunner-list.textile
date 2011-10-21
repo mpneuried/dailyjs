@@ -1,0 +1,48 @@
+---
+layout: post
+title: "WebGL X-Wing, JS Test Runner, Lists.js"
+author: Alex Young
+categories: 
+- webgl
+- html
+- testing
+---
+
+h3. WebGL X-Wing
+
+!/images/posts/webgl-x-wing.png!
+
+bq. It's not impossible!  I used to bullseye womp rats in my T-16 back home, they're not much bigger than two meters.
+
+"WebGL X-Wing":http://oos.moxiecode.com/js_webgl/xwing/index.html is a simple game demo where an X-wing is piloted through the Death Star trench run.  It's created by "@oosmoxiecode":https://twitter.com/#!/oosmoxiecode, and the author has a whole load of other WebGL demos here: "OutsideOfSociety WebGL demos":http://oos.moxiecode.com/blog/experiments/javascript-webgl/.
+
+h3. JS Test Runner
+
+"JS Test Runner":http://js-testrunner.codehaus.org/ (License: _Apache License 2.0_) by Christopher Hunt runs tests in a browser simulator ("PhantomJS":http://www.phantomjs.org/), and works well with JUnit so it's easy to integrate with Maven's Surefire plugin.  The author notes that the project doesn't depend on Maven, but should work well with anything that can run JUnit tests.
+
+If you're used to working with Eclipse then JS Test Runner should fit into your workflow very well.
+
+Sample usage of JS Test Runner looks like this:
+
+{% highlight java %}
+import org.codehaus.jstestrunner.junit.JSTestSuiteRunner;
+import org.junit.runner.RunWith;
+
+/**
+ * Run all JS tests associated with this project.
+ */
+@RunWith(JSTestSuiteRunner.class)
+public class SuiteUT {
+}
+{% endhighlight %}
+
+h3. Lists.js
+
+"Lists.js":http://listjs.com/ (GitHub: "javve / list":https://github.com/javve/list, License: _MIT_) by Jonny Strömberg is a small library for adding extra filtering options to HTML lists.  It's native JavaScript rather than framework-dependent, so the API is a simple class:
+
+{% highlight javascript %}
+new List('list', { valueNames: [ 'name', 'city' ] });
+{% endhighlight %}
+
+There are some interesting "Lists.js examples":http://listjs.com/examples.html which include references to LucasArts games -- proof, if any is needed, that the author is a man of impeccable taste.
+
