@@ -1,0 +1,54 @@
+---
+layout: post
+title: "Backbone.js Screencasts, XDate, JavaScript BigInteger Library"
+author: Alex Young
+categories: 
+- libraries
+- time
+- date
+- screencasts
+- backbone.js
+- maths
+---
+
+h3. Backbone.js Screencasts
+
+!/images/posts/backbone-js-screencasts.png!
+
+"Backbone.js Screencasts":http://backbonescreencasts.com/ is a commercial set of "Backbone.js":http://documentcloud.github.com/backbone/ tutorials from "30 Cubits":http://30cubits.com/ that costs $9 (until November 9th, then $18 thereafter) for 106 minutes of videos.  The videos cover the core Backbone.js functionality like views, routers, events, models, collections, and also how to use other JavaScript techniques alongside your Backbone.js code. 
+
+There's a preview of the content on Vimeo here: "Backbone.js Quickly - Preview":http://vimeo.com/30679945.
+
+h3. XDate
+
+"XDate":http://arshaw.com/xdate/ (GitHub: "arshaw / xdate":https://github.com/arshaw/xdate, License: dual _MIT_ and _GPL_) by Adam Shaw is a wrapper around <code>Date</code> that provides improved date parsing, formatting, and manipulation.  "XDate format strings":http://arshaw.com/xdate/#Formatting really help with formatting dates, which I find myself doing a lot lately in Node or single page applications.
+
+Here's an example of XDate's formatting method:
+
+{% highlight javascript %}
+new XDate(2011, 0, 1, 6, 0).toString('d/M/yy h(:mm)TT');
+{% endhighlight %}
+
+Another useful feature of this library is the set of "XDate diffing methods":http://arshaw.com/xdate/#Diffing.  They provide a friendly API around date subtraction.
+
+Most of XDate's methods return an <code>XDate</code>, so it's chainable too:
+
+{% highlight javascript %}
+d1 = new XDate();
+d2 = d1.clone()
+       .setUTCMode(true)
+       .setDate(1)
+       .addMonths(1)
+       .addYears(2);
+{% endhighlight %}
+
+h3. JavaScript BigInteger Library
+
+The "JavaScript BigInteger Library":http://silentmatt.com/biginteger/ (GitHub: "silentmatt / javascript-biginteger":https://github.com/silentmatt/javascript-biginteger, License: _MIT_) by Matthew Crumley is a BigInteger library for JavaScript.  The author has written detailed blog posts on how the library works and the algorithms behind it:
+
+* "How BigIntegers Work, part 1: Storage, Addition, and Subtraction":http://silentmatt.com/blog/2011/10/how-bigintegers-work/
+* "How BigIntegers Work, part 2: Multiplication":http://silentmatt.com/blog/2011/10/how-bigintegers-work-part-2-multiplication/
+
+bq. If you look at the source, you'll probably notice that I'm actually using base 10000000, not base 10. I'm using decimal in these examples because it makes things clearer but everything works pretty much exactly the same way in any base. Using a larger base just makes things more efficient because you get 7 digits in each array entry.
+
+Matthew created this library to support his "Google Chrome Scientific Calculator":https://chrome.google.com/webstore/detail/npoipmeppdioagbkigdlnpmjphnolaog.
