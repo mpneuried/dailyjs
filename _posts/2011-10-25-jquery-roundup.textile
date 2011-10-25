@@ -1,0 +1,71 @@
+---
+layout: post
+title: "jQuery Roundup: 1.7 RC1, $.Callbacks, jquery.rss, sessionTimeout"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- rss
+- events
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.7 RC1
+
+"jQuery 1.7 RC1":http://blog.jquery.com/2011/10/24/jquery-1-7-rc1-released/ has been released.  Meanwhile, the "jQuery Standards Team":http://blog.jquery.com/2011/10/24/announcing-the-jquery-standards-team/ has been created, which aims to represent jQuery users to standards bodies such as the W3C and TC39.  
+
+bq. The jQuery Standards Team is driven by jQuery team members Yehuda Katz and Paul Irish who some of you may know. Yeuhda and Paul have extenstively worked with standards bodies and browser vendors in a number of capacities over the years.
+
+h3. Demystifying jQuery 1.7's $.Callbacks
+
+In "Demystifying jQuery 1.7's $.Callbacks":http://addyosmani.com/blog/jquery-1-7s-callbacks-feature-demystified/, Addy Osmani explains the origins of <code>$.Callbacks</code> and provides detailed examples on how to use it.
+
+bq. The general idea behind pub/sub (the Observer pattern) is the promotion of loose coupling in applications. Rather than single objects calling on the methods of other objects, an object instead subscribes to a specific task or activity of another object and is notified when it occurs.
+
+Looking at the source in in jQuery 1.7 is interesting because <code>$.Callbacks</code> is now used in several places.  For example, the new "deferred.js":https://github.com/jquery/jquery/blob/master/src/deferred.js is built with it, and "ajax.js":https://github.com/jquery/jquery/blob/master/src/ajax.js is as well.
+
+I was trying to compare Node's <code>EventEmitter</code> with <code>$.Callbacks</code> and discovered "Comparison Between Different Observer Pattern Implementations":https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations by Miller Medeiros, which is an interesting post on this subject.
+
+h3. jquery.rss
+
+"jquery.rss":https://github.com/dawanda/jquery-rss (License: _MIT_) by Sascha Depold and DaWanda GmbH is an RSS reading and transformation library.  It uses the "Google Feed API":http://code.google.com/apis/feed/ to download feeds straight from the browser.  It comes complete with support for simple templates and filtering:
+
+{% highlight javascript %}
+$("#rss-feeds").rss("http://feeds.feedburner.com/premiumpixels", {
+  // how many entries do you want? default: 4
+  limit: 10,
+
+  // will request the API via https; default: false
+  ssl: true,
+
+  // template for the html transformation
+  // default: "<ul>{entry}<li><a href='{url}'>[{author}@{date}] {title}</a><br/>{shortBodyPlain}</li>{/entry}</ul>"
+  template: "<div class='feed-container'>{entry}<p>{title}</p>{/entry}</div>",
+
+  // additional token definition for in-template-usage
+  // default: {}
+  tokens: {
+    foo: 'bar',
+    bar: function(entry, tokens) { return entry.title }
+  }
+});
+{% endhighlight %}
+
+h3. sessionTimeout
+
+"sessionTimeout":http://sites.google.com/site/tpopsjqueryplugins/sessiontimeout (Source: "jquery.sessionTimeout.1.0.js":http://sites.google.com/site/tpopsjqueryplugins/sessiontimeout/downloads) is a simple plugin for handling session timeouts in the browser.  It will poll a URL, and show a jQuery UI dialog when the time limit has been reached.
+
+{% highlight javascript %}
+$.sessionTimeout({
+  message :     'Your session is about to expire.'
+, keepAliveUrl: '/sessions/alive'
+, redirUrl:     '/sessions/timed-out'
+, logoutUrl:    '/sessions/destroy'
+, warnAfter:    900000
+, redirAfter:   1200000
+})
+{% endhighlight %}
+
