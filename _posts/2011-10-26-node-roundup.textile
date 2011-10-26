@@ -1,0 +1,68 @@
+---
+layout: post
+title: "Node Roundup: 0.5.10 and 0.6, MCMS, EventStream, RSS Tutorial"
+author: Alex Young
+categories: 
+- node
+- modules
+- events
+- cms
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. 0.5.10 and 0.6
+
+"Node 0.5.10":http://blog.nodejs.org/2011/10/21/node-v0-5-10/ has been released.  This version changes the build system, adds performance improvements, and it looks like there's been a lot of documentation improvements.
+
+"Node 0.6":http://blog.nodejs.org/2011/10/25/version-0-6/ was also formally announced on the official Node blog:
+
+bq. The API changes between v0.4.12 and v0.5.10 are 99% cosmetic, minor, and easy to fix. Most people are able to migrate their code in 10 minutes. Don't fear.
+
+Sounds good to me!
+
+h3. MCMS
+
+"MCMS":https://github.com/olegp/mcms (npm: _mcms_, License: _MIT_) by Oleg Podsechin is a content management system built with "Common Node":http://olegp.github.com/common-node/.  Actually, Common Node is just part of the story:
+
+bq. By being built on top of the CommonJS Filesystem/A and JSGI 0.3 specs, it runs on multiple server side JavaScript platforms, such as Node.js (via Common Node) and RingoJS.
+
+Oleg has provided installation instructions for both Node and RingoJS.
+
+MCMS is more like a static site generator than a traditional CMS, and serves as an interesting example of how to build something using Common Node while still being able to deploy to other CommonJS-compatible environments.
+
+h3. EventStream
+
+bq. Streams are like Arrays, but laid out in time, rather than in memory. 
+
+"EventStream":https://github.com/dominictarr/event-stream (npm: _event-stream_) by Dominic Tarr is a library for manipulating "through streams", which is the author's terms for streams that are both readable and writable:
+
+{% highlight javascript %}
+// pretty.js
+
+if (!module.parent) {
+  var es = require('event-stream');
+
+  es.connect(                          // connect streams together with `pipe`
+    process.openStdin(),               // open stdin
+    es.split(),                        // split stream to break on newlines
+    es.map(function(data, callback) { // turn this async function into a stream
+      callback(null
+        , inspect(JSON.parse(data)))   // render it nicely
+    }),
+    process.stdout                     // pipe it to stdout!
+  );
+}
+
+// On the terminal:
+// curl -sS registry.npmjs.org/event-stream | node pretty.js
+{% endhighlight %}
+
+The library provides many interesting ways to enhance native objects and functions with streams.  The author has even created a list of compatible Node modules, which includes popular modules like "sax-js":https://github.com/isaacs/sax-js and "request":https://github.com/mikeal/request.
+
+h3. RSS with NodeJS and Socket.IO
+
+French-speaking readers may appreciate "RSS with NodeJS Socket.IO and Express":http://www.it-wars.com/article290/rss-avec-nodejs-socket-io-et-express which is a full tutorial on how to build an RSS reader with Express and Socket.IO.  I had a go at reading it with Google Translate, and I was able to follow it (for the most part).
+
