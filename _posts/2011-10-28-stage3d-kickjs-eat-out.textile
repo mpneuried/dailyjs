@@ -1,0 +1,34 @@
+---
+layout: post
+title: "KickJS, Stage3D vs WebGL Performance, Large Commercial Node App"
+author: Alex Young
+categories: 
+- node
+- webgl
+- frameworks
+- libraries
+- games
+---
+
+h3. KickJS
+
+"KickJS":http://www.kickjs.org/ (GitHub: "mortennobel / KickJS":https://github.com/mortennobel/KickJS, License: <em>New BSD</em>) by Morten Nobel-Jørgensen is a new WebGL game engine.  It looks like the author has only been working on it for about a month, but there's already a "snake game example":https://github.com/mortennobel/KickJS/tree/master/example/snake and an interesting "shader editor example":http://www.kickjs.org/example/shader_editor/shader_editor.html.
+
+The "KickJS API documentation":http://www.kickjs.org/api/ seems fairly complete, and provides an overview of the main functionality.  It looks like games are constructed based on <code>KICK.scene.Component</code> objects, and events based on these components.  There's also WebGL abstraction which reminds me a little bit of "three.js":https://github.com/mrdoob/three.js/ -- there's a camera class, and classes for lots of other things like textures, materials, lighting, and meshes.
+
+h3. Stage3D vs WebGL Performance
+
+!/images/posts/stage3d_Webgl1.png!
+
+In "Stage3D vs WebGL Performance":http://www.airtightinteractive.com/2011/10/stage3d-vs-webgl-performance/, Felix Turner compares Flash 11's Stage3D API with WebGL.  Two demos of equivalent code are compared, and both can run so you can see how they perform on your own hardware.  It's interesting to see how the code compares, because Felix has used three.js and the API doesn't seem too different to Stage3D.
+
+The post has a good discussion as well, with contributions from three.js's author.
+
+h3. Large Commercial Node App
+
+Sam Fresco who works at an agency called "Clock":http://www.clock.co.uk sent me some interesting PR about a project built with Node called Eat Out that his company has developed for The Times and Sunday Times.  I searched high and low to actually try this project, but when I found Sam's blog post I realised it's only accessible to Times subscribers until 2012, when it should be released to a wider audience.  More details are available in his blog post: "There's Never Been A Better Time To Eat Out":http://www.clock.co.uk/blog/entry/view.php?Id=36.
+
+Clock's technical blog also has posts on working with Node, including one on "deploying Node apps":http://blog.clock.co.uk/2011/04/11/deploying-node-js-apps/.
+
+Why do I bring this up?  Well, it's always interesting to hear about large commercial projects that use Node, and also because it helps answer the dreaded boss/client question: "what popular sites use Node, anyway?"
+
