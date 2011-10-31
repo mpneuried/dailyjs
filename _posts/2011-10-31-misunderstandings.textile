@@ -1,0 +1,134 @@
+---
+layout: post
+title: "Five Common JavaScript Misunderstandings"
+author: Alex Young
+categories: 
+- language
+- essays
+---
+
+Over the last few years more people have been drawn to JavaScript thanks to libraries like jQuery and innovative server-side projects like Node.  However, JavaScript is deceptively easy to learn for existing developers, and there are a few frustratingly awkward pitfalls for newcomers.  I've quietly been keeping notes on some of these pitfalls, and have selected a few of my favourites in this post.
+
+h3. Too Many Callbacks!
+
+New Node developers like to complain about callbacks.  Deeply nested callbacks don't read particularly well, but this isn't necessarily JavaScript's fault.  One way to mitigate this is through flow control techniques, and chainable APIs are probably the most popular technique in this area.  For example, consider jQuery where the API feels very "flat":
+
+{% highlight javascript %}
+$('#foo')
+  .slideUp(300)
+  .delay(800)
+  .fadeIn(400);
+{% endhighlight %}
+
+If you're knee-deep in callbacks, check to see if the library you're using has an alternative chainable API.  A lot of popular libraries do, like "Underscore.js":http://documentcloud.github.com/underscore/.
+
+Chainable APIs work by returning <code>this</code> from their methods.  It can be quite hard to make some APIs work this way, but masking the underlying complexity is often worth it.
+
+There are plenty of flow control libraries available through "npm":http://npmjs.org/ that solve this (and similar) style problems.
+
+h3. Inheritance
+
+Experienced classical object-oriented developers often get frustrated with JavaScript's prototypes and recreate traditional class and inheritance patterns.  I think the lack of OO-related keywords is the main reason for this.  However, there's no need to shy away from prototypes, and prototypal inheritance is surprisingly easy to learn:
+
+{% highlight javascript %}
+var user;
+
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function() {
+  console.log('Hello', this.name);
+};
+
+// Admin inherits from Person
+
+function Admin(name) {
+  this.name = name;
+}
+
+Admin.prototype = new Person;
+
+user = new Admin('alex');
+
+// This method was defined on Person
+user.greet();
+{% endhighlight %}
+
+The key line is <code>Admin.prototype = new Person;</code>.  I only really understood this when I started to think about prototype chains: "Inheritance and the prototype chain":https://developer.mozilla.org/en/JavaScript/Guide/Inheritance_constructor_prototype. 
+
+h3. Scope and Callbacks in Loops
+
+I've fallen foul of this a few times over the years.  When looping over a set of values, people often mistakenly think an anonymous function will capture the current state of the variables in the loop:
+
+{% highlight javascript %}
+var assert = require('assert')
+  , names = ['alex', 'molly', 'yuka']
+  , name
+  , i;
+
+for (i = 0; i < names.length; i++) {
+  name = names[i];
+
+  if (name === 'alex') {
+    setTimeout(function() {
+      assert.equal(name, 'alex');
+    }, 10);
+  }
+}
+{% endhighlight %}
+
+The callback will execute in the future, at which point the name will have changed because it hasn't been bound the way it seems like it should.  This will work as expected:
+
+{% highlight javascript %}
+var assert = require('assert')
+  , names = ['alex', 'molly', 'yuka'];
+
+names.forEach(function(name) {
+  if (name === 'alex') {
+    setTimeout(function() {
+      assert.equal(name, 'alex');
+    }, 10);
+  }
+});
+{% endhighlight %}
+
+People often use <code>for</code> instead of an iterator when performance is desired, but in certain cases callback-based iteration might be more readable.
+
+h3. <code>this</code> in Nested Functions
+
+What's the value of <code>this</code> in a nested function?
+
+{% highlight javascript %}
+var user;
+
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.nested = function() {
+  console.log(this);
+
+  (function() {
+    console.log(this);
+  })();
+};
+
+user = new Person('alex');
+user.nested();
+{% endhighlight %}
+
+The first <code>console.log</code> will show <code>{ name: 'alex' }</code>, but the second will show the global object (<code>window</code> in client-side code).  This is why a lot of code sets <code>var self = this</code> at the start of a method.
+
+h3. Future Reserved Words
+
+The ECMA standards define _Future Reserved Words_ that include commonly used words like <code>class</code>, <code>extends</code>, and <code>super</code>.  It's probably a good idea to avoid using these words; check with the specifications if you're unsure of a particular word.
+
+h3. References
+
+* "Standard ECMA-262":http://www.ecma-international.org/publications/standards/Ecma-262.htm
+* "ECMAScript 5 spec: LexicalEnvironment versus VariableEnvironment":http://www.2ality.com/2011/04/ecmascript-5-spec-lexicalenvironment.html
+* "ECMA-262-5 in Detail: Strict Mode":http://dmitrysoshnikov.com/ecmascript/es5-chapter-2-strict-mode/
+* "The Elements of JavaScript Style":http://javascript.crockford.com/style2.html
+* "MDN Reserved Words":https://developer.mozilla.org/en/JavaScript/Reference/Reserved_Words
+* "Inheritance and the prototype chain":https://developer.mozilla.org/en/JavaScript/Guide/Inheritance_constructor_prototype
