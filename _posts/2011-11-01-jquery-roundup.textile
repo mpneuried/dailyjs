@@ -1,0 +1,95 @@
+---
+layout: post
+title: "jQuery Roundup: 1.7 RC2, jQote2, jquery.factory, Native Fullscreen"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- fullscreen
+- templating
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.7 RC2
+
+"jQuery 1.7 RC2":http://blog.jquery.com/2011/11/01/jquery-1-7-rc2-released/ is out, with a Halloween-themed announcement:
+
+bq. In RC2, we fixed a tricky problem that sometimes caused Internet Explorer 8 to go full-zombie when jQuery was loaded. Appropriately enough, the crash was related to creating a detached <code><body></code> element that we were using to perform feature detection. IE8 seems frightened to a crashy death when it sees a detached body. If you still see any problems with IE8 crashes, please let us know.
+
+It sounds like IE8 is the new IE7 (which was the new IE6)!
+
+h3. jQote2
+
+"jQote2":http://aefxx.com/jquery-plugins/jqote2/ (GitHub: "aefxx / jQote2":https://github.com/aefxx/jQote2, License: _MIT_) by aefxx is a template plugin that works a little bit like ".tmpl()":http://api.jquery.com/tmpl/.
+
+The author has written "jQote2 API documentation":http://aefxx.com/api/jqote2-reference/.  I picked out the Fibonacci example because it demonstrates some interesting features of this plugin.  Given this HTML:
+
+{% highlight html %}
+<ul id="fibonacci">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<script type="text/x-jqote-template" id="template">
+    <![CDATA[
+    <%= ( ( this.n == 0 ) ?
+            0 : ( this.n == 1 || this.n == 2 ) ?
+                1 : parseInt($.jqote(fn, {n: this.n-1})) +
+                        parseInt($.jqote(fn, {n: this.n-2})) ) %>
+    ]]>
+</script>
+{% endhighlight %}
+
+... and this JavaScript:
+
+{% highlight javascript %}
+$(function() {
+  var lambda = $.jqotec('#template');
+
+  $('#fibonacci li').each(function(i) {
+    $(this).text($.jqote(lambda, {n: i}));
+  });
+});
+{% endhighlight %}
+
+then an unordered list displaying the Fibonacci sequence will be displayed for the number of list elements in the template.
+
+Despite having some advanced features, this plugin performs well when compared to other templating plugins.  The benchmarks compare Srender, mustache.js, Underscore, jQote2, Tempest, and nano, with Underscore and jQote2 coming out on top.
+
+h3. jquery.factory
+
+"jquery.factory":https://github.com/iwyg/jquery.factory by iwyg is a class constructor library.  Objects can be created using the <code>factory</code> function that has the following signature:
+
+{% highlight javascript %}
+var MyClass = $.factory(ParentClass, constructorFunction, prototypeObject);
+{% endhighlight %}
+
+It comes with documentation and unit tests.  It doesn't yet offer much that goes beyond prototypal inheritance, but the author only published it two days ago so perhaps there's more to come.
+
+h3. Native Fullscreen
+
+!/images/posts/js-fullscren.png!
+
+In "Native Fullscreen JavaScript API":http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/, John Dyer writes about the history and current state of browser full screen support, complete with a demo and jQuery plugin.
+
+bq. The API is still heavily in flux especially since the W3C joined in this week. I spent some time working through the differences to implement FullScreen in MediaElement.js HTML5 video player, and it’s working great in Safari 5.1+, Chrome 15+, or Firefox Nightly.
+
+The resulting code can be used like this:
+
+{% highlight javascript %}
+if (fullScreenApi.supportsFullScreen) {
+  myButton.addEventListener('click', function() {
+    fullScreenApi.requestFullScreen(someElement);
+  }, true);
+}
+{% endhighlight %}
+
