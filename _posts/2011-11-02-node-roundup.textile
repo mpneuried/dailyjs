@@ -1,0 +1,84 @@
+---
+layout: post
+title: "Node Roundup: cheerio, dbmon, HTML Sourcery"
+author: Alex Young
+categories: 
+- node
+- modules
+- html
+- dom
+- templating
+- database
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. cheerio
+
+"cheerio":https://github.com/MatthewMueller/cheerio (License: _MIT_, npm: _cheerio_) by Matt Mueller is an implementation of the core of jQuery designed specifically for server-side use.  The author has removed all of the browser support code, and created a simplified version of the DOM designed for speed:
+
+bq. The goal of JSDOM is to provide an identical DOM environment as what we see in the browser. I never really needed all this, I just wanted a simple, familiar way to do HTML manipulation.
+Usage looks just like jQuery for the most part:
+
+{% highlight javascript %}
+$('.apple').attr('id', 'favorite').html()
+// <li class = "apple" id = "favorite">Apple</li>
+{% endhighlight %}
+
+Cheerio also includes a test suite, and Matt has provided instructions on how to run them.
+
+h3. dbmon
+
+"dbmon":https://github.com/straps/node-dbmon (License: _MIT_, npm: _dbmon_) by Francesco Strappini is an interesting library for monitoring changes to databases.  Francesco's example uses postgres and the <code>pg</code> module:
+
+{% highlight javascript %}
+var pg = require('pg')
+  , cli = new pg.Client('tcp://postgres@localhost/template1')
+  , dbmon = require('dbmon');
+
+cli.connect();
+
+var channel = dbmon.channel({
+    driver: 'postgresql'
+  , driverOpts: {
+      postgresql: {
+        cli: cli
+      }
+    }
+  , table: 'testtable'
+  , monitor: 'all'
+  , keyfld: {
+      name: 'id'
+    , type: 'integer'
+    }
+});
+{% endhighlight %}
+
+There's also a file system driver based on <code>inotifywait</code>.  The documentation includes examples on how to create generic TCP-based transports.
+
+h3. HTML Sourcery
+
+"html-sourcery":https://github.com/reissbaker/html-sourcery (License: _GPL_, npm: _html-sourcery_) by Matt Baker is a library for building HTML:
+
+{% highlight javascript %}
+src = require('html-sourcery');
+
+console.log(src.compile(src.doctype(5), { title: 'HTML SOURCERY', dumbledore: true }, src.html([
+  src.head([
+    src.meta({ charset: 'utf-8' }),
+    src.title(function(params) { return params.title; })
+  ]),
+  src.body([
+    src.h1(function(params) { return params.title; }),
+    src.div({ class: 'container' }, [
+      src.p('A pure-Javascript library for conjuring up HTML, meant for use with node. Observe:')
+// More available in the README
+{% endhighlight %}
+
+It reminds me of Ruby's Builder library, and the author addresses the distinction between a templating language and a templating library:
+
+bq. HTML Sourcery isn't a templating language: it's a templating library, and that makes all the difference. Source files are just .js files, and you can require away at will.
+
+
