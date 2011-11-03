@@ -1,0 +1,224 @@
+---
+layout: post
+title: "Asynchronous Resource Loading Part 6"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- network
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+Previous parts of _Asynchronous Resource Loading_:
+
+* "Part 1: Introduction, library review":http://dailyjs.com/2011/09/22/framework-81/
+* "Part 2: Script Insertion":http://dailyjs.com/2011/09/29/framework-82/
+* "Part 3: HTML5":http://dailyjs.com/2011/10/13/framework/
+* "Part 4: Preloading with XMLHttpRequest":http://dailyjs.com/2011/10/20/framework/
+* "Part 5: Creating a Preloading API":http://dailyjs.com/2011/10/27/framework/
+
+h3. Handling Remote Scripts
+
+In a world where <code>XMLHttpRequest</code> can load remote scripts, asynchronous script loading would be relatively easy.  However, as CDNs are so popular loading third-party scripts is a common occurrence.
+
+This tutorial takes the most basic technique for remote script loading, script insertion, and demonstrates how to combine it with <code>XMLHttpRequest</code> preloading.
+
+h3. Queueing and Preloading
+
+Last week's tutorial showed how to load remote scripts using an event-based queueing system.  This must be modified to work with script insertion.  Fortunately, keeping this process event-based gives rise to a simple algorithm:
+
+# Preload all local scripts
+# Once preloading is complete, emit an <code>execute-next</code> event
+# If the script is preloaded, execute it.  Afterwards, emit an <code>execute-next</code> event
+# If the script is remote, fetch and execute it.  Once execution is complete, emit an <code>execute-next</code> event
+
+That gives rise to the following methods:
+
+* <code>fetchExecute(item, fn)</code>: Fetch and execute a remote script, then call the callback
+* <code>execute(item, fn)</code>: Execute a preloaded script, then call the callback
+* <cocde>preloadAll</code>: Preload every script possible.  If no scripts are local, then emit <code>execute-next</code>
+
+The callbacks for <code>fetchExecute</code> and <code>execute</code> should emit <code>execute-next</code>.  In fact, it should probably just be one callback.
+
+h3. Testing
+
+The tests are similar to the previous tests, but with the addition of a remote script:
+
+{% highlight javascript %}
+'test queue loading with remote in the middle': function() {
+  var assertExpect = mixinExpect(assert);
+  assertExpect.expect(9);
+
+  $t.require([
+    '/load-me.js?test12=12',
+    'https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js',
+    '/load-me.js?test13=13'
+  ]).on('complete', function() {
+    assertExpect.ok(true);
+    assertExpect.done();
+  }).on('loaded', function(item) {
+    if (item.src === 'https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js') {
+      assertExpect.equal(typeof test13, 'undefined', 'test13 should not be set when remote is loaded');
+      assertExpect.ok(window.swfobject, 'swfobject should be set');
+    }
+
+    if (item.src === '/load-me.js?test12=12') {
+      assertExpect.ok(!window.swfobject, 'swfobject should not be set when test12 is loaded');
+      assertExpect.equal(typeof test13, 'undefined', 'test13 should not be set when test12 is loaded');
+      assertExpect.equal(test12, 12, 'test12 should be set when test12 is loaded');
+    }
+
+    if (item.src === '/load-me.js?test13=13') {
+      assertExpect.ok(window.swfobject);
+      assertExpect.equal(test13, 13);
+      assertExpect.equal(test12, 12);
+    }
+  });
+}
+{% endhighlight %}
+
+I've used the Google CDN for this test, and picked an arbitrary script to load.  Execution is tested by checking a global variable that we know the remote script will set.
+
+h3. Implementation
+
+A counter is required to check how many scripts require preloaded, then it gets decrement as each preload completes.  I've called this <code>this.preloadCount</code> in <code>Queue</code>, and the <code>preload</code> event handler has been changed to emit <code>preload-complete</code> when preloading finishes.
+
+The only edge case is <code>preloadAll</code> must emit something when there are no local scripts.
+
+{% highlight javascript %}
+preloadAll: function() {
+  var i, g, group, item, self = this;
+  for (g = 0; g < this.groupKeys.length; g++) {
+    group = this.groups[this.groupKeys[g]];
+    
+    for (i = 0; i < group.length; i++ ) {
+      item = group[i];
+
+      if (item.preload) {
+        this.preloadCount++;
+        (function(groupItem) {
+          requireWithXMLHttpRequest(groupItem.src, {}, function(script) {
+            self.emit('preloaded', groupItem, script);
+          })
+        }(item));
+      }
+    }
+  }
+
+  if (this.preloadCount === 0) {
+    this.emit('execute-next');
+  }
+}
+{% endhighlight %}
+
+The <code>preload</code> event handler looks simpler than it did before:
+
+{% highlight javascript %}
+installEventHandlers: function() {
+  var self = this;
+
+  this.on('preloaded', function(groupItem, options) {
+    var group = self.groups[groupItem.group];
+    groupItem.preloaded = true;
+    groupItem.scriptOptions = options;
+    self.preloadCount--;
+
+    if (self.preloadCount === 0) {
+      self.emit('preload-complete');
+    }
+  });
+
+  this.on('preload-complete', function() {
+    this.emit('execute-next');
+  });
+{% endhighlight %}
+
+
+This neatly encapsulates preloading and executing code, making the distinction easier to follow.  The next handler is the key one which manages execution:
+
+{% highlight javascript %}
+this.on('execute-next', function() {
+  var groupItem = self.nextItem();
+
+  function completeCallback() {
+    groupItem.loaded = true;
+    self.emit('loaded', groupItem);
+    self.emit('execute-next');
+  }
+
+  if (groupItem) {
+    if (groupItem.preload) {
+      self.execute(groupItem, completeCallback);
+    } else {
+      self.fetchExecute(groupItem, completeCallback);
+    }
+  } else {
+    self.emit('complete');
+  }
+});
+{% endhighlight %}
+
+The key method here is really <code>nextItem</code> which finds an item waiting to be executed, or "fetch executed":
+
+{% highlight javascript %}
+nextItem: function() {
+  var group, i, j, item;
+
+  for (i = 0; i < this.groupKeys.length; i++) {
+    group = this.groups[this.groupKeys[i]];
+    for (j = 0; j < group.length; j++) {
+      item = group[j];
+      if (!item.loaded) {
+        return item;
+      }
+    }
+  }
+}
+{% endhighlight %}
+
+The <code>execute</code> code is retained from last week, but the group completion handling code has been removed:
+
+{% highlight javascript %}
+fetchExecute: function(item, fn) {
+  var self = this;
+  requireWithScriptInsertion(item.src, { async: true, defer: true }, function() {
+    fn();
+  });
+},
+
+execute: function(item, fn) {
+  if (item && item.scriptOptions) {
+    script = createScript(item.scriptOptions);
+    insertScript(script);
+    appendTo.removeChild(script);
+  }
+
+  fn();
+}
+{% endhighlight %}
+
+Both methods call the callback, which was set by the <code>execute-next</code> handler.  By using the same callback, <code>completeCallback</code>, we remove the possibility of creating a mistake in the completion behaviour -- it would be easy to forget to set <code>groupItem.loaded</code> in one of the callbacks for example.
+
+h3. Conclusion
+
+Although this doesn't use any preloading techniques for remote scripts, it extends the event-based approach and better encapsulates execution and preloading.  I think you'll agree that creating remote script loaders is not at all trivial, despite support from the HTML specifications.
+
+If you want to read more about the gruesome details of script loading, the "comments on ControlJS Part 1":http://www.stevesouders.com/blog/2010/12/15/controljs-part-1/ are extremely interesting, because it shows some of the thinking that went into LABjs.  It also demonstrates an alternative HTML-oriented approach that removes some of the headaches of doing everything purely in JavaScript.
+
+This code can be found in "commit a4642e1":https://github.com/alexyoung/turing.js/commit/a4642e1ec5d547d453c518fbac301453d67cb455.
+
+h3. References
+
+
+* "HTML4 Script Tags, defer":http://www.w3.org/TR/html4/interact/scripts.html#adef-defer
+* "Using HTML 5 for performance improvements":http://code.google.com/speed/articles/html5-performance.html
+* "ControlJS part 1: async loading":http://www.stevesouders.com/blog/2010/12/15/controljs-part-1/
+* "Dynamic Script Execution Order":http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
+* "LABjs":http://labjs.com/
+
