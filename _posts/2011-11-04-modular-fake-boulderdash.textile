@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Writing Modular JavaScript, Fake Private, Boulderdash, Shopify Fund"
+author: Alex Young
+categories: 
+- amd
+- language
+- games
+---
+
+h3. Writing Modular JavaScript
+
+I've mentioned the Asynchronous Module Definition spec on DailyJS before, but for a thorough writeup of this specification take a look at "Writing Modular JavaScript With AMD, CommonJS and ES Harmony":http://addyosmani.com/writing-modular-js/ by Addy Osmani.  It includes comparisons with script loaders, how to write modules (with code examples), and related topics like creating classes with getters and setters.
+
+bq. There are risks here such as specifications changing and a potential failure at the cross-browser level (IE9 for example will take a while to die) so your best bets until we have both spec finalization and coverage are AMD (for in-browser modules) and CJS (for those on the server).
+
+The document has been technically reviewed by Andrée Hansson, and includes links to other reference material on ES Harmony and ES.Next.
+
+h3. "No Fake Private"
+
+There's a huge discussion going on at this gist: "minimalist-classes.js":https://gist.github.com/1332193, and I was particularly intrigued by some of "Brendan Eich's comments":https://gist.github.com/1332193#gistcomment-60983:
+
+bq. If we are doing private, it'll use private name objects. No fake private. Enumerability has nothing to do with it.
+
+It's certainly a heated debate, but it's interesting nonetheless.
+
+h3. JavaScript Boulderdash
+
+!/images/posts/boulderdash-js.png!
+
+Back in the 8-bit era I had a ZX Spectrum, and I seem to remember enjoying "Boulder Dash":http://en.wikipedia.org/wiki/Boulder_Dash.  Jake Gordon is a Commodore 64 fan, and he's created a simple version of this game that can actually play all of the original levels.  In "JavaScript Boulderdash":http://codeincomplete.com/posts/2011/10/25/javascript_boulderdash/, he explains how this Canvas-powered game works, with detailed coverage on the game loop and asset loading.
+
+This is the first of a series of posts which can be followed on Jake's amazingly cool blog, "Code inComplete (about 80% done)":http://codeincomplete.com/.  
+
+h3. Shopify Fund
+
+"The Shopify Fund":http://www.shopify.com/fund is a one million dollar fund for building apps on Shopify's platform:
+
+bq. If you have an idea for an app or utility, tell us about it. We'll evaluate it, and if we decide to support your project, we'll provide an advance in the neighborhood of $5,000 - $10,000 on future sales in the App Store.
+
+If you're itching to go independent with server-side JavaScript apps and are looking for opportunities, it's worth checking this out.
+
