@@ -1,0 +1,231 @@
+---
+layout: post
+title: "Code Review: Tim Caswell's Step"
+author: Alex Young
+categories:
+- code-review
+- node
+- events
+---
+
+<div class="intro">
+_Code Review_ is a series on DailyJS where I take a look at an open source project to see how it's built.  Along the way we'll learn patterns and techniques by JavaScript masters.  If you're looking for tips to write better apps, or just want to see how they're structured in established projects, then this is the tutorial series for you.
+</div>
+
+Step (GitHub: "creationix / step":https://github.com/creationix/step, License: _MIT_, npm: _step_) by Tim Caswell is a flow control library for Node that helps manage parallel and serial execution, as well as assisting with error handling.
+
+h3. Usage
+
+Serial usage works by passing <code>this</code> as the callback argument to asynchronous functions, or by simply returning a value for synchronous code.  Tim's example neatly illustrates this:
+
+{% highlight javascript %}
+Step(
+  function readSelf() {
+    // `this` will be the next callback
+    fs.readFile(__filename, this);
+  },
+  function capitalize(err, text) {
+    // This code is synchronous
+    if (err) throw err;
+    return text.toUpperCase();
+  },
+  function showIt(err, newText) {
+    if (err) throw err;
+    console.log(newText);
+  }
+);
+{% endhighlight %}
+
+Just like Node's libraries, the callback signature is <code>err, arguments...</code>.  Step will catch exceptions and pass them as <code>err</code>.
+
+Parallel functions are also supported:
+
+{% highlight javascript %}
+Step(
+  // Loads two files in parallel
+  function loadStuff() {
+    fs.readFile(__filename, this.parallel());
+    fs.readFile("/etc/passwd", this.parallel());
+  },
+  // Show the result when done
+  function showStuff(err, code, users) {
+    if (err) throw err;
+    console.log(code);
+    console.log(users);
+  }
+);
+{% endhighlight %}
+
+By using <code>this.parallel()</code>, Step will keep track of the number of callbacks so it can call them in the right order.
+
+h3. Structure
+
+Step comes with a detailed README, a package.json file, a single file for the main library, and tests split into files that address each main feature of the library.
+
+The CommonJS module support is conditional, so this library should be usable outside Node:
+
+{% highlight javascript %}
+// Hook into commonJS module systems
+if (typeof module !== 'undefined' && "exports" in module) {
+  module.exports = Step;
+}
+{% endhighlight %}
+
+The basic structure of the main <code>Step</code> function is easy to follow:
+
+{% highlight javascript %}
+function Step() {
+  var steps = Array.prototype.slice.call(arguments),
+      pending, counter, results, lock;
+
+  // Define the main callback that's given as `this` to the steps.
+  function next() {
+    // ...
+  }
+
+  // Add a special callback generator `this.parallel()` that groups stuff.
+  next.parallel = function () {
+    // ...
+  };
+
+  // Generates a callback generator for grouped results
+  next.group = function () {
+    // ...
+  };
+
+  // Start the engine an pass nothing to the first step.
+  next();
+}
+{% endhighlight %}
+
+The <code>next</code> function is called at the end of <code>Step</code> which starts everything running.  This function also gets the <code>parallel</code> and <code>group</code> calls that can be accessed from <code>this</code> in your callbacks.
+
+h3. Execution Management
+
+The core of the library is the <code>next</code> function.  Let's walk through each main part of it.
+
+Counters and return values are used to determine what should run next.  The counter is used by <code>parallel</code> and <code>group</code>.  These values are set up when <code>next</code> is called:
+
+{% highlight javascript %}
+  // Define the main callback that's given as `this` to the steps.
+  function next() {
+    counter = pending = 0;
+{% endhighlight %}
+
+The array of functions passed to <code>Step</code> is executed in order by calling <code>shift</code> on the array.  If there are no steps, then any errors are thrown, else execution is complete:
+
+{% highlight javascript %}
+    // Check if there are no steps left
+    if (steps.length === 0) {
+      // Throw uncaught errors
+      if (arguments[0]) {
+        throw arguments[0];
+      }
+      return;
+    }
+
+    // Get the next step to execute
+    var fn = steps.shift();
+    results = [];
+{% endhighlight %}
+
+Each "step" is called using <code>apply</code> so <code>this</code> in the supplied functions will be <code>next</code>:
+
+{% highlight javascript %}
+    // Run the step in a try..catch block so exceptions don't get out of hand.
+    try {
+      lock = true;
+      var result = fn.apply(next, arguments);
+    } catch (e) {
+      // Pass any exceptions on through the next callback
+      next(e);
+    }
+{% endhighlight %}
+
+Errors are caught and passed to the next step.  The <code>lock</code> variable is used by the parallel and grouping functionality.  The return value of the passed-in step function is saved.  Next the return value will be used to determine if a synchronous return has been used, and if so <code>next</code> is called again with the result:
+
+{% highlight javascript %}
+    if (counter > 0 && pending == 0) {
+      // If parallel() was called, and all parallel branches executed
+      // syncronously, go on to the next step immediately.
+      next.apply(null, results);
+    } else if (result !== undefined) {
+      // If a syncronous return is used, pass it to the callback
+      next(undefined, result);
+    }
+    lock = false;
+{% endhighlight %}
+
+h3. Parallel Execution
+
+The <code>parallel</code> method returns a function that wraps around callbacks to maintain counters, and execute the next step.  An array of results is used to capture the return values of parallel functions:
+
+{% highlight javascript %}
+next.parallel = function () {
+  var index = 1 + counter++;
+  pending++;
+
+  return function () {
+    pending--;
+    // Compress the error from any result to the first argument
+    if (arguments[0]) {
+      results[0] = arguments[0];
+    }
+    // Send the other results as arguments
+    results[index] = arguments[1];
+    if (!lock && pending === 0) {
+      // When all parallel branches done, call the callback
+      next.apply(null, results);
+    }
+  };
+};
+{% endhighlight %}
+
+h3. Bonus: <code>Step.fn</code>
+
+I also found the undocumented <code>Step.fn</code> method that creates function factories out of step calls.  It's used like this:
+
+{% highlight javascript %}
+var myfn = Step.fn(
+  function (name) {
+    fs.readFile(name, 'utf8', this);
+  },
+  function capitalize(err, text) {
+    if (err) throw err;
+    return text.toUpperCase();
+  }
+);
+
+var selfText = fs.readFileSync(__filename, 'utf8');
+
+expect('result');
+myfn(__filename, function (err, result) {
+  fulfill('result');
+  if (err) throw err;
+  assert.equal(selfText.toUpperCase(), result, "It should work");
+});
+{% endhighlight %}
+
+This is from Tim's tests.
+
+h3. Testing
+
+The tests are written using the basic CommonJS <code>assert</code> module, with an <code>expect</code> function defined in "test/helper.js":https://github.com/creationix/step/blob/master/test/helper.js.
+
+The <code>expect</code> function is used to define an expectation that must be satisfied by calling <code>fulfill</code> with the expected values.  The unit tests set up these expectations at the top level, then satisfy them within potentially asynchronous callbacks.
+
+For example:
+
+{% highlight javascript %}
+expect('one');
+expect('two');
+Step(
+  // Loads two files in parallel
+  function loadStuff() {
+    fulfill('one');
+{% endhighlight %}
+
+h3. Conclusion
+
+Step's actually been around for a while, but Tim has been actively working on it.  It's a small library but solves a common problem found when writing heavily asynchronous Node apps.  Over 35 libraries depend on Step according to NPM, which goes to show how popular it is.
+
