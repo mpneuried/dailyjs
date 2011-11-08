@@ -1,0 +1,42 @@
+---
+layout: post
+title: "jQuery Roundup: 1.7, Doubletake, ThemeRoller for Mobile"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- mobile
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.7 Release
+
+"jQuery 1.7 is out":http://blog.jquery.com/2011/11/03/jquery-1-7-released/.  The official blog post has great coverage of this release, with some intriguing statistics on delegated event performance:
+
+bq. To optimize the code for the most commonly used forms of selectors, we examined a cross-section of code from Google Code Search... By parsing those simple selectors in JavaScript at the time the event was attached, we were able to outperform even the browser's native-code implementations of <code>matchesSelector</code> during event delivery.
+
+h3. Doubletake
+
+"Doubletake":http://www.grahambird.co.uk/lab/doubletake/ (License: _WTFPL_) by Graham Bird changes the <code>src</code> of image elements based on the browser's width.  To control which images are requested, "breakpoints" are used to correctly match the file name:
+
+{% highlight javascript %}
+$('#container').doubletake({
+  'breakpoints': [480,960],
+  'pattern': '/images/foobar.jpg?width=([0-9]+)'
+});
+{% endhighlight %}
+
+Graham's example includes the use of "Sencha Src":http://www.sencha.com/products/io/ to automatically resize images.
+
+h3. ThemeRoller for Mobile
+
+!/images/posts/themeroller-mobile.png!
+
+"ThemeRoller for Mobile":http://jquerymobile.com/blog/2011/10/28/announcing-themeroller-for-mobile-beta/ has been released, which is a version of "jQuery UI's ThemeRoller":http://jqueryui.com/themeroller/ for "jQuery Mobile":http://jquerymobile.com/.
+
+It also includes "Adobe Kuler":http://kuler.adobe.com/ support for easily creating a colour palette for your apps.
+
+Although themes can be shared, the links to shared themes are only saved for 30 days to "keep our server from getting stuffed with themes".
