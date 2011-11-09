@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Node Roundup: 0.6, Moment.js, Cupboard"
+author: Alex Young
+categories: 
+- node
+- modules
+---
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 0.6.0
+
+"Node 0.6.0":http://blog.nodejs.org/2011/11/05/node-v0-6-0/ is out!  The benchmarks look promising, the Windows support is now getting pretty serious, so get it installed before the next version comes out!
+
+bq. In order to support Windows we reworked much of the core architecture. There was some fear that our work would degrade performance on UNIX systems but this was not the case. [...] We consider this a good intermediate stage for the Windows port. There is still work to be done.
+
+The API changes are actually quite gentle, and have been well-documented in "Node API changes between v0.4 and v0.6":https://github.com/joyent/node/wiki/API-changes-between-v0.4-and-v0.6.  Don't fret, your code will probably run fine.
+
+h3. Moment.js
+
+!/images/posts/momentjs.png!
+
+"Moment.js":http://momentjs.com/ (GitHub: "timrwood / moment":https://github.com/timrwood/moment, License: _MIT_, npm: _moment_) by Tim Wood might be the best date library I've seen so far.  Like any good date wrangling citizen, it manipulates dates without changing the <code>Date</code> prototype, and it works in both Node and browsers.  It even has a friendly chainable API:
+
+{% highlight javascript %}
+var moment = require('moment');
+moment().add('hours', 1).fromNow();
+{% endhighlight %}
+
+In fact, it works a little bit like jQuery, behaving differently based on the arguments to <code>moment()</code>:
+
+{% highlight javascript %}
+// JavaScript Date object
+var day = new Date(2011, 11, 9)
+  , dayWrapper = moment(day); 
+
+// Unix time stamp
+day = moment(1318781876406);
+
+// String, parsed with Date.parse
+day = moment('Dec 31, 1999');
+{% endhighlight %}
+
+More API options are available, read the full documentation here: "Moment.js documentation":http://momentjs.com/docs/
+
+h3. Cupboard
+
+"Cupboard":https://github.com/spiceapps/cupboard (npm: _cupboard_) by Craig Condon is command line tool for managing multiple git/npm projects.  Projects are accessible through the <code>cdb</code> command, and commands can be issued against multiple projects.
+
+Cupboard comes with templates to get projects "in the cupboard" as quickly as possible.  For example, this will add npm and git functions to a project like "publish":
+
+{% highlight javascript %}
+cbd init git+npm
+{% endhighlight %}
+
+There's a list of templates and command documentation in the project's README.
+
