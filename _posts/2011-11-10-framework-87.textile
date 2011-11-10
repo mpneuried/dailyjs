@@ -1,0 +1,161 @@
+---
+layout: post
+title: "Managing Asynchronous Assertions"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- testing
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+The biggest problem I've had when writing tests for Turing is checking when asynchronous callbacks complete.  For example, when testing the resource loading feature, I wrote tests with this pattern:
+
+{% highlight javascript %}
+'test queue loading with no local scripts': function() {
+  $t.require([
+    'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'
+  ]).on('complete', function() {
+    assert.ok(true);
+    assert.done();
+  }).on('loaded', function(item) {
+    if (item.src === 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js') {
+      assert.ok(jQuery, 'jQuery should be set');
+    }
+  });
+}  
+{% endhighlight %}
+
+What happens if <code>loaded</code> never fires?  Well, the test would still pass.  That's a consequence of the assertion never being run.
+
+One solution is to wrap the <code>assert</code> module with counters that count how many assertions have been called.  Then at the start of a test we can write <code>assert.expect(2);</code> to say 'raise an error if anything other than two assertions are run'.
+
+That's fine, but at this point Turing's test framework always runs tests asynchronously.  If the <code>assert</code> module kept a counter, other tests would increment that value too.  The number of assertions would be the total number for all of the current suite's tests, rather than the current test.
+
+h3. Counting Assertions
+
+The initial solution I came up with was to wrap every assertion method with a function that incremented a counter.  Tests take this pattern:
+
+{% highlight javascript %}
+'test queue loading with no local scripts': function() {
+  var assertExpect = mixinExpect(assert);
+  assertExpect.expect(2);
+
+  $t.require([
+    'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'
+  ]).on('complete', function() {
+    assertExpect.ok(true);
+    assertExpect.done();
+  }).on('loaded', function(item) {
+    if (item.src === 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js') {
+      assertExpect.ok(jQuery, 'jQuery should be set');
+    }
+  });
+}
+{% endhighlight %}
+
+Each test gets its own instance of the <code>assert</code> module.
+
+The code to do this is slightly clumsy, because I aliased the old methods using a <code>__</code> prefix:
+
+{% highlight javascript %}
+function mixinExpect(m) {
+  var m2 = {}, method;
+
+  for (method in m) {
+    if (m.hasOwnProperty(method)) {
+      m2['__' + method] = m[method];
+      (function(methodName) {
+        m2[methodName] = function() {
+          m2.mixinExpectAssertionCount++;
+          m2['__' + methodName].apply(m2, arguments);
+        };
+      }(method));
+    }
+  }
+
+  m2.expect = function(count) {
+    m2.mixinExpectAssertionCount = 0;
+    m2.mixinExpectExpected = count;
+  };
+
+  m2.done = function() {
+    if (m2.mixinExpectAssertionCount !== m2.mixinExpectExpected) {
+      throw('Expected assertion count was not found, expected: ' + m2.mixinExpectExpected + ', got: ' + m2.mixinExpectAssertionCount); 
+    }
+  };
+
+  return m2;
+}
+{% endhighlight %}
+
+It does the job, but is there a more elegant way that doesn't require changing the <code>assert</code> module?
+
+h3. Expectations
+
+I got this idea when I reviewed "Tim Caswell's Step":http://dailyjs.com/2011/11/07/code-review/ library:
+
+{% highlight javascript %}
+'test queue loading with no local scripts': function() {
+  var expect = new Expect();
+  expect.add('jQuery was set');
+  expect.add('loaded fired');
+
+  $t.require([
+    'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'
+  ]).on('complete', function() {
+    assert.ok(true);
+    expect.fulfill('loaded fired');
+    expect.done();
+  }).on('loaded', function(item) {
+    if (item.src === 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js') {
+      expect.fulfill('jQuery was set');
+      assert.ok(jQuery, 'jQuery should be set');
+    }
+  });
+}
+{% endhighlight %}
+
+Each test creates an instance of <code>Expect</code> and adds a list of expectations.  As the expectations are fulfilled, it marks down this fact, then at the end of the test when <code>expect.done()</code> is called it can see if any expectations were unfulfilled.
+
+I made a quick implementation and it's only a few lines of code:
+
+{% highlight javascript %}
+function Expect() {
+  this.expectations = {};
+}
+
+Expect.prototype = {
+  add: function(expectation) {
+    this.expectations[expectation] = false;
+  },
+
+  fulfill: function(expectation) {
+    this.expectations[expectation] = true;
+  },
+
+  done: function() {
+    for (var expectation in this.expectations) {
+      if (!this.expectations[expectation]) {
+        throw('Expected assertion was fulfilled , expected: ' + expectation); 
+      }
+    }
+  }
+};
+{% endhighlight %}
+
+h3. Conclusion
+
+Working with asynchronous tests can quickly get confusing -- sometimes tests appear to be passing but aren't actually running as expected.  The CommonJS Unit Testing spec actually says the following:
+
+bq. The assertions defined above will not be to everyone's taste style wise (or infact behaviour wise.) Authors are free to define their own assertion methods in new modules as desired.
+
+So adding a <code>assert.expect</code> method to your own assertion module implementations is perfectly acceptable.
+
+This week's code can be found in the ajax tests in "commit dc3b41f":https://github.com/alexyoung/turing.js/commit/dc3b41f14a74a49f1622b39c57858e24052ce7fa.dc3b41f.
