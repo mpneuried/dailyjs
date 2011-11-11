@@ -1,0 +1,56 @@
+---
+layout: post
+title: "Backbone.ioBind, One Millionth Tower, Popcorn.js"
+author: Alex Young
+categories: 
+- backbone.js
+- webgl
+- html5
+- media
+- video
+---
+
+h3. Backbone.ioBind
+
+"Backbone.ioBind":http://alogicalparadox.com/backbone.iobind/ (GitHub: "logicalparadox / backbone.iobind":https://github.com/logicalparadox/backbone.iobind, License: _MIT_) by Jake Luer binds socket.io events to Backbone model and collection events, and also adds a drop in replacement for <code>Backbone.sync</code> that uses socket.io.  This makes building applications that sync across multiple browser instances much easier.
+
+There's an obligatory example to-do list app, with instructions for installation here: "Backbone.ioBind Example App":https://github.com/logicalparadox/backbone.iobind/wiki/Example-App.
+
+Using <code>ioBind</code> in models and controllers is straightforward enough:
+
+{% highlight javascript %}
+// Example Model.extend
+urlRoot: 'todo',
+initialize: function() {
+  _.bindAll(this, 'serverChange', 'serverDelete', 'modelCleanup');
+  this.ioBind('update', window.socket, this.serverChange, this);
+  this.ioBind('delete', window.socket, this.serverDelete, this);
+}
+
+// Example Collection.exend
+url: 'todos',
+initialize: function() {
+  _.bindAll(this, 'serverCreate', 'collectionCleanup');
+  this.ioBind('create', window.socket, this.serverCreate, this);
+}
+{% endhighlight %}
+
+Jake notes that Backbone.ioBind works well with "Backbone.ModelBinding":https://github.com/derickbailey/backbone.modelbinding, which is another useful Backbone library for data binding.
+
+h3. One Millionth Tower
+
+!/images/posts/onemillionth.png!
+
+"One Millionth Tower":http://highrise.nfb.ca/onemillionthtower/ is a WebGL and HTML5-powered documentary about high-rise apartments, with one particular neighbourhood explored in detail:
+
+bq. You see them all over the world. More than a billion of us live in highrises. But most of these low- and middle-income buildings are now aging and falling into disrepair. Could life in the global highrise be different?
+
+The technology used to drive the documentary is available on GitHub here: "m4robb / one-millionth-tower":https://github.com/m4robb/one-millionth-tower.
+
+h3. Popcorn.js
+
+!/images/posts/popcornjs.png!
+
+"Popcorn.js":http://popcornjs.org/ (GitHub: "webmademovies / popcorn-js":https://github.com/webmademovies/popcorn-js, License: _MIT_) from Mozilla is a HTML5 media framework for creating timeline-based web presentations.  This means events on a video's timeline can coincide with images, text, or rich data from sources like social networks.  A list of "Popcorn.js plugins":http://popcornjs.org/plugins demonstrates some of the current possibilities.
+
+I've reviewed similar frameworks before on DailyJS, but this must be the most advanced and polished implementation I've seen so far.
