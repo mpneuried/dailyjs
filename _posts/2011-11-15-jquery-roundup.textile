@@ -1,0 +1,33 @@
+---
+layout: post
+title: "jQuery Roundup: Slimmer jQuery, jQuery Fundamentals, Stalactite"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Building a Slimmer jQuery
+
+"Building a Slimmer jQuery":http://blog.jquery.com/2011/11/08/building-a-slimmer-jquery/ is a post on the official jQuery blog that discusses guidelines for feature deprecation, as the importance of small file sizes for mobile delivery is becoming more predominant.  This doesn't mean blanked requirements like IE6 support will be removed, even though reducing browser support is a feature of competing micro-frameworks aimed at mobile devices.  It does, however, mean more features will move to plugins in the future:
+
+bq. Features that can be implemented via plugins, special events, attribute hooks, or other jQuery extension mechanisms are likely to stay outside core for now.
+
+h3. jQuery Fundamentals
+
+"jQuery Fundamentals":http://jqfundamentals.com/ by Rebecca Murphey (License: "CC BY-SA 3.0":http://creativecommons.org/licenses/by-sa/3.0/us/) is a freely available book all about jQuery, with a primer on JavaScript, and coverage of everything from core features like events to plugin authorship.
+
+It's an extremely thorough tome on the subject, with contributions from such developers as James Padolsey and Paul Irish.  The example code is even available on GitHub under "rmurphey / jqfundamentals":https://github.com/rmurphey/jqfundamentals.
+
+h3. Stalactite
+
+!/images/posts/stalactite.png!
+
+"Stalactite":http://jonobr1.github.com/stalactite/ (GitHub: "jonobr1 / stalactite":https://github.com/jonobr1/stalactite, License: _Apache Version 2.0_) by Jono Brandel is a "lightweight element packing" plugin.  It will attempt to lazily stack images, videos, and even iframes into a container.
+
+Basic usage is simply <code>$('#container').stalactite();</code>, but there are options for controlling animations, and a callback can be run on completion.
+

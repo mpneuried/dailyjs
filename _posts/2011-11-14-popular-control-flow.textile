@@ -1,0 +1,116 @@
+---
+layout: post
+title: "Popular Control Flow Libraries"
+author: Alex Young
+categories: 
+- node
+- async
+---
+
+When writing asynchronous code it quickly becomes apparent that certain patterns are more natural than others.  These patterns are fairly generic, so many people have started to rely on control flow libraries rather than reimplementing the same patterns.
+
+There are a lot of control flow libraries for Node, and they all solve the same problems in subtly different ways.  Some are more accurate than others with regard to established nomenclature, particularly when it comes to design patterns that were already popular in other languages.
+
+People usually discover the need for control flow libraries when running something like this:
+
+{% highlight javascript %}
+files.forEach(function(file) {
+  fs.readFile(file, function() {
+    // Callback
+  });
+});
+{% endhighlight %}
+
+A set of files is going to be read with an asynchronous callback.  That's great, but what happens when we need to determine when every callback has finished?
+
+One solution is to use a counter:
+
+{% highlight javascript %}
+files.forEach(function(file) {
+  fs.readFile(file, function() {
+    // Callback
+    fileCount--;
+    if (fileCount === 0) {
+      events.emit('complete');
+    }
+  });
+});
+
+events.on('complete', function() {
+  // All files have been processed
+});
+{% endhighlight %}
+
+However, adding a few more levels of asynchronous dependencies will make this hard to manage.  This is where libraries step in to provide another layer of abstraction.
+
+One such library is Tim Caswell's "Step":https://github.com/creationix/step, which is probably the first control flow library I saw:
+
+{% highlight javascript %}
+Step(
+  function readSelf() {
+    fs.readFile(__filename, this);
+  },
+  function capitalize(err, text) {
+    if (err) throw err;
+    return text.toUpperCase();
+  },
+  function showIt(err, newText) {
+    if (err) throw err;
+    console.log(newText);
+  }
+);
+{% endhighlight %}
+
+There are dozens of other, similar libraries available through npm.  Which one should you use?  I've made a table of the popular ones to try to get a handle on the situation.  Post your favourites in the comments and I'll take a look at them.
+
+<table class="list" cellspacing="0" cellpadding="0">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>NPM</th>
+      <th>License</th>
+      <th>Dependent Packages</th>
+      <th>GitHub Watchers</th>
+      <th>Features</th>
+      <th>Browser Support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/caolan/async">Async.js</a></td>
+      <td><a href="http://search.npmjs.org/#/async">async</a></td>
+      <td>MIT</td>
+      <td>129</td>
+      <td>982</td>
+      <td>Parallel execution of 'functional' methods, generic parallel, serial, and waterfall methods</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/creationix/step">Step</a></td>
+      <td><a href="http://search.npmjs.org/#/step">Step</a></td>
+      <td>MIT</td>
+      <td>42</td>
+      <td>462</td>
+      <td>Parallel and serial execution, error handling, grouping</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><a href="http://coolaj86.info/futures/">Futures</a></td>
+      <td><a href="http://search.npmjs.org/#/futures">futures</a></td>
+      <td>MIT</td>
+      <td>6</td>
+      <td>190</td>
+      <td>Promises, "joins", events, chained sequences, method queues, sequences</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/substack/node-seq">Seq</a></td>
+      <td><a href="http://search.npmjs.org/#/seq">seq</a></td>
+      <td>MIT/X11</td>
+      <td>14</td>
+      <td>124</td>
+      <td>Sequential and parallel execution, error handling, chained API</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
