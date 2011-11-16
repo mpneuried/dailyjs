@@ -1,0 +1,70 @@
+---
+layout: post
+title: "Node Roundup: 6.1, Scaffoldit, Mixture"
+author: Alex Young
+categories: 
+- node
+- modules
+- cli
+---
+
+
+<div class="intro">
+You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 6.1
+
+"Node 0.6.1":http://blog.nodejs.org/2011/11/11/node-v0-6-1/ was released a few days ago, which adds improvements to documenation, "cluster":http://nodejs.org/docs/v0.6.1/api/all.html#cluster, and includes a host of bug fixes.
+
+h3. Scaffoldit
+
+"Scaffoldit":https://github.com/spiceapps/scaffoldit (npm: _scaffoldit_) by Craig Condon is a scaffolding library that makes it easy to take user input and display data using templates.  Templates can be written using mustache, and it has command-line support through Craig's "celeri":https://github.com/spiceapps/celeri library.
+
+One of the examples reminds me of skeleton app generators that come with frameworks like Express:
+
+{% highlight javascript %}
+scaffoldit({
+  input: {
+    projectName: 'What is your project name?'
+  },
+
+  build: function(ops, next) {
+    scaffoldit.fromDir(ops, '/path/to/input/dir', '/path/to/output/dir');
+  },
+
+  complete: function() {
+    //...
+  }
+});
+{% endhighlight %}
+
+Also worth noting is Tim Caswell's "Step":https://github.com/creationix/step library is used to simplify the internal asynchronous code.
+
+h3. Mixture
+
+"Mixture":https://github.com/dshaw/mixture (License: _MIT_, npm: _mixture_) is a "heterogeneous cluster task manager" by Daniel Shaw.  It can be used to programmatically create a diverse set of forked tasks using a straightforward API:
+
+{% highlight javascript %}
+var mix = require('mixture').mix()
+  , ioPort = 8880
+  , nodeId = 0
+  , i
+  , workers = [];
+
+// announce data server
+mix.task('announce').fork('data.js');
+
+// socket.io instances
+var socketio = mix.task('socket.io', { filename: 'app.js' })
+
+for (i = 0; i < count; i++) {
+  ioPort++;
+  nodeId++;
+  workers.push(socketio.fork({ args: [ioPort, nodeId] }));
+}
+
+// At some point, workers[n].kill() could be called
+{% endhighlight %}
+
+Daniel has written an example app that uses the library, called "Stock Quote Stream":https://github.com/dshaw/mixture/tree/master/examples/stock-quotes.
