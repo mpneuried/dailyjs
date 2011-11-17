@@ -1,0 +1,24 @@
+---
+layout: post
+title: "Discussion: JSON vs. Markup Fragments"
+author: "Alex Kessinger"
+categories: 
+- discussions
+- json
+- templating
+---
+
+<div class="box">
+Alex Kessinger is a programmer who lives in the Bay Area. He strives to make websites, cook, and write a little bit better each day. You can find more from Alex at his <a href="http://alexkessinger.net/">blog</a>, on <a href="http://twitter.com/voidfiles">Twitter</a>, and <a href="https://plus.google.com/108319722006237870403/posts">Google+</a>. 
+</div>
+
+Recently at "work":http://app.net/ we were discussing a new trend in web application development, whereby markup is rendered on both the server and client.  The Google+ team talked about this openly in "this post by Mark Knichel":https://plus.google.com/u/0/115060278409766341143/posts/ViaVbBMpSVG, with particular focus given to performance.  Why does rendering content on both the server and the client improve performance?
+
+This is clearly something that people seem to think is a good idea.  Some templating languages, like "mustache":http://mustache.github.com/, are available in many different languages, making it easy to use them on both the client and server.  Now, if you're a front-end developer by trade, you might be more comfortable with rendering everything on the client.  That doesn't mean that it's faster; it's more of a comfort issue.
+
+So, community, my questions for you are as follows:
+
+* Is Google+'s approach of rendering markup on the server really faster than transmitting data?
+* Are there ideological or philosophical arguments for delivering data or markup?
+* Is it appropriate to mix both approaches?
+
