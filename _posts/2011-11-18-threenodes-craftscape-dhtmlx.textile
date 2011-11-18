@@ -1,0 +1,33 @@
+---
+layout: post
+title: "ThreeNodes.js, WebGL GPU Landscaping and Erosion, DHTMLX Touch"
+author: Alex Young
+categories: 
+- webgl
+- mobile
+- html5
+- graphics
+---
+
+h3. ThreeNodes.js
+
+!/images/posts/threenodes.png!
+
+"ThreeNodes.js":https://github.com/idflood/ThreeNodes.js is an attempt to create a "vvvv":http://vvvv.org/ clone.  It provides a library of modular nodes that can be used to generate animated graphics.  There's a "ThreeNodes.js demo":http://idflood.github.com/ThreeNodes.js/ where you can try it out.
+
+It's actually distributed as a Node app built using "socket.io":http://search.npmjs.org/#/socket.io-client, "connect":http://search.npmjs.org/#/connect, and "watch":http://search.npmjs.org/#/watch.  The UI currently takes a little bit of getting used to, but it worked well enough for me to make a few little experiments without reading any documentation.
+
+h3. WebGL GPU Landscaping and Erosion
+
+!/images/posts/craftscape.png!
+
+In "WebGL GPU Landscaping and Erosion":http://codeflow.org/entries/2011/nov/10/webgl-gpu-landscaping-and-erosion/, Florian Boesch discusses a project he created that was inspired by "From Dust":http://en.wikipedia.org/wiki/From_Dust to create a real-time landscaping and erosion simulation using WebGL.
+
+The post discusses some of the algorithms used to create the erosion effects, and there's an awesome demo called "Craftscape":http://codeflow.org/webgl/craftscape/ (GitHub: "pyalot / craftscape":https://github.com/pyalot/craftscape) which has been featured as a "Chrome Experiment":http://www.chromeexperiments.com/detail/craftscape/.
+
+h3. DHTMLX Touch
+
+There's now a formidable array of mobile web frameworks for those looking to create mobile web experiences that look close to native apps.  One I haven't mentioned before on DailyJS is "DHTMLX Touch":http://www.dhtmlx.com/touch/ (License: _GPL_), which has just seen its 1.0 release.  It features lots of UI widgets, and a suite of developer tools including a "skin builder":http://www.dhtmlx.com/touch/skinBuilder/ and IDE integration.
+
+There are a few demos available at "DHTMLX Touch - Live Demos":http://www.dhtmlx.com/touch/samples/ and the "DHTMLX Touch 1.0 Released":http://www.dhtmlx.com/blog/?p=1425 blog post details the major features of the library.
+
