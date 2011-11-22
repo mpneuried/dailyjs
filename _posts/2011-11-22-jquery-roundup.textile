@@ -1,0 +1,45 @@
+---
+layout: post
+title: "jQuery Roundup: 1.7.1, jquip, jQuery Mobile 1.0"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- mobile
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. jQuery 1.7.1
+
+"jQuery 1.7.1":http://blog.jquery.com/2011/11/21/jquery-1-7-1-released/ has been released, soon after 1.7.  This version is a maintenance release with bug fixes and some code tidying.  There are also some performance tweaks -- for example, "ticket #10733":http://bugs.jquery.com/ticket/10733 replaces <code>$.each</code> in the CSS module with regular <code>for</code> loops.
+
+h3. jquip
+
+"jquip":https://github.com/mythz/jquip by Demis Bellot and Jey Balachandran is an attempt to modularise jQuery to make it easier to pick the parts of jQuery that are actually required.  Although jQuery's developers are addressing size issues, outlined in last week's blog post "Building a Slimmer jQuery":http://blog.jquery.com/2011/11/08/building-a-slimmer-jquery/, jquip splits jQuery into a core library and a set of plugins.  The plugins include modules like "css":https://github.com/mythz/jquip/blob/master/src/jquip.css.js, "documentReady":https://github.com/mythz/jquip/blob/master/src/jquip.docready.js, and "ajax":https://github.com/mythz/jquip/blob/master/src/jquip.ajax.js.
+
+Although jQuery's source is already broken up into modules, jquip uses <code>$.addPlugin('docready', function($) {</code> which is found in "src/jquip.js":https://github.com/mythz/jquip/blob/master/src/jquip.js:
+
+{% highlight javascript %}
+$.addPlugin = function (meta, fn)
+{
+  var name = typeof meta == "string" ? meta : meta['name'];
+  fn = typeof meta == "function" ? meta : fn;
+  if (typeof fn != "function") throw "Plugin fn required";
+  if (name && fn) plugins[name] = fn;
+  fn($);
+};
+{% endhighlight %}
+
+The authors claim that jquip.js minified and zipped is 13% of the size of the equivalent jQuery download -- I tested this against jQuery 1.7.1 and I got the same result.  It's worth remembering that the authors don't expect to replace jQuery with jquip, they're just trying to inspire a change in direction.
+
+h3. jQuery Mobile 1.0
+
+!/images/posts/jquery-mobile-1.png!
+
+"jQuery Mobile 1.0":http://jquerymobile.com/blog/2011/11/16/announcing-jquery-mobile-1-0/ has been released.  This version is 30% faster than RC2, and includes some "new jQuery Mobile documentation":http://jquerymobile.com/demos/1.0/docs/about/getting-started.html.
+
+jQuery Mobile has a platform support rating system where each major mobile platform is given a grade.  Apple iOS 3.2-5.0, Android 2.1-2.3, Android Honeycomb, Windows Phone 7-7.5, Kindle Fire, and plenty of other popular platforms have been tested on a variety of devices and awarded the A grade.
+
