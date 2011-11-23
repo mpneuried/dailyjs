@@ -1,0 +1,92 @@
+---
+layout: post
+title: "Node Roundup: Mocha, Banzai, Inotify"
+author: Alex Young
+categories: 
+- node
+- modules
+- testing
+- ETL
+- linux
+- fs
+---
+
+<div class="intro">
+You can send your Node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Mocha
+
+!/images/posts/mocha-tests.png!
+
+"Mocha":http://visionmedia.github.com/mocha/ (GitHub: "visionmedia / mocha":https://github.com/visionmedia/mocha, License: _MIT_, npm: _mocha_) by TJ Holowaychuk is a new test framework that works both in Node and browsers.  It runs tests serially, making it intuitive, and includes a huge collection of reporters including a TAP reporter.  It even comes with a sane setup/teardown implementation, allowing code to be run before and after each test or the whole suite.
+
+Like other test frameworks, Mocha uses an asynchronous "done" function.  However, calling it is optional for synchronous code, and it can even accept an error to improve test reporting:
+
+{% highlight javascript %}
+describe('User', function(){
+  describe('#save()', function(){
+    it('should save without error', function(done){
+      var user = new User('Luna');
+      user.save(function(err){
+        done(err);
+      })
+    })
+  })
+})
+{% endhighlight %}
+
+TJ's example shows that for methods that include an error as the first argument, then this will be automatically passed to <code>done</code>:
+
+{% highlight javascript %}
+describe('User', function(){
+  describe('#save()', function(){
+    it('should save without error', function(done){
+      var user = new User('Luna');
+      user.save(done);
+    })
+  })
+})
+{% endhighlight %}
+
+Mocha can work with any assertion library, which allows alternative assertion libraries like "should.js":https://github.com/visionmedia/should.js to be used.  It's even possible to use BDD style tests <code>describe() / it()</code> or TDD: <code>suite() / test()</code>.
+
+TJ considers Mocha to be "Expresso":https://github.com/visionmedia/expresso's successor, and it does seem to address a lot of things that were missing from Expresso.
+
+h3. Banzai
+
+"Banzai":https://github.com/pgte/banzai (npm: <em>banzai</em>) by Pedro Teixeira is a document processing framework (or an <a href="http://en.wikipedia.org/wiki/Extract,_transform,_load">ETL</a>) that uses the concept of pipelines to represent state and perform multiple operations on a document.  On the surface, a pipeline looks like a combination of an event-based API and a state machine:
+
+{% highlight javascript %}
+pipeline
+  .on('initial', initialHandler, {
+      next: 'order received email sent'
+  })
+  .on('order received email sent', orderEmailSentHandler, {
+      priority: 2
+    , condition: allItemsAvailable
+    , next: 'items available'
+  })
+  .on('order received email sent', confirmationEmailSentHandler, {
+      priority: 1
+    , next: 'items not available'
+  })
+  .on('items not available', itemsNotAvailableHandler)
+  .on('items available', itemsAvailableHandler, {
+    next: 'order placed'
+  })
+  .on('order placed', orderPlacedHandler, {
+    next: 'order placed email sent'
+  });
+{% endhighlight %}
+
+Each pipeline is backed by a document store, and this is designed to be extensible.  The first document store to be implemented is "banzai-couchdb-store":https://github.com/pgte/banzai-couchdb-store, but document stores only require a minimum of two functions to work with Banzai (<code>load(docId, callback)</code> and <code>save(doc, callback)</code>) so shouldn't be too difficult to write support for more databases.
+
+Pedro's documentation includes a lot more details on pipelines, state handling, state stores, and work queues.  Banzai seems like a useful tool for working with format conversion, but Pedro also notes it's been used with Amazon Mechanical Turk.
+
+h3. Node Inotify
+
+"Node Inotify":https://github.com/c4milo/node-inotify (License: _MIT_, npm: _inotify_) by Camilo Aguilar is an "inotify":http://www.kernel.org/doc/man-pages/online/pages/man7/inotify.7.html API for Node and Linux.  This library has been kicking around for over a year now, but the author and several contributors have been actively working on it.
+
+The README includes a detailed code example, but the API is fairly straightforward: by using an instance of <code>Inotify</code>, <code>addWatch()</code> can be used to watch files or directories for changes.  The callback fired when the file system changes receives an event which includes a mask that details what kind of change occurred.
+

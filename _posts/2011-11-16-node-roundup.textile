@@ -8,7 +8,6 @@ categories:
 - cli
 ---
 
-
 <div class="intro">
 You can send your node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
 </div>
