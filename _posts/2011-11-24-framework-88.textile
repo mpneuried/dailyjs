@@ -1,0 +1,107 @@
+---
+layout: post
+title: "Improving Client-Side Modularity"
+author: Alex Young
+categories: 
+- frameworks
+- tutorials
+- lmaf
+- testing
+---
+
+<div class="intro">
+_Let's Make a Framework_ is an ongoing series about building a JavaScript framework from the ground up.
+
+These articles are tagged with "lmaf":http://dailyjs.com/tags.html#lmaf.  The project we're creating is called "Turing":http://github.com/alexyoung/turing.js.  Documentation is available at "turingjs.com":http://turingjs.com/.
+</div>
+
+When I started writing Turing I said I wanted to keep the modules decoupled so parts of the framework could be used in isolation.  Most popular web frameworks package a large chunk of core functionality that includes support for everything from a selector engine to event handling and ajax.
+
+I think it's fair to say that this convention has now changed, and people want to be able to cherry pick parts of a framework alongside other libraries.  And what's more, this can't just be addressed by a build process because some projects might load scripts with a "RequireJS":http://requirejs.org/ style library, or by concatenating and minifying all of their client-side JavaScript using a server-side framework.
+
+With that in mind, can Turing truly be considered modular?  If it is indeed modular, then this should be possible:
+
+{% highlight html %}
+<!DOCTYPE html>
+<html>
+  <head><title>Let's Make a Framework: Modularity</title></head>
+  <body>
+    <div id="test"><p>Test Content</p></div>
+
+    <script src="turing-test/lib/assert.js" type="text/javascript"></script>
+    <script src="../turing.core.js" type="text/javascript"></script>
+    <script src="../turing.dom.js" type="text/javascript"></script>
+    <script type="text/javascript">
+assert.equal(turing('#test p').html(), 'Test Content');
+
+turing('#test')
+  .css({ backgroundColor: 'green', color: 'white' })
+  .find('p')
+  .html('Test Passed');
+    </script>
+  </body>
+</html>
+{% endhighlight %}
+
+I tried this little test and it worked.  Each Turing module is split into Immediately-Invoked Function Expressions (IIFE) that depend on the existence of a 'turing' global variable:
+
+{% highlight javascript %}
+// turing.core.js
+(function(global) {
+  if (global.turing) {
+    throw new Error('turing has already been defined');
+  } else {
+    global.turing = turing;
+    if (typeof exports !== 'undefined') {
+      exports.turing = turing;
+    }
+  }
+}(typeof window === 'undefined' ? this : window));
+
+// turing.dom.js
+(function() {
+  var dom = {};
+
+  turing.dom = dom;
+}());
+{% endhighlight %}
+
+This pattern isn't ideal however, it's simply what I used to keep the initial tutorials focused on their specific subjects.  A better solution would be to embrace the "Asynchronous Module Definition":https://github.com/amdjs/amdjs-api/wiki/AMD (AMD).  Rather than trying to deal with CommonJS modules in browsers, or by using a framework-specific solution, embracing AMD yields several advantages.
+
+h3. Supporting AMD
+
+I've already demonstrated how "client-side projects support CommonJS":http://dailyjs.com/2011/07/21/framework-72/, and supporting AMD projects is very similar.  Some well-known projects already support it, and the RequireJS site has a great post with a list of these projects here: "Why AMD?":http://requirejs.org/docs/whyamd.html.
+
+jQuery does it like this:
+
+{% highlight javascript %}
+(function( jQuery ) {
+
+// Expose jQuery to the global object
+window.jQuery = window.$ = jQuery;
+
+if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
+	define( "jquery", [], function () { return jQuery; } );
+}
+
+})( jQuery );
+{% endhighlight %}
+
+Let's break that down to see how it works.  If <code>define</code> exists, then set up a module named "jquery" with no dependencies.  AMD is based around the module pattern, so a function is used as <code>define</code>'s third parameter that returns the jQuery function.  I've edited the original file for the purpose of publication, but the original ("exports.js":https://github.com/jquery/jquery/blob/master/src/exports.js) has a lengthy comment explaining just about everything here.  For example, the module is registered as "jquery" because AMD derives module names from file names, and jQuery's file name is usually lowercase.
+
+h3. Conclusion
+
+From a client-side developer's perspective, AMD is a more friendly way to manage JavaScript modules when compared to "CommonJS Modules":http://wiki.commonjs.org/wiki/Modules/1.1.  It helps us to avoid creating unnecessary global variables, and helps support client-side script loading libraries.
+
+It may even be worth considering structuring entire frameworks around it, so modularity goes right into the core of the project.  As the interest grows in projects like "jquip":https://github.com/mythz/jquip, it seems obvious that there is a need for more granular client-side frameworks, and AMD gives us the tools to make that happen in an open and reusable way.  If you take a look at "Dojo":http://dojotoolkit.org/'s source, you'll see that it already works this way.  This was documented in "Asynchronous Modules Come to Dojo 1.6":http://dojotoolkit.org/features/1.6/async-modules, which explains AMD's implications for a large project like Dojo.
+
+h3. References
+
+* "jquip":https://github.com/mythz/jquip
+* Ben Alman's "Immediately-Invoked Function Expression":http://benalman.com/news/2010/11/immediately-invoked-function-expression/
+* "Why AMD?":http://requirejs.org/docs/whyamd.html from RequireJS
+* "Asynchronous Module Definition":https://github.com/amdjs/amdjs-api/wiki/AMD
+* "CommonJS Modules/1.1":http://wiki.commonjs.org/wiki/Modules/1.1
+* "jQuery's exports.js":https://github.com/jquery/jquery/blob/master/src/exports.js
+* "Asynchronous Modules Come to Dojo 1.6":http://dojotoolkit.org/features/1.6/async-modules
+
