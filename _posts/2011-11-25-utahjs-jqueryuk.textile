@@ -1,0 +1,35 @@
+---
+layout: post
+title: "UtahJS Conference, jQuery Conference 2012: UK, DevCon5"
+author: Alex Young
+categories: 
+- events
+- uk
+- us
+- jquery
+- webgl
+---
+
+h3. UtahJS Conference
+
+"UtahJS":http://utahjs.com/ announced a conference as part of the "Silicon Slopes":http://siliconslopes.com/ conference which will be held on March 29-31, 2012.  They have issued a "call For papers":http://utahjs.com/papers/, so if you're interested in speaking fill out the form to apply.
+
+bq. This is going to be big. Think of hundreds of people, all in the same place, learning about JavaScript and HTML5!
+
+Talks should be 45 minutes with 5 minutes for questions.
+
+h3. jQuery Conference 2012: UK
+
+"Query Conference 2012: UK":http://events.jquery.org/2012/uk/ will be held in Oxford on the 10th of February.  Tickets are on sale at "jQuery UK 2012 tickets":http://jqueryuk.eventbrite.co.uk/ with prices starting at £160 -- lots of options are available, including access to selected workshops.
+
+Speakers currently include Paul Irish, Todd Parker, and Addy Osmani.
+
+The original announcement on the jQuery blog is here: "jQuery Conference 2012: United Kingdom Announced":http://blog.jquery.com/2011/11/01/jquery-conference-2012-united-kingdom-announced/.
+
+h3. DevCon5
+
+"DevCon5":http://html5.tmcnet.com/conference/california/ will be held on December 7-8 in Santa Clara, California.  Tickets are $595.  The conference is focused on HTML5, and there are two talks that focus on WebGL.  The Khronos Group posted "Why You Need to be at DevCon5":http://www.khronos.org/news/events/devcon5-santa-clara which details the two WebGL talks:
+
+* Introduction to WebCL and WebGL by Neil Trevett from Nvidia
+* Hands on with WebGL by Zhenyao Mo, from Google Chrome's GPU team
+
