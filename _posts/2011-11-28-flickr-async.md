@@ -30,11 +30,11 @@ Flickr calls this module the `actionQueue`. Given that we now understand the bas
 
 In the un-faved state the star is black and white:
 
-![Flickr Favourite Button](http://dl.dropbox.com/u/133599/Screenshots/x1jg.png)
+![Flickr Favourite Button](/images/posts/x1jg.png)
 
 The active state is a colour star:
 
-![Flickr Active Favourite Button](http://dl.dropbox.com/u/133599/Screenshots/_8wh.png)
+![Flickr Active Favourite Button](/images/posts/_8wh.png)
 
 There are two things that need to happen when a person clicks on the favorite button.
 
