@@ -19,7 +19,7 @@ h3. Celeri
 
 !/images/posts/celeri.png!
 
-"Celeri":https://github.com/spiceapps/celeri by Craig Condon is a command line library with lots of useful features:
+"Celeri":https://github.com/crcn/celeri by Craig Condon is a command line library with lots of useful features:
 
 * Argument parsing
 * History

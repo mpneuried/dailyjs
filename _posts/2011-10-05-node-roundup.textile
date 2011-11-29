@@ -35,11 +35,11 @@ The best thing about <code>tap</code> is the way it's been split up into lots of
 
 h3. Gittyup
 
-"Gittyup":https://github.com/spiceapps/gittyup (npm: _gittyup_) by Craig Condon is a deployment library aimed at Node.  It supports rollback, testing before deployment, and making slugs of apps.  It's based around JavaScript files rather than a configuration language or DSL:
+"Gittyup":https://github.com/crcn/gittyup (npm: _gittyup_) by Craig Condon is a deployment library aimed at Node.  It supports rollback, testing before deployment, and making slugs of apps.  It's based around JavaScript files rather than a configuration language or DSL:
 
 {% highlight javascript %}
 // Deploy from a git repository
-gittyup.app('myApp').checkout('git@github.com:spiceapps/gittyup-test.git', function(err, result) {
+gittyup.app('myApp').checkout('git@github.com:crcn/gittyup-test.git', function(err, result) {
 });
 
 // Or from a local path

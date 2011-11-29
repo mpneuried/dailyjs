@@ -48,7 +48,7 @@ More API options are available, read the full documentation here: "Moment.js doc
 
 h3. Cupboard
 
-"Cupboard":https://github.com/spiceapps/cupboard (npm: _cupboard_) by Craig Condon is command line tool for managing multiple git/npm projects.  Projects are accessible through the <code>cdb</code> command, and commands can be issued against multiple projects.
+"Cupboard":https://github.com/crcn/cupboard (npm: _cupboard_) by Craig Condon is command line tool for managing multiple git/npm projects.  Projects are accessible through the <code>cdb</code> command, and commands can be issued against multiple projects.
 
 Cupboard comes with templates to get projects "in the cupboard" as quickly as possible.  For example, this will add npm and git functions to a project like "publish":
 
