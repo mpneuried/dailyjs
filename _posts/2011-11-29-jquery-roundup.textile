@@ -1,0 +1,40 @@
+---
+layout: post
+title: "jQuery Roundup: Smartupdater, vkTemplate, Handpicked jQuery Plugins"
+author: Alex Young
+categories: 
+- jquery
+- ajax
+- templates
+- directories
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Smartupdater
+
+"Smartupdater":http://www.eslinstructor.net/smartupdater/ (GitHub: "vkiryukhin / Smartupdater":https://github.com/vkiryukhin/Smartupdater, License: _MIT_ and _GPL_) by Vadim Kiryukhin is a plugin that specialises in Ajax polling, originally featured on DailyJS last year in "jQuery Rolling and Polling":http://dailyjs.com/2010/08/17/polling/.  It has recently been updated to version 4.0 (beta).
+
+The API has been updated to reduce the number of functions the plugin adds to jQuery, so rather than <code>$('#myObject').smartupdaterStop()</code>, <code> $('#myObject').smartupdater("stop")</code> can be used instead.
+
+h3. vkTemplate
+
+Vadim Kiryukhin has also released "vkTemplate":http://www.eslinstructor.net/vktemplate/ (GitHub: "vkiryukhin / vkTemplate":https://github.com/vkiryukhin/vkTemplate, License: _MIT_ and _GPL_).  This is a small (less than 1.5kb) templating plugin that's designed to be used with Ajax.  Given URLs for a template and date, a template can be rendered like this:
+
+{% highlight javascript %}
+$('#subcontainer').vkTemplate('/user.tmpl', '/users/1.json');
+
+// JSON can be passed as well
+$('#subcontainer').vkTemplate('/user.tmpl', { name: 'Kurt', email: 'kurt@thepope.org' });
+{% endhighlight %}
+
+h3. Handpicked jQuery Plugins
+
+!/images/posts/handpicked.png!
+
+The Handpicked jQuery Plugins Repo is a list of jQuery plugins curated by "David Higgins":http://davidhiggins.me/.  It's actually a repository on GitHub, and he invites people to fork it here: "higgo / handpicked.jquery.plugins.repo":https://github.com/higgo/handpicked.jquery.plugins.repo.
+
+David has also made a site where the plugins can be browsed, at "iwantaneff.in/repo/":http://iwantaneff.in/repo/.  And, if you're not comfortable with git he's even uploaded the plugins as files that can be downloaded from "iwantaneff.in/repo/browser/":http://iwantaneff.in/repo/browser/.
+
