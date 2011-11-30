@@ -1,0 +1,52 @@
+---
+layout: post
+title: "Node Roundup: Pushover, Police, Raynos' Blog"
+author: Alex Young
+categories: 
+- node
+- modules
+- npm
+- git
+---
+
+<div class="intro">
+You can send your Node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Pushover
+
+"Pushover":https://github.com/substack/pushover (License: _MIT/X11_, npm: _pushover_) by the prolific James Halliday can serve git repositories over HTTP.  James says this makes it easy to build customised <code>git push</code>-based deployment logic.
+
+James' example instantiates a server like this:
+
+{% highlight javascript %}
+var pushover = require('pushover');
+var repos = pushover(__dirname + '/repos');
+
+repos.on('push', function (repo) {
+    console.log('received a push to ' + repo);
+});
+
+repos.listen(7000);
+
+// Run with `node example/simple.js`
+{% endhighlight %}
+
+And then after pushing something using <code>git push http://localhost:7000/beep master</code>, the server will display <code>received a push to beep</code>.
+
+This works by forking the command-line <code>git</code> binary with <code>('child_process').spawn</code>, and wrapping it with an object that descends from <code>EventEmitter</code> which can handle HTTP requests.  It's surprisingly simple given the possibilities it creates.
+
+h3. Police
+
+"Police":https://github.com/pkumar/npm-police (License: _MIT/X11_, npm: _police_) by Pavan Kumar Sunkara helps discover outdated modules in GitHub repositories based on a project's package.json.  After authenticating with GitHub, <code>police repo</code> or <code>police user/repo</code> can be used to generate a report that details missing package.json properties and old module versions.
+
+!/images/posts/police.png!
+
+When I tested Police out I noticed the <code>.policeconf</code> file gets created with permissions set to 644, so if you're going to use this on a shared server you might want to change the permissions as it contains a GitHub authentication token.
+
+h3. Raynos' Blog
+
+When I wrote "New Node Web Frameworks: Derby, Flatiron":http://dailyjs.com/2011/11/21/new-node-web-frameworks/ I asked people to send in web apps they've built using a Node web framework.  Raynos sent in his blog, "Raynos.org":http://raynos.org/ (GitHub: "Raynos / raynos-blog":https://github.com/Raynos/raynos-blog) which appears to be based on a generic blog engine the author has previously written and released through NPM.
+
+The blog engine is based on CouchDB, and includes some unit tests.  Raynos has decided to split this Express app into routes, controllers, models, and view models.  Templates are powered by the author's "trinity":https://github.com/Raynos/trinity templating system.
+
