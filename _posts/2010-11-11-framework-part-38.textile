@@ -45,7 +45,7 @@ The inverse, using <code>!==</code>
 <code>assert.throws(block, Error_opt, message_opt)</code>
 Expects an exception.
 
-For those of you who tl;dr'd that, the CommonJS assertion module defines methods for equality, _deep_ equality, and _strict_ equality.  The difference between these is important, and if my tutorial fails to elucidate you please refer to Douglas Crockford's <a href="http://www.amazon.com/gp/product/0596517742?ie=UTF8&tag=da07e-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0596517742">JavaScript: The Good Parts</a><img src="http://www.assoc-amazon.com/e/ir?t=da07e-20&l=as2&o=1&a=0596517742" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.
+For those of you who tl;dr'd that, the CommonJS assertion module defines methods for equality, _deep_ equality, and _strict_ equality.  The difference between these is important, and if my tutorial fails to elucidate you please refer to Douglas Crockford's <a href="http://www.amazon.co.uk/gp/product/0596517742/ref=as_li_qf_sp_asin_tl?ie=UTF8&tag=da0b-21&linkCode=as2&camp=1634&creative=6738&creativeASIN=0596517742">JavaScript: The Good Parts</a><img src="http://www.assoc-amazon.co.uk/e/ir?t=da0b-21&l=as2&o=2&a=0596517742" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.
 
 h3. Equality Assertions
 

@@ -93,7 +93,7 @@ This should stop people from accidentally calling jQuery more than once.
 
 I don't think there's any duplication of jQuery's built-in functionality; he uses <code>$.error()</code>, <code>$.grep</code>, and <code>$.each</code>.  I've seen a few plugins resort to Underscore for anything relating to iterators.
 
-He also correctly uses <code>===</code> and <code>!==</code>, so I imagine he's a fan of <a href="http://www.amazon.com/gp/product/0596517742?ie=UTF8&tag=da07e-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0596517742">JavaScript: The Good Parts</a><img src="http://www.assoc-amazon.com/e/ir?t=da07e-20&l=as2&o=1&a=0596517742" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.
+He also correctly uses <code>===</code> and <code>!==</code>, so I imagine he's a fan of <a href="http://www.amazon.co.uk/gp/product/0596517742/ref=as_li_qf_sp_asin_tl?ie=UTF8&tag=da0b-21&linkCode=as2&camp=1634&creative=6738&creativeASIN=0596517742">JavaScript: The Good Parts</a><img src="http://www.assoc-amazon.co.uk/e/ir?t=da0b-21&l=as2&o=2&a=0596517742" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.
 
 h3. Tests
 
