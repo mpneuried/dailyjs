@@ -1,0 +1,26 @@
+---
+layout: post
+title: JavaScript Developer Survey 2011 
+author: Alex Young 
+categories: 
+- community
+- surveys
+---
+
+It's time for the JavaScript Developer Survey, 2011!  2009's survey had 151 responses, then 2010 completely demolished that with 1218.  Please share this post on your social networks and news sites to help us get a wide range of JavaScript developers represented in the survey. 
+
+<strong>This survey will close on the 15th of December</strong>.  The results will be shared with the community through DailyJS, and are also visible after submitting the survey.
+
+No personal details will be collected.
+
+h3. Survey
+
+<iframe src="https://docs.google.com/a/helicoid.net/spreadsheet/embeddedform?formkey=dGpJckRzR0daaXZybU9qWmQydmE1blE6MQ" width="600" height="2852" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+
+If the survey doesn't load, visit this link: "JavaScript Developer Survey 2011":https://docs.google.com/a/helicoid.net/spreadsheet/viewform?formkey=dGpJckRzR0daaXZybU9qWmQydmE1blE6MQ.
+
+h3. Previous Surveys
+
+* "2009":http://dailyjs.com/2009/12/02/survey-results/
+* "2010":http://dailyjs.com/2010/12/13/javascript-survey-results/
+
