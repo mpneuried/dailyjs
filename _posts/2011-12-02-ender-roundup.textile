@@ -1,0 +1,86 @@
+---
+layout: post
+title: "Ender Roundup: Ender, Qwery, Sel, Reqwest, Ender Twitter Bootstrap, CalEnder"
+author: Rod Vagg
+categories: 
+- ender
+- frameworks
+- modules
+- libraries
+- ajax
+- jsonp
+---
+
+<div class="intro">
+Welcome to the first "Ender":http://ender.no.de/ roundup! With more developers releasing Ender-compatible projects I thought it would be good to keep everyone updated with what's available for your Ender builds. You can send your Ender-related projects and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Ender
+
+The core "Ender":https://github.com/ender-js/Ender build tool has been updated to version 0.8 for the release of Node 0.6. A minor change was required to properly support the new version of Node; anyone using Node 0.6 should upgrade Ender with <code>npm update ender -g</code>.
+
+h3. Qwery
+
+"Qwery":https://github.com/ded/qwery (NPM / Ender: <em>qwery</em>), by "Dustin Diaz":http://twitter.com/ded, is Ender's default selector engine, it's small and very fast and you get it if you build with "The Jeesh":http://ender.no.de/#jeesh, Ender's official starter-pack.
+
+Qwery has seen a flurry of activity recently, culminating in a bump to version 3.1. Qwery now has much improved support for older browsers and is better able to handle queries on detached fragments, queries across frames and other quirky features normally found in the likes of "Sizzle":https://github.com/jquery/sizzle while remaining super quick and small.
+
+Qwery has no external dependencies and can be used as a stand-alone tool as well as Ender's selector engine.
+
+h3. Sel
+
+"Sel":https://github.com/amccollum/sel (NPM / Ender: <em>sel</em>), by "Andrew McCollum":https://github.com/amccollum, is an alternative selector engine for Qwery. Beautifully written in CoffeeScript, Sel aims to be fast, small and clean. Some fixes for IE8 bring Sel up to version 0.5.4.
+
+Sel has a single dependency, Andrew's "ES5-Basic":https://github.com/amccollum/es5-basic (NPM / Ender: <em>es5-basic</em>), a shim to make older browsers more ECMAScript 5 compatible. It can be used as a stand-alone tool as well as Ender's selector engine.
+
+h3. Reqwest
+
+"Reqwest":https://github.com/ded/reqwest (NPM / Ender: <em>reqwest</em>), by "Dustin Diaz":http://twitter/ded, is the module most Ender users include for AJAX functionality.
+
+The recent release of version 0.3.3 brings improved JSONP support and largely rewritten serialization functionality, including a new <code>.toQueryString()</code> method.
+
+Forms, groups or individual elements can be serialized in a few different ways:
+
+{% highlight javascript %}
+$(form).serialize()
+// returns query string -> x=y&...
+$(form).serialize({type:'map'})
+// returns an object representation -> { x: y, ... }
+$(form).serialize({type:'array'})
+// returns array name/value pairs -> [ { name: x, value: y}, ... ]
+$(form).serializeArray()
+// for backward compatibility
+$.toQueryString({
+    foo: 'bar'
+  , baz: 'thunk'
+})
+// returns query string -> foo=bar&baz=thunk
+{% endhighlight %}
+
+Leading to more interesting uses:
+
+{% highlight javascript %}
+$('#myform input[name=myradios]').serialize({type:'map'})['myradios']
+// get the selected value
+$('input[type=text],#specialthing').serialize()
+// turn any arbitrary set of form elements into a query string
+{% endhighlight %}
+
+Reqwest has no external dependencies and can be used as a stand-alone tool as well as within an Ender build (giving you <code>$.ajax()</code> and the serialization methods).
+
+h3. Ender Twitter Bootstrap
+
+"Enter Twitter Bootstrap":https://github.com/rvagg/bootstrap (NPM / Ender: <em>ender-twitter-bootstrap</em>) is a newly released, unofficial port of the JavaScript components from Twitter's wildly popular "Bootstrap":http://twitter.github.com/bootstrap (currently the "third most watched":https://github.com/popular/watched project on GitHub).
+
+The Ender port aims to provide support for Bootstrap without the need to compile jQuery in your Ender build. A jQuery-free live copy of the "Bootstrap JavaScript":http://rvagg.github.com/bootstrap/docs/javascript.html page ("original, jQuery version here":twitter.github.com/bootstrap/javascript.html) demonstrates Modals, Dropdown, ScrollSpy, Buttons, Tabs, Twipsy, Popover and Alerts.
+
+Ender Twitter Bootstrap depends on "The Jeesh":http://ender.no.de/#jeesh ("Qwery":https://github.com/ded/qwery, "Bonzo":https://github.com/ded/bonzo, "Bean":https://github.com/fat/bean, "domReady":https://github.com/ded/domready) plus "Bowser":https://github.com/ded/bowser.
+
+h3. CalEnder
+
+!/images/posts/cal-ender.png!
+
+"CalEnder":https://github.com/ded/CalEnder (NPM / Ender: <em>calender</em>) is a basic, themeable calendar datepicker for Ender. After surveying the vast JavaScript datepicker landscape, "Dustin Diaz":http://twitter.com/ded decided that yet another one was required, but this time, just for Ender.
+
+CalEnder depends on "The Jeesh":http://ender.no.de/#jeesh ("Qwery":https://github.com/ded/qwery, "Bonzo":https://github.com/ded/bonzo, "Bean":https://github.com/fat/bean, "domReady":https://github.com/ded/domready).
+
