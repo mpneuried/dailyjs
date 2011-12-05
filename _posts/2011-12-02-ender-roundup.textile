@@ -70,7 +70,7 @@ Reqwest has no external dependencies and can be used as a stand-alone tool as we
 
 h3. Ender Twitter Bootstrap
 
-"Enter Twitter Bootstrap":https://github.com/rvagg/bootstrap (NPM / Ender: <em>ender-twitter-bootstrap</em>) is a newly released, unofficial port of the JavaScript components from Twitter's wildly popular "Bootstrap":http://twitter.github.com/bootstrap (currently the "third most watched":https://github.com/popular/watched project on GitHub).
+"Ender Twitter Bootstrap":https://github.com/rvagg/bootstrap (NPM / Ender: <em>ender-twitter-bootstrap</em>) is a newly released, unofficial port of the JavaScript components from Twitter's wildly popular "Bootstrap":http://twitter.github.com/bootstrap (currently the "third most watched":https://github.com/popular/watched project on GitHub).
 
 The Ender port aims to provide support for Bootstrap without the need to compile jQuery in your Ender build. A jQuery-free live copy of the "Bootstrap JavaScript":http://rvagg.github.com/bootstrap/docs/javascript.html page ("original, jQuery version here":twitter.github.com/bootstrap/javascript.html) demonstrates Modals, Dropdown, ScrollSpy, Buttons, Tabs, Twipsy, Popover and Alerts.
 
