@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Echo JS, brid.js, ql.io"
+author: Alex Young
+categories: 
+- modules
+- libraries
+- social
+- parsing
+---
+
+h3. Echo JS
+
+"Echo JS":http://www.echojs.com/ (GitHub: "antirez / lamernews":https://github.com/antirez/lamernews) is a social news site that focuses on JavaScript.  I've already found some interesting libraries through it, and I basically read about JavaScript every day so it gets my vote.
+
+It's built with "Lamer News" which is a Ruby-based Hacker News implementation.  Can't someone write them a slick real-time Node version with the cutting edge server-side and client-side libraries that we all know and love?
+
+If you prefer Twitter for consuming news, there's also "@echojs":https://twitter.com/#!/echojs.  It's currently getting around five posts a day which seems promising.  Judging by the Twitter account, Echo JS was launched on December 1st, so hopefully posts will increase in regularity rather than petering out.
+
+h3. brid.js
+
+I'm not sure what to make of "brid.js":https://github.com/jes5199/brid.js (License: _MIT_, Demo: "brid.js demo":http://jes5199.github.com/brid.js/bridjs.html).  It's a small Lisp implementation that uses JSON instead of S-expressions.  On one hand, it's a fun and interesting project, and on the other it seems like affront against nature.
+
+This is a _Hello World_ example in brid.js:
+
+{% highlight javascript %}
+["println", ["quote", "hello world"]]
+{% endhighlight %}
+
+Adding numbers looks closer to Lisp:
+
+{% highlight javascript %}
+["+", 1, 1]
+// Lisp: (+ 1 1)
+{% endhighlight %}
+
+Lisp's parenthesized syntax is analogous to the JSON representation, but the quoting required to create valid JSON is a little bit hard to get the hang of.
+
+If you're interested in parsing in JavaScript, then you might enjoy looking at the source.  We've covered "Jison":http://zaach.github.com/jison/ on DailyJS before, but context-free grammar isn't the only way to build parsers, and hand-coded parsers like this are just as useful to learn from.
+
+h3. ql.io
+
+!/images/posts/qlio.png!
+
+"ql.io":http://ql.io/ (GitHub: "ql-io / ql.io":https://github.com/ql-io/ql.io, License: _Apache 2.0_) from eBay is a "declarative, evented, data-retrieval and aggregation gateway for HTTP APIs".  It has a DSL inspired by JSON and SQL for declaring API calls and their interdependencies.
+
+The code itself is built on Node, and is comprised of several packages:
+
+* <em>ql.io-engine</em>: This is the core ql.io engine 
+* <em>ql.io-ecv</em>: Checks servers are responding with JSON
+* <em>ql.io-mon</em>: Statistics on the ql.io runtime
+* <em>ql.io-uri-template</em>: A small URI template processor
+* <em>ql.io-app</em>: An app template for building sites using ql.io
+* <em>ql.io-compiler</em>: A PEG.js-based parser with a compiler ("ql.peg":https://github.com/ql-io/ql.io/blob/master/modules/compiler/pegs/ql.peg contains the main grammar)
+* <em>ql.io-console</em>: Provides the HTTP interface for ql.io
+* <em>ql.io-mutable-uri</em> A utility for manipulating URIs
+
+This is a diverse and complicated project, employing some interesting techniques.  I'm particularly intrigued by the use of PEGs (parsing expression grammar) over context-free grammar, as Jison seems like the easiest way to write parsers in JavaScript at the moment.  "PEG.js":http://pegjs.majda.cz/ (GitHub: "dmajda / pegjs":https://github.com/dmajda/pegjs, npm: _pegjs_) is available for Node and browsers.
+
+"Announcing ql.io":http://www.ebaytechblog.com/2011/11/30/announcing-ql-io/ at the eBay Tech Blog has more details on the design and architecture of the project.
