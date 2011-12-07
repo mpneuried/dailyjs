@@ -1,0 +1,72 @@
+---
+layout: post
+title: "Node Roundup: 0.6.4, Node Web Development, Node.js in Action, read, XJST"
+author: Alex Young
+categories: 
+- node
+- modules
+- parsing
+- books
+- unix
+---
+
+<div class="intro">
+You can send your Node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 0.6.4
+
+"Node 0.6.4":http://blog.nodejs.org/2011/12/01/node-v0-6-4/ has been released.  One interesting thing I noticed was this:
+
+bq. sys: deprecate module some more, print stack trace if <code>NODE_DEBUG=sys</code>
+
+It can be a little bit frustrating when working with dependencies that still use this module, so at least these stack traces will make it easier to find out who to blame.
+
+h3. Node Web Development
+
+<img src="/images/posts/nodewebdevbook.png" style="float: left; margin: 0 10px 10px 0" />
+
+"Node Web Development":http://www.packtpub.com/node-javascript-web-development/book (Price: $22.49, Ebook: $12.74, Publisher: Packt) by David Herron assumes rudimentary JavaScript knowledge and introduces Node, covering the basic theory behind asynchronous and event-driven development, performance, installation, CPU utilisation, modules, Express, EventEmitter, SQLite3, and even Mongoose.
+
+If you're a web developer struggling to understand Node, then _Node Web Development_ may help you get up to speed quickly.  For more information, take a look at the "Node Web Development table of contents":http://www.packtpub.com/toc/node-web-development-table-contents and "Chapter 3: Node Modules":http://www.packtpub.com/sites/default/files/5146OS-Chapter-3-Node-Modules.pdf?utm_source=packtpub&utm_medium=free&utm_campaign=pdf (PDF).
+
+h3. Node.js in Action
+
+<img src="/images/posts/cantelon_cover.png" style="float: right; margin: 0 0 10px 10px" />
+
+"Node.js in Action":http://www.manning.com/cantelon/ (Price: $39.99, Ebook: $31.99, Publisher: Manning) by Mike Cantelon and TJ Holowaychuk is currently available as part of Manning's Early Access Program, which means you can subscribe to read the book as chapters are finished.
+
+The book is split into three parts, which cover the fundamentals, web development, and "going further with Node" which appears to cover "stuff that isn't web development".  The first chapter is actually a well-tempered argument on why we need Node, so it's worth considering for boss-convincing ammunition.  The second chapter explains how to install Node for Windows, Mac OS X, and Linux, then goes on to make some fun scripts like a little TCP/IP server accessed with <code>telnet</code>.
+
+The authors waste no time diving right into asynchronous development in chapter 3.  This chapter is a solid treatment of asynchronous programming, with EventEmitter taking centre stage, and coverage of control flow techniques and tools.
+
+Node.js in Action's estimated publishing date is April 2012, with 300 pages in the finished version.  It's currently around 130 pages, so solid progress has been made so far.  "Chapter 1: Why the Web needs Node":http://www.manning.com/cantelon/NjsiA_meap_ch01.pdf (PDF) is available as a free sample chapter.
+
+h3. read
+
+"read":https://github.com/isaacs/read (npm: _read_) by Isaac Z. Schlueter is billed as "read(1) for Node", and is intended to read lines from the standard input.
+
+{% highlight javascript %}
+var read = require('read');
+
+read({ prompt: 'echo: ' }, function(err, res) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(res);
+  }
+});
+{% endhighlight %}
+
+Documentation is available in the project's README.  Isaac notes that care must be taken to manage <code>process.stdin</code> in certain versions of Node:
+
+bq. In node 0.6.0 through 0.6.5, you must explicitly call <code>process.stdin.destroy()</code> or <code>process.exit()</code> when you know that your program is done reading, or else it will keep the event loop running forever.
+
+h3. XJST
+
+"XJST":http://veged.github.com/xjst/ (GitHub: "veged / xjst":https://github.com/veged/xjst, npm: _xjst_) by Sergey Berezhnoy is a Node and browser-compatible DSL for creating data transformations.  Suggested applications include HTTP request routing, template engines, and parsers.
+
+The authors have written some "XJST examples":https://github.com/veged/xjst/tree/master/examples to help people get the hang of the language.  To use XJST, an input file must be created using XJST's DSL.  It reads like JavaScript, and XJST will compile it into JavaScript.  The "simple.xjst":https://github.com/veged/xjst/blob/master/examples/simple/source.xjst example is a good one for getting started.
+
+If you're writing a parser of some kind but feel put off by something like Jison, then XJST might help you get started without too much effort.
+

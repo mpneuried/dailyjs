@@ -1,0 +1,67 @@
+---
+layout: post
+title: "jQuery Plugins Site Alternatives"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+!/images/posts/jquery-plugins-down.png!
+
+The jQuery plugins site is currently down.  The intention is to replace it with a better site.  However, is a replacement even necessary?  When researching our weekly jQuery Roundup articles I rarely use the jQuery plugins site.
+
+Fortunately, there are alternatives, and they're arguably more friendly to front-end developers.
+
+h3. Hosting Code
+
+Guess what?  I don't want to download a zip file from your website.
+
+Most plugins I encounter are found through "GitHub":https://github.com/.  With a free GitHub account, open source projects get version control, issue tracking, and a wiki.  Another useful service for plugin developers is "GitHub Pages":http://pages.github.com/ which can be used to host site for your plugin, including any documentation and code examples.  GitHub is essentially a complete service for plugin developers.
+
+And believe it or not, GitHub recently announced a client-side editor in "Edit like an Ace":https://github.com/blog/905-edit-like-an-ace.  Even if you're a less technically-minded client-side developer, you can now edit code through GitHub without even learning how git works.  Although, GitHub has solid documentation, I'd still recommend learning the basics.
+
+If a web-based editor appeals to you, then why not give "Cloud9 IDE":http://c9.io/ a try?  It can integrate with GitHub, and allows free public project creation which is perfect for open source projects.  Old fashioned Vim/Emacs die-hard like me might be suspicious of services like Cloud9, but if it works for you then use it!
+
+There are GitHub alternatives, including "Bitbucket":https://bitbucket.org/ and "Google Code":http://code.google.com/.
+
+h3. Issue Tracking
+
+Allow people to get help when things go wrong.  Writing client-side code is an art, and it's likely that no matter how well-tested your plugin is, it'll have a few bugs.
+
+If you're looking for issue tracking outside of what the version control services offer, then "Lighthouse":http://lighthouseapp.com/ is a good choice because it allows free open source issue tracking.  I've also noticed open source developers using "Pivotal Tracker":http://www.pivotaltracker.com/.
+
+h3. Promotion
+
+There are curated jQuery plugin lists out there.  "The jQuery Handpicked Plugin Repository":http://iwantaneff.in/repo/ is one such list, which features a plugin demo browser.  Writing to the authors of such lists, or sites like DailyJS, is a perfectly acceptable way to promote your plugin.  In fact, if you don't send me your plugins, it's unlikely that I'll ever find them!
+
+Writers like myself will look at several indicators to determine if our readership will be interested in a given plugin, and if it's a new plugin that's poorly packaged then I'm unlikely to cover it.  I also quickly download plugins and try them out, but a demo page is preferred because it saves me the effort of downloading a plugin and creating a suitable mock HTML page to run it.
+
+Another useful way to host demos is to use "jsFiddle":http://jsfiddle.net/.  It's a convenient way of bundling and running HTML, JavaScript, and CSS.  A project README file that links to a demo on jsFiddle is perfectly acceptable.
+
+It's also possible that you could write a tutorial for your plugin and syndicate it.  Lots of blogs and dedicated tutorial sites are looking for content like this.  Editors generally prefer it if the content is unique, so write to your favourite blogs with a tutorial pitch before committing to writing anything.  If you don't mind putting the effort in and not getting published, it only takes a few minutes to set up a free blog and post your own tutorials and news.
+
+Open source projects were traditionally promoted through receptive mailing lists.  This is still common in some circles -- I often look for <code>[announce]</code> posts on popular JavaScript mailing lists.  The equivalent for jQuery is the "Using jQuery Forum":http://forum.jquery.com/using-jquery, according to the jQuery site:
+
+bq. Using jQuery: [...] if you've built a site that uses jQuery, or would like to announce a new plugin, this is the place to do it.
+
+h3. Discovery
+
+Beyond curated plugin lists and blogs, a good way to discover new plugins is social bookmarking sites.  The "pinboard.in/t:jquery":http://pinboard.in/t:jquery link is the first autocomplete item in my browser address bar when I type 'pi'.  The reason for this is Pinboard has a good signal to noise ratio.
+
+h3. Example: Chosen
+
+"Chosen":http://harvesthq.github.com/chosen/ (GitHub: "harvesthq / chosen":https://github.com/harvesthq/chosen/, License: _MIT_) is a solid example of a beautifully presented and well-marketed jQuery plugin.  It hits everything on my checklist:
+
+* Includes a README with useful information about jQuery version support and how to contribute
+* Tracks issues through GitHub
+* Has a great site on GitHub Pages with full demos, example code, FAQs, credits
+* Includes a license
+* Includes the build scripts the authors use to generate releases
+
+I think the only thing that's missing here is unit tests, unless they're hidden somewhere in the source that I didn't expect.
+
