@@ -1,0 +1,195 @@
+---
+layout: post
+title: "Testing with Mocha"
+author: Alex Young
+categories: 
+- node
+- modules
+- tutorials
+---
+
+!/images/posts/mocha-tests.png!
+
+"Mocha":http://visionmedia.github.com/mocha/ (GitHub: "visionmedia / mocha":https://github.com/visionmedia/mocha, npm: _mocha_, License: _MIT_) by TJ Holowaychuk is a new test library that does just about everything a JavaScript developer needs, and yet remains customisable enough to support both behaviour-driven and test-driven development styles.
+
+Mocha presents itself as an unassuming and lightweight library, but it actually goes far beyond the test frameworks I'm familiar with in Node.  I've written literally hundreds of tests for various Node apps, and the experience hasn't always been positive.  Even popular test libraries lack functionality that asynchronous, database-driven web apps require for sane testing.  My recommendation is to take Mocha seriously and give it a try -- it's surprisingly intuitive.
+
+h3. The Basics
+
+Mocha is available through npm, but I install it by adding it to my <code>package.json</code> files.  Make a <code>package.json</code> file like this one:
+
+{% highlight javascript %}
+{
+    "name": "async-testing-tutorial"
+  , "version": "0.0.1"
+  , "description": "A tutorial for Mocha"
+  , "keywords": ["test", "tutorial"]
+  , "author": "Alex R. Young <info@dailyjs.com>"
+  , "main": "index"
+  , "engines": { "node": ">= 0.4.x < 0.7.0" }
+  , "scripts": {
+    "test": "make test"
+  }
+  , "devDependencies": {
+    "mocha": "0.3.x"
+  }
+}
+{% endhighlight %}
+
+Then run <code>npm install</code> and you're almost ready to use Mocha.  The Mocha script will be in <code>./node_modules/.bin/mocha</code>, so rather than typing this every time add a simple <code>Makefile</code> to your project:
+
+{% highlight sh %}
+test:
+	@./node_modules/.bin/mocha
+
+.PHONY: test
+{% endhighlight %}
+
+While you're at it, add a <code>test/</code> directory:
+
+{% highlight sh %}
+mkdir test
+{% endhighlight %}
+
+Now typing <code>make test</code> will run any tests in <code>test/</code>!
+
+Any options for Mocha can now be added to the <code>Makefile</code>:
+
+{% highlight sh %}
+test:
+	@./node_modules/.bin/mocha -u tdd
+
+.PHONY: test
+{% endhighlight %}
+
+This says we want to run tests in the TDD style:
+
+bq. The "BDD" interface provides <code>describe()</code>, <code>it()</code>, <code>before()</code>, <code>after()</code>, <code>beforeEach()</code>, and <code>afterEach()</code>.  The "TDD" interface provides <code>suite()</code>, <code>test()</code>, <code>setup()</code>, and <code>teardown()</code>.
+
+h3. Testing Synchronously
+
+We'd better write something!  Add this to <code>index.js</code>:
+
+{% highlight javascript %}
+function nextPrime(n) {
+  var smaller;
+  n = Math.floor(n);
+
+  if (n >= 2) {
+    smaller = 1;
+    while (smaller * smaller <= n) {
+      n++;
+      smaller = 2;
+      while ((n % smaller > 0) && (smaller * smaller <= n)) {
+        smaller++;
+      }
+    }
+    return n;
+  } else {
+    return 2;
+  }
+}
+
+module.exports.nextPrime = nextPrime;
+{% endhighlight %}
+
+This is just an excuse to do something, it's not meant to be the world's greatest prime number generator.  One reason I like this function is large numbers will make the interpreter _really slow_, which can be useful for demonstrating certain run-loop related issues.
+
+Now create a new file called <code>test/test.next-prime.js</code>:
+
+{% highlight javascript %}
+var assert = require('assert')
+  , nextPrime = require('./../index').nextPrime
+  , asyncPrime = require('./../index').asyncPrime;
+
+suite('nextPrime', function() {
+  test('nextPrime should return the next prime number', function() {
+    assert.equal(11, nextPrime(7));
+  });
+
+  test('zero and one are not prime numbers', function() {
+    assert.equal(2, nextPrime(0));
+    assert.equal(2, nextPrime(1));
+  });
+});
+{% endhighlight %}
+
+And run <code>make test</code> in the terminal.  The test should pass:
+
+!/images/posts/mocha-tutorial-make-test.png!
+
+Why is this simple test interesting?  Well, Mocha explicitly supports asynchronous testing, yet we didn't have to tell it that the test had finished running.  To do that, we'd write a test like this:
+
+{% highlight javascript %}
+var assert = require('assert')
+  , nextPrime = require('./../index').nextPrime;
+
+suite('nextPrime', function() {
+  test('nextPrime should return the next prime number', function(done) {
+    assert.equal(11, nextPrime(7));
+
+    // Tell Mocha the test has finished
+    done();
+  });
+});
+{% endhighlight %}
+
+How is Mocha able to achieve this amazing feat of introspection?  It's actually just checking how many arguments the callback has by using the <code>length</code> property on <code>Function</code>.  This makes the API able to cope with both synchronous and asynchronous tests without any extra boilerplate coding.  If you want to read more about this, "MDN: Function length":https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/length has examples.
+
+h3. Asynchronous Tests
+
+Expanding on <code>nextPrime</code>, I've added a contrived asynchronous version:
+
+{% highlight javascript %}
+function nextPrime(n) {
+  var smaller;
+  n = Math.floor(n);
+
+  if (n >= 2) {
+    smaller = 1;
+    while (smaller * smaller <= n) {
+      n++;
+      smaller = 2;
+      while ((n % smaller > 0) && (smaller * smaller <= n)) {
+        smaller++;
+      }
+    }
+    return n;
+  } else {
+    return 2;
+  }
+}
+
+function asyncPrime(n, fn) {
+  setTimeout(function() {
+    fn(nextPrime(n));
+  }, 10);
+}
+
+module.exports.nextPrime = nextPrime;
+module.exports.asyncPrime = asyncPrime;
+{% endhighlight %}
+
+The <code>asyncPrime</code> method just wraps the old function with <code>setTimeout</code> to simulate an asynchronous call.  Now we need to use the <code>done</code> function provided by Mocha to signal the end of the test:
+
+{% highlight javascript %}
+suite('asyncPrime', function() {
+  test('asyncPrime should return the next prime number', function(done) {
+    asyncPrime(128, function(n) {
+      assert.equal(131, n, 'Wrong number');
+      done();
+    });
+  });
+});
+{% endhighlight %}
+
+h3. Mocha Tricks
+
+Mocha comes packed with lots of test reporter format options, including "TAP":http://en.wikipedia.org/wiki/Test_Anything_Protocol and JSON, which provide opportunities for easy integration with other tools like Continuous Integration (CI) services.  TJ uses "Travis":http://travis-ci.org/ and has a little build status indicator on Mocha's README page.
+
+Mocha also works with CoffeeScript and web browsers.
+
+h3. Sample Project
+
+If you need help getting started with Mocha, I've put the code for this tutorial on GitHub at "alexyoung / async-testing-tutorial":https://github.com/alexyoung/async-testing-tutorial, and TJ's projects use Mocha, which means popular libraries like "Express":https://github.com/visionmedia/express/tree/master/test have plenty of examples to explore.
+
