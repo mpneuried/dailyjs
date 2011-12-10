@@ -1,0 +1,52 @@
+---
+layout: post
+title: "Amber.js, HelsinkiJS, csg.js, SilkJS"
+author: Alex Young
+categories: 
+- languages
+- webgl
+- events
+---
+
+h3. Amber
+
+Amber.js (GitHub: "amberjs / amber.js":https://github.com/amberjs/amber.js, License: _MIT_) by Yehuda Katz started life as SproutCore 2.0 but has been renamed to Amber.js to avoid potential confusion, as it's actually a very different framework.  While Katz calls SproutCore a "native-style widget library", Amber.js is closer to a client-side MVC framework.  Katz essentially describes Amber.js as lighter than SproutCore, and appealing to Backbone.js users.
+
+In fact, Amber.js is surprisingly similar to Backbone.js, aiming to solve the problem of client-side data storage and synchronisation with view code.  It uses the "Handlebars":http://www.handlebarsjs.com/ templating library and some of its own modules to achieve this.  There's an example app available at "todos20.strobeapp.com":http://todos20.strobeapp.com/.
+
+This seems like an interesting departure from SproutCore, but a few things concern me as a server-side (and client-side!) JavaScript developer.  The project doesn't ship with a <code>package.json</code> or use npm for distribution.  The build process is based on Ruby, and tests are run with Ruby.  Although it's obvious that this project is aimed at any server-side language, since it's a JavaScript-centric project I'd much prefer to see it using the tools I use for other JavaScript projects.
+
+Also, from my brief experimentation with Amber.js, it doesn't seem to address script loading.  I feel like a project like this should include something like "RequireJS":http://requirejs.org/ and be developed using AMD-friendly modules.
+
+Despite these complaints, I do like the minimal amount of boilerplate required compared to similar frameworks, and the project is already edging up to 1000 GitHub followers.  Given the level of interest it has a promising future ahead.
+
+h3. HelsinkiJS
+
+"HelsinkiJS":http://lanyrd.com/2011/helsinkijs-december/ is being held on December 12th from 7pm to 9pm at Hietalahdenkatu 8 A 22, 5th floor.  Two speakers are currently billed: "Henri Bergius":http://lanyrd.com/profile/bergie/ and "Oleg Podsechin":http://lanyrd.com/profile/olegpodsechin/.
+
+If you want to track future events, following "@helsinkijs":https://twitter.com/#!/helsinkijs on Twitter should do the trick.
+
+h3. csg.js
+
+"csg.js":http://evanw.github.com/csg.js/ (GitHub: "evanw / csg.js":https://github.com/evanw/csg.js/, License: _MIT_) by Evan Wallace is a Constructive Solid Geometry (CSG) library that implements "operations on meshes elegantly and concisely using BSP trees".  This might sound specialist 3D graphics talk, but the examples on the site do a good job of explaining it.  There's even an interactive example.
+
+This makes a little 3D olive:
+
+{% highlight javascript %}
+var a = CSG.cylinder({ radius: 1.35 });
+var b = CSG.sphere({ radius: 1.35 });
+a.setColor(1, 0, 0);
+b.setColor(0, 1, 0);
+return a.intersect(b);
+{% endhighlight %}
+
+
+!/images/posts/csg.png!
+
+h3. SilkJS
+
+"SilkJS":http://www.sencha.com/forum/showthread.php?160128-Announcing-SilkJS (GitHub: "mschwartz / SilkJS":https://github.com/mschwartz/SilkJS) by Michael Schwartz is a C++ program that uses V8 to provide access to OS-level functions and libraries.  There's an "ncurses.js":https://github.com/mschwartz/SilkJS/blob/master/examples/ncurses.js example that demonstrates this.
+
+SilkJS scripts expect a <code>main()</code> function.  System libraries are linked to SilkJS itself, so the ncurses JavaScript example is made possible by the fact SilkJS includes a binding to ncurses.
+
+The "SilkJS Wiki":https://github.com/mschwartz/SilkJS/wiki contains more information on the project, including comparisons with Node and tips on building the project.
