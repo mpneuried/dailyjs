@@ -6,11 +6,14 @@ categories:
 - events
 - dom
 - code-review
+- flickr-async
 ---
 
 <div class="box">
 Alex Kessinger is a programmer who lives in the Bay Area. He strives to make websites, cook, and write a little bit better each day. You can find more from Alex at his <a href="http://alexkessinger.net/">blog</a>, on <a href="http://twitter.com/voidfiles">Twitter</a>, and <a href="https://plus.google.com/108319722006237870403/posts">Google+</a>. 
 </div>
+
+[Part 2](http://dailyjs.com/2011/12/12/flickr-async-2/)
 
 If you are using a script loader, or even if you are just putting your scripts at the bottom of your DOM, you have a problem. In some cases your scripts will load after the user has clicked on something that requires a JavaScript function to handle the click. It's possible you have a pure HTML version, but if the user has JavaScript enabled then we want to use it, even if the JavaScript hasn't loaded yet. There needs to be a way of handling events before all of the assets have finished loading.
 
