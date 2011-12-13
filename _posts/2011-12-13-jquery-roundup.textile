@@ -1,0 +1,100 @@
+---
+layout: post
+title: "jQuery Roundup: Create, jQuery/Switch, Matteo Bicocchi's Plugins, nanoScroller.js, Mobi Pick, jQuery Geo, Brequire"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- geolocation
+- ui
+- scrollbars
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Create
+
+"Create":http://createjs.org/ (GitHub: "bergie / create":https://github.com/bergie/create, License: _MIT_) by Henri Bergius is built on jQuery UI, Backbone.js, Modernizr, and "VIE":https://github.com/bergie/vie.  It provides a dynamic editing interface suited to browser-based HTML5 content management.
+
+One relatively unique feature of Create is the use of RDFa annotations to mark up editable content.  This reminded me of a CMS I built in the early 2000s that used XSLT to transform arbitrary data into editable data, but this seems far easier to use.  To read more about the RDFa portion of this project, see "VIE (Vienna IKS Editables)":https://github.com/bergie/vie by the same author.
+
+h3. jQuery/Switch
+
+"jQuery/Switch":http://rawnet.github.com/jquery-switch/ (GitHub: "rawnet / jquery-switch":https://github.com/rawnet/jquery-switch, License: _MIT_) from Rawnet is an iOS-inspired slide and toggle widget:
+
+<iframe style="width: 100%; height: 170px" src="http://jsfiddle.net/6twenty/3Uw2s/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+The plugin is accessed by using the <code>switchify</code> method.  The HTML for this plugin can be marked up by using a <code>select</code> element with suitable on/off values.
+
+The documentation for this plugin is excellent, with fully interactive examples for lots of different configuration options.
+
+h3. Matteo Bicocchi's Plugins
+
+!/images/posts/mbplugins.png!
+
+"mb.jQuery Components":http://pupunzi.com/#mb.components/components.html (License: <em>MIT</em> and <em>GPL</em>) by Matteo Bicocchi is a collection of 16 plugins focused on media and UI.  There's a "tree menu":http://pupunzi.com/#mb.components/mb._menu/menu.html, "draggable windows":http://pupunzi.com/#mb.components/mb.containerPlus/containerPlus.html, "sliders":http://pupunzi.com/#mb.components/mb.valueSlider/valueSlider.html, and even a "background YouTube movie player":http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html.
+
+All of the plugins are presented with documentation and demos.
+
+h3. nanoScroller.js
+
+"nanoScroller.js":http://jamesflorentino.com/jquery.nanoscroller/ (GitHub: "jamesflorentino / nanoScrollerJS":https://github.com/jamesflorentino/nanoScrollerJS, License: _MIT_) by James Florentino is a Lion-style scrollbar implementation.  It requires a little bit of CSS, but usage basically boils down to this:
+
+{% highlight javascript %}
+$('selector').nanoScroller();
+{% endhighlight %}
+
+The author has tested it with IE8+, Firefox, Chrome, Safari, and iOS 5.  Older browsers like IE7 will degrade to the native scrollbar.
+
+h3. Mobi Pick
+
+!/images/posts/mobipick.png!
+
+"Mobi Pick":http://mobipick.sustainablepace.net/ (GitHub: "sustainablepace / mobipick":https://github.com/sustainablepace/mobipick, License: _MIT_) by Christoph Baudson is a rather cute Android-inspired date picker.  It uses the impressive "XDate":http://arshaw.com/xdate/ library, and features progressive enhancement through Modernizr.
+
+Mobi Pick has implemented localisation through XDate's locale support, which means a localised picker can be displayed simply by specifying a language:
+
+{% highlight javascript %}
+page.find('selector').mobipick({
+  locale: 'es'
+});
+{% endhighlight %}
+
+h3. jQuery Geo
+
+!/images/posts/jquerygeo.png!
+
+"jQuery Geo":http://jquerygeo.com/ (GitHub: "AppGeo / geo":https://github.com/AppGeo/geo/) from Applied Geographics is an open source mapping project that provides a friendly JavaScript API for services like Open Street Map, WMS and Esri ArcGIS Server.
+
+The "simplest jQuery Geo demo":http://jquerygeo.com/1.0a3/examples/simplest.html shows how easy it is to get started with the plugin:
+
+{% highlight javascript %}
+$(function () {
+  $('#map').geomap();
+});
+{% endhighlight %}
+
+Centring and zooming is also easy:
+
+{% highlight javascript %}
+$('#map').geomap({
+  center: [-71.037598, 42.363281],
+  zoom: 10
+});
+{% endhighlight %}
+
+The project also includes support for geometry and user interaction with geometric objects.
+
+h3. Brequire
+
+We've been covering asynchronous script loaders a lot recently, more by chance than design, and so Jonah Fox sent in his latest updates for "Brequire":https://github.com/weepy/brequire.  I've mentioned this library before on DailyJS, but the recent updates add some interesting asynchronous functionality through the optional <code>require.async.js</code> module:
+
+{% highlight javascript %}
+require('./app', function(app) {
+  // do stuff with app
+});
+{% endhighlight %}
+
+Also, in "commit c9aba57":https://github.com/weepy/brequire/commit/c9aba570d5f6be7d7daf04b571b1d4192fd3be17 the author added "AMD":https://github.com/amdjs/amdjs-api/wiki/AMD support.
