@@ -10,6 +10,8 @@ categories:
 
 h3. Amber
 
+*Note*: Amber has now been renamed to "Ember.js":http://www.emberjs.com.
+
 Amber.js (GitHub: "amberjs / amber.js":https://github.com/amberjs/amber.js, License: _MIT_) by Yehuda Katz started life as SproutCore 2.0 but has been renamed to Amber.js to avoid potential confusion, as it's actually a very different framework.  While Katz calls SproutCore a "native-style widget library", Amber.js is closer to a client-side MVC framework.  Katz essentially describes Amber.js as lighter than SproutCore, and appealing to Backbone.js users.
 
 In fact, Amber.js is surprisingly similar to Backbone.js, aiming to solve the problem of client-side data storage and synchronisation with view code.  It uses the "Handlebars":http://www.handlebarsjs.com/ templating library and some of its own modules to achieve this.  There's an example app available at "todos20.strobeapp.com":http://todos20.strobeapp.com/.
