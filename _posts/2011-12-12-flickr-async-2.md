@@ -29,7 +29,7 @@ I had to make a couple of changes to the stock code for the purposes of generali
 
 One possible way to do this is to write an `actionQueue` factory. This is a function that creates a brand new `actionQueue` every time it's called. Then it can be assigned to `A.actionQueue` as required. This has a lot of advantages but seems like overkill for our requirements. An alternative solution is to simply create a new function that can reset the internal state of the module. I've called this function `refresh_module`.
 
-The second thing I did was to use [JSLint](http://www.jslint.com/) to help clean up the original code. For example, there were cases when a variable was assigned in a `for` loop:
+<del>The second thing I did was to use [JSLint](http://www.jslint.com/) to help clean up the original code. For example, there were cases when a variable was assigned in a `for` loop:</del>
 
 {% highlight javascript %}
 for (var i in an_array) {
@@ -37,7 +37,7 @@ for (var i in an_array) {
 }
 {% endhighlight %}
 
-This is usually a bad idea because it's re-initializing `i` every iteration of the loop. A better form suggested by JSLint is this:
+<del>This is usually a bad idea because it's re-initializing `i` every iteration of the loop. A better form suggested by JSLint is this:</del>
 
 {% highlight javascript %}
 var i;
@@ -46,7 +46,10 @@ for (i in an_array) {
 }
 {% endhighlight %}
 
-I expect the engineers who wrote this code knew about this. I don't even think everything needs to pass JSLint, it's just a rubric that one can use to begin the process of evaluating code. What I think happened here is that they used the first version to save space. In the second version `i` is repeated twice, it's not as small as the first version. Also, they were also looping over a very small array. They probably optimized their code for the most pressing priority which was code size. Given that this code is going to show up in many, many pages on Flickr, which is an extremely popular site, then the size argument makes sense.
+<del>I expect the engineers who wrote this code knew about this. I don't even think everything needs to pass JSLint, it's just a rubric that one can use to begin the process of evaluating code. What I think happened here is that they used the first version to save space. In the second version `i` is repeated twice, it's not as small as the first version. Also, they were also looping over a very small array. They probably optimized their code for the most pressing priority which was code size. Given that this code is going to show up in many, many pages on Flickr, which is an extremely popular site, then the size argument makes sense.
+</del>
+
+> I got this wrong. As some people in the comments have pointed out the variable declaration is hoisted. I have corrected the error, and welcome any additional criticism. To be clear though, I would rather have an error in everything I have ever written, than to not write at all. We can't walk through the world constantly second guessing everything we say, or we wouldn't say anything. The best we can do is welcome being wrong, and fix it.
 
 With testability improved and static analysers applied, I made one more major functional modification. When I started looking at Flickr's code I could see that there was an internal flag called `queueing`. When `true`, which is its default, interim functions get executed. When `false`, nothing happens; everything just passes through to the `queue_click` function. 
 
