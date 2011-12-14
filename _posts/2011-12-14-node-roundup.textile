@@ -1,0 +1,91 @@
+---
+layout: post
+title: "Node Roundup: 0.6.5, NodeUp, Logme, Consolidate.js, mdoc, Firmata, Nodeflakes"
+author: Alex Young
+categories: 
+- node
+- modules
+- podcasts
+- logging
+- templating
+- arduino
+- documentation
+---
+
+<div class="intro">
+You can send your Node modules and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. Node 0.6.5
+
+"Node 0.6.5":http://blog.nodejs.org/2011/12/04/node-v0-6-5/ is out, which upgrades V8 to 3.6.6.11 and potentially avoids national firewall-related issues.
+
+h3. NodeUp
+
+!/images/posts/nodeup.png!
+
+"NodeUp":http://nodeup.com/ is a podcast all about Node.  In "NodeUp Nine":http://nodeup.com/nine features Isaac Z. Schlueter, Matt Ranney, Dominic Tarr, and James Halliday discussing scaling, deployment, and Erlang.  Other topics include migrating to Node 0.6 and hosting on Joyent with Solaris.
+
+Subscribe with either iTunes or RSS:
+
+* "NodeUp on iTunes":itms://itunes.apple.com/us/podcast/nodeup/id447667314?ign-mpt=uo%3D4
+* "NodeUP RSS":http://feeds.feedburner.com/NodeUp
+
+h3. Logme
+
+!/images/posts/logme.png!
+
+"Logme":https://github.com/vesln/logme (License: _MIT_, npm: _logme_) by Veselin Todorov is a slick little logging library.  Basic usage looks like this:
+
+{% highlight javascript %}
+var logme = require('logme');
+logme.critical('Error');
+{% endhighlight %}
+
+It has a lot of colour themes, which are set by instantiating a <code>Logme</code> object:
+
+{% highlight javascript %}
+var Logme = require('logme').Logme;
+  , logme = new Logme({ theme: 'smile' });
+
+logme.error('This is now themed.');
+{% endhighlight %}
+
+The only thing I miss is the ability to quickly append values with spaces, like this: <code>console.log('Value:', value);</code>.
+
+It's worth remembering that <code>console</code> also comes with <code>console.error</code>, which will write to <code>stderr</code>.
+
+h3. Consolidate.js
+
+"Consolidate.js":https://github.com/visionmedia/consolidate.js (License: _MIT_, npm: _consolidate_) by TJ Holowaychuk is a wrapper that gives template engines the same API.  TJ's documentation mentions that Express 3.x uses the signature <code>(path[, locals], callback)</code> for template rendering, which is the same as Consolidate.js.
+
+This library adds a thin layer that makes it easier to switch between different template engines.
+
+h3. mdoc
+
+"mdoc":https://github.com/millermedeiros/mdoc (License: _MIT_, npm: _mdoc_) by Miller Medeiros is a markdown-based documentation generator.  It'll create HTML files for each markdown file in a directory, and a table of contents.
+
+One of the author's examples is "unofficial Node mdoc-generated documentation":http://millermedeiros.github.com/mdoc/examples/node_api/doc/.  He's only been working on it for a few weeks, yet the style of the documentation it generates is readable and suits larger projects.
+
+Some projects benefit handcrafted documentation rather than JSDoc-style API documentation.  Miller wrote a post about this topic called "Inline Documentation: Why I'm Ditching it":http://blog.millermedeiros.com/2011/03/inline-documentation-why-im-ditching-it/.
+
+h3. Firmata
+
+"Firmata":http://jgautier.github.com/firmata/ (GitHub: "jgautier / firmata":https://github.com/jgautier/firmata, License: _MIT_, npm: _firmata_) by Julian Gautier is a library for interacting with Arduino boards running the firmata protocol.
+
+If you're a Node developer you may find this more appealing than typical Arduino code:
+
+{% highlight javascript %}
+var firmata = require('firmata')
+  , board;
+
+board = new firmata.Board('path to usb', function() {
+  // Arduino is ready to communicate
+});  
+{% endhighlight %}
+
+h3. Nodeflakes
+
+Nick Payne sent in "Nodeflakes":http://paynedigital.com/2011/12/nodeflakes (GitHub: "makeusabrew / nodeflakes":https://github.com/makeusabrew/nodeflakes), a Twitter Streaming API experiment that displays CSS3 unicode snowflakes that display tweets.  The architecture is actually multiprocess, using a producer/consumer architecture.  The client-side code is in "nodeflakes-client":https://github.com/makeusabrew/nodeflakes-client.
+
+Despite appearing to be a holiday-themed gimmick, Nodeflakes is very educational.  The author has written a detailed blog post about the project: "Nodeflakes - real time tweet powered snowflakes":http://paynedigital.com/2011/12/nodeflakes.
