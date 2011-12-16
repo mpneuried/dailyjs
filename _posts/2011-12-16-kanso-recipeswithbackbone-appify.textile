@@ -1,0 +1,28 @@
+---
+layout: post
+title: "Kanso Repository, Recipes with Backbone, Appify UI"
+author: Alex Young
+categories: 
+- couchdb
+- mac
+- backbone.js
+---
+
+h3. Kanso Package Repository
+
+"Kanso":http://kan.so/ (GitHub: "kanso":https://github.com/kanso ) has been changed to work more like a generic build system for "CouchApps":http://couchapp.org/page/what-is-couchapp.  It's more framework agnostic, and includes a package repository, which is available at "kan.so/packages":http://kan.so/packages.  From Caolan McMahon in the "New Kanso release and change of direction thread":http://groups.google.com/group/kanso/browse_thread/thread/fdd930baab739197:
+
+bq. Essentially, all you need to add to your project is a kanso.json file describing how it should be built. Once your app is in this format, it's possible to merge it with other design docs written in the same way. Using this basic principle, we've developed a library of JavaScript modules, build-steps, and more, all of which can be easily shared between projects.
+
+If you're working with CouchDB and want a relatively easy way to run JavaScript apps, then it's worth giving Kanso a try.  The community on the "Kanso Google Group":http://groups.google.com/group/kanso is still relatively small and helpful.
+
+h3. Recipes with Backbone
+
+"Recipes with Backbone":http://recipeswithbackbone.com/ (price: $24) is an ebook by Nick Gauthier and Chris Strom that covers an introduction to Backbone.js, namespacing, view templates, collection views, actions, animations, non-REST models, routes, and more.  The full table of contents is here: "Recipes with Backbone":http://recipeswithbackbone.com/toc.html and excerpts are available for "Collection View (PDF)":http://recipeswithbackbone.com/collection-view.pdf and "Changes Feed (PDF)":http://recipeswithbackbone.com/changes-feed.pdf.
+
+I haven't yet bought a copy for review, but the sample content looks promising.  If you buy it, please let everyone know what you think in the comments!
+
+h3. Appify UI
+
+"Appify UI":https://github.com/subtleGradient/Appify-UI by Thomas Aylott helps package web apps as Mac OS X bundles.  The thing that makes it slightly special is Node apps can be bundled just as easily as anything else.  There's a Node demo app, and instructions on how to make them in the project's documentation.
+
