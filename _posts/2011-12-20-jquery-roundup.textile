@@ -1,0 +1,96 @@
+---
+layout: post
+title: "jQuery Roundup: AMD-Utils, jquery.mentionsInput, Echo Nest API Plugin"
+author: Alex Young
+categories: 
+- jquery
+- plugins
+- music
+- amd
+- ui
+- translation
+---
+
+<div class="intro">
+Note: You can send your plugins and articles in for review through our "contact form":/contact.html or "@dailyjs":http://twitter.com/dailyjs.
+</div>
+
+h3. AMD-Utils
+
+"AMD-Utils":http://millermedeiros.github.com/amd-utils/ (GitHub: "millermedeiros / amd-utils":https://github.com/millermedeiros/amd-utils/, License: _MIT_) by Miller Medeiros is a set of modular utilities written using the "AMD":https://github.com/amdjs/amdjs-api/wiki/AMD API.
+
+bq. All code is library agnostic and consist mostly of helper methods that aren't directly related with the DOM, the purpose of this library isn't to replace Dojo, jQuery, YUI, Mootools, etc, but to provide modular solutions for common problems that aren't solved by most of them.
+
+The modules written so far include some of the things covered on my "Let's Make a Framework":http://dailyjs.com/tags.html#lmaf tutorial series, like a functional style <code>Array</code> module, and other commonly required number and string utility functions often added by large frameworks.
+
+h3. jquery.mentionsInput
+
+!http://dailyjs.com/images/posts/mentionsinput.png!
+
+"jquery.mentionsInput":http://podio.github.com/jquery-mentions-input/ (GitHub: "podio / jquery-mentions-input":https://github.com/podio/jquery-mentions-input, License: _MIT_) by Kenneth Auchenberg and the Podio Dev Team is a UI component for handling _@mentions_.  It'll display an autocomplete list for matching names and allow one to be selected.  Once a name is selected, it'll change colour in the text box, as shown above.
+
+The authors have packaged it with CSS, so it's easy to get started right away.  It does expect some data, rather than automatically searching an API like Twitter's, so the expected format looks like this:
+
+{% highlight javascript %}
+$('textarea.mention').mentionsInput({
+  onDataRequest:function (mode, query, callback) {
+    var data = [
+      { id:1, name:'Kenneth Auchenberg', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+      { id:2, name:'Jon Froda', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+      { id:3, name:'Anders Pollas', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+      { id:4, name:'Kasper Hulthin', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+      { id:5, name:'Andreas Haugstrup', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' },
+      { id:6, name:'Pete Lacey', 'avatar':'http://cdn0.4dots.com/i/customavatars/avatar7112_1.gif', 'type':'contact' }
+    ];
+
+    data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+
+    callback.call(this, data);
+  }
+});
+{% endhighlight %}
+
+h3. Echo Nest API Plugin
+
+"Echonest-jQuery-Plugin":https://github.com/Rodeoclash/Echonest-jQuery-Plugin by Samuel Richardson is a plugin for "The Echo Nest":http://the.echonest.com/ which is a real-time API for accessing music data.  Song data and audio fingerprinting are just some of the cool things that this API provides.
+
+Let's say I needed to get a set of album images.  All I'd have to do is this:
+
+{% highlight javascript %}
+var echonest = new EchoNest('YOUR_API_KEY');
+echonest.artist('Radiohead').images(function(imageCollection) {
+  $('body').prepend(imageCollection.to_html('<img src="${url}">'));
+});
+{% endhighlight %}
+
+Combined with a templating system, this makes working with music data extremely convenient.  The only issue with this approach is the API key is exposed.  Echo Nest uses the API key for enforcing rate limits, so it's not safe to expose it publicly.  As it stands, I'd probably use client-side Echo Nest API code as a way of rapidly prototyping a music service built on this platform, then create my own server-side bridge to obscure the API key.
+
+h3. i18next
+
+"i18next":http://jamuhl.github.com/i18next/ (GitHub: "jamuhl / i18next":https://github.com/jamuhl/i18next, License: _MIT_) by Jan Mühlemann is a client-side translation plugin with lots of features, including: plurals, <code>localStorage</code>, namespaces, and variables.  JSON resource files can be used to store translations, and then i18next will load them as required.
+
+Given a suitable file at <code>/locales/en-US/translation.json</code>:
+
+{% highlight javascript %}
+{
+  "app": {
+    "name": "i18n"
+  },
+  "creator": {
+    "firstname": "Jan",
+    "lastname": "Mühlemann"
+  }
+}
+{% endhighlight %}
+
+Then <code>$.i18n.init</code> can be used to load the resource and access translations:
+
+{% highlight javascript %}
+$.i18n.init({}, function(t) { // will init i18n with default settings and set language from navigator
+  var appName = t('app.name'); // -> i18n
+  var creator = t('creator.firstname') + ' ' + t('creator.lastname'); // -> Jan Mühlemann
+});
+{% endhighlight %}
+
+The "i18next documentation":http://jamuhl.github.com/i18next/ contains more examples and shows how to change languages, organise translations with nesting, and use variables.
+
