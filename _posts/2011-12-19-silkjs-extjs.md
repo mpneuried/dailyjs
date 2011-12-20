@@ -10,7 +10,7 @@ categories:
 ---
 
 <div class="box">
-Mike Schwartz is a regular writer for <a href="http://www.jsmag.com/">JSMag</a> and the creator of SilkJS.
+Mike Schwartz has been developing software since the early 1970s.  He's proficient in JavaScript, PHP, C/C++, Java, C#, Perl, and Assembler language.  He founded Best Internet Communications, the SF Bay Area's largest ISP through the late 1990s.  He currently works for PINT, Inc, the longest-established San Diego firm specializing in Web site design and Web application development.  His focus for the past several years has been in writing front facing and back end JavaScript, especially ExtJS and Helma.  He recently released SilkJS, a very fast WWW server written almost entirely in JavaScript.
 </div>
 
 [SilkJS](http://silkjs.org) is a very fast JavaScript based HTTP server that was designed to work with ExtJS. All code for the server is written in JavaScript, including almost the entirety of the server itself. You can check out the server's GitHub repository at [mschwartz / SilkJS](http://github.com/mschwartz/SilkJS) and the repository for this demo at [mschwartz / SilkJS-ext](http://github.com/mschwartz/SilkJS-ext).
