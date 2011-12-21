@@ -1,0 +1,116 @@
+---
+layout: post
+title: "Node Roundup: 0.6.6, asyncblock, Introduction to Node Modules, Review19"
+author: Alex Young
+categories: 
+- node
+- modules
+- async
+- fibers
+- apps
+---
+
+h3. Node 0.6.6
+
+"Node 0.6.6":http://blog.nodejs.org/2011/12/15/node-v0-6-6/ is out, which updates npm, fixes some bugs, and adds pause/resume semantics to stdin.  Node also has a new website that is greener than ever, but remains clean and features a new corporate-friendly edge.
+
+There's also a post on the official Node blog entitled "Growing up":http://blog.nodejs.org/2011/12/15/growing-up/ by Ryan Dahl that discusses Windows Azure support:
+
+bq. The overarching goal of the port was to expand our user base to the largest number of developers. Happily, this has paid off in the form of being a first class citizen on Azure.
+
+h3. asyncblock
+
+"asyncblock":https://github.com/scriby/asyncblock (License: _MIT_, npm: _asyncblock_) is a fork of "node-green-light":https://github.com/axkibe/node-green-light.  It works like a flow control library combined with "node-fibers":https://github.com/laverdet/node-fibers.
+
+The author compares a 'pure Node' example with his own library's code:
+
+{% highlight javascript %}
+function example(callback){
+    var finishedCount = 0;
+    var fileContents = [];
+
+    var continuation = function(){
+        if(finishedCount < 2){
+            return;
+        }
+
+        fs.writeFile('path3', fileContents[0], function(err) {
+            if(err) {
+                throw new Error(err);
+            }
+
+            fs.readFile('path3', 'utf8', function(err, data){ 
+                console.log(data);
+                console.log('all done');
+            });
+        });
+    };
+
+    fs.readFile('path1', 'utf8', function(err, data) {
+        if(err) {
+            throw new Error(err);
+        }
+
+        fnishedCount++;
+        fileContents[0] = data;
+
+        continuation();
+    });
+
+    fs.readFile('path2', 'utf8', function(err, data) {
+        if(err) {
+            throw new Error(err);
+        }
+
+        fnishedCount++;
+        fileContents[1] = data;
+
+        continuation();
+    });
+}
+{% endhighlight %}
+
+This is the equivalent source using asyncblock and fibers:
+
+{% highlight javascript %}
+var asyncblock = require('asyncblock');
+
+asyncblock(function(flow){
+    fs.readFile('path1', 'utf8', flow.add('first'));
+    fs.readFile('path2', 'utf8', flow.add('second'));
+
+    var fileContents = flow.wait();
+
+    fs.writeFile('path3', fileContents.first, flow.add());
+    flow.wait();
+
+    fs.readFile('path3', 'utf8', flow.add());
+    var data = flow.wait();
+
+    console.log(data);
+    console.log('all done');
+});
+{% endhighlight %}
+
+Error handling is addressed by including <code>flow.errorCallback</code>.  There are examples of how to use this in the project's documentation.
+
+h3. Introduction to Node Modules
+
+Robert Kuzelj has been writing a series of posts about Node modules:
+
+* "Introduction to Node Modules Part 1":http://robkuz-blog.blogspot.com/2011/12/introduction-into-node-modules-part-i.html
+* "Introduction to Node Modules Part 2":http://robkuz-blog.blogspot.com/2011/12/npm-modules-step-by-step-part-ii.html
+* "Introduction to Node Modules Part 3":http://robkuz-blog.blogspot.com/2011/12/intro-into-node-modules-part-iii-cli.html
+
+He demonstrates how to make packages, and how to take advantage of npm's major features.
+
+h3. Review19
+
+!http://dailyjs.com/images/posts/review19.png!
+
+In other Node-related DailyJS articles I've invited readers to share their own apps with the community.  "Review19":http://review19.com/ by "Srirangan":http://srirangan.net/about is one such project: a kanban and scrum project management tool.
+
+It's built with "Socket.IO":http://socket.io/ to provide a real-time view of a project, and uses simple agile-inspired records that should be familiar to users of Jira or Pivotal Tracker.
+
+Sign up is free, so give it a try.  The author has a Google Group to support the community at "Review19 Community":https://groups.google.com/forum/#!forum/review19-community. 
+
