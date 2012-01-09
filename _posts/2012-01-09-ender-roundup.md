@@ -125,11 +125,11 @@ NWMatcher has no dependencies and can be used as a stand-alone library.
 [Ender-Overlay](http://nemeseri.com/ender-overlay/) (npm / Ender: _ender-overlay_), by [Andras Nemeseri](http://about.nemeseri.com/) is a _highly_ configurable module for building dialogs, galleries, lightboxes etc.
 
 {% highlight html %}
-{% raw %}
 <a id="trigger-vimeo" class="thumbs"><img src="http://www.samholdren.com/vimeo-Logo2.png" alt="Vimeo HTML5 Embed" width="100" height="100"></a>
 
 <div id="overlay-vimeo" class="ender-overlay overlay-vimeo">
   <a class="close close-button" title="Close">&#9747;</a>
+  <iframe src="http://player.vimeo.com/video/12132621?title=0&byline=0&portrait=0" width="601" height="338" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
 </div>
 
 <script type="text/javascript">
@@ -137,7 +137,6 @@ $(document).ready(function() {
   $("#overlay-vimeo").overlay({ trigger: "#trigger-vimeo" });
 });
 </script>
-{% endraw %}
 {% endhighlight %}
 
 ![Ender-Overlay](http://js.vagg.org/dailyjs/ender-overlay_596.jpg)
