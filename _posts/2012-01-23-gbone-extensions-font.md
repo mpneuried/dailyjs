@@ -11,7 +11,7 @@ categories:
 
 ###Gbone.js
 
-[Gbone.js](https://github.com/gobhi/gbone.js) (License: _MIT_) by Mike Kamermans is a framework built on top of Backbone.js for building mobile applications, inspired by [Spine Mobile](http://spinejs.com/mobile/index).  It contains several classes that extend Backbone's classes to make it easier to build mobile applications.  For example, `Gbone.Stage` contains multiple `Gbone.Panel`s, and the panels are managed internally by a panel manager.  They have a default skeleton like this:
+[Gbone.js](https://github.com/gobhi/gbone.js) (License: _MIT_) by Gobhi Theivendran is a framework built on top of Backbone.js for building mobile applications, inspired by [Spine Mobile](http://spinejs.com/mobile/index).  It contains several classes that extend Backbone's classes to make it easier to build mobile applications.  For example, `Gbone.Stage` contains multiple `Gbone.Panel`s, and the panels are managed internally by a panel manager.  They have a default skeleton like this:
 
 {% highlight html %}
 <div class="container">
