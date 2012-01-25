@@ -46,6 +46,7 @@ ul.breadcrumb li.home:before { content: "" !important }
 
 h2.post { margin: 0.5em 0 0.25em 0; padding: 0; font-size: 1.75em }
 #post p, #post li, div.posts div.preview { line-height: 1.5em; }
+h2.post { line-height: 1.25em; }
 h2.post a { text-decoration: none }
 
 #post img, .preview img { border: 1px solid #ddd; padding: 1px }
