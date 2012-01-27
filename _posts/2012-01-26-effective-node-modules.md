@@ -5,7 +5,7 @@ author: Alex Young
 categories: 
 - node
 - modules
-- translation
+- tutorials
 ---
 
 Node's module system is deceptively clever.  On the surface it seems like it provides just enough functionality to get by, but it can go a long way towards helping to structure an application elegantly.  [Node's official documentation](http://nodejs.org/docs/latest/api/all.html#modules) covers all of the major features, yet many modules sent in for review at DailyJS don't use these techniques where they could.
