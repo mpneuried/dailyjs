@@ -2,11 +2,6 @@
 layout: default
 ---
 
-<ul class="breadcrumb">
-  <li class="home"><a href="/">Home</a></li>
-  <li>{{ page.title }}</li>
-</ul>
-
 <h2 class="post"><a href="{{ page.url }}">{% if page.display-title %}{{ page.display-title }} {% else %}{{ page.title }}{% endif %}</a></h2>
 
 {% include post.html %}

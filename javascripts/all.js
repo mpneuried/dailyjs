@@ -11,13 +11,13 @@ function fix_ie_overflow() {
 
 $(function() {
   var page = window.location.pathname;
-  $('#navigation li a').first().addClass('active');
+  $('.nav li a').first().addClass('active');
   if (page != '/') {
-    $('#navigation li a').each(function() {
+    $('.nav li a').each(function() {
       var element = $(this);
       if (element.attr('href').match(page)) {
-        $('#navigation li a').removeClass('active');
-        element.addClass('active');
+        $('.nav li').removeClass('active');
+        element.parent('li').addClass('active');
       }
     });
   }

@@ -46,12 +46,27 @@
   </script>
 </head>
 <body>
-  <div id="navigation">
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/contact.html">Contact</a></li>
-      <li class="icon"><a href="http://feeds.feedburner.com/dailyjs"><img src="/images/feed.png" alt="Feed" /></a></li>
-    </ul>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="http://dailyjs.com">
+          DailyJS
+        </a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active">
+              <a href="/">Home</a>
+            </li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a target="_blank" href="http://feeds.feedburner.com/dailyjs">Subscribe</a></li>
+          </ul>
+          <form class="navbar-search" action="http://www.google.com/search" method="get">
+            <input name="sitesearch" type="hidden" value="dailyjs.com" />
+            <input type="text" class="search-query" placeholder="Search">
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
   <div id="container">
     <div id="content">
