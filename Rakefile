@@ -36,6 +36,7 @@ end
 
 desc "Deploy"
 task :deploy do
+  `bin/twitter.sh`
   Rake::Task['remote:deploy'].invoke
 end
 
