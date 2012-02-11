@@ -396,6 +396,10 @@ a.btn { text-decoration: none; font-weight: bold; }
 .nav-collapse.collapse {
   height: auto;
 }
+.twitter-button a {
+  font-size: 13px;
+  text-decoration: none;
+}
 .twitter-button {
   width: 110px;
 }
