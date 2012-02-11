@@ -313,8 +313,6 @@ a.btn { text-decoration: none; font-weight: bold; }
 }
 
 .nav {
-  margin-left: 0;
-  margin-bottom: 18px;
   list-style: none;
   padding: 0;
 }
@@ -327,25 +325,17 @@ a.btn { text-decoration: none; font-weight: bold; }
 }
 .navbar {
   overflow: visible;
-  margin-bottom: 18px;
   height: 60px;
 }
 .navbar-inner {
   height: 60px;
-  padding-left: 10px;
-  padding-right: 20px;
-
   background-color: #DADFE7;
-
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 .navbar .brand {
   float: left;
   display: block;
-  padding: 14px 22px 22px;
-  margin-left: -20px;
+  padding: 14px 0;
+  margin-left: 150px;
   font-size: 32px;
   line-height: 1;
   color: #404040;
@@ -387,6 +377,7 @@ a.btn { text-decoration: none; font-weight: bold; }
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0px rgba(255, 255, 255, 0.15);
   border-radius: 4px;
   outline: 0;
+  width: 186px;
 }
 .navbar-search .search-query:hover {
   background-color: #999999;
@@ -397,23 +388,22 @@ a.btn { text-decoration: none; font-weight: bold; }
   left: 0;
   display: block;
   float: left;
-  margin: 0;
+  margin: 20px 0 0 100px;
+}
+.navbar .nav .social-button {
+  margin-left: 8px;
 }
 .nav-collapse.collapse {
   height: auto;
+}
+.twitter-button {
+  width: 110px;
 }
 .navbar .nav > li {
   display: block;
   float: left;
 }
 .navbar .nav > li > a {
-  float: none;
-  padding: 19px 20px 21px;
-  line-height: 19px;
-  color: #444;
-  text-decoration: none;
-  text-shadow: 0 -1px 0 #fff;
-  font-size: 18px;
 }
 .navbar .nav > li > a:hover {
   background-color: transparent;
@@ -421,16 +411,15 @@ a.btn { text-decoration: none; font-weight: bold; }
   background-color: #ccc;
   text-decoration: none;
 }
-.navbar .nav .active > a, .navbar .nav .active > a:hover {
+.subnav .active > a, .subnav .active > a:hover {
   color: #333;
-  background-color: #fafafa;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
-  background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
-  background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
-  background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
-  background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
-  background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
   text-decoration: none;
+  background-color: #e9e9e9;
+  border-right-color: #ccc;
+  border-left-color: #ccc;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.05);
+  -moz-box-shadow: inset 0 3px 5px rgba(0,0,0,.05);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.05);
 }
 
 .label {
@@ -455,4 +444,52 @@ a.btn { text-decoration: none; font-weight: bold; }
 }
 .label-info {
   background-color: #3a87ad;
+}
+
+.nav-tabs, .nav-pills {
+  *zoom: 1;
+  margin: 0;
+  padding: 0;
+}
+.nav-tabs:before,
+.nav-pills:before,
+.nav-tabs:after,
+.nav-pills:after {
+  display: table;
+  content: "";
+}
+.nav-tabs:after, .nav-pills:after {
+  clear: both;
+}
+.nav-tabs > li, .nav-pills > li {
+  float: left;
+}
+.nav-tabs > li > a, .nav-pills > li > a {
+  padding: 10px 12px;
+  margin-right: 0;
+  line-height: 12px;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #e5e5e5;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.subnav {
+  text-shadow: 0 1px 0 #fff;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-right: none;
+  -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+  -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+  background-color: #eeeeee;
+  background-repeat: repeat-x;
+  background-image: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#eeeeee));
+  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+  background-image: -ms-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+  background-image: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+  background-image: linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
+  margin: 0 0 20px 0;
+  padding: 0 0 0 150px;
 }

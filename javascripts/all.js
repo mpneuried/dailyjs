@@ -11,16 +11,14 @@ function fix_ie_overflow() {
 
 $(function() {
   var page = window.location.pathname;
-  $('.nav li a').first().addClass('active');
-  if (page != '/') {
-    $('.nav li a').each(function() {
-      var element = $(this);
-      if (element.attr('href').match(page)) {
-        $('.nav li').removeClass('active');
-        element.parent('li').addClass('active');
-      }
-    });
-  }
+  $('.subnav li a').first().addClass('active');
+  $('.subnav li a').each(function() {
+    var element = $(this);
+    if (element.attr('href') === page) {
+      $('.subnav li').removeClass('active');
+      element.parent('li').addClass('active');
+    }
+  });
 
   fix_ie_overflow();
 
