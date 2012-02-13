@@ -207,7 +207,7 @@ li.rss p { margin: 0 !important; padding: 0 0 1em 0 !important }
 .carbonad {
   border-radius: 5px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 24px 22px 24px 24px;
 }
 
 /* Taken from Bootstrap */
@@ -363,7 +363,7 @@ a.btn { text-decoration: none; font-weight: bold; }
   margin-top: 16px;
   margin-bottom: 0;
   position: absolute;
-  left: 816px;
+  left: 820px;
 }
 .navbar-search .search-query {
   padding: 4px 9px;
@@ -377,7 +377,7 @@ a.btn { text-decoration: none; font-weight: bold; }
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0px rgba(255, 255, 255, 0.15);
   border-radius: 4px;
   outline: 0;
-  width: 186px;
+  width: 180px;
 }
 .navbar-search .search-query:hover {
   background-color: #999999;
