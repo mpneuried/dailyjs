@@ -14,7 +14,7 @@ categories:
 
 ![Mystik Map Editor](/images/posts/mystikrpg.png)
 
-So, you want to build the next Ultima in JavaScript?  As well as a game engine tools are required.  [Mystik Map Editor](http://mystikrpg.com/mapeditor/) (GitHub: [Mystik-RPG / mapeditor](https://github.com/UrbanTwitch/Mystik-RPG/tree/master/mapeditor)) is an open source tile map editor.  The client-side code is built with jQuery and jQuery UI.  It supports a few drawing operations, like "brush" tile placement and a line tool, and will display if a tile is walkable or not.
+So, you want to build the next Ultima in JavaScript?  As well as a game engine tools are required.  [Mystik Map Editor](http://mystikrpg.com/mapeditor/) (GitHub: [UrbanTwitch / Mystik-Map-Editor](https://github.com/UrbanTwitch/Mystik-Map-Editor)) is an open source tile map editor.  The client-side code is built with jQuery and jQuery UI.  It supports a few drawing operations, like "brush" tile placement and a line tool, and will display if a tile is walkable or not.
 
 Pressing "Create Map" will output a JSON representation of the current map.  To see an example of a game built with this tile editor, visit [mystikrpg.com](http://mystikrpg.com/).  Technically, the tile editor could be forked, hacked, and used for anything, so if you do build the next Ultima with server-side JavaScript, get in touch!
 
