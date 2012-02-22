@@ -44,7 +44,21 @@ Post.find(function(err, posts){
 });
 {% endhighlight %}
 
-The model definitions offer an alternative to [Mongoose](http://mongoosejs.com/), and may appeal to those working on CoffeeScript-based projects.
+The model definitions offer an alternative to [Mongoose](http://mongoosejs.com/), and may appeal to those working on CoffeeScript-based projects:
+
+{% highlight coffeescript %}
+class Post
+  constructor: ->
+    super 'posts'
+
+Post = Mongorito.bake Post
+
+post = new Post
+post.title = 'About Mongorito'
+
+post.save (err) ->
+  # saved!
+{% endhighlight %}
 
 Despite being a new library, the author says the code is being used in production software, and he's written some [Mocha](http://visionmedia.github.com/mocha/) unit tests.
 
