@@ -135,7 +135,7 @@ insert_all([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   function done() { console.error('done'); });
 {% endhighlight %}
 
-This is by the same developer who made [Clarinet](https://github.com/dscape/clarinet), an evented SAX parser.
+This is by the same developer who made [Clarinet](https://github.com/dscape/clarinet), an evented SAX parser.  There's a blog post about the library here: [Pattern Matching in JavaScript for Asynchronous Iteration](http://blog.nodejitsu.com/pattern-matching-in-javascript).
 
 ### Invoke
 
