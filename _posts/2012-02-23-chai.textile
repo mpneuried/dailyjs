@@ -1,0 +1,114 @@
+---
+layout: post
+title: "Getting Started with the Chai Assertion Library"
+author: Jake Luer
+categories: 
+- testing
+- node
+- tutorials
+---
+
+<div class="box">
+Jake Luer is a Node developer and consultant focused on helping to shape the next-generation of mobile and web applications. He is <a href="https://github.com/logicalparadox">logicalparadox</a> on GitHub and <a href="http://twitter.com/jakeluer">@jakeluer</a> on Twitter.
+</div>
+
+<img src="/images/posts/chai-logo.png" style="border: none; float: left; margin: 0 10px 10px 0" />
+
+"Chai":http://chaijs.com (GitHub: "logicalparadox / chai":https://github.com/logicalparadox/chai, npm: _chai_, License: _MIT_) is a BDD / TDD assertion library for Node and the browser that can be delightfully paired with any JavaScript testing framework.
+
+Chai aims to be an expressive and easily approachable way to write assertions for JavaScript project testing. Developers have already started expanding on Chai's available language through plugins such as spies, mocks/stubs, and jQuery support. Starting out, however, I think you will find Chai's language easy to pick up and powerful enough for even the most unruly of testing scenarios.
+
+The motivation for Chai came about with the release of "Mocha":https://github.com/visionmedia/mocha, TJ Holowaychuk's incredible testing framework that can also be used with both Node and browsers. At the time, there was no apparent assertion library to pair with it that would allow for the same assertions to be used on both server and client with the inherent simplicity that Mocha provides.
+
+h3. The Basics
+
+To get started in Node, add <code>chai</code> to your <code>package.json</code> under devDependacies. Or, if using in the browser, include the script in your page:
+
+{% highlight html %}
+<script src="http://chaijs.com/chai.js" type="text/javascript"></script>
+{% endhighlight %}
+
+Chai currently supports all modern browsers: IE 9+, Chrome 7+, FireFox 4+, Safari 5+.
+
+h3. Assertion Styles
+
+Chai comes packaged with three different assertion styles: expect, should, and assert. The expect and should interfaces are similar in that they are based on self descriptive language chains. The assert interface is similar to Node's assert module but includes many more assertions.
+
+For our examples we will assume the following:
+
+{% highlight javascript %}
+var chai = require('chai')
+  , foo = 'bar'
+  , beverages = { tea: [ 'rooibos', 'matcha', 'oolong' ] };
+{% endhighlight %}
+
+First up is the BDD styles: <code>expect</code> and <code>should</code>:
+
+{% highlight javascript %}
+var expect = chai.expect;
+expect(foo).to.be.a('string').and.equal('bar');
+expect(beverages).to.have.property('tea').with.length(3);
+{% endhighlight %}
+
+As you can see, the <code>expect</code> interface provides a function as a starting point for chaining your language assertions. Alternatively, the <code>should</code> interface extends <code>Object.prototype</code> with the single getter <code>should</code> as the starting point:
+
+{% highlight javascript %}
+var should = chai.should();
+foo.should.be.a('string').and.equal('bar');
+beverages.should.have.property('tea').with.length(3);
+{% endhighlight %}
+
+Finally, the TDD style is exposed through the <code>assert</code> interface. This features the classic <code>assert.test</code> notation.
+
+{% highlight javascript %}
+var assert = chai.assert;
+assert.equal(foo, 'bar', 'Foo equal bar');
+assert.length(beverages.tea, 3, 'We have three types of tea');
+{% endhighlight %}
+
+A few assertions that are also available are deep equality, exception testing, and <code>instanceof</code>. The full API documentation is available for all styles on "Chaijs.com":http://chaijs.com.
+
+h3. Extending Chai with Plugins
+
+Though Chai provides all the basics of testing, we all know there can be much more to it. Chai can easily be extended through plugins that can add-on or modify Chai's <code>Assertion</code> prototype. One example of this is "logicalparadox/chai-spies":https://github.com/logicalparadox/chai-spies, a basic function spying implementation. 
+
+Here is a simple example to assert that events have been emitted using <code>chai-spies</code>:
+
+{% highlight javascript %}
+var chai = require('chai')
+  , spies = require('chai-spies');
+
+chai.use(spies);
+
+var should = chai.should()
+  , myspy = chai.spy(originalFn); // originalFn not required
+
+eventemitter.on('some event', myspy);
+// ... testing
+myspy.should.have.been.called.twice;
+{% endhighlight %}
+
+The plugin approach makes it easy to use Chai for complex testing scenarios. Chai-spies is also a good resource for developers looking to build plugins that work for both Node and the browser.
+
+These awesome developers have already started to build on Chai:
+
+h5. "chai-jquery":https://github.com/jfirebaugh/chai-jquery (License: _MIT_) by John Firebaugh provides deep jQuery integration with Chai's `should` and `expect` styles.
+
+{% highlight javascript %}
+$('#header').should.have.class('foo');
+expect($('#title')).to.have.html('Chai Tea');
+{% endhighlight %}
+
+h5. "sinon-chai":https://github.com/domenic/sinon-chai (License: _WTFPL_) by Domenic Denicola extends Chai with assertions for use with the Sinon.js mocking framework.
+
+{% highlight javascript %}
+mySpy.should.have.been.calledWith('foo');
+expect(mySpy).to.have.been.calledWith('foo');
+{% endhighlight %}
+
+h5. "jack":https://github.com/vesln/jack (License: _MIT_) by Veselin Todorov is a mock/stub library that can be used as a stand-alone utility or with Chai.
+
+{% highlight javascript %}
+mockedMethod.should.have.been.called.twice;
+expect(mockedMethod).to.have.been.called.twice;
+{% endhighlight %}
