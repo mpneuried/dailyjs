@@ -37,7 +37,7 @@ The sliders can be conventional value sliders, or represent a range with two dra
 
 ### jecookie
 
-[jecookie](https://github.com/ainformatico/jecookie) (License: _GPL_) by Alejandro El Informático is a friendly cookie library.  JSON is supported, and cookies can be marked as secure.
+[jecookie](https://github.com/ainformatico/jecookie) (License: _MIT_) by Alejandro El Informático is a friendly cookie library.  JSON is supported, and cookies can be marked as secure.
 
 {% highlight javascript %}
 var cookie = new jecookie('cookie_name', { secure: true, domain: '.example.org' });
