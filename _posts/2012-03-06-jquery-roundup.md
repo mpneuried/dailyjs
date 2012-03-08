@@ -21,7 +21,7 @@ Note: You can send your plugins and articles in for review through our <a href="
     |_______|____|___  |__|_____||_____/_____|____|____|_____|
                  |_____|
 
-[http://jacobrask.github.com/styledocco/](http://jacobrask.github.com/styledocco/) (GitHub: [jacobrask / styledocco](https://github.com/jacobrask/styledocco), License: _MIT_, npm: _styledocco_) by Jacob Rask generates documentation and style guides from stylesheets.
+[StyleDocco](http://jacobrask.github.com/styledocco/) (GitHub: [jacobrask / styledocco](https://github.com/jacobrask/styledocco), License: _MIT_, npm: _styledocco_) by Jacob Rask generates documentation and style guides from stylesheets.
 
 It's distributed as a command-line tool, and can be installed using npm:
 
