@@ -53,7 +53,7 @@ message({ 'GENDER' : 'female' });
 
 ### Blossom
 
-[Blossom](https://gist.github.com/83ac249f80f3fbc12855) (GitHub: [fohr / blossom](https://github.com/fohr/blossom), License: _GPLv3_, npm: _blossom_) is an early beta of what Erich Ocean hopes represents the future of SproutCore:
+[Blossom](https://gist.github.com/83ac249f80f3fbc12855) (GitHub: [fohr / blossom](https://github.com/fohr/blossom), License: _GPLv3_ for non-commercial projects, npm: _blossom_) is an early beta of what Erich Ocean hopes represents the future of SproutCore:
 
 > Blossom is a serious attempt to advance SproutCore 1.x forward after the failure of SproutCore 2. I put forward the rational behind Blossom in early December, 2011 and also demo'd early work I had done on Blossom at the SproutCore User Group in Washington D.C. late January, 2012. \[...\] Blossom is designed to become the future of SproutCore, but it also stands on its own.
 
