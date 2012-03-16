@@ -47,7 +47,7 @@ Now `chmod +x signals.js` and run it with `./signals.js`.  It'll print out its P
 {% highlight text %}
 ➜ ./signals.js &
 PID: 12626
-➜ kill -s SIGHUP 12810
+➜ kill -s SIGHUP 12626
 Got a SIGHUP
 {% endhighlight %}
 
