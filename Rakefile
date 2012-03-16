@@ -36,9 +36,14 @@ end
 
 desc "Deploy"
 task :deploy do
-  `bin/twitter.sh`
   Rake::Task['remote:deploy'].invoke
 end
+
+desc "Update twitter icons"
+task :update_twitter_icons do
+  `bin/twitter.sh`
+end
+
 
 task :default => [:e]
 desc "Local workflow"
