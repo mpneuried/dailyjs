@@ -7,6 +7,7 @@ categories:
 - tutorials
 - unix
 - daemons
+- signals
 ---
 
 Signals represent a limited form of inter-process communication.  When a signal is issued to a process, it will be interrupted and a signal handler will be executed.  If there is no signal handler, the default handler will be called instead.  This sounds a lot like asynchronous events in Node, and that's exactly how signals are implemented; using `process.on`:
