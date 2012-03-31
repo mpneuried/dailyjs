@@ -27,7 +27,7 @@ The project is distributed free for open source or non-commercial projects, othe
 
 ###CasperJS
 
-[CasperJS](http://casperjs.org/) (GitHub: [n1k0 / casperjs](https://github.com/n1k0/casperjs), License: _MIT_, npm: _casperjs_) by Nicolas Perriault is a testing tool for [PhantomJS](http://www.phantomjs.org/).
+[CasperJS](http://casperjs.org/) (GitHub: [n1k0 / casperjs](https://github.com/n1k0/casperjs), License: _MIT_) by Nicolas Perriault is a testing tool for [PhantomJS](http://www.phantomjs.org/).
 
 Using PhantomJS seems like the ideal solution for creating advanced browser-like scripting environments, and CasperJS has an appealing API:
 
