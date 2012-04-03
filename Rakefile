@@ -23,6 +23,7 @@ namespace :remote do
     end
 
     File.copy '_site/atom.xml', '_site/feed.xml'
+    `bin/feed_images.sh`
     puts 'Done.'
   end
 
@@ -102,5 +103,12 @@ title: Tags
     end
 
     puts 'Done.'
+  end
+end
+
+namespace :feed do
+  desc 'Correct feed image URLs'
+  task :images do
+    `bin/feed_images.sh`
   end
 end
