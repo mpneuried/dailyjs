@@ -56,6 +56,6 @@ Running the command with `&` to put it in the background will actually display t
 
 ### Usage in Node
 
-A common use of signal events in Node is to perform some kind of cleanup when a process is terminated.  Where signals really come in handy is for communicating with daemons.  Many daemons accept `SIGHUP` to reload configuration files -- I followed the same convention when I built an IRC daemon in Node.  Another convention is to listen for `SIGTERM` to perform a graceful shutdown.  This could be used to close down sockets, database connections, or remote any temporary files.
+A common use of signal events in Node is to perform some kind of cleanup when a process is terminated.  Where signals really come in handy is for communicating with daemons.  Many daemons accept `SIGHUP` to reload configuration files -- I followed the same convention when I built an IRC daemon in Node.  Another convention is to listen for `SIGTERM` to perform a graceful shutdown.  This could be used to close down sockets, database connections, or remove any temporary files.
 
 I believe Node is a great solution for writing Unix daemons.  It's a good idea to follow established conventions, so add listeners for `SIGHUP` and `SIGTERM`.
