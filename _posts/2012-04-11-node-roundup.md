@@ -23,7 +23,7 @@ You can send in your Node projects for review through our <a href="/contact.html
 
 ###Thumbbot
 
-[Thumbbot](http://vdemedes.github.com/thumbbot/) [GitHub: [vdemedes / thumbbot](https://github.com/vdemedes/thumbbot), License: _MIT_, npm: [thumbbot](http://search.npmjs.org/#/thumbbot)) by Vadim Demedes is a thumbnail generator API built with PhantomJS, ImageMagick, and ffmpeg.
+[Thumbbot](http://vdemedes.github.com/thumbbot/) (GitHub: [vdemedes / thumbbot](https://github.com/vdemedes/thumbbot), License: _MIT_, npm: [thumbbot](http://search.npmjs.org/#/thumbbot)) by Vadim Demedes is a thumbnail generator API built with PhantomJS, ImageMagick, and ffmpeg.
 
 The `Thumbbot` class is instantiated with a source and output file:
 
