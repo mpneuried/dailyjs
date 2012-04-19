@@ -8,8 +8,6 @@ categories:
 - ASI
 ---
 
-_Or: Semicolons, ASI, and You_
-
 ## Introduction
 
 In syntax terms, JavaScript is in the broad C-family of languages. The C-family is diverse and includes languages such as C (obviously), C++, Objective-C, Perl, Java, C# and the newer Go from Google and Rust from Mozilla. Common themes in these languages include:
