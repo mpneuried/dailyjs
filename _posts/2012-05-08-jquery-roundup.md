@@ -20,11 +20,12 @@ Note: You can send your plugins and articles in for review through our <a href="
 {% highlight javascript %}
 var Post = Jewel.define('#posts', {
   keys: {
-    title: 'h1',
-    body: 'p',
+    title: 'h1'
+  , body: 'p'
   },
-  template: function(fields){
-    return '<div class="post"><h1>' + fields.title + '</h1><p>' + fields.body + '</p></div>'
+
+  template: function(fields) {
+    return '<div class="post"><h1>' + fields.title + '</h1><p>' + fields.body + '</p></div>';
   }
 });
 
