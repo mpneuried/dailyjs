@@ -81,6 +81,6 @@ Once that was done I ran `npm test`, and the tests all passed.  I found it quite
 
 ###Conclusion
 
-Hopefully you now appreciate a little bit about how addons are build in Windows.  Although previously the situation was confusing, the community is starting to convert modules to build with node-gyp.
+Hopefully you now appreciate a little bit about how addons are built in Windows.  Although previously the situation was confusing, the community is starting to convert modules to build with node-gyp.
 
 I suspect there will be cases where native code can't be shipped as binaries due to licensing constraints, but it would be encouraging to see more addons include binaries for Windows.
