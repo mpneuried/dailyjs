@@ -6,6 +6,7 @@ categories:
 - node
 - tutorials
 - windows
+- windows-and-node
 ---
 
 It's time to take a look at a Windows-oriented Node module to see how it works.  Before getting messy with C, C++, and all that native module stuff, let's keep it simple by looking at something that communicates with Windows programs using Node's streams.

@@ -6,6 +6,7 @@ categories:
 - node
 - tutorials
 - windows
+- windows-and-node
 ---
 
 I've been surveying popular Node modules and the [nodejs Google Group](https://groups.google.com/forum/?fromgroups#!forum/nodejs) to find common portability issues people have found when testing modules in Windows.

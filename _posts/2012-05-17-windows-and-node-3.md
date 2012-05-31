@@ -8,6 +8,7 @@ categories:
 - windows
 - addons
 - gyp
+- windows-and-node
 ---
 
 In this article we're going to look at _addons_.  If you're a Node developer working in Windows then this article should give you enough background to at least understand the basic issues surrounding addons, and install them using npm.

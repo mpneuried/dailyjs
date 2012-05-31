@@ -6,6 +6,7 @@ categories:
 - node
 - tutorials
 - windows
+- windows-and-node
 ---
 
 I enjoyed writing the [Unix and Node](http://dailyjs.com/tags.html#unix) tutorials over the past few months, and I hope they got people thinking about creating Node programs that behave like first-class Unix citizens.
