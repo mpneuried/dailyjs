@@ -24,45 +24,118 @@ The main differences between `B.prototype = new A();` and `B.prototype = Object.
 
 ###Using `Object.create`
 
-Imagine that I want to represent a queue of things, much like an array but sufficiently different that a new object is desired.  These `Queue` objects could inherit from `Array` like this:
+Last week's `Shape` example could be rewritten to use `Object.create`:
 
 {% highlight javascript %}
-function Queue() {
-  this.active = true;
+function Shape() {
+  this.x = 0;
+  this.y = 0;
+  console.log('Shape constructor called');
 }
 
-Queue.prototype = Object.create(Array.prototype);
+Shape.prototype = {
+  move: function(x, y) {
+    this.x += x;
+    this.y += y;
+  }
+};
 
-var q = new Queue();
+// Rectangle
+function Rectangle() {
+  console.log('Rectangle constructor called');
+  this.x = 0;
+  this.y = 0;
+}
 
-q.push(1);
-q.push(2);
-
-console.log('queue:', q);
-// queue: { '0': 1, '1': 2, active: false, length: 2 }
+Rectangle.prototype = Object.create(Shape);
 {% endhighlight %}
 
-Now we have array-like objects that we can customise with our own methods.
+Now rectangles can be created with `var rect = new Rectangle()` and the original `Shape` constructor won't be called.  This leaves us with a cleaner prototype chain, but what if we still want to call the previous constructor?  In this particular example, calling the `Shape` constructor is desirable because we'll avoid duplicating some initialisation code.
 
-###The Second Argument
+###Calling Constructors
+
+By using the `Function.prototype.call` or `apply` methods, it's entirely possible to call another constructor even when using `Object.create`.  For example:
+
+{% highlight javascript %}
+function Shape() {
+  this.x = 0;
+  this.y = 0;
+  console.log('Shape constructor called');
+}
+
+Shape.prototype = {
+  move: function(x, y) {
+    this.x += x;
+    this.y += y;
+  }
+};
+
+// Rectangle
+function Rectangle() {
+  console.log('Rectangle constructor called');
+  Shape.call(this);
+}
+
+Rectangle.prototype = Object.create(Shape);
+{% endhighlight %}
+
+The fact `call` and `apply` take a `this` parameter (known as *ThisBinding* in the ECMAScript specification) allows us to reuse constructors where required.
+
+###No Inheritance: `Object.create(null)`
+
+By passing `null` to `Object.create`, objects can be created that don't inherit from anything.  By default `Object.prototype` is used, which has [several built-in methods](http://es5.github.com/#x15.2.4).  What if we don't want to inherit from `Object.prototype`?
+
+{% highlight javascript %}
+function Shape() {
+}
+
+Shape.prototype = Object.create(null);
+
+var shape = new Shape();
+console.log(shape.toString);
+{% endhighlight %}
+
+In this example, `undefined` will be printed -- objects created using the `Shape` constructor inherit from `null`.  
+
+Notice that this **is not** equivalent:
+
+{% highlight javascript %}
+function Shape() {
+}
+
+Shape.prototype = null;
+
+var shape = new Shape();
+console.log(shape.toString);
+{% endhighlight %}
+
+This should print something like `[Function: toString]` rather than `undefined`.
+
+It's interesting to think about exactly why this is useful.  In [An Object is not a Hash](http://www.devthought.com/2012/01/18/an-object-is-not-a-hash/), Guillermo Rauch discusses how the properties of `Object.prototype` can be used to potentially cause security issues, and `Object.create(null)` was suggested as a suitable means for creating a "clean" object to avoid the problem.
+
+Another point is performance.  These [Object.create(null) benchmarks](http://jsperf.com/object-create-null-iteration/2) demonstrate iterating over various objects, and the `Object.create(null)` tests run faster than object literals.
+
+However, be very careful when using this approach because so many libraries expect objects to have the standard methods.
+
+###The Second Argument to `Object.create`
 
 According to the [Annotated ECMAScript 5 Object.create documentation](http://es5.github.com/#x15.2.3.5), passing a second argument behaves as if `Object.defineProperties` had been called.  This method requires a bit of knowledge before it can be used -- the properties have to be passed in the expected format.
 
-In this example, `Queue` inherits from array and gets a property called `activate` at the same time:
+In this example, `Rectangle` inherits from `Shape` and gets a property called `animate` at the same time:
 
 {% highlight javascript %}
-Queue.prototype = Object.create(Array.prototype, {
-  activate: {
-    value: function() { this.active = true; }
-  },
-
-  deactivate: {
-    value: function() { this.active = false; }
+Rectangle.prototype = Object.create(Rectangle.prototype, {
+  animate: {
+    value: function() {
+      this.animating = true;
+    }
   }
 });
+
+var rect = new Rectangle();
 {% endhighlight %}
 
-Now calling `q.activate()` and `q.deactivate()` is possible.  Notice that the second argument is in the form `{ propertyName: { value: function() {} } }` -- the `value` property is important and I haven't arbitrarily picked it.  These properties are known as [property attributes](http://es5.github.com/#x8.6.1).
+Now `rect.animate()` can be called, just like any other method.  Notice that the second argument is in the form `{ propertyName: { value: function() {} } }` -- the `value` property is important and I haven't arbitrarily picked it.  These properties are known as [property attributes](http://es5.github.com/#x8.6.1).
 
 Property attributes can be "named data" and "named attribute" properties.  These additional flags can be applied to named data properties:
 
@@ -72,77 +145,46 @@ Property attributes can be "named data" and "named attribute" properties.  These
 
 Although this is new to ECMAScript 5, it adds a much desired level of control to properties and their definition.
 
+###Getters and Setters
+
+Property attributes allow JavaScript to support getters and setters with a lightweight syntax:
+
 {% highlight javascript %}
-function Queue() {
-  this._active = false;
+function Rectangle() {
+  this._animating = false;
 }
 
-Queue.prototype = Object.create(Array.prototype, {
+Rectangle.prototype = Object.create(Shape.prototype, {
   active: {
     get: function() {
-      console.log('Queue.prototype.active get');
-      return this._active;
+      console.log('Rectangle.prototype.animating get');
+      return this._animating;
     },
 
     set: function(value) {
-      console.log('Queue.prototype.active set');
-      this._active = value;
+      console.log('Rectangle.prototype.animating set');
+      this._animating = value;
     }
   }
 });
 
-var q = new Queue();
+var rect = new Rectangle();
 
-q.active = true;
-console.log(q.active);
-
-console.log('queue:', q);
+rect.animating = true;
+console.log(rect.animating);
 {% endhighlight %}
 
-In this example I've renamed `active` to `_active`, but it can still be accessed using `q.active` because I've defined an `active` property with a `get` and `set` method.  Now it's possible to track whenever this value is changed.
+In this example I've renamed `animating` to `_animating`, but it can still be accessed using `rect.animating` because I've defined an `animating` property with a `get` and `set` method.
 
-###Calling Constructors
+This makes it possible to track whenever this value is changed, as illustrated by the `console.log` calls.
 
-By using the `Function.prototype.call` or `apply` methods, it's entirely possible to call another constructor even when using `Object.create`.  For example:
+In JavaScript implementations that don't include `Object.create`, this second argument may not be supported.  The [ECMAScript 5 compatibility table](http://kangax.github.com/es5-compat-table/) by Kangax has a wide range of compatibility tests that can help you decide if it's safe to use it.
 
-{% highlight javascript %}
-function Shape2D() {
-  this.x = 0;
-  this.y = 0;
-}
+###Update Notes
 
-Shape2D.prototype = {
-  move: function(x, y) {
-    this.x += x;
-    this.y += y;
-  }
-};
+This article has been updated using feedback from the following readers:
 
-function Shape3D() {
-  Shape2D.call(this);
-  this.z = 0;
-}
+* [Sean](http://dailyjs.com/2012/06/04/js101-object-create/#comment-547955246) -- Accuracy issues
+* [Marcel Laverdet](http://dailyjs.com/2012/06/04/js101-object-create/#comment-546985513) -- `Object.create(null)`
+* [Ghasem Kiani](http://dailyjs.com/2012/06/04/js101-object-create/#comment-546880197) -- Issues with my "super" example (removed)
 
-Shape3D.prototype = Object.create(Shape2D.prototype);
-{% endhighlight %}
-
-###Calling "Super" Methods
-
-When inheriting, we sometimes need to replace a method with one more tailored to the child object.  Last week I demonstrated how to call the parent's original method using `MyObject.prototype.method.apply(this, [arguments])`.  Another way to do this is with `Object.getPrototypeOf`.
-
-Building on the previous example, let's add a new `move` to `Shape3D`:
-
-{% highlight javascript %}
-Shape3D.prototype.move = function(x, y, z) {
-  Object.getPrototypeOf(Object.getPrototypeOf(this)).move.call(this, x, y);
-  this.z += z;
-};
-{% endhighlight %}
-
-Although in this example `Object.getPrototypeOf` seems unwieldy, it can be used in cases where we don't actually know what the parent class was.  It's one of the techniques library authors use to create class-like implementations in JavaScript.
-
-###References
-
-* [Annotated ECMAScript 5.1](http://es5.github.com/)
-* [Object.create MDN](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/create)
-* [defineProperty MDN](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/defineProperty)
