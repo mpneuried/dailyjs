@@ -38,3 +38,5 @@ It's built with James' [pony](http://search.npmjs.org/#/pony) module which sends
 [Kraken](https://github.com/matylla/node-kraken) (License: _MIT_, npm: [kraken](http://search.npmjs.org/#/kraken)) by Przemek Matylla is a client for the [Kraken Web Optimizer](http://kraken.io/).
 
 Image URLs or uploads can be optimised using this module, and a [Kraken Account](http://kraken.io/developers/) is required to use it.
+
+Kraken itself was built with Node, and there are a few details about their implementation on the [Kraken About page](http://kraken.io/about).
