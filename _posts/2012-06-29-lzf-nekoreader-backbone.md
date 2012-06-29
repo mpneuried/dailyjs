@@ -19,7 +19,7 @@ Even though it's been converted from C, the JavaScript is surprisingly easy to f
 
 ###Nekoreader
 
-[Nekoreader](http://nekoreader.github.com/) (GitHub: [nekoreader / nekoreader.github.com](https://github.com/nekoreader/nekoreader.github.com)) is a client-side feed reader.  It uses JSONP, and [Google's Feed API](https://developers.google.com/feed/) to handle feeds.  It has an API that allows a list of feeds to be specified in a JSON file.  A template file and CSS can also be supplied to style the results.
+[Nekoreader](http://nekoreader.github.com/) (GitHub: [nekoreader / nekoreader.github.com](https://github.com/nekoreader/nekoreader.github.com)) is a client-side feed reader created by Vincent Grastic.  It uses JSONP, and [Google's Feed API](https://developers.google.com/feed/) to handle feeds.  It has an API that allows a list of feeds to be specified in a JSON file.  A template file and CSS can also be supplied to style the results.
 
 Although people have been using Google's Feed API for a while for similar projects, I like the fact the author's example shows how to configure an entirely client-side app using services like GitHub and Dropbox.
 
