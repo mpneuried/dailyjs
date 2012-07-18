@@ -155,7 +155,7 @@ function Rectangle() {
 }
 
 Rectangle.prototype = Object.create(Shape.prototype, {
-  active: {
+  animating: {
     get: function() {
       console.log('Rectangle.prototype.animating get');
       return this._animating;
@@ -187,4 +187,4 @@ This article has been updated using feedback from the following readers:
 * [Sean](http://dailyjs.com/2012/06/04/js101-object-create/#comment-547955246) -- Accuracy issues
 * [Marcel Laverdet](http://dailyjs.com/2012/06/04/js101-object-create/#comment-546985513) -- `Object.create(null)`
 * [Ghasem Kiani](http://dailyjs.com/2012/06/04/js101-object-create/#comment-546880197) -- Issues with my "super" example (removed)
-
+* Ti -- typo (`active` should have been `animating`)
