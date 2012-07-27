@@ -76,7 +76,7 @@ function Rectangle() {
   Shape.call(this);
 }
 
-Rectangle.prototype = Object.create(Shape);
+Rectangle.prototype = Object.create(Shape.prototype);
 {% endhighlight %}
 
 The fact `call` and `apply` take a `this` parameter (known as *ThisBinding* in the ECMAScript specification) allows us to reuse constructors where required.
