@@ -24,13 +24,13 @@ Dave Pacheco also posted about [profiling Node with DTrace](http://blog.nodejs.o
 
 ###Node WebKit Agent
 
-[Node WebKit Agent](https://github.com/c4milo/node-webkit-agent) (npm: [webkit-devtools-agent](http://search.npmjs.org/#/webkit-devtools-agent)) by Camilo Aguilar is an implementation of the [Chrome developer tools protocol](https://developers.google.com/chrome-developer-tools/docs/protocol/1.0/).  This allows WebKit browsers to debug Node applications, which includes profiling, a console, and network monitoring.
+[Node WebKit Agent](https://github.com/c4milo/node-webkit-agent) (npm: [webkit-devtools-agent](http://npmjs.org/package/webkit-devtools-agent)) by Camilo Aguilar is an implementation of the [Chrome developer tools protocol](https://developers.google.com/chrome-developer-tools/docs/protocol/1.0/).  This allows WebKit browsers to debug Node applications, which includes profiling, a console, and network monitoring.
 
 A related project that I've used a few times is [Node Inspector](https://github.com/dannycoates/node-inspector).
 
 ###URLify
 
-[URLify](https://github.com/Gottox/node-urlify) (License: _MIT_, npm: [urlify](http://search.npmjs.org/#/urlify)) by Enno Boland helps convert UTF-8 strings to ASCII that's safe to use as a readable URL segment.  For example:
+[URLify](https://github.com/Gottox/node-urlify) (License: _MIT_, npm: [urlify](http://npmjs.org/package/urlify)) by Enno Boland helps convert UTF-8 strings to ASCII that's safe to use as a readable URL segment.  For example:
 
 {% highlight javascript %}
 var urlify = require('urlify').create({
@@ -51,4 +51,4 @@ urlify('竹取物語 Taketori Monogatari');
 
 ![frontail](/images/posts/frontail.png)
 
-[frontail](https://github.com/mthenw/frontail) (License: _MIT_, npm: [frontail](http://search.npmjs.org/#/frontail)) by Maciej Winnicki is a WebSocket-based `tail`-inspired utility for watching logs.  Imagine a version of `tail` that runs a little web server instead of writing to standard IO.  It has some command-line options as well -- for example, `-n <number>` will control how many lines are printed when it starts up.
+[frontail](https://github.com/mthenw/frontail) (License: _MIT_, npm: [frontail](http://npmjs.org/package/frontail)) by Maciej Winnicki is a WebSocket-based `tail`-inspired utility for watching logs.  Imagine a version of `tail` that runs a little web server instead of writing to standard IO.  It has some command-line options as well -- for example, `-n <number>` will control how many lines are printed when it starts up.

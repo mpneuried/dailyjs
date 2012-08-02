@@ -10,7 +10,7 @@ categories:
 
 ###Krasota.js
 
-[Krasota.js](http://veged.github.com/krasota.js/) (GitHub: [veged / krasota.js](https://github.com/veged/krasota.js), npm: [krasota](http://search.npmjs.org/#/krasota)) by Sergey Berezhnoy is a modular source beautifier that uses grammars written with a [fork of OMeta](https://github.com/veged/ometa-js/).  It can force semicolons, join or split `var` statements, or even remove trailing whitespace.
+[Krasota.js](http://veged.github.com/krasota.js/) (GitHub: [veged / krasota.js](https://github.com/veged/krasota.js), npm: [krasota](http://npmjs.org/package/krasota)) by Sergey Berezhnoy is a modular source beautifier that uses grammars written with a [fork of OMeta](https://github.com/veged/ometa-js/).  It can force semicolons, join or split `var` statements, or even remove trailing whitespace.
 
 It can be used as a Node module, or as a command-line utility:
 
@@ -22,7 +22,7 @@ Custom beautifiers can also be called from the command-line by using the `-b` sw
 
 ###Drink
 
-[Drink](http://nijikokun.github.com/drink/) (GitHub: [Nijikokun / drink](https://github.com/Nijikokun/drink), License: _AOL/MIT_, npm: [drink](http://search.npmjs.org/#/drink)) by Nijiko Yonskai is a wrapper around `process` that helps write periodic console utilities.  The API is themed around "coffee" -- not CoffeeScript, but the brewed bean beverage, which is confusing because the author's examples are written in CoffeeScript.
+[Drink](http://nijikokun.github.com/drink/) (GitHub: [Nijikokun / drink](https://github.com/Nijikokun/drink), License: _AOL/MIT_, npm: [drink](http://npmjs.org/package/drink)) by Nijiko Yonskai is a wrapper around `process` that helps write periodic console utilities.  The API is themed around "coffee" -- not CoffeeScript, but the brewed bean beverage, which is confusing because the author's examples are written in CoffeeScript.
 
 A session is started and potentially kept alive by passing `drink` a `process` object.  Calling `sip` will pass data to `stir` without line breaks.  Listeners for single character input can be added by calling `onTap`.  The author suggests this could be used to keep any kind of session from dying, so it could be used with something like an IRC client.
 

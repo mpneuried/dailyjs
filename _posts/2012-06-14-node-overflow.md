@@ -27,7 +27,7 @@ The authors have included an installation script, `bin/countly.install.sh`, whic
 
 ###Prelude.ls
 
-[Prelude.ls](http://gkz.github.com/prelude-ls/) (GitHub: [gkz / prelude-ls](https://github.com/gkz/prelude-ls), License: _MIT_, npm: [prelude-ls](http://search.npmjs.org/#/prelude-ls)) by George Zahariev is a functional programming library written with [LiveScript](http://gkz.github.com/LiveScript/), which is a bit like a more functional CoffeeScript.
+[Prelude.ls](http://gkz.github.com/prelude-ls/) (GitHub: [gkz / prelude-ls](https://github.com/gkz/prelude-ls), License: _MIT_, npm: [prelude-ls](http://npmjs.org/package/prelude-ls)) by George Zahariev is a functional programming library written with [LiveScript](http://gkz.github.com/LiveScript/), which is a bit like a more functional CoffeeScript.
 
 The author has provided examples of every single function the library provides in both JavaScript and LiveScript.  All functions are curried, so supplying an incomplete list of arguments will return a partially applied function:
 
@@ -47,4 +47,4 @@ The author has included tests written with LiveScript.
 
 ###fibonacci-async
 
-[fibonacci-async](https://github.com/Gottox/fibonacci-async) (License: _MIT_, npm: [fibonacci-async](http://search.npmjs.org/#/fibonacci-async)) by Enno Boland is a response to certain well-known blog posts berating Node's performance at potentially unfair benchmarks.  It's an asynchronous C++ Fibonacci series generator, which strikes me as something potentially useful as an educational example for those interested in writing Node addons.
+[fibonacci-async](https://github.com/Gottox/fibonacci-async) (License: _MIT_, npm: [fibonacci-async](http://npmjs.org/package/fibonacci-async)) by Enno Boland is a response to certain well-known blog posts berating Node's performance at potentially unfair benchmarks.  It's an asynchronous C++ Fibonacci series generator, which strikes me as something potentially useful as an educational example for those interested in writing Node addons.

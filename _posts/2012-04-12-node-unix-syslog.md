@@ -37,7 +37,7 @@ The priority level can also be included with the message.  Take a look at `man l
 
 Most programs write to syslog using the `openlog` and `syslog` standard C library functions.  That means it's not trivial to use pure JavaScript to call these functions -- a small binding is required.  To get around this, some Node modules require syslog to be configured to accept TCP connections.
 
-The [node-posix](https://github.com/melor/node-posix) (License: _MIT_, npm: [posix](http://search.npmjs.org/#/posix)) module by Mika Eloranta is one option for writing to syslog using the `openlog` and `syslog` functions:
+The [node-posix](https://github.com/melor/node-posix) (License: _MIT_, npm: [posix](http://npmjs.org/package/posix)) module by Mika Eloranta is one option for writing to syslog using the `openlog` and `syslog` functions:
 
 {% highlight javascript %}
 var posix = require('posix');
@@ -53,7 +53,7 @@ Note that if this is run on a Mac the result might be stored to `/var/log/appfir
 
 This module actually uses the same signatures as the C functions.  That means the last parameter for `posix.openlog` is 'facility' -- the available and recommended options are documented in the project's readme file.
 
-An alternative is [node-syslog](https://github.com/cloudhead/node-syslog) (License: _MIT_, npm: [syslog](http://search.npmjs.org/#/syslog)) by Alexis Sellier.  This one uses TCP to communicate with syslog -- the author has provided some configuration examples for setting up syslog-ng to accept TCP connections.
+An alternative is [node-syslog](https://github.com/cloudhead/node-syslog) (License: _MIT_, npm: [syslog](http://npmjs.org/package/syslog)) by Alexis Sellier.  This one uses TCP to communicate with syslog -- the author has provided some configuration examples for setting up syslog-ng to accept TCP connections.
 
 The API for _node-syslog_ is very simple:
 

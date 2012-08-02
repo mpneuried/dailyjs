@@ -34,7 +34,7 @@ You can send in your Node projects for review through our <a href="/contact.html
 
 ![ttycast](/images/posts/ttycast.png)
 
-[ttycast](http://me.dt.in.th/page/ttycast) (GitHub: [dtinth / ttycast](https://github.com/dtinth/ttycast), License: _MIT_, npm: [ttycast](http://search.npmjs.org/#/ttycast)) by Thai Pangsakulyanont is a terminal-to-web broadcasting utility built with [ttyrec](http://0xcc.net/ttyrec/index.html.en), Connect, and [Socket.IO](http://socket.io/).
+[ttycast](http://me.dt.in.th/page/ttycast) (GitHub: [dtinth / ttycast](https://github.com/dtinth/ttycast), License: _MIT_, npm: [ttycast](http://npmjs.org/package/ttycast)) by Thai Pangsakulyanont is a terminal-to-web broadcasting utility built with [ttyrec](http://0xcc.net/ttyrec/index.html.en), Connect, and [Socket.IO](http://socket.io/).
 
 Once ttyrec and ttycast are installed, activity within a terminal can be viewed through a browser.  The author has written up some tips on how to do this over SSH.
 
@@ -42,7 +42,7 @@ I tried it out, but I had a problem running it due to a Connect version issue.  
 
 ###Simba
 
-[Simba](https://github.com/cbou/simba.js) (License: _MIT_, npm: [simba](http://search.npmjs.org/#/simba)) by Charles Bourasseau is a configuration management module:
+[Simba](https://github.com/cbou/simba.js) (License: _MIT_, npm: [simba](http://npmjs.org/package/simba)) by Charles Bourasseau is a configuration management module:
 
 {% highlight javascript %}
 simba

@@ -17,7 +17,7 @@ You can send in your Node projects for review through our <a href="/contact.html
 
 ###OneJS
 
-[OneJS](https://github.com/azer/onejs) (npm: [one](http://search.npmjs.org/#/one)) by Azer Koculu is a command-line utility for converting CommonJS-style packages to browser-friendly JavaScript.  It provides Node-compatible APIs, and the output can also be run with Node if required.
+[OneJS](https://github.com/azer/onejs) (npm: [one](http://npmjs.org/package/one)) by Azer Koculu is a command-line utility for converting CommonJS-style packages to browser-friendly JavaScript.  It provides Node-compatible APIs, and the output can also be run with Node if required.
 
 All it needs is a suitable `package.json` file:
 
@@ -37,7 +37,7 @@ Azer said he created this project for [Multiplayer Chess](http://multiplayerches
 
 ###node-pad
 
-Do you like [video games](http://www.idlethumbs.net/), or at least the DualShock 3 controller?  [node-pad](https://github.com/andtan/node-pad) (npm: [node-pad](http://search.npmjs.org/#/node-pad)) by Andre Tangen is a game controller library that currently supports Sony's controller:
+Do you like [video games](http://www.idlethumbs.net/), or at least the DualShock 3 controller?  [node-pad](https://github.com/andtan/node-pad) (npm: [node-pad](http://npmjs.org/package/node-pad)) by Andre Tangen is a game controller library that currently supports Sony's controller:
 
 {% highlight javascript %}
 controller.rthumb.on('move', function(event) {
@@ -52,13 +52,13 @@ The author has included [Jasmine](http://pivotal.github.com/jasmine/) tests, and
 
 ###CouchPress
 
-[CouchPress](http://couchpress.nodester.com/) (GitHub: [koostudios / couchpress](https://github.com/koostudios/couchpress), License: _MIT_, npm: [couchpress](http://search.npmjs.org/#/couchpress)) by Alexander Yuen is a CouchDB and Express-based publishing platform.  It's currently very simple, but includes a minimal administration interface, a WYSIWYG editor, and the beginnings of a theming engine.
+[CouchPress](http://couchpress.nodester.com/) (GitHub: [koostudios / couchpress](https://github.com/koostudios/couchpress), License: _MIT_, npm: [couchpress](http://npmjs.org/package/couchpress)) by Alexander Yuen is a CouchDB and Express-based publishing platform.  It's currently very simple, but includes a minimal administration interface, a WYSIWYG editor, and the beginnings of a theming engine.
 
 The author is planning on adding a Markdown editor, and support for plugins.  He's very open to suggestions, so if you're interested in supporting a Node-based CMS then try getting in touch with him.  Contact details are available in his 0.1 announcement post: [CouchPress: Announcing Version 0.1](http://couchpress.nodester.com/view/announcing-version-0.1).
 
 ###node-linq
 
-[node-linq](https://github.com/wearefractal/node-linq) (License: _MIT_, npm: [node-linq](http://search.npmjs.org/#/node-linq)) from Fractal is a LINQ implementation for node:
+[node-linq](https://github.com/wearefractal/node-linq) (License: _MIT_, npm: [node-linq](http://npmjs.org/package/node-linq)) from Fractal is a LINQ implementation for node:
 
 {% highlight coffeescript %}
 {LINQ} = require 'node-linq'

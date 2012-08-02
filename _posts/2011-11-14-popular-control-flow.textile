@@ -78,7 +78,7 @@ There are dozens of other, similar libraries available through npm.  Which one s
   <tbody>
     <tr>
       <td><a href="https://github.com/caolan/async">Async.js</a></td>
-      <td><a href="http://search.npmjs.org/#/async">async</a></td>
+      <td><a href="http://npmjs.org/package/async">async</a></td>
       <td>MIT</td>
       <td>129</td>
       <td>982</td>
@@ -87,7 +87,7 @@ There are dozens of other, similar libraries available through npm.  Which one s
     </tr>
     <tr>
       <td><a href="https://github.com/creationix/step">Step</a></td>
-      <td><a href="http://search.npmjs.org/#/step">Step</a></td>
+      <td><a href="http://npmjs.org/package/step">Step</a></td>
       <td>MIT</td>
       <td>42</td>
       <td>462</td>
@@ -96,7 +96,7 @@ There are dozens of other, similar libraries available through npm.  Which one s
     </tr>
     <tr>
       <td><a href="http://coolaj86.info/futures/">Futures</a></td>
-      <td><a href="http://search.npmjs.org/#/futures">futures</a></td>
+      <td><a href="http://npmjs.org/package/futures">futures</a></td>
       <td>MIT</td>
       <td>6</td>
       <td>190</td>
@@ -105,7 +105,7 @@ There are dozens of other, similar libraries available through npm.  Which one s
     </tr>
     <tr>
       <td><a href="https://github.com/substack/node-seq">Seq</a></td>
-      <td><a href="http://search.npmjs.org/#/seq">seq</a></td>
+      <td><a href="http://npmjs.org/package/seq">seq</a></td>
       <td>MIT/X11</td>
       <td>14</td>
       <td>124</td>

@@ -15,7 +15,7 @@ JSON is typically used as a data interchange format.  We use it for communicatin
 
 ###JSON5
 
-[JSON5](http://json5.org/) (GitHub: [aseemk / json5](https://github.com/aseemk/json5), License: _MIT_, npm: [json5](http://search.npmjs.org/#/json5)) by Aseem Kishore brings ECMAScript 5-inspired enhancements to JSON.  The main changes are as follows:
+[JSON5](http://json5.org/) (GitHub: [aseemk / json5](https://github.com/aseemk/json5), License: _MIT_, npm: [json5](http://npmjs.org/package/json5)) by Aseem Kishore brings ECMAScript 5-inspired enhancements to JSON.  The main changes are as follows:
 
 * Keys don't need to be quoted and can be any valid identifier
 * Strings can be single-quoted

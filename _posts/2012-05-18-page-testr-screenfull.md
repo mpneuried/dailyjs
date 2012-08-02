@@ -10,7 +10,7 @@ categories:
 
 ###Page
 
-If I had to place a bet on the most activity by one person on GitHub, I'd bet on TJ Holowaychuk.  His latest project is [Page.js](http://visionmedia.github.com/page.js/) (GitHub: [visionmedia / page.js](https://github.com/visionmedia/page.js), npm: [page](http://search.npmjs.org/#/page)), which is a client-side router.  The routing syntax works like Express, so variables are denoted by `:name`, and the `*` route can be used to catch 404s.  In this case, 404 is open to interpretation.
+If I had to place a bet on the most activity by one person on GitHub, I'd bet on TJ Holowaychuk.  His latest project is [Page.js](http://visionmedia.github.com/page.js/) (GitHub: [visionmedia / page.js](https://github.com/visionmedia/page.js), npm: [page](http://npmjs.org/package/page)), which is a client-side router.  The routing syntax works like Express, so variables are denoted by `:name`, and the `*` route can be used to catch 404s.  In this case, 404 is open to interpretation.
 
 {% highlight javascript %}
 page('/', index)

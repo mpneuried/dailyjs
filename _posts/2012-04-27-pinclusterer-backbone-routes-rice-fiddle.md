@@ -63,7 +63,7 @@ The source is available here: [rice.jscraft.org/src/rice.js](http://rice.jscraft
 
 ###Fiddle.js
 
-[Fiddle.js](https://github.com/crcn/fiddle.js) (License: _MIT_, npm: [fiddle](http://search.npmjs.org/#/fiddle)) by Craig Condon is a MongoDB-inspired object manipulation library.  Operators like `$inc`, `$set`, `$unset`, and more are supported.
+[Fiddle.js](https://github.com/crcn/fiddle.js) (License: _MIT_, npm: [fiddle](http://npmjs.org/package/fiddle)) by Craig Condon is a MongoDB-inspired object manipulation library.  Operators like `$inc`, `$set`, `$unset`, and more are supported.
 
 The `fiddle` method itself accepts a modifier object, and then filters and targets.  The targets represent the data to modify:
 

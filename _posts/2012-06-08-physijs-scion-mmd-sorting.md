@@ -19,7 +19,7 @@ The tutorial includes creating a world with lighting, textures, object spawning,
 
 ###SCION
 
-[SCION](https://github.com/jbeard4/SCION) (License: _Apache 2_, npm: [scion](http://search.npmjs.org/#/scion)) by Jacob Beard is an implementation of [State Chart XML (SCXML)](http://www.w3.org/TR/scxml/).
+[SCION](https://github.com/jbeard4/SCION) (License: _Apache 2_, npm: [scion](http://npmjs.org/package/scion)) by Jacob Beard is an implementation of [State Chart XML (SCXML)](http://www.w3.org/TR/scxml/).
 
 > SCXML provides a declarative markup for Statecharts, a powerful modelling language for developing complex, timed, reactive, state-based systems, and can offer elegant solutions to many problems faced in development of JavaScript-based applications across various domains.
 

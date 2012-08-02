@@ -23,7 +23,7 @@ They're also promising more updates, with some great hyperbole about the future 
 
 ![Miso Dataset Example](/images/posts/projectmiso.png)
 
-[Miso Dataset](http://misoproject.com/dataset/) (GitHub: [misoproject / dataset](https://github.com/misoproject/dataset), License: _MIT/GPL_, npm: [miso.dataset](http://search.npmjs.org/#/miso.dataset)) is a client-side library for managing data.  There's an example called [Exploring government spending](http://misoproject.com/dataset/examples/cabinet-office.html) that uses D3 and Backbone.js alongside Miso Dataset to generate an interactive chart that reminds me of the images [David McCandless](http://www.davidmccandless.com/) creates.
+[Miso Dataset](http://misoproject.com/dataset/) (GitHub: [misoproject / dataset](https://github.com/misoproject/dataset), License: _MIT/GPL_, npm: [miso.dataset](http://npmjs.org/package/miso.dataset)) is a client-side library for managing data.  There's an example called [Exploring government spending](http://misoproject.com/dataset/examples/cabinet-office.html) that uses D3 and Backbone.js alongside Miso Dataset to generate an interactive chart that reminds me of the images [David McCandless](http://www.davidmccandless.com/) creates.
 
 Dataset provides tools for working with data in a web-friendly, event-based manner.  Data can be loaded using techniques like jsonp, and then manipulated in a similar way to Backbone's models (Dataset also has an event-based syncing system).  It comes with extensible classes for parsing and displaying data, and it also plays well with Node.
 

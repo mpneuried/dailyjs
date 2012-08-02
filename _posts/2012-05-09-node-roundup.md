@@ -21,7 +21,7 @@ It's got JSON configuration files, separated routes, and lots of fancy front-end
 
 ###Restie
 
-[Restie](https://github.com/vdemedes/restie) (License: _MIT_, npm: [restie](http://search.npmjs.org/#/restie)) by Vadim Demedes is an ORM that behaves the same in Node and browsers.  Models can be declared then manipulated with the familiar [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete) methods, in a similar fashion to Backbone.js.
+[Restie](https://github.com/vdemedes/restie) (License: _MIT_, npm: [restie](http://npmjs.org/package/restie)) by Vadim Demedes is an ORM that behaves the same in Node and browsers.  Models can be declared then manipulated with the familiar [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete) methods, in a similar fashion to Backbone.js.
 
 {% highlight javascript %}
 var Post = Restie.define('Post');
@@ -43,7 +43,7 @@ The author has included tests that run in both browsers and Node.
 
 ###xml-literals
 
-[xml-literals](https://github.com/laverdet/js-xml-literal) (npm: [xml-literals](http://search.npmjs.org/#/xml-literals)) by Marcel Laverdet adds Node support for [E4X](http://en.wikipedia.org/wiki/ECMAScript_for_XML)-style XML literals:
+[xml-literals](https://github.com/laverdet/js-xml-literal) (npm: [xml-literals](http://npmjs.org/package/xml-literals)) by Marcel Laverdet adds Node support for [E4X](http://en.wikipedia.org/wiki/ECMAScript_for_XML)-style XML literals:
 
 {% highlight text %}
 var anchor = <a href={href}>Hello</a>;
@@ -60,7 +60,7 @@ require('my-xml-literal-example');
 
 ###Revised Console
 
-[Revised Console](https://github.com/tblobaum/rconsole) (License: _MIT_, npm: [rconsole](http://search.npmjs.org/#/rconsole)) by Thomas Blobaum provides C bindings for syslog and makes the `console` methods log to syslog.  This would log to `/var/log/messages` (depending on the OS):
+[Revised Console](https://github.com/tblobaum/rconsole) (License: _MIT_, npm: [rconsole](http://npmjs.org/package/rconsole)) by Thomas Blobaum provides C bindings for syslog and makes the `console` methods log to syslog.  This would log to `/var/log/messages` (depending on the OS):
 
 {% highlight javascript %}
 require('rconsole')

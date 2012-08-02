@@ -42,7 +42,7 @@ _Utils_ can be downloaded by selecting the required modules: [Utils Download](ht
 
 ###asEvented
 
-[asEvented](https://github.com/mkuklis/asEvented) (License: _MIT_, npm: [asEvented](http://search.npmjs.org/#/asEvented)) by Michal Kuklis is a small event emitter module that works in Node and browsers.  It works using a mixin style rather than through inheritance:
+[asEvented](https://github.com/mkuklis/asEvented) (License: _MIT_, npm: [asEvented](http://npmjs.org/package/asEvented)) by Michal Kuklis is a small event emitter module that works in Node and browsers.  It works using a mixin style rather than through inheritance:
 
 {% highlight javascript %}
 function Model() {

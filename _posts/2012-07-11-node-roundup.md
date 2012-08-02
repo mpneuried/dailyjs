@@ -55,7 +55,7 @@ There's a commit related to this here: [Make 'engines' field advisory](https://g
 
 ###nodist
 
-[nodist](https://github.com/marcelklehr/nodist) (License: _MIT_, npm: [nodist](http://search.npmjs.org/#/nodist)) by Marcel Klehr is a Node version manager for Windows.  Once Node has been installed with the standard Windows installer, other versions can be installed using nodist's command-line interface:
+[nodist](https://github.com/marcelklehr/nodist) (License: _MIT_, npm: [nodist](http://npmjs.org/package/nodist)) by Marcel Klehr is a Node version manager for Windows.  Once Node has been installed with the standard Windows installer, other versions can be installed using nodist's command-line interface:
 
 {% highlight text %}
 nodist + v0.8.1

@@ -13,7 +13,7 @@ categories:
 
 ![Jam](/images/posts/jam.png)
 
-[Jam](http://groundcomputing.co.uk/code/jam) (GitHub: [caolan / jam](https://github.com/caolan/jam), npm: [jamjs](http://search.npmjs.org/#/jamjs)) by Caolan McMahon is a client-side package manager, with a focus on AMD.  It can be used to download client-side libraries, and compile them for deployment.  Packages will be installed to `./jam`.
+[Jam](http://groundcomputing.co.uk/code/jam) (GitHub: [caolan / jam](https://github.com/caolan/jam), npm: [jamjs](http://npmjs.org/package/jamjs)) by Caolan McMahon is a client-side package manager, with a focus on AMD.  It can be used to download client-side libraries, and compile them for deployment.  Packages will be installed to `./jam`.
 
 Usage looks like this:
 
@@ -44,7 +44,7 @@ $ jam ls
 
 ###js-schema
 
-[js-schema](https://github.com/molnarg/js-schema) (License: _MIT_, npm: [js-schema](http://search.npmjs.org/#/js-schema)) by Gábor Molnár allows schemas to be defined using simple JavaScript, and can work with the JSON Schema format.  It'll work in Node and browsers as well.  Schemas are defined in terms of nine rules, which includes things like matching regular expressions and objects.
+[js-schema](https://github.com/molnarg/js-schema) (License: _MIT_, npm: [js-schema](http://npmjs.org/package/js-schema)) by Gábor Molnár allows schemas to be defined using simple JavaScript, and can work with the JSON Schema format.  It'll work in Node and browsers as well.  Schemas are defined in terms of nine rules, which includes things like matching regular expressions and objects.
 
 This basic example from the readme demonstrates how it works:
 

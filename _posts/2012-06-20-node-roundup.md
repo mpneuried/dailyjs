@@ -26,7 +26,7 @@ The 0.6 era feels like halcyon days -- a time when Node received a huge amount o
 
 ###nd
 
-Back in April, TJ Holowaychuk released [mad(1)](http://tjholowaychuk.com/post/21100445420/going-mad-1), an alternative manual page system based on Markdown.  Now Russ Frank has released [nd](https://github.com/russfrank/nd) (License: _MIT_, npm: [nd](http://search.npmjs.org/#/nd)), which is similar to mad but focused on displaying documentation for npm modules and is written in JavaScript.
+Back in April, TJ Holowaychuk released [mad(1)](http://tjholowaychuk.com/post/21100445420/going-mad-1), an alternative manual page system based on Markdown.  Now Russ Frank has released [nd](https://github.com/russfrank/nd) (License: _MIT_, npm: [nd](http://npmjs.org/package/nd)), which is similar to mad but focused on displaying documentation for npm modules and is written in JavaScript.
 
 Typing `nd module` will display the documentation associated with `module`.  The project's readme contains lots of tips for finding documentation within modules and displaying it, and it also points out that it supports Windows -- it'll run fine in the standard `cmd.exe` command interpreter.
 
@@ -34,6 +34,6 @@ Typing `nd module` will display the documentation associated with `module`.  The
 
 ![Futon](/images/posts/futon.png)
 
-If you're working with CouchDB, then [futoncli](https://github.com/dscape/futoncli) (License: _Apache 2.0_, npm: [futon](http://search.npmjs.org/#/futon)) by Nuno Job may be useful.  It's a command-line tool for managing CouchDB, and is based on the author's [nano](https://github.com/dscape/nano) database driver.
+If you're working with CouchDB, then [futoncli](https://github.com/dscape/futoncli) (License: _Apache 2.0_, npm: [futon](http://npmjs.org/package/futon)) by Nuno Job may be useful.  It's a command-line tool for managing CouchDB, and is based on the author's [nano](https://github.com/dscape/nano) database driver.
 
 Once installed, the `futon` binary will accept commands, and configuration can be persisted to the `~/.futoncliconf` file.  The author has made a [video of futoncli](http://codestre.am/4fd7fdf69582b28f1f01c7bf) to demonstrate the main features.

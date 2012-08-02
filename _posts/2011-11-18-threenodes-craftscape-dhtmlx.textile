@@ -15,7 +15,7 @@ h3. ThreeNodes.js
 
 "ThreeNodes.js":https://github.com/idflood/ThreeNodes.js is an attempt to create a "vvvv":http://vvvv.org/ clone.  It provides a library of modular nodes that can be used to generate animated graphics.  There's a "ThreeNodes.js demo":http://idflood.github.com/ThreeNodes.js/ where you can try it out.
 
-It's actually distributed as a Node app built using "socket.io":http://search.npmjs.org/#/socket.io-client, "connect":http://search.npmjs.org/#/connect, and "watch":http://search.npmjs.org/#/watch.  The UI currently takes a little bit of getting used to, but it worked well enough for me to make a few little experiments without reading any documentation.
+It's actually distributed as a Node app built using "socket.io":http://npmjs.org/package/socket.io-client, "connect":http://npmjs.org/package/connect, and "watch":http://npmjs.org/package/watch.  The UI currently takes a little bit of getting used to, but it worked well enough for me to make a few little experiments without reading any documentation.
 
 h3. WebGL GPU Landscaping and Erosion
 

@@ -11,7 +11,7 @@ categories:
 
 ###TypedFunc
 
-[TypedFunc](https://github.com/christopherdebeer/TypedFunc) (License: _MIT_, npm: [TypedFunc](http://search.npmjs.org/#/TypedFunc)) by Christopher de Beer is an interesting library for creating typed functions in JavaScript.  By using a chainable API, functions can be created that will validate their inputs automatically:
+[TypedFunc](https://github.com/christopherdebeer/TypedFunc) (License: _MIT_, npm: [TypedFunc](http://npmjs.org/package/TypedFunc)) by Christopher de Beer is an interesting library for creating typed functions in JavaScript.  By using a chainable API, functions can be created that will validate their inputs automatically:
 
 {% highlight javascript %}
 var TypedFunc = require('TypedFunc');

@@ -11,7 +11,7 @@ categories:
 
 ###TiddlyWiki5
 
-[TiddlyWiki5](http://five.tiddlywiki.com/) (GitHub: [Jermolene / TiddlyWiki5](https://github.com/Jermolene/TiddlyWiki5), npm: [tiddlywikigithub](http://search.npmjs.org/#/tiddlywiki)) by Jeremy Ruston is a reboot of the venerable [TiddlyWiki](http://tiddlywiki.com/).  As reboots go I'd say this was more along the lines of _Batman Begins_ than _The Amazing Spider-Man_.  It can run entirely in a browser, or as a Node application.
+[TiddlyWiki5](http://five.tiddlywiki.com/) (GitHub: [Jermolene / TiddlyWiki5](https://github.com/Jermolene/TiddlyWiki5), npm: [tiddlywikigithub](http://npmjs.org/package/tiddlywiki)) by Jeremy Ruston is a reboot of the venerable [TiddlyWiki](http://tiddlywiki.com/).  As reboots go I'd say this was more along the lines of _Batman Begins_ than _The Amazing Spider-Man_.  It can run entirely in a browser, or as a Node application.
 
 > TiddlyWiki is designed to fit around your brain, giving you a better way of managing data compared to traditional documents and emails. The fundamental idea is that information is more useful and reusable if we cut it up into the smallest semantically meaningful chunks.
 

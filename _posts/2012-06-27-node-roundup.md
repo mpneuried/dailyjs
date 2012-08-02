@@ -38,7 +38,7 @@ The discussion is ongoing, but Brendan Eich responded directly here: [ES Modules
 
 ###Kapitalize
 
-[Kapitalize](https://github.com/Weltschmerz/Kapitalize) (License: _MIT_, npm: [kapitalize](http://search.npmjs.org/#/kapitalize)) is a Bitcoin client that has a chainable API and supports [the Bitcoin API](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list).
+[Kapitalize](https://github.com/Weltschmerz/Kapitalize) (License: _MIT_, npm: [kapitalize](http://npmjs.org/package/kapitalize)) is a Bitcoin client that has a chainable API and supports [the Bitcoin API](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list).
 
 {% highlight javascript %}
 var kapitalize = require('kapitalize')()
@@ -57,7 +57,7 @@ The module includes tests, and documentation can be found in the readme.
 
 ###Avatars.io
 
-[Avatars.io](http://avatars.io/) is a new service that makes avatars easier to work with for developers.  The [Avatars.io client library](https://github.com/chute/avatars-io-node) (License: _MIT_, npm: [avatars.io](http://search.npmjs.org/#/avatars.io)) by Vadim Demedes is a Node module that works with this service:
+[Avatars.io](http://avatars.io/) is a new service that makes avatars easier to work with for developers.  The [Avatars.io client library](https://github.com/chute/avatars-io-node) (License: _MIT_, npm: [avatars.io](http://npmjs.org/package/avatars.io)) by Vadim Demedes is a Node module that works with this service:
 
 {% highlight javascript %}
 AvatarsIO.upload('path/to/image.jpg', function(err, url) {
@@ -65,4 +65,4 @@ AvatarsIO.upload('path/to/image.jpg', function(err, url) {
 });
 {% endhighlight %}
 
-On a related note, [Chute](https://github.com/chute/chute-node) (npm: [chute](http://search.npmjs.org/#/chute)) by the same author is a client for [Chute](http://getchute.com/), which allows sets of photos to be uploaded and managed using a simple API.
+On a related note, [Chute](https://github.com/chute/chute-node) (npm: [chute](http://npmjs.org/package/chute)) by the same author is a client for [Chute](http://getchute.com/), which allows sets of photos to be uploaded and managed using a simple API.

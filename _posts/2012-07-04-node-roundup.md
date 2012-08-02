@@ -36,7 +36,7 @@ The [Coverage of NodeConf 2012](http://lanyrd.com/2012/nodeconf/coverage/) on La
 
 ###Override
 
-[Override](https://github.com/olegp/override) (License: _MIT_, npm: [override](http://search.npmjs.org/#/override)) by Oleg Podsechin is a "general purpose middleware framework" -- that is, it extends the concept of middleware to processes, allowing self-contained environments to be composed that override standard behaviour.
+[Override](https://github.com/olegp/override) (License: _MIT_, npm: [override](http://npmjs.org/package/override)) by Oleg Podsechin is a "general purpose middleware framework" -- that is, it extends the concept of middleware to processes, allowing self-contained environments to be composed that override standard behaviour.
 
 > For example, Override modules make it possible to replace the built in `console.log` with a version that sends the logs to a third party service, chroot the current process, enable profiling, etc.
 

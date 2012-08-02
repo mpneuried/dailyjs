@@ -44,7 +44,7 @@ The README has links to full documentation in the form of annotated source.
 
 ###leFunc
 
-[leFunc](https://github.com/jrf0110/leFunc) (License: _MIT_, npm: [leFunc](http://search.npmjs.org/#/leFunc)) by John Fawcett is a library that uses type checking to support function overloading in pure JavaScript:
+[leFunc](https://github.com/jrf0110/leFunc) (License: _MIT_, npm: [leFunc](http://npmjs.org/package/leFunc)) by John Fawcett is a library that uses type checking to support function overloading in pure JavaScript:
 
 {% highlight javascript %}
 var getItems = leFunc({
@@ -71,7 +71,7 @@ At the moment it'll work with any function signatures that are relatively easy t
 
 ###Frisby
 
-If you're testing a lot of REST-based APIs, then [Frisby](http://frisbyjs.com/) (GitHub: [vlucas / frisby](https://github.com/vlucas/frisby), License: _BSD_, npm: [frisby](http://search.npmjs.org/#/frisby)) by Vance Lucas might be what you're looking for.  It's a REST API testing framework built using [Jasmine](http://pivotal.github.com/jasmine/).
+If you're testing a lot of REST-based APIs, then [Frisby](http://frisbyjs.com/) (GitHub: [vlucas / frisby](https://github.com/vlucas/frisby), License: _BSD_, npm: [frisby](http://npmjs.org/package/frisby)) by Vance Lucas might be what you're looking for.  It's a REST API testing framework built using [Jasmine](http://pivotal.github.com/jasmine/).
 
 It has a nice and friendly chainable API:
 

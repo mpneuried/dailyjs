@@ -18,7 +18,7 @@ Windows has event logs with three categories: System, Application, and Security.
 
 Event logs are useful in Windows for the same reasons as syslog in Unix.  Logging messages from background services is one of the most obvious examples, particularly as Node seems like a promising platform for developing Windows services.
 
-In Node this requires an addon, because native bindings are needed to communicate with the `eventlog` service.  [Windows Event Log Js](http://jfromaniello.github.com/windowseventlogjs/) (GitHub: [jfromaniello / windowseventlogjs](https://github.com/jfromaniello/windowseventlogjs), License: _MIT_, npm: [windows-eventlog](http://search.npmjs.org/#/windows-eventlog)) by José F. Romaniello is one such addon.
+In Node this requires an addon, because native bindings are needed to communicate with the `eventlog` service.  [Windows Event Log Js](http://jfromaniello.github.com/windowseventlogjs/) (GitHub: [jfromaniello / windowseventlogjs](https://github.com/jfromaniello/windowseventlogjs), License: _MIT_, npm: [windows-eventlog](http://npmjs.org/package/windows-eventlog)) by José F. Romaniello is one such addon.
 
 On a related note, José has also written a great tutorial on how to create Node addons for Windows using Visual Studio, it's got detailed instructions and screenshots with full sample code: [Writing your first native module for node.js on Windows](http://joseoncode.com/2012/04/10/writing-your-first-native-module-for-node-dot-js-on-windows/).
 

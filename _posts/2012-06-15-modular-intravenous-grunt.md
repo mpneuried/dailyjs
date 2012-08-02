@@ -18,7 +18,7 @@ It's a mind-blowing piece of work, and makes me wonder if we'll ever see the lik
 
 ###Intravenous
 
-[Intravenous](http://royjacobs.github.com/intravenous/) (GitHub: [RoyJacobs / intravenous](https://github.com/RoyJacobs/intravenous), License: _MIT_, npm: [intravenous](http://search.npmjs.org/#/intravenous)) by Roy Jacobs is an inversion of control library for browsers and Node.  It's distributed as a CommonJS module, but it'll also work with AMD and in browsers without AMD.
+[Intravenous](http://royjacobs.github.com/intravenous/) (GitHub: [RoyJacobs / intravenous](https://github.com/RoyJacobs/intravenous), License: _MIT_, npm: [intravenous](http://npmjs.org/package/intravenous)) by Roy Jacobs is an inversion of control library for browsers and Node.  It's distributed as a CommonJS module, but it'll also work with AMD and in browsers without AMD.
 The idea behind this library is to reduce coupling between components by using a system of containers that help manage object lifecycles and manage their relationships.  Containers can be nested, which seems like it would help manage objects in single page applications.
 
 Containers are created, then services are registered with them, then classes can be defined along with their dependencies:

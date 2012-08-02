@@ -11,7 +11,7 @@ categories:
 
 ###Reznik
 
-[Reznik](https://github.com/alexlawrence/reznik) (License: _MIT_, npm: [reznik](http://search.npmjs.org/#/reznik)) by Alex Lawrence is a code analysis tool for [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) projects.  Given a set of AMD modules, Reznik's server-side component can resolve individual module dependencies on demand.  It builds a module list, and then checks the code for circular or missing dependencies.
+[Reznik](https://github.com/alexlawrence/reznik) (License: _MIT_, npm: [reznik](http://npmjs.org/package/reznik)) by Alex Lawrence is a code analysis tool for [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) projects.  Given a set of AMD modules, Reznik's server-side component can resolve individual module dependencies on demand.  It builds a module list, and then checks the code for circular or missing dependencies.
 
 The author notes that Reznik was developed in Node, but also works in [PhantomJS](http://phantomjs.org/).  There's a command-line tool that can run under either of these environments and output module lists using various formats, including HTML and JSON.
 
